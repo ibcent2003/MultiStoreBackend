@@ -1,0 +1,294 @@
+@model SecurityGuard.ViewModels.ManageUsersViewModel
+@using Project.HtmlHelpers;
+@{
+    ViewBag.Title = "Manage Users";  
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Header = ViewBag.Title;
+}
+@section Crumbs{
+    <div class="crumbs">
+        <ul class="breadcrumb" id="breadcrumbs">
+            <li> <i class="icon-home"></i> <a href="@Url.Action("Index", "Dashboard", new { area = "Admin" })">Dashboard</a> </li>
+            <li class="current"> <a title="" href="javascript: return void(0)">Manage Users</a> </li>
+        </ul>
+    </div>
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="widget-header">
+        </div>
+        <div class="widget-content">
+            <div class="row">
+                <div class="dataTables_header clearfix">
+                    <div class="col-md-6">
+                        <p>@Html.ActionLink("Create User", "CreateUser", "Membership", new { area = "SecurityGuard" }, null)                         
+                        </p>
+                    </div>
+
+                    <div class="col-md-6">
+                        @using (Html.BeginForm("Index", "Membership", FormMethod.Post, new { Id="search-form"}))
+                        {
+                            <div class="dataTables_filter" id="DataTables_Table_0_filter">
+                                <label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon" onclick="&('#search-form').submit()"><i class="icon-search"></i></span>
+                                        @Html.TextBox("searchterm", Model.SearchTerm, new { @class = "form-control", placeholder = "Type a keyword(s) here to search..." })
+                                        
+                                        <input type="hidden" name="page" value="1" />                                      
+                                    </div>
+                                </label>
+                                <label>
+                                    <select id="filterby" name="filterby" class="pull-right form-control" style="padding: 5px 3px 5px 0; vertical-align: middle;">
+                                        <option value="all" @if (Model.FilterBy == "all")
+                                                            { <text>selected="selected"</text>}>View All</option>
+                                        <option value="username" @if (Model.FilterBy == "username")
+                                                                 { <text>selected="selected"</text>}>UserName</option>
+                                        <option value="email" @if (Model.FilterBy == "email")
+                                                              { <text>selected="selected"</text>}>Email</option>
+                                    </select></label>
+                            </div>  
+                        }
+
+                    </div>
+                </div>
+            </div>
+
+            <br />
+            @if (Model.Rows != null)
+            {
+                if (Model.Rows.Count == 0)
+                {
+                <p>
+                    No users for this search.
+                </p>
+                }
+                else
+                {
+                <div class="row">
+                    <div class="col-md-6">
+                        <text>Records: @Model.PagingInfo.TotalItems.ToString()</text>
+                    </div>
+                    <div class="col-md-6" style="text-align: right;">
+                        @using (Html.BeginForm("Index", "Membership", FormMethod.Post, new { @class = "pull-right" }))
+                        {
+                            <div id="DataTables_Table_0_length" class="dataTables_length">
+                                <label>
+                                    records per page
+                        @Html.DropDownList("pgsize", new SelectList(Project.Models.PageSizeOption.Limit, "Value", "Label", Model.PageSize), new { onchange = "this.form.submit()" })
+                                    
+                                    @Html.Hidden("searchterm", Model.SearchTerm)
+                                    @Html.Hidden("filterby", Model.FilterBy)
+                                    <input type="hidden" name="page" value="1" />
+                                   @* <input type="hidden" name="Id" value="@Id" />*@
+                                </label>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="section_inner">
+                    <div class="table_wrapper">
+                        <div class="table_wrapper_inner">
+                            <table class="table table-striped table-bordered table-hover table-checkable table-condensed">
+
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>S/N</th>                                      
+                                        <th>UserName
+                                        </th>
+                                        <th>Is Approved?
+                                        </th>
+                                        <th>Status
+                                        </th>
+                                        <th>Email
+                                        </th>
+                                        <th>Last Activity
+                                        </th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{var i = Model.PagingInfo.FirstItem;}
+                                    @foreach (var item in Model.Rows)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <input type="radio" name="userName" value="@item.UserName" class="userRadio" />
+                                            </td>
+                                            <td>@i
+                                                @{++i;}</td>
+
+                                            <td>
+                                                @Html.ActionLink(item.UserName, "Update", "Membership", new { userName = item.UserName }, null)
+                                            </td>
+                                            <td>
+                                                @if (item.Memberships.IsApproved)
+                                                {
+                                                    <text><i class="icon-ok"></i> Approved</text>
+                                                }
+                                                else
+                                                {
+                                                    <text><i class="icon-remove"></i> Not Approved</text>   
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (item.Memberships.IsLockedOut)
+                                                {
+                                                    <text><i class="icon-remove"></i> Locked</text>
+                                                }
+                                                else
+                                                {
+                                                    <text><i class="icon-ok"></i> Unlocked</text>
+                                                }
+                                            </td>
+                                            <td>
+                                                @item.Memberships.Email
+                                            </td>
+                                            <td>@string.Format("{0:g}", item.Memberships.CreateDate)
+                                            </td>
+                                            <td>
+                                                      <div class="dropdown">
+                                        <span class="btn dropdown-toggle btn-success" type="button" id="dropdownMenu1" data-toggle="dropdown">Action List <i class="icon-angle-down"></i></span>
+                                        <ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="dropdownMenu1">                                          
+                                            <li role="presentation">@Html.ActionLink("Edit User", "EditUser", new { username = item.UserName }, new { role = "menuitem", tabindex = "-1" })</li>
+                                             <li role="presentation">@Html.ActionLink("Assign Role", "GrantRole", new { Id = item.UserId }, new { role = "menuitem", tabindex = "-1" })</li>
+
+                                        </ul>
+                                    </div>
+                                            </td>
+                                           
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+    
+                <!--[if !IE]>start pagination<![endif]-->
+                                    if (Model.PagingInfo.TotalItems != 0)
+                                    {
+                <div class="row">
+                    <div class="dataTables_footer clearfix">
+                        <div class="col-md-6">
+                            <div class="dataTables_info" id="DataTables_Table_0_info">
+                                Showing @Model.PagingInfo.FirstItem to @Model.PagingInfo.LastItem of @Model.PagingInfo.TotalItems entries
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="dataTables_paginate paging_bootstrap">
+                                <ul class="pagination pagination-sm pull-right">
+                                    @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", "Membership", new { page = x, searchterm = Model.SearchTerm, filterby = Model.FilterBy, pgsize = Model.PageSize }))
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                    }
+                <!--[if !IE]>end pagination<![endif]-->       
+                }
+            }
+
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+}
+<script type="text/javascript">
+
+    $(function () {
+
+        /**************************************************
+        * Begin Radio Button functions
+        *
+        * This captures radio button event clicks and 
+        * enables the "Grant Roles To User" link.
+        **************************************************/
+        var anchor = $("a#grant-roles-to-user");
+        //anchor.attr("disabled", "disabled");
+
+        $(".userRadio").click(function () {
+            // Get the value of the clicked radio button
+            // which is the username.
+            var userName = $(this).val();
+
+            // Get a reference to the "href" of the link.
+            //var href = anchor.attr("href");
+            var href = '@Url.Action("GrantRolesToUser", "Membership")';
+
+            // Concatenate the existing href value with the username
+            var newHref = href + "/" + userName;
+            // Replace the existing href value with the new one
+            anchor.attr("href", newHref);
+
+            // Remove the disabled attribute on the 
+            // Grant Roles to User link
+            anchor.removeAttr("disabled");
+        });
+
+        /**************************************************
+        * End Radio Button functions
+        **************************************************/
+
+
+
+        /**************************************************
+        * Begin FilterBy functions
+        *
+        * This will enable or disable the search field
+        * if the "ViewAll" selection is chosen.
+        **************************************************/
+
+        $("#filterby").live('change', function () {
+            var optionValue = $("option:selected", this).val();
+            if (optionValue == "all") {
+                // Clear the search field
+                $("#searchterm").val("");
+
+                // Disable the search term field
+                $("#searchterm").attr("disabled", "disabled");
+            } else {
+                $("#searchterm").removeAttr("disabled");
+            }
+        });
+
+
+        function InitSearchField() {
+            var filterbyVal = $("#filterby option:selected").val();
+            if (filterbyVal == "all") {
+                $("#searchterm").attr("disabled", "disabled");
+            }
+        }
+
+        InitSearchField();
+
+        /**************************************************
+        * End FilterBy functions
+        **************************************************/
+
+
+
+        /**************************************************
+        * Begin PageSize functions
+        *
+        * This handles the page size selected change functions.
+        **************************************************/
+
+        $("#page-size").change(function () {
+            var filterbyVal = $("#filterby option:selected").val();
+            var searchtermVal = $("#searchterm").val();
+            var pageSizeVal = $("option:selected", this).val();
+
+            location.href = '/SecurityGuard/Membership/index/' + filterbyVal + '/' + searchtermVal + '?pagesize=' + pageSizeVal;
+        });
+
+        /**************************************************
+        * End PageSize functions
+        **************************************************/
+
+
+    });
+
+</script>

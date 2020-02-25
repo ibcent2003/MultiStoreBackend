@@ -1,0 +1,155 @@
+@model Project.Areas.SecurityGuard.ViewModels.RegisterViewModel
+
+@{
+    ViewBag.Title = "Create User";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Header = ViewBag.Title;
+}
+
+
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="widget box">
+            <div class="widget-header">
+                <h4>
+                    <i class="icon-reorder"></i>
+                   Enter User Credentials
+                </h4>
+            </div>
+        <div class="widget-content">
+            <ul>
+                <li>Password to be a minimum of @Membership.MinRequiredPasswordLength characters in length.</li>
+                @if (Membership.MinRequiredNonAlphanumericCharacters > 0)
+                {
+                    <li>To have a minimum of @Membership.MinRequiredNonAlphanumericCharacters non-alpha numeric characters included, such as &quot;<span style="font-family: Courier New; font-size: 16px;">(){}-_*&^%$#@@!</span>&quot;.</li>
+                }
+            </ul>
+            @using (Html.BeginForm("CreateUser","Membership",FormMethod.Post, new { @class = "form-horizontal row-border" }))
+            {
+                @Html.ValidationSummary(true)
+              
+                    
+                <table class="my-acct">
+                    <tr>
+                        <td>@Html.LabelFor(model => model.UserName)</td>
+                        <td>
+                            <span class="input_wrapper">@Html.TextBoxFor(model => model.UserName)</span>
+                            <span class="system negative" id="username-message">@Html.ValidationMessageFor(model => model.UserName)</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>@Html.LabelFor(model => model.Email)</td>
+                        <td>
+                            <span class="input_wrapper">@Html.TextBoxFor(model => model.Email)</span>
+                            <span class="system negative">@Html.ValidationMessageFor(model => model.Email)</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>@Html.LabelFor(model => model.Password)</td>
+                        <td>
+                            <span class="input_wrapper">@Html.PasswordFor(model => model.Password)</span>
+                            <span class="system negative">@Html.ValidationMessageFor(model => model.Password)</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>@Html.LabelFor(model => model.ConfirmPassword)</td>
+                        <td>
+                            <span class="input_wrapper">@Html.PasswordFor(model => model.ConfirmPassword)</span>
+                            <span class="system negative">@Html.ValidationMessageFor(model => model.ConfirmPassword)</span>
+                        </td>
+                    </tr>
+
+                    @if (Model.RequireSecretQuestionAndAnswer)
+                    {
+                        <tr>
+                            <td>@Html.LabelFor(model => model.SecretQuestion)</td>
+                            <td>
+                                <span class="input_wrapper">@Html.TextBoxFor(model => model.SecretQuestion)</span>
+                                <span class="system negative">@Html.ValidationMessageFor(model => model.SecretQuestion)</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>@Html.LabelFor(model => model.SecretAnswer)</td>
+                            <td>
+                                <span class="input_wrapper">@Html.TextBoxFor(model => model.SecretAnswer)</span>
+                                <span class="system negative">@Html.ValidationMessageFor(model => model.SecretAnswer)</span>
+                            </td>
+                        </tr>
+                    }
+
+                    <tr>
+                        <td>@Html.LabelFor(model => model.Approve)</td>
+                        <td>
+                            <span class="input_wrapper">@Html.EditorFor(model => model.Approve)</span>
+                            <span class="system">@Html.ValidationMessageFor(model => model.Approve)</span>
+                        </td>
+                    </tr>
+
+
+                    
+                    <tr>
+                        <td>@Html.HiddenFor(model => model.RequireSecretQuestionAndAnswer)
+                           @* <input type="hidden" name="Id" value="@Model.objOrganisation.Id" />*@
+                        </td>
+                        <td><input type="submit" value="Create" class="btn btn-warning pull-right"  /></td>
+                    </tr>
+                </table>
+            }
+
+           
+
+        </div>
+    </div>
+</div></div>
+<script type="text/javascript">
+
+    $(function () {
+
+        var msg = $("#username-message");
+        var btn = $("input[type='submit']");
+
+        $("#UserName").focus();
+
+        $("#UserName").blur(function () {
+
+            var username = $(this).val();
+
+            if (username.length == 0) {
+                alert("No username.");
+                return;
+            }
+
+            $.ajax({
+                url: '@Url.Action("CheckForUniqueUser", "Membership")',
+                dataType: 'json',
+                type: 'GET',
+                data: { userName: username },
+                success: OnCheckForUniqueUserSuccess,
+                error: OnCheckForUniqueUserError
+            });
+        });
+
+        function OnCheckForUniqueUserSuccess(data) {
+            if (data.Exists) {
+                msg.text("This username already exists.  Please enter a new one.");
+                btn.attr("disabled", "disabled");
+            } else {
+                msg.text("");
+                btn.removeAttr("disabled");
+            }
+        }
+
+        function OnCheckForUniqueUserError(xhr, status, error) {
+            msg.text("There was an error checking uniqueness.");
+        }
+    });
+
+</script>

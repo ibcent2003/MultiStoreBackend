@@ -1,0 +1,388 @@
+@model SecurityGuard.ViewModels.ManageRolesViewModel
+@{
+    ViewBag.Title = "Manage Roles"; 
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Header = ViewBag.Title;
+    ViewBag.IsGreetings = "true";
+}
+@section Crumbs{
+    <div class="crumbs">
+
+        <ul class="breadcrumb" id="breadcrumbs">
+            <li> <i class="icon-home"></i> <a href="@Url.Action("Index", "Home", new { area = "Admin" })">Dashboard</a> </li>
+            <li class="current"> <a title="" href="javascript: return void(0)">Roles Management</a> </li>
+        </ul>
+    </div>
+}
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="widget">
+            <div class="widget-header">
+            </div>
+            <div class="widget-content">
+                <div class="tabbable tabbable-custom">
+                    <ul class="system_messages" style="display: none;"></ul>
+                    <div class="">
+
+                        <fieldset>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p>
+                                        <h4>Create Role</h4>
+                                        Role Name<br />
+                                        @Html.TextBox("RoleName")                                      
+                                    </p>
+                                    <p>
+                                        <button id="add-role" class="btn btn-warning">Add Role</button>
+                                    </p>
+                                </div>
+                                <div class="col-md-6">
+                                
+                                </div>
+                            </div>
+                            <hr />
+                            <p style="display: ;">
+                                <h4>Roles</h4>
+                                @* @Html.ListBox("Roles", Model.Roles)*@
+                                @if (Model.RoleList.ToList().Count > 0)
+                                {
+                                    <ul class="feeds clearfix" id="RoleFeeds">
+                                        @foreach (var item in Model.RoleList.ToList())
+                                        {
+                                            <li>
+                                                <div class="col1">
+                                                    <div class="content">
+                                                        <div class="content-col1">
+                                                            <div class="label label-default"><i class="icon-shield"></i></div>
+                                                        </div>
+                                                        <div class="content-col2">
+                                                            <div class="desc">@item </div>
+                                                        </div>
+                                                    </div>
+                                                    <button onclick="RemoveRole('@item');" title="Remove Role from Organisation" class="btn-xs btn btn-danger pull-right"><i class=" glyphicon glyphicon-remove"></i></button>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                            </p>
+                            <p style="display: none;">
+                                @Html.CheckBox("throwOnPopulatedRole")&nbsp;Delete role if it has users?
+                                <br />
+                                (Recommended:
+                                un-checked)<br />
+                                <button id="delete-roles" class="btn btn-warning">Delete</button>
+                            </p>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+@section Scripts{
+    <script src="@Url.Content("~/Content/Backend/SecurityGuard/scripts/jquery.jqia.selects.js")" type="text/javascript"></script>
+
+    <script type="text/javascript">
+    (function () {
+
+        var message = $(".system_messages");
+        /***********************************************
+        * Begin Remove Role Functions
+        ***********************************************/
+        window.RemoveRole = function (roleName) {
+            var OrganisationId = $("#objOrganisation_Id").val();
+            if (roleName == "") {
+                ShowMessage("Please select a role to remove.");
+                return;
+            }
+
+            $.ajax({
+                url: '@Url.Action("RemoveRole", "Role")',
+                dataType: 'json',
+                type: 'POST',
+                cache: false,
+                data: { roleName: roleName, Id: OrganisationId },
+                success: OnCreateRoleSuccess,
+                error: OnCreateRoleError
+            });
+        }
+
+
+        /***********************************************
+        * Begin Attach Role Functions
+        ***********************************************/
+        $("#attach-role").click(function () {
+            var roleName = $("#RoleNameAttach").val();
+            var OrganisationId = $("#objOrganisation_Id").val();
+            if (roleName == "") {
+                ShowMessage("Please select a role name.");
+                return;
+            }
+
+            $.ajax({
+                url: '@Url.Action("AttachRole", "Role")',
+                dataType: 'json',
+                type: 'POST',
+                cache: false,
+                data: { roleName: roleName, Id: OrganisationId },
+                success: OnCreateRoleSuccess,
+                error: OnCreateRoleError
+            });
+        });
+
+        /***********************************************
+        * Begin Add Role Functions
+        ***********************************************/
+        $("#add-role").click(function () {
+            var roleName = $("#RoleName").val();
+            var OrganisationId = $("#objOrganisation_Id").val();
+            if (roleName == "") {
+                ShowMessage("Please enter a role name.");
+                return;
+            }
+
+            $.ajax({
+                url: '@Url.Action("CreateRole", "Role")',
+                dataType: 'json',
+                type: 'POST',
+                cache: false,
+                data: { roleName: roleName, Id: OrganisationId },
+                success: OnCreateRoleSuccess,
+                error: OnCreateRoleError
+            });
+        });
+
+        function OnCreateRoleSuccess(data) {
+            $("li", message).remove();
+            if (data.Success) {
+                $("#RoleName").val("");
+
+                GetAllRoles("Roles");
+                GetAllRoles("RoleFeeds");
+                GetAllRoles("RolesList");
+            } else {
+                $("#RoleName").val("");
+            }
+
+            DisplayMessage(data);
+            message.show().delay(5000).fadeOut();
+        }
+
+        function OnCreateRoleError(xhr, status, error) {
+            message.show().delay(5000).fadeOut();    // Show the message
+            $("li", message).addClass("red");      // Apply the Green style
+            $("strong", message).text(error); // Insert the message
+        }
+
+        $("#RoleName").keyup(function () {
+            var text = $(this).val();
+            if (text != "") {
+                $("strong", message).text("");
+            }
+        });
+
+
+        /***********************************************
+        * End Add Role Functions
+        ***********************************************/
+
+
+
+
+        /***********************************************
+        * Begin Delete Role Functions
+        ***********************************************/
+
+        $("#delete-roles").click(function () {
+            var rolesList = $("#Roles");
+
+            if (rolesList.val() == null) {
+                ShowMessage("Please select at least one role to delete.");
+                return;
+            }
+
+            if (!confirm("Are you sure you want to delete these Roles?  This cannot be undone!")) {
+                return;
+            }
+
+            var chkBox = $("#throwOnPopulatedRole");
+            var throwOnPopRole = !chkBox.is(":checked");
+
+            var roles = "";
+
+            $.each(rolesList.val(), function (index, data) {
+                if (data != undefined) {
+                    roles += data + ",";
+                }
+            });
+
+            $.ajax({
+                url: '@Url.Action("DeleteRoles", "Role")',
+                dataType: 'json',
+                type: 'POST',
+                cache: false,
+                data: { roles: roles, throwOnPopulatedRole: throwOnPopRole },
+                success: OnDeleteRoleSuccess,
+                error: OnDeleteRoleError
+            });
+        });
+
+        function OnDeleteRoleSuccess(data) {
+            if (data.Success) {
+                $("li", message).remove();  // remove all li from the system_messages ul element.
+                $.each(data.Messages, function (index, item) {
+                    if (item.Success) {
+                        // Refresh Roles lists
+                        GetAllRoles("Roles");
+                        GetAllRoles("RolesList");
+                    }
+
+                    // Show the message
+                    DisplayMessage(item);
+                });
+                message.show().delay(5000).fadeOut();
+            }
+        }
+
+        function OnDeleteRoleError(xhr, status, error) {
+            DisplayError(error);
+            message.show().delay(5000).fadeOut();
+        }
+
+        /***********************************************
+        * End Delete Role Functions
+        ***********************************************/
+
+        /***********************************************
+        * Begin Get Users In Role Functions
+        ***********************************************/
+
+        //users-in-role-div
+
+        var usersInRoleDiv = $("#users-in-role-div");
+        var ul = $("#users-in-role-div ul");
+
+        $("#RolesList").change(function () {
+            var item = $(this).val();
+            var OrganizationId = $("#objOrganisation_Id").val();
+            if (item != "") {
+                usersInRoleDiv.show();
+
+                $.ajax({
+                    url: '@Url.Action("GetUsersInRole", "Role")',
+                    dataType: 'json',
+                    type: 'GET',
+                    cache: false,
+                    data: { roleName: item, Id: OrganizationId },
+                    success: OnGetUsersInRoleSuccess,
+                    error: OnGetUsersInRoleError
+                });
+            } else {
+                $("#users-in-role-div").hide();
+            }
+        });
+
+        function OnGetUsersInRoleSuccess(data) {
+            ul.empty();
+            if (data == "") {
+                ul.append("<li>No user(s).</li>");
+            } else {
+                $.each(data, function (index, item) {
+                    ul.append('<li><div class="col1"><div class="content"><div class="content-col1"><div class="label label-default"><i class="icon-user"></i></div></div><div class="content-col2"><div class="desc">' + item + '</div></div></div></div></li>');
+                });
+            }
+        }
+
+        function OnGetUsersInRoleError(xhr, status, error) {
+            message.show().delay(5000).fadeOut();    // Show the message
+            $("li", message).addClass("red");      // Apply the Green style
+            $("strong", message).text(error); // Insert the message
+        }
+
+        /***********************************************
+        * End Get Users In Role Functions
+        ***********************************************/
+
+
+
+
+
+
+
+
+
+
+        /***********************************************
+        * Begin Common Role Functions
+        ***********************************************/
+
+        function GetAllRoles(selectObject) {
+            var OrganisationId = $("#objOrganisation_Id").val();
+            $.ajax({
+                url: '@Url.Action("GetAllRoles", "Role")',
+                dataType: 'json',
+                type: 'GET',
+                data: { Id: OrganisationId },
+                cache: false,
+                success: function (data) {
+                    var rolesList = $("#" + selectObject);
+                    if (selectObject == "RoleFeeds") {
+                        rolesList.empty();
+                        $.each(data, function (index, item) {
+                            rolesList.append('<li><div class="col1"><div class="content"><div class="content-col1"><div class="label label-default"><i class="icon-shield"></i></div></div><div class="content-col2"><div class="desc">' + item.value + '</div></div></div></div></li>');
+                        });
+                    } else {
+                        rolesList.loadSelect(data);
+                    }
+                }
+            });
+        }
+
+
+        //<ul class="system_messages" style="display: none;">
+        //    <li><span class="ico"></span><strong class="system_title"></strong></li>
+        //</ul>
+
+        function DisplayError(error) {
+            var li = $("<li></li>").addClass("red");
+            var span = $("<span></span>").addClass("ico").appendTo(li);
+            var strong = $("<strong></strong>").addClass("system_title").html(error).appendTo(li);
+
+            li.appendTo(message);
+        }
+
+        function DisplayMessage(data) {
+            var li = $("<li></li>").addClass(data.CssClass);
+            var span = $("<span></span>").addClass("ico").appendTo(li);
+            var strong = $("<strong></strong>").addClass("system_title").html(data.Message).appendTo(li);
+
+            li.appendTo(message);
+        }
+
+        function ShowMessage(msg) {
+            $("li", message).remove();
+            var li = $("<li></li>").addClass("yellow");
+            var span = $("<span></span>").addClass("ico").appendTo(li);
+            var strong = $("<strong></strong>").addClass("system_title").html(msg).appendTo(li);
+
+            li.appendTo(message);
+            message.show().delay(5000).fadeOut();
+        }
+
+        /***********************************************
+        * End Common Role Functions
+        ***********************************************/
+
+
+    })(jQuery);
+
+
+
+    </script>
+}

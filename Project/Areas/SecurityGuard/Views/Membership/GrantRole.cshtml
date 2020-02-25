@@ -1,0 +1,244 @@
+﻿@model Project.Areas.SecurityGuard.Models.GrantRoleViewModel
+
+@{
+    ViewBag.Title = "Grant Role To User";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Crumbs{
+    <div class="crumbs">
+
+        <ul class="breadcrumb" id="breadcrumbs">
+            <li> <i class="icon-home"></i> <a href="@Url.Action("Index", "Dashboard", new { area = "Admin" })">Dashboard</a> </li>
+            <li class="current"> <a title="" href="javascript: return void(0)">Grant Role To User</a> </li>
+        </ul>
+    </div>
+}
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-9"></div>
+
+        <div class="col-md-3" style="text-align: right">
+            <a href="@Url.Action("Index", "RoleManagement", new { area = "SecurityGuard" })" class="btn btn-info">Back</a>
+            <a href="@Url.Action("NewRole", "RoleManagement", new { area = "SecurityGuard" })" class="btn btn-success">Create New Role</a>
+
+        </div>
+
+
+    </div>
+</div>
+
+<br />
+@using (Html.BeginForm("GrantRole", "Membership", new { Id = Model.Id }, FormMethod.Post, new { @enctype = "multipart/form-data", area = "Admin" }))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget box">
+                <div class="widget-header">
+                    <h4><i class="icon-reorder"></i>Grant Role To User</h4>
+                </div>
+                <div class="widget-content">
+
+                    <div class="alert alert-info fade in">
+                        <i class="icon-remove close" data-dismiss="alert"></i>
+                        <p>
+                            Clicking the &quot;Grant&quot; or &quot;Revoke&quot; buttons will execute that command.
+                        </p>
+                    </div>
+                    <form class="form-vertical" action="#">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    @Html.DropDownListFor(m => Model.Id, new SelectList(Model.AllUsers, "Value", "Text"), "Please Select a User", new { @class = "form-control" })
+                                </div>
+                                <div class="col-md-5">
+                                    @Html.HiddenFor(m => Model.Id)
+                                    <input type="submit" value="Search" class="btn btn-success" />
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="row">
+    <div class="col-md-6">
+        <div class="widget">
+            <div class="widget-header">
+                <h4><i class="icon-reorder"></i>Available Roles</h4>
+                <div class="toolbar no-padding">
+                    <div class="btn-group"><span class="btn btn-xs widget-collapse"><i class="icon-angle-down"></i></span><span class="btn btn-xs widget-refresh"><i class="icon-refresh"></i></span></div>
+                </div>
+            </div>
+            @using (Html.BeginForm("Grant", "Membership", new { Id = Model.Id }, FormMethod.Post, new { @enctype = "multipart/form-data", area = "Admin" }))
+            {
+                <div class="widget-content">
+                    <div class="tabbable tabbable-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab_feed_1" data-toggle="tab">Available Roles</a></li>
+
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab_feed_1">
+                                <div class="scroller" data-height="290px" data-always-visible="1" data-rail-visible="0">
+
+                                    <ul class="feeds clearfix">
+                                        <li>
+                                            @{
+
+                                                int i = 1;
+                                                var me = Guid.Parse(Model.Id);
+                                                var RoleToGrant = from index in Enumerable.Range(0, Model.AllRole.Distinct().Count())
+                                                                  group Model.AllRole[index] by index / 20;
+                                                string selectedrole = "";
+
+                                            }
+                                            @foreach (var item in RoleToGrant.Distinct())
+                                            {
+
+                                                foreach (Project.DAL.Roles a in RoleToGrant.SelectMany(r => r).Distinct())
+                                                {
+                                                    <div class="col1">
+
+                                                        <div class="content">
+                                                            <div class="content-col1">
+                                                                <div class="label label-success"><i class="icon-plus"></i></div>
+                                                            </div>
+                                                            <div class="content-col2">
+                                                                <div class="desc">                                                                   
+                                                                    @a.RoleName
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col2">
+                                                        <div class="date">
+                                                            <label class="checkbox">
+                                                                <div class="checker">
+                                                                    <label>
+                                                                        <input type="checkbox" class="uniform" name="RoleUsed" id="RoleUsed" @selectedrole value="@a.RoleId" />
+                                                                    </label>
+                                                                </div>
+
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    i++;
+                                                }
+                                            }
+                                        </li>
+
+                                    </ul>
+                                </div>
+                                <div class="row">
+                                    <div class="table-footer">
+                                        <div class="col-md-12">
+                                            <div class="table-actions">
+                                                @Html.HiddenFor(m => Model.Id)
+                                                <input type="submit" value="Grant" class="btn btn-success" />                                             
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="widget">
+            <div class="widget-header">
+                <h4><i class="icon-reorder"></i>Granted Roles</h4>
+                <div class="toolbar no-padding">
+                    <div class="btn-group"><span class="btn btn-xs widget-collapse"><i class="icon-angle-down"></i></span><span class="btn btn-xs widget-refresh"><i class="icon-refresh"></i></span></div>
+                </div>
+            </div>
+            @using (Html.BeginForm("Revoke", "Membership", new { Id = Model.Id }, FormMethod.Post, new { @enctype = "multipart/form-data", area = "Admin" }))
+            {
+                <div class="widget-content">
+                    <div class="tabbable tabbable-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab_feed_2" data-toggle="tab">Granted role</a></li>
+
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab_feed_2">
+                                <div class="scroller" data-height="290px" data-always-visible="1" data-rail-visible="0">
+                                    <ul class="feeds clearfix">
+                                        <li>
+                                            @{
+
+                                                int ii = 1;
+                                                var me = Guid.Parse(Model.Id);
+                                                var roleRevoke = from index in Enumerable.Range(0, Model.AllGrantedRole.Distinct().Count())
+                                                                     group Model.AllGrantedRole[index] by index / 20;
+                                                string selectedrovke = "";
+
+                                            }
+
+                                            @foreach (var item in roleRevoke.Distinct())
+                                            {
+
+                                                foreach (Project.DAL.Roles a in roleRevoke.SelectMany(r => r).Distinct())
+                                                {
+                                                    <div class="col1">
+
+                                                        <div class="content">
+                                                            <div class="content-col1">
+                                                                <div class="label label-success"><i class="icon-plus"></i></div>
+                                                            </div>
+                                                            <div class="content-col2">
+                                                                <div class="desc">                                                                   
+                                                                    @a.RoleName
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col2">
+                                                        <div class="date">
+                                                            <label class="checkbox">
+                                                                <div class="checker">
+                                                                    <label>
+                                                                        <input type="checkbox" class="uniform" name="GrantedUsed" id="GrantedUsed" @selectedrovke value="@a.RoleId" />
+                                                                    </label>
+                                                                </div>
+
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    ii++;
+                                                }
+                                            }
+                                        </li>
+
+                                    </ul>
+                                </div>
+                                <div class="table-footer">
+                                    <div class="col-md-12">
+                                        <div class="table-actions">
+                                            @Html.HiddenFor(m => Model.Id)
+                                            <input type="submit" value="Revoke" class="btn btn-success" />                                          
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

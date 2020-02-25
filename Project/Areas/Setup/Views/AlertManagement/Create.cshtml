@@ -1,0 +1,157 @@
+﻿@model Project.Areas.Setup.Models.AlertViewModel
+@{
+    ViewBag.Title = "New Alert Entry";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.IsGreetings = "true";
+}
+@section Scripts{
+    @Scripts.Render("~/Content/Backend/vendors/tinymce/tinymce.min.js")
+    <script>
+        tinymce.init({
+            selector: "textarea",
+            mode : "exact",
+            elements: "newsform_NewsContent",
+            theme: "modern",
+
+
+
+
+            plugins: [
+                "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                "searchreplace wordcount visualblocks visualchars code fullscreen",
+                "insertdatetime media nonbreaking save table contextmenu directionality",
+                "emoticons template paste textcolor "
+            ],
+            toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+            toolbar2: "print preview media | forecolor backcolor emoticons",
+            image_advtab: true,
+            templates: [
+                { title: 'Test template 1', content: 'Test 1' },
+                { title: 'Test template 2', content: 'Test 2' }
+            ]
+        });
+
+        "use strict";
+        $(document).ready(function () {
+            $(".datepicker").datepicker({
+                defaultDate: +7,
+                showOtherMonths: true,
+                autoSize: true,
+                appendText: '<span class="help-block">(yyyy-mm-dd)</span>',
+                dateFormat: "yy-mm-dd"
+            });
+        });
+    </script>
+}
+@section Crumbs{
+    <div class="crumbs">
+
+        <ul class="breadcrumb" id="breadcrumbs">
+            <li><i class="icon-home"></i><a href="@Url.Action("Index", "Home", new { area = "Admin" })">Dashboard</a> </li>
+            <li><i class="current"></i><a href="javascript: return void(0)">New Alert Entry</a> </li>
+
+
+        </ul>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="widget box">
+            <div class="widget-header">
+                <h4>
+                    <i class="icon-reorder"></i>
+                    Alert Entry
+                </h4>
+            </div>
+            <div class="widget-content">
+                @using (Html.BeginForm("Create", "AlertManagement", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal row-border" }))
+                {
+                    @Html.AntiForgeryToken()
+
+
+
+                    <div class="form-group">
+                        @Html.Label("Title", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.alertForm.Title, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.alertForm.Title)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Workflow", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.DropDownListFor(m => Model.alertForm.WorkFlowId, new SelectList(Model.WorkflowList, "Value", "Text"), "Please select workflow", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.alertForm.WorkFlowId)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Subject Sms", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.alertForm.SubjectSms, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.alertForm.SubjectSms)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Sms", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.alertForm.Sms, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.alertForm.Sms)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Subject Email", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.alertForm.SubjectEmail, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.alertForm.SubjectEmail)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Email", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                           @Html.TextAreaFor(m => m.alertForm.Email, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.alertForm.Email)
+                        </div>
+                    </div>
+                    
+                     <div class="form-group">
+                        @Html.Label("Is Deleted?", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.CheckBoxFor(m => m.alertForm.IsDeleted)
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        @Html.ActionLink("<< Back to List", "Index", null, new { @class = "btn btn-success" })
+                        <input type="submit" class="btn btn-warning pull-right" value="Save" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

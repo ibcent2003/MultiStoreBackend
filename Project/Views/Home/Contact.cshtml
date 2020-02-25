@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "Contact Us";
+
+}
+<div class="page-header page-title-left mini">
+    <div class="image-bg content-in" data-background="@Url.Content("~/Content/Frontend/light/img/sections/slider/backmenu.jpg")" data-stellar-background-ratio="0.5" style="background-image: @Url.Content("~/Content/Frontend/light/img/sections/slider/backmenu.jpg"); background-position: 50% 0%;"></div>
+    <div class="container">
+        <div class="col-md-12">
+            <h1 class="title" style="color:white">Contact Us</h1>
+            <ul class="breadcrumb" style="color:white">
+                <li style="color:white">
+                    <a href="@Url.Action("Index", "Home", new {area = "" })" style="color:white">Home</a>
+                </li>
+
+                <li class="active" style="color:white">Contact Us</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<section id="contact-us" class="page-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 contact-info">
+                <div class="row text-center">
+                    <address class="col-sm-4 col-md-4">
+                        <i class="fa fa-map-marker i-9x icons-circle text-color light-bg hover-black"></i>
+                        <div class="title">Address</div>
+                        No. 166, Third Floor, Sky Memorial Complex, Zoo Road, Kano State, Nigeria.
+                    </address>
+                    <address class="col-sm-4 col-md-4">
+                        <i class="fa fa-microphone i-9x icons-circle text-color light-bg hover-black"></i>
+                        <div class="title">Phones</div>
+                        <div>Support: +2348039701889, 2348030749709, 2347036789858</div>
+                    </address>
+                    <address class="col-sm-4 col-md-4">
+                        <i class="fa fa-envelope i-9x icons-circle text-color light-bg hover-black"></i>
+                        <div class="title">Email Addresses</div>
+                        <div>Support: <a href="mailto:info@fortressenterprise.com.ng">info@fortressenterprise.com.ng</a></div>
+                    </address>
+                </div>
+            </div>
+        </div>
+        <hr class="pad-10">
+        <div class="row">
+            <div class="col-md-4">
+                <p class="form-message" style="display: none;"></p>
+                <div class="contact-form">
+                    <!-- Form Begins -->
+                    <form role="form" name="contactform" id="contactform" method="post" action="http://zozothemes.com/html/mist/light/php/contact-form.php">
+                        <!-- Field 1 -->
+                        <div class="input-text form-group">
+                            <input type="text" name="contact_name" class="input-name form-control" placeholder="Full Name" />
+                        </div>
+                        <!-- Field 2 -->
+                        <div class="input-email form-group">
+                            <input type="email" name="contact_email" class="input-email form-control" placeholder="Email" />
+                        </div>
+                        <!-- Field 3 -->
+                        <div class="input-email form-group">
+                            <input type="text" name="contact_phone" class="input-phone form-control" placeholder="Phone" />
+                        </div>
+                        <!-- Field 4 -->
+                        <div class="textarea-message form-group">
+                            <textarea name="contact_message" class="textarea-message hight-82 form-control" placeholder="Message" rows="2"></textarea>
+                        </div>
+                        <!-- Button -->
+                        <button class="btn btn-default btn-block" type="submit" style="color:white">Send Now <i class="icon-paper-plane"></i></button>
+                    </form>
+                    <!-- Form Ends -->
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="map-section">
+               
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3902.9492397740946!2d8.535642014323315!3d11.978014291513071!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x11ae81af9810bd01%3A0xfd30d4427127ae8d!2sElegant+wallpaper+SKY+Memorial+Complex!5e0!3m2!1sen!2sgh!4v1538322682927" width="800" height="400" frameborder="0" style="border:0" allowfullscreen></iframe>
+                </div>
+            </div><!-- map -->
+        </div>
+        </div>
+</section>

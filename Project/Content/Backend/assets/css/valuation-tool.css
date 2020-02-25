@@ -1,0 +1,72 @@
+﻿ a.active {
+        color:#e25856;
+    }
+    .required {
+    color:#e25856; font-size:16px;
+    }
+   
+
+      
+    .ui-widget-header{
+    background-color:#4d7496 !important; color:#fff;
+    }
+        .ui-widget-header button {
+            float:right;
+        }
+        .ui-widget-header .ui-dialog-title {
+            line-height:35px; padding-left:10px;
+        }
+    .ui-widget-overlay {
+        opacity:.8;
+        background-color:#333; height:1200px !important; width:100%;
+    }
+   
+.ui-autocomplete { position: absolute; cursor: default; background:#fcfcfc; border:solid 1px #bebebe; overflow-y:auto; max-height:400px; }   
+
+/* workarounds */
+html .ui-autocomplete { width:1px; } /* without this, the menu expands to 100% in IE6 */
+.ui-menu {
+    list-style:none;
+    padding: 2px;
+    margin: 0;
+    display:block;
+    float: left;
+}
+.ui-menu .ui-menu {
+    margin-top: -3px;
+}
+.ui-menu .ui-menu-item {
+    margin:0;
+    padding: 0;
+    zoom: 1;
+    float: left;
+    clear: left;
+    width: 100%;
+    border-bottom:solid 1px #bebebe; cursor:pointer
+}
+.ui-menu .ui-menu-item a {
+    text-decoration:none;
+    display:block;
+    padding:.2em .4em;
+    line-height:1.5;
+    zoom:1;
+}
+.ui-menu .ui-menu-item a.ui-state-hover,
+.ui-menu .ui-menu-item a.ui-state-active, .ui-menu .ui-menu-item:hover {
+    margin:0;
+    padding: 0;
+    zoom: 1;
+    float: left;
+    clear: left;
+    width: 100%;
+    border-bottom:solid 1px #bebebe; cursor:pointer; color:#333;
+    background:#f2faf2;
+}
+
+    .form-control {
+        line-height:20px; padding:2px; font-size:110px; height:24px; max-width:200px;
+    }
+    table#filter {
+    border-collapse: separate;
+    border-spacing: 2px;
+}

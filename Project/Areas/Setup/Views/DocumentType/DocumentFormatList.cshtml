@@ -1,0 +1,101 @@
+﻿@model Project.Areas.Setup.Models.DocumentTypeViewModel
+@using Project.HtmlHelpers
+@{
+    ViewBag.Title = "Document Format";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.IsGreetings = "true";
+}
+@section Crumbs{
+    <div class="crumbs">
+
+        <ul class="breadcrumb" id="breadcrumbs">
+            <li> <i class="icon-home"></i> <a href="@Url.Action("Index", "Dashboard", new { area="Admin"})">Dashboard</a> </li>    
+            <li class="current"> <a title="" href="javascript: return void(0)"></a>Document Format List </li>
+        </ul>
+    </div>
+}
+ 
+<div class="row">
+    <div class="col-md-12">
+        <div class="widget-header">
+            @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-xs btn-success" })  @Html.ActionLink("New Document Format", "NewDocumentFormat", null, new { @class = "btn btn-xs btn-warning" })
+        </div>
+        <br />
+        <div class="widget-content">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr style="font-size: 12px;">
+                        <th>S/N</th>
+                        <th>Name</th>
+                        <th>Extension</th>                        
+                        <th>Modified By</th>
+                        <th>Modified Date</th>
+                        <th>Is Deleted</th>
+                        <th>Action</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.DocumentFormatList.Count != 0)
+                    {
+                        int i = 0;
+                        foreach (var item in Model.DocumentFormatList)
+                        {
+                            ++i;
+                            <tr style="font-size: 12px;">
+                                <td>
+                                    @i
+                                </td>
+                                <td>@Html.ActionLink(item.Name, "EditDocumentFormat", new { Id = item.Id }, null)</td>
+                                  <td>@item.Extension</td>
+                                
+                                <td>@item.ModifiedBy</td>
+                                <td>@item.ModifiedDate</td>
+                                <td>
+                                    @if (item.IsDeleted == true)
+                                    {
+                                        <span class="label label-danger">Yes</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="label label-success">No</span>
+                                    }
+                                </td>
+                                <td>                                                                      
+                                 @Html.ActionLink("Edit", "EditDocumentFormat", new { Id = item.Id }, new { @class = "btn btn-xs btn-success" })
+                                </td>
+
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="8">No Records Found!...</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="~/Content/Backend/DataTable/js/jquery.dataTables.min.js"></script>
+<script src="~/Content/Backend/DataTable/js/dataTables.buttons.min.js"></script>
+<script src="~/Content/Backend/DataTable/js/buttons.flash.min.js"></script>
+<script src="~/Content/Backend/DataTable/js/buttons.html5.min.js"></script>
+<script src="~/Content/Backend/DataTable/js/buttons.print.min.js"></script>
+
+
+<script type="text/javascript">
+
+   
+
+    function DeleteConfirm() {
+        if (confirm("Are you sure want to remove this member?"))
+            return true;
+        else
+            return false;
+    }
+
+
+    </script>

@@ -1,0 +1,24 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Project.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="GenericExceptionMessage" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">System could not process this request at this time. Please try again or contact administrator</Value>
+    </Setting>
+    <Setting Name="AppWarnMinutes" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="DateTimeFormat" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">MMMM dd, yyyy H:mm:ss</Value>
+    </Setting>
+    <Setting Name="DateFormat" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">MMMM dd, yyyy</Value>
+    </Setting>
+    <Setting Name="TimeFormat" Type="System.String" Scope="Application">
+      <Value Profile="(Default)"> H:mm:ss</Value>
+    </Setting>
+    <Setting Name="DocumentPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\FortressDocuments\</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

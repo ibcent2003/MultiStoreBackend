@@ -1,0 +1,35 @@
+﻿@model Project.Areas.Admin.Models.ResourceViewModel
+
+
+@foreach (var item in Model.Rows.Where(x => x.ParentId == 0).OrderByDescending(x => x.Order))
+{
+    <li>
+        @if (string.IsNullOrEmpty(item.Action))
+    {
+
+        <a href="#"><i class="@item.Icon"></i>@item.Name </a>
+    }
+    else
+    {
+
+        <a href="@Url.Action(item.Action, item.Controller, new { area = item.Areas })"><i class="@item.Icon"></i>@item.Name </a>
+    }
+    @if (Model.Rows.Where(x => x.ParentId == item.Id).Count() > 0)
+    {
+        <ul class="sub-menu">
+            @foreach (var subitem in Model.Rows.Where(x => x.ParentId == item.Id).OrderBy(x => x.Name))
+            {
+                if (string.IsNullOrEmpty(subitem.Action))
+                {
+
+                    <li><a href="#"><i class="@subitem.Icon"></i>@subitem.Name </a></li>
+                }
+                else
+                {
+                    <li><a href="@Url.Action(subitem.Action, subitem.Controller, new { area = subitem.Areas })"><i class="@subitem.Icon"></i>@subitem.Name </a></li>
+                }
+            }
+        </ul>
+    }
+</li>
+}

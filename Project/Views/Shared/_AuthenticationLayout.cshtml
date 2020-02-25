@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        @{var title = ViewBag.Title + " | FORTRESS GENERAL ENTERPRISE";}
+    <link href="~/Content/Backend/assets/img/favicon.png" rel="shortcut icon" type="image/x-icon" />
+   
+    @Styles.Render("~/Content/Backend/bootstrap/css/bootstrap.min.css")  
+    @Styles.Render("~/Content/Backend/assets/css/main.css")
+    @Styles.Render("~/Content/Backend/assets/css/plugins.css")
+    @Styles.Render("~/Content/Backend/assets/css/responsive.css")
+    @Styles.Render("~/Content/Backend/assets/css/icons.css")
+    @Styles.Render("~/Content/Backend/assets/css/login.css")
+    @Styles.Render("~/Content/Backend/assets/css/fontawesome/font-awesome.min.css")  
+    @Scripts.Render("~/Content/Backend/assets/js/libs/jquery-1.10.2.min.js")
+    @Scripts.Render("~/Content/Backend/bootstrap/js/bootstrap.min.js")
+    @Scripts.Render("~/Content/Backend/Backend/assets/js/libs/lodash.compat.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/uniform/jquery.uniform.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/validation/jquery.validate.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/nprogress/nprogress.js")
+   
+
+    @RenderSection("Scripts", required: false)
+    @*<style>
+        .login {
+            background-image: url(../../Content/bglogo.png);
+        }
+    </style>*@
+
+</head>
+<body class="login" >
+    <header class="header navbar navbar-fixed-top" role="banner" style="display:none;">
+        <div class="container">
+            <ul class="nav navbar-nav">
+                <li class="nav-toggle"><a href="javascript:void(0);" title=""><i class="icon-reorder"></i></a></li>
+            </ul>
+            <a class="navbar-brand" href="#">
+                <img src="~/Content/Frontend/light/img/logo.png" alt="logo" />
+                <</a>                    
+        </div>
+
+    </header>
+    @RenderBody()        
+</body>
+</html>

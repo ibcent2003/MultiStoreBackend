@@ -1,0 +1,38 @@
+﻿<!-- Top Bar -->
+<div id="top-bar" class="top-bar-section top-bar-bg-color">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <!-- Top Contact -->
+                <div class="top-contact link-hover-black">
+                    <a href="#"><i class="fa fa-phone"></i>+2348039701889, +2348030749709</a>
+                    <a href="#"><i class="fa fa-envelope"></i>info@fortressenterprise.com.ng</a>
+                </div>
+                <!-- Top Social Icon -->
+                <div class="top-social-icon icons-hover-black">
+                    <a href="https://www.facebook.com/Fortress-General-Enterprise-Limited-962118207201893" target="_blank"><i class="fa fa-facebook"></i></a>
+                    <a href="https://www.twitter.com/fmmsdngr" target="_blank"><i class="fa fa-twitter"></i></a>
+                    <a href="#"><i class="fa fa-youtube"></i></a>
+                    @if (!Request.IsAuthenticated)
+                    {
+                        <a href="@Url.Action("Guideline", "Account", new { Area = ""})"><i class="fa fa-anchor"></i> Register</a>
+                        <a href="@Url.Action("Login", "SGAccount", new { Area = ""})"><i class="fa fa-sign-in"></i> Login</a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Index", "Dashboard", new { Area = "Admin"})"><i class="fa fa-dashboard"></i> Dashboard</a>
+
+                        using (Html.BeginForm("LogOff", "SGAccount", new { Area = "" }, FormMethod.Post, new { id = "logoutForm", style = "display: inline" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <a href="javascript:document.getElementById('logoutForm').submit()">
+                                <i class="icon-log-out"></i> Log Out (@User.Identity.Name)
+                            </a>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Top Bar -->

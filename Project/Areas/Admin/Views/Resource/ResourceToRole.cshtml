@@ -1,0 +1,181 @@
+﻿@model Project.Areas.Admin.Models.GrantResourceToRoleViewModel
+@{
+    ViewBag.Title = "Grant Resources To Role";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.IsGreetings = "true";
+}
+
+@section Crumbs{
+    <div class="crumbs">
+
+        <ul class="breadcrumb" id="breadcrumbs">
+            <li> <i class="icon-home"></i> <a href="@Url.Action("Index", "Home", new { area="Admin"})">Dashboard</a> </li>
+            <li class="current"> <a title="" href="javascript: return void(0)"> Grant Resources To Role</a> </li>
+        </ul>
+    </div>
+}
+
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="widget box">
+            <div class="widget-header">
+                <h4>
+                    <i class="icon-reorder"></i>
+                    Grant Resources To Role
+                </h4>
+            </div>
+            <div class="widget-content clearfix">
+                <p>
+                    Clicking the &quot;Grant&quot; or &quot;Revoke&quot; buttons will execute that command.
+                </p>
+                <p>
+                    Grant any of the following resources to: <span id="username-to-grant-roles">
+                        @using (Html.BeginForm("ResourceToRole", "Resource", FormMethod.Get))
+                        {
+                            @Html.DropDownListFor(m => m.Id, Model.AllRoles, "Select Role", new { onChange = "this.form.submit();" })
+                        }
+
+
+                    </span>
+                </p>
+
+                <ul class="system_messages" style="display: none;">
+                    <li><span class="ico"></span><strong class="system_title"></strong></li>
+                </ul>
+
+                <div class="left-box">
+                    <h3>Available resources</h3>
+                    @Html.ListBox("AvailableResources", Model.AvailableResources, new { multiple = "multiple", @class = "multiple" })
+
+                    <span id="box1Counter" class="count-label"></span>
+
+                </div>
+                <div class="dual-control">
+                    <button id="to2" type="button" class="btn" style="width:100%;">grant <i class="icon-chevron-right"></i></button>
+                    <br>
+                    <button id="to1" type="button" class="btn" style="width:100%;"><i class="icon-chevron-left"></i> revoke</button>
+
+                </div>
+                <div class="right-box">
+                    <h3>Granted resources</h3>
+                    @Html.ListBox("GrantedResources", Model.GrantedResources, new { multiple = "multiple", @class = "multiple" })
+                    <span id="box2Counter" class="count-label"></span>
+
+                </div>
+            </div>
+            <div class="widget-content">
+
+
+                <div style="clear: both;"></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+<script type="text/javascript">
+    $(function () {
+
+        var message = $(".system_messages");
+
+        /******************************************************
+        * Begin Grant/Revoke commands
+        ******************************************************/
+        var availableList = $("#AvailableResources");
+        var grantedList = $("#GrantedResources");
+
+        $("#to2").click(function () {
+            // First check if any items in the available list
+            // are selected.
+            console.log("got here");
+            if (availableList.val() == null) {
+                alert("You must select a resource to grant.");
+                return;
+            }
+
+            // Then move the selected list items to the
+            // granted roles list.
+            move_list_items("AvailableResources", "GrantedResources");
+
+            // Now take all the roles from the granted list
+            // and create a single comma-delimited list.
+            var grantedResources = "";
+            $.each(grantedList.val(), function (index, data) {
+                grantedResources += data + ",";
+            });
+
+            // Now execute the command using jQuery ajax.
+            $.ajax({
+                url: '@Url.Action("GrantResourceToRole", "Resource")',
+                dataType: 'json',
+                type: 'POST',
+                data: { roleId: '@Model.Id', resource: grantedResources },
+                success: OnGrantedSuccess,
+                error: OnGrantedError
+            });
+        });
+
+        function OnGrantedSuccess(data) {
+            message.show().delay(5000).fadeOut();    // Show the message
+            $("li", message).addClass("green");      // Apply the Green style
+            $("strong", message).text(data.Message); // Insert the message
+        }
+
+        function OnGrantedError(xhr, status, error) {
+            alert(error);
+        }
+
+
+
+        $("#to1").click(function () {
+            // First make sure at least one role in the
+            // granted list is selected to revoke.
+            if (grantedList.val() == null) {
+                alert("You must select a resource to revoke.");
+                return;
+            }
+
+            // Now move the item back to the Available list.
+            move_list_items("GrantedResources", "AvailableResources");
+
+            // Now make a comma-delimited string of revoked items.
+            var revokedResources = "";
+            $.each(availableList.val(), function (index, data) {
+                revokedResources += data + ",";
+            });
+
+            // Now execute the command using jQuery ajax.
+            $.ajax({
+                url: '@Url.Action("RevokeResourceForRole", "Resource")',
+                dataType: 'json',
+                type: 'POST',
+                data: { roleId: '@Model.Id', resource: revokedResources },
+                success: OnRevokedSuccess,
+                error: OnRevokedError
+            });
+        });
+
+        function OnRevokedSuccess(data) {
+            message.show().delay(5000).fadeOut();
+            $("li", message).addClass("green");
+            $("strong", message).text(data.Message);
+        }
+
+        function OnRevokedError(xhr, status, error) {
+            alert(error);
+        }
+
+        // This function moves items from one list to the other.
+        function move_list_items(sourceid, destinationid) {
+            $("#" + sourceid + "  option:selected").appendTo("#" + destinationid);
+        }
+        /******************************************************
+        * End Grant/Revoke commands
+        ******************************************************/
+
+
+
+    });
+</script>
+    }

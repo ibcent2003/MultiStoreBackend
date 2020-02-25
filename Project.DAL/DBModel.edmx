@@ -1,0 +1,1408 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PROModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="PROModelStoreContainer">
+          <EntitySet Name="Alert" EntityType="PROModel.Store.Alert" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="AlertNotification" EntityType="PROModel.Store.AlertNotification" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="AlertType" EntityType="PROModel.Store.AlertType" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Applications" EntityType="PROModel.Store.Applications" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DataGenerator" EntityType="PROModel.Store.DataGenerator" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DocumentCategory" EntityType="PROModel.Store.DocumentCategory" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DocumentFormat" EntityType="PROModel.Store.DocumentFormat" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DocumentType" EntityType="PROModel.Store.DocumentType" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DocumentTypeFormat" EntityType="PROModel.Store.DocumentTypeFormat" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Memberships" EntityType="PROModel.Store.Memberships" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Profiles" EntityType="PROModel.Store.Profiles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Resource" EntityType="PROModel.Store.Resource" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ResourcesInRole" EntityType="PROModel.Store.ResourcesInRole" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Roles" EntityType="PROModel.Store.Roles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Store" EntityType="PROModel.Store.Store" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserDetail" EntityType="PROModel.Store.UserDetail" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Users" EntityType="PROModel.Store.Users" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UsersInRoles" EntityType="PROModel.Store.UsersInRoles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Workflow" EntityType="PROModel.Store.Workflow" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="WorkFlowActions" EntityType="PROModel.Store.WorkFlowActions" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="WorkflowStepActions" EntityType="PROModel.Store.WorkflowStepActions" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="WorkflowSteps" EntityType="PROModel.Store.WorkflowSteps" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Alert_WorkFlow" Association="PROModel.Store.FK_Alert_WorkFlow">
+            <End Role="Workflow" EntitySet="Workflow" />
+            <End Role="Alert" EntitySet="Alert" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AlertNotification_AlertType" Association="PROModel.Store.FK_AlertNotification_AlertType">
+            <End Role="AlertType" EntitySet="AlertType" />
+            <End Role="AlertNotification" EntitySet="AlertNotification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DocumentType_DocumentCategory" Association="PROModel.Store.FK_DocumentType_DocumentCategory">
+            <End Role="DocumentCategory" EntitySet="DocumentCategory" />
+            <End Role="DocumentType" EntitySet="DocumentType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DocumentTypeFormat_DocumentFormat" Association="PROModel.Store.FK_DocumentTypeFormat_DocumentFormat">
+            <End Role="DocumentFormat" EntitySet="DocumentFormat" />
+            <End Role="DocumentTypeFormat" EntitySet="DocumentTypeFormat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DocumentTypeFormat_DocumentType" Association="PROModel.Store.FK_DocumentTypeFormat_DocumentType">
+            <End Role="DocumentType" EntitySet="DocumentType" />
+            <End Role="DocumentTypeFormat" EntitySet="DocumentTypeFormat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserDetail_Users" Association="PROModel.Store.FK_UserDetail_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserDetail" EntitySet="UserDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkFlowActions_Workflow" Association="PROModel.Store.FK_WorkFlowActions_Workflow">
+            <End Role="Workflow" EntitySet="Workflow" />
+            <End Role="WorkFlowActions" EntitySet="WorkFlowActions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkflowStepActions_Alert" Association="PROModel.Store.FK_WorkflowStepActions_Alert">
+            <End Role="Alert" EntitySet="Alert" />
+            <End Role="WorkflowStepActions" EntitySet="WorkflowStepActions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkflowStepActions_WorkFlowActions" Association="PROModel.Store.FK_WorkflowStepActions_WorkFlowActions">
+            <End Role="WorkFlowActions" EntitySet="WorkFlowActions" />
+            <End Role="WorkflowStepActions" EntitySet="WorkflowStepActions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkflowStepActions_WorkflowSteps" Association="PROModel.Store.FK_WorkflowStepActions_WorkflowSteps">
+            <End Role="WorkflowSteps" EntitySet="WorkflowSteps" />
+            <End Role="WorkflowStepActions" EntitySet="WorkflowStepActions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkflowSteps_Workflow" Association="PROModel.Store.FK_WorkflowSteps_Workflow">
+            <End Role="Workflow" EntitySet="Workflow" />
+            <End Role="WorkflowSteps" EntitySet="WorkflowSteps" />
+          </AssociationSet>
+          <AssociationSet Name="MembershipApplication" Association="PROModel.Store.MembershipApplication">
+            <End Role="Applications" EntitySet="Applications" />
+            <End Role="Memberships" EntitySet="Memberships" />
+          </AssociationSet>
+          <AssociationSet Name="MembershipUser" Association="PROModel.Store.MembershipUser">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Memberships" EntitySet="Memberships" />
+          </AssociationSet>
+          <AssociationSet Name="RoleApplication" Association="PROModel.Store.RoleApplication">
+            <End Role="Applications" EntitySet="Applications" />
+            <End Role="Roles" EntitySet="Roles" />
+          </AssociationSet>
+          <AssociationSet Name="UserApplication" Association="PROModel.Store.UserApplication">
+            <End Role="Applications" EntitySet="Applications" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="UserProfile" Association="PROModel.Store.UserProfile">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Profiles" EntitySet="Profiles" />
+          </AssociationSet>
+          <AssociationSet Name="UsersInRoleRole" Association="PROModel.Store.UsersInRoleRole">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="UsersInRoles" EntitySet="UsersInRoles" />
+          </AssociationSet>
+          <AssociationSet Name="UsersInRoleUser" Association="PROModel.Store.UsersInRoleUser">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UsersInRoles" EntitySet="UsersInRoles" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Alert">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="WorkflowId" Type="int" Nullable="false" />
+          <Property Name="Title" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="SubjectSms" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="SubjectEmail" Type="varchar" Nullable="false" MaxLength="150" />
+          <Property Name="Sms" Type="varchar" Nullable="false" MaxLength="300" />
+          <Property Name="Email" Type="varchar(max)" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime2" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AlertNotification">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Sender" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="Receiver" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="Subject" Type="varchar" Nullable="false" MaxLength="500" />
+          <Property Name="Message" Type="varchar(max)" Nullable="false" />
+          <Property Name="SentDate" Type="datetime2" Nullable="false" />
+          <Property Name="AlertTypeId" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="ModifedBy" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ModifedDate" Type="datetime2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AlertType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Applications">
+          <Key>
+            <PropertyRef Name="ApplicationId" />
+          </Key>
+          <Property Name="ApplicationName" Type="nvarchar" Nullable="false" MaxLength="235" />
+          <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="DataGenerator">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="TableName" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="TableID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="DocumentCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ModifiedBy" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime2" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DocumentFormat">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Extension" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="ModifiedBy" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime2" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DocumentType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="ModifiedBy" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime2" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="DocumentCategoryId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DocumentTypeFormat">
+          <Key>
+            <PropertyRef Name="DocumentTypeId" />
+            <PropertyRef Name="DocumentTypeFormatId" />
+          </Key>
+          <Property Name="DocumentTypeId" Type="int" Nullable="false" />
+          <Property Name="DocumentTypeFormatId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Memberships">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="PasswordFormat" Type="int" Nullable="false" />
+          <Property Name="PasswordSalt" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="PasswordQuestion" Type="nvarchar" MaxLength="256" />
+          <Property Name="PasswordAnswer" Type="nvarchar" MaxLength="128" />
+          <Property Name="IsApproved" Type="bit" Nullable="false" />
+          <Property Name="IsLockedOut" Type="bit" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="LastLoginDate" Type="datetime" Nullable="false" />
+          <Property Name="LastPasswordChangedDate" Type="datetime" Nullable="false" />
+          <Property Name="LastLockoutDate" Type="datetime" Nullable="false" />
+          <Property Name="FailedPasswordAttemptCount" Type="int" Nullable="false" />
+          <Property Name="FailedPasswordAttemptWindowStart" Type="datetime" Nullable="false" />
+          <Property Name="FailedPasswordAnswerAttemptCount" Type="int" Nullable="false" />
+          <Property Name="FailedPasswordAnswerAttemptWindowsStart" Type="datetime" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="Profiles">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PropertyNames" Type="nvarchar" Nullable="false" />
+          <Property Name="PropertyValueStrings" Type="nvarchar" Nullable="false" />
+          <Property Name="PropertyValueBinary" Type="image" Nullable="false" />
+          <Property Name="LastUpdatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Resource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ParentId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="150" />
+          <Property Name="Icon" Type="varchar" MaxLength="50" />
+          <Property Name="Action" Type="varchar" MaxLength="50" />
+          <Property Name="Controller" Type="varchar" MaxLength="50" />
+          <Property Name="Areas" Type="varchar" MaxLength="50" />
+          <Property Name="Order" Type="int" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime2" />
+          <Property Name="EndDate" Type="datetime2" />
+        </EntityType>
+        <EntityType Name="ResourcesInRole">
+          <Key>
+            <PropertyRef Name="RoleId" />
+            <PropertyRef Name="ResourceId" />
+          </Key>
+          <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ResourceId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="Description" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="Store">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="ProcessInstaceId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="URL" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="Logo" Type="varchar" MaxLength="100" />
+          <Property Name="ModifiedBy" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime2" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="EmailAddres" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="MobileNumber" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="IsAnonymous" Type="bit" Nullable="false" />
+          <Property Name="LastActivityDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UsersInRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Workflow">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Code" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ModifiedBy" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime2" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="guideline" Type="varchar(max)" />
+          <Property Name="feedback" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="WorkFlowActions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="WorkFlowId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="IsMovable" Type="bit" Nullable="false" />
+          <Property Name="Direction" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ModifiedBy" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorkflowStepActions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="StepId" Type="int" Nullable="false" />
+          <Property Name="ActionId" Type="int" Nullable="false" />
+          <Property Name="AlertId" Type="int" Nullable="false" />
+          <Property Name="DisplayName" Type="nchar" MaxLength="50" />
+          <Property Name="PresetReason" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="WorkflowSteps">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="WorkflowId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+          <Property Name="RoleName" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Priority" Type="int" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ModifiedDate" Type="datetime2" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Alert_WorkFlow">
+          <End Role="Workflow" Type="PROModel.Store.Workflow" Multiplicity="1" />
+          <End Role="Alert" Type="PROModel.Store.Alert" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Workflow">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Alert">
+              <PropertyRef Name="WorkflowId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AlertNotification_AlertType">
+          <End Role="AlertType" Type="PROModel.Store.AlertType" Multiplicity="1" />
+          <End Role="AlertNotification" Type="PROModel.Store.AlertNotification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AlertType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AlertNotification">
+              <PropertyRef Name="AlertTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DocumentType_DocumentCategory">
+          <End Role="DocumentCategory" Type="PROModel.Store.DocumentCategory" Multiplicity="1" />
+          <End Role="DocumentType" Type="PROModel.Store.DocumentType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DocumentType">
+              <PropertyRef Name="DocumentCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DocumentTypeFormat_DocumentFormat">
+          <End Role="DocumentFormat" Type="PROModel.Store.DocumentFormat" Multiplicity="1" />
+          <End Role="DocumentTypeFormat" Type="PROModel.Store.DocumentTypeFormat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentFormat">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DocumentTypeFormat">
+              <PropertyRef Name="DocumentTypeFormatId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DocumentTypeFormat_DocumentType">
+          <End Role="DocumentType" Type="PROModel.Store.DocumentType" Multiplicity="1" />
+          <End Role="DocumentTypeFormat" Type="PROModel.Store.DocumentTypeFormat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DocumentTypeFormat">
+              <PropertyRef Name="DocumentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserDetail_Users">
+          <End Role="Users" Type="PROModel.Store.Users" Multiplicity="1" />
+          <End Role="UserDetail" Type="PROModel.Store.UserDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserDetail">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkFlowActions_Workflow">
+          <End Role="Workflow" Type="PROModel.Store.Workflow" Multiplicity="1" />
+          <End Role="WorkFlowActions" Type="PROModel.Store.WorkFlowActions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Workflow">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkFlowActions">
+              <PropertyRef Name="WorkFlowId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkflowStepActions_Alert">
+          <End Role="Alert" Type="PROModel.Store.Alert" Multiplicity="1" />
+          <End Role="WorkflowStepActions" Type="PROModel.Store.WorkflowStepActions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alert">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkflowStepActions">
+              <PropertyRef Name="AlertId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkflowStepActions_WorkFlowActions">
+          <End Role="WorkFlowActions" Type="PROModel.Store.WorkFlowActions" Multiplicity="1" />
+          <End Role="WorkflowStepActions" Type="PROModel.Store.WorkflowStepActions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkFlowActions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkflowStepActions">
+              <PropertyRef Name="ActionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkflowStepActions_WorkflowSteps">
+          <End Role="WorkflowSteps" Type="PROModel.Store.WorkflowSteps" Multiplicity="1" />
+          <End Role="WorkflowStepActions" Type="PROModel.Store.WorkflowStepActions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkflowSteps">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkflowStepActions">
+              <PropertyRef Name="StepId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkflowSteps_Workflow">
+          <End Role="Workflow" Type="PROModel.Store.Workflow" Multiplicity="1" />
+          <End Role="WorkflowSteps" Type="PROModel.Store.WorkflowSteps" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Workflow">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkflowSteps">
+              <PropertyRef Name="WorkflowId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MembershipApplication">
+          <End Role="Applications" Type="PROModel.Store.Applications" Multiplicity="1" />
+          <End Role="Memberships" Type="PROModel.Store.Memberships" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applications">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="Memberships">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MembershipUser">
+          <End Role="Users" Type="PROModel.Store.Users" Multiplicity="1" />
+          <End Role="Memberships" Type="PROModel.Store.Memberships" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Memberships">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RoleApplication">
+          <End Role="Applications" Type="PROModel.Store.Applications" Multiplicity="1" />
+          <End Role="Roles" Type="PROModel.Store.Roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applications">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="Roles">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserApplication">
+          <End Role="Applications" Type="PROModel.Store.Applications" Multiplicity="1" />
+          <End Role="Users" Type="PROModel.Store.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applications">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserProfile">
+          <End Role="Users" Type="PROModel.Store.Users" Multiplicity="1" />
+          <End Role="Profiles" Type="PROModel.Store.Profiles" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Profiles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UsersInRoleRole">
+          <End Role="Roles" Type="PROModel.Store.Roles" Multiplicity="1" />
+          <End Role="UsersInRoles" Type="PROModel.Store.UsersInRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="UsersInRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UsersInRoleUser">
+          <End Role="Users" Type="PROModel.Store.Users" Multiplicity="1" />
+          <End Role="UsersInRoles" Type="PROModel.Store.UsersInRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UsersInRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PROModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="PROEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Alert" EntityType="PROModel.Alert" />
+          <EntitySet Name="AlertNotification" EntityType="PROModel.AlertNotification" />
+          <EntitySet Name="AlertType" EntityType="PROModel.AlertType" />
+          <EntitySet Name="Applications" EntityType="PROModel.Applications" />
+          <EntitySet Name="DataGenerator" EntityType="PROModel.DataGenerator" />
+          <EntitySet Name="DocumentCategory" EntityType="PROModel.DocumentCategory" />
+          <EntitySet Name="DocumentFormat" EntityType="PROModel.DocumentFormat" />
+          <EntitySet Name="DocumentType" EntityType="PROModel.DocumentType" />
+          <EntitySet Name="Memberships" EntityType="PROModel.Memberships" />
+          <EntitySet Name="Profiles" EntityType="PROModel.Profiles" />
+          <EntitySet Name="Resource" EntityType="PROModel.Resource" />
+          <EntitySet Name="ResourcesInRole" EntityType="PROModel.ResourcesInRole" />
+          <EntitySet Name="Roles" EntityType="PROModel.Roles" />
+          <EntitySet Name="Store" EntityType="PROModel.Store" />
+          <EntitySet Name="UserDetail" EntityType="PROModel.UserDetail" />
+          <EntitySet Name="Users" EntityType="PROModel.Users" />
+          <EntitySet Name="Workflow" EntityType="PROModel.Workflow" />
+          <EntitySet Name="WorkFlowActions" EntityType="PROModel.WorkFlowActions" />
+          <EntitySet Name="WorkflowStepActions" EntityType="PROModel.WorkflowStepActions" />
+          <EntitySet Name="WorkflowSteps" EntityType="PROModel.WorkflowSteps" />
+          <AssociationSet Name="FK_Alert_WorkFlow" Association="PROModel.FK_Alert_WorkFlow">
+            <End Role="Workflow" EntitySet="Workflow" />
+            <End Role="Alert" EntitySet="Alert" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkflowStepActions_Alert" Association="PROModel.FK_WorkflowStepActions_Alert">
+            <End Role="Alert" EntitySet="Alert" />
+            <End Role="WorkflowStepActions" EntitySet="WorkflowStepActions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AlertNotification_AlertType" Association="PROModel.FK_AlertNotification_AlertType">
+            <End Role="AlertType" EntitySet="AlertType" />
+            <End Role="AlertNotification" EntitySet="AlertNotification" />
+          </AssociationSet>
+          <AssociationSet Name="MembershipApplication" Association="PROModel.MembershipApplication">
+            <End Role="Applications" EntitySet="Applications" />
+            <End Role="Memberships" EntitySet="Memberships" />
+          </AssociationSet>
+          <AssociationSet Name="RoleApplication" Association="PROModel.RoleApplication">
+            <End Role="Applications" EntitySet="Applications" />
+            <End Role="Roles" EntitySet="Roles" />
+          </AssociationSet>
+          <AssociationSet Name="UserApplication" Association="PROModel.UserApplication">
+            <End Role="Applications" EntitySet="Applications" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DocumentType_DocumentCategory" Association="PROModel.FK_DocumentType_DocumentCategory">
+            <End Role="DocumentCategory" EntitySet="DocumentCategory" />
+            <End Role="DocumentType" EntitySet="DocumentType" />
+          </AssociationSet>
+          <AssociationSet Name="MembershipUser" Association="PROModel.MembershipUser">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Memberships" EntitySet="Memberships" />
+          </AssociationSet>
+          <AssociationSet Name="UserProfile" Association="PROModel.UserProfile">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Profiles" EntitySet="Profiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserDetail_Users" Association="PROModel.FK_UserDetail_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserDetail" EntitySet="UserDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkFlowActions_Workflow" Association="PROModel.FK_WorkFlowActions_Workflow">
+            <End Role="Workflow" EntitySet="Workflow" />
+            <End Role="WorkFlowActions" EntitySet="WorkFlowActions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkflowSteps_Workflow" Association="PROModel.FK_WorkflowSteps_Workflow">
+            <End Role="Workflow" EntitySet="Workflow" />
+            <End Role="WorkflowSteps" EntitySet="WorkflowSteps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkflowStepActions_WorkFlowActions" Association="PROModel.FK_WorkflowStepActions_WorkFlowActions">
+            <End Role="WorkFlowActions" EntitySet="WorkFlowActions" />
+            <End Role="WorkflowStepActions" EntitySet="WorkflowStepActions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkflowStepActions_WorkflowSteps" Association="PROModel.FK_WorkflowStepActions_WorkflowSteps">
+            <End Role="WorkflowSteps" EntitySet="WorkflowSteps" />
+            <End Role="WorkflowStepActions" EntitySet="WorkflowStepActions" />
+          </AssociationSet>
+          <AssociationSet Name="DocumentTypeFormat" Association="PROModel.DocumentTypeFormat">
+            <End Role="DocumentFormat" EntitySet="DocumentFormat" />
+            <End Role="DocumentType" EntitySet="DocumentType" />
+          </AssociationSet>
+          <AssociationSet Name="UsersInRoles" Association="PROModel.UsersInRoles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Alert">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="WorkflowId" Nullable="false" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="SubjectSms" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="SubjectEmail" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Sms" Nullable="false" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ModifiedBy" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="7" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <NavigationProperty Name="Workflow" Relationship="PROModel.FK_Alert_WorkFlow" FromRole="Alert" ToRole="Workflow" />
+          <NavigationProperty Name="WorkflowStepActions" Relationship="PROModel.FK_WorkflowStepActions_Alert" FromRole="Alert" ToRole="WorkflowStepActions" />
+        </EntityType>
+        <EntityType Name="AlertNotification">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Sender" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Receiver" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Subject" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Message" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="SentDate" Nullable="false" Precision="7" />
+          <Property Type="Int32" Name="AlertTypeId" Nullable="false" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+          <Property Type="String" Name="ModifedBy" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ModifedDate" Nullable="false" Precision="7" />
+          <NavigationProperty Name="AlertType" Relationship="PROModel.FK_AlertNotification_AlertType" FromRole="AlertNotification" ToRole="AlertType" />
+        </EntityType>
+        <EntityType Name="AlertType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AlertNotification" Relationship="PROModel.FK_AlertNotification_AlertType" FromRole="AlertType" ToRole="AlertNotification" />
+        </EntityType>
+        <EntityType Name="Applications">
+          <Key>
+            <PropertyRef Name="ApplicationId" />
+          </Key>
+          <Property Type="String" Name="ApplicationName" Nullable="false" MaxLength="235" FixedLength="false" Unicode="true" />
+          <Property Type="Guid" Name="ApplicationId" Nullable="false" />
+          <Property Type="String" Name="Description" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Memberships" Relationship="PROModel.MembershipApplication" FromRole="Applications" ToRole="Memberships" />
+          <NavigationProperty Name="Roles" Relationship="PROModel.RoleApplication" FromRole="Applications" ToRole="Roles" />
+          <NavigationProperty Name="Users" Relationship="PROModel.UserApplication" FromRole="Applications" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="DataGenerator">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="String" Name="TableName" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="TableID" Nullable="false" />
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="DocumentCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ModifiedBy" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="7" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <NavigationProperty Name="DocumentType" Relationship="PROModel.FK_DocumentType_DocumentCategory" FromRole="DocumentCategory" ToRole="DocumentType" />
+        </EntityType>
+        <EntityType Name="DocumentFormat">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Extension" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ModifiedBy" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="7" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <NavigationProperty Name="DocumentType" Relationship="PROModel.DocumentTypeFormat" FromRole="DocumentFormat" ToRole="DocumentType" />
+        </EntityType>
+        <EntityType Name="DocumentType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ModifiedBy" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="7" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="Int32" Name="DocumentCategoryId" Nullable="false" />
+          <NavigationProperty Name="DocumentCategory" Relationship="PROModel.FK_DocumentType_DocumentCategory" FromRole="DocumentType" ToRole="DocumentCategory" />
+          <NavigationProperty Name="DocumentFormat" Relationship="PROModel.DocumentTypeFormat" FromRole="DocumentType" ToRole="DocumentFormat" />
+        </EntityType>
+        <EntityType Name="Memberships">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Type="Guid" Name="ApplicationId" Nullable="false" />
+          <Property Type="Guid" Name="UserId" Nullable="false" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="PasswordFormat" Nullable="false" />
+          <Property Type="String" Name="PasswordSalt" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Email" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PasswordQuestion" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PasswordAnswer" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsApproved" Nullable="false" />
+          <Property Type="Boolean" Name="IsLockedOut" Nullable="false" />
+          <Property Type="DateTime" Name="CreateDate" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="LastLoginDate" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="LastPasswordChangedDate" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="LastLockoutDate" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="FailedPasswordAttemptCount" Nullable="false" />
+          <Property Type="DateTime" Name="FailedPasswordAttemptWindowStart" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="FailedPasswordAnswerAttemptCount" Nullable="false" />
+          <Property Type="DateTime" Name="FailedPasswordAnswerAttemptWindowsStart" Nullable="false" Precision="3" />
+          <Property Type="String" Name="Comment" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Applications" Relationship="PROModel.MembershipApplication" FromRole="Memberships" ToRole="Applications" />
+          <NavigationProperty Name="Users" Relationship="PROModel.MembershipUser" FromRole="Memberships" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Profiles">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Type="Guid" Name="UserId" Nullable="false" />
+          <Property Type="String" Name="PropertyNames" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PropertyValueStrings" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Type="Binary" Name="PropertyValueBinary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Type="DateTime" Name="LastUpdatedDate" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Users" Relationship="PROModel.UserProfile" FromRole="Profiles" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Resource">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="ParentId" Nullable="false" />
+          <Property Type="String" Name="Name" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Icon" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Action" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Controller" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Areas" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="Order" />
+          <Property Type="String" Name="ModifiedBy" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Precision="7" />
+          <Property Type="DateTime" Name="EndDate" Precision="7" />
+        </EntityType>
+        <EntityType Name="ResourcesInRole">
+          <Key>
+            <PropertyRef Name="RoleId" />
+            <PropertyRef Name="ResourceId" />
+          </Key>
+          <Property Type="Guid" Name="RoleId" Nullable="false" />
+          <Property Type="Int32" Name="ResourceId" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Type="Guid" Name="ApplicationId" Nullable="false" />
+          <Property Type="Guid" Name="RoleId" Nullable="false" />
+          <Property Type="String" Name="RoleName" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Applications" Relationship="PROModel.RoleApplication" FromRole="Roles" ToRole="Applications" />
+          <NavigationProperty Name="Users" Relationship="PROModel.UsersInRoles" FromRole="Roles" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Store">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="Guid" Name="ProcessInstaceId" Nullable="false" />
+          <Property Type="String" Name="URL" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Logo" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ModifiedBy" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="7" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EmailAddres" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="MobileNumber" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Guid" Name="UserId" Nullable="false" />
+          <Property Type="String" Name="ModifiedBy" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Users" Relationship="PROModel.FK_UserDetail_Users" FromRole="UserDetail" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Type="Guid" Name="ApplicationId" Nullable="false" />
+          <Property Type="Guid" Name="UserId" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsAnonymous" Nullable="false" />
+          <Property Type="DateTime" Name="LastActivityDate" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Applications" Relationship="PROModel.UserApplication" FromRole="Users" ToRole="Applications" />
+          <NavigationProperty Name="Memberships" Relationship="PROModel.MembershipUser" FromRole="Users" ToRole="Memberships" />
+          <NavigationProperty Name="Profiles" Relationship="PROModel.UserProfile" FromRole="Users" ToRole="Profiles" />
+          <NavigationProperty Name="UserDetail" Relationship="PROModel.FK_UserDetail_Users" FromRole="Users" ToRole="UserDetail" />
+          <NavigationProperty Name="Roles" Relationship="PROModel.UsersInRoles" FromRole="Users" ToRole="Roles" />
+        </EntityType>
+        <EntityType Name="Workflow">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ModifiedBy" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="7" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="String" Name="guideline" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="feedback" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Alert" Relationship="PROModel.FK_Alert_WorkFlow" FromRole="Workflow" ToRole="Alert" />
+          <NavigationProperty Name="WorkFlowActions" Relationship="PROModel.FK_WorkFlowActions_Workflow" FromRole="Workflow" ToRole="WorkFlowActions" />
+          <NavigationProperty Name="WorkflowSteps" Relationship="PROModel.FK_WorkflowSteps_Workflow" FromRole="Workflow" ToRole="WorkflowSteps" />
+        </EntityType>
+        <EntityType Name="WorkFlowActions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="WorkFlowId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="IsMovable" Nullable="false" />
+          <Property Type="String" Name="Direction" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ModifiedBy" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Workflow" Relationship="PROModel.FK_WorkFlowActions_Workflow" FromRole="WorkFlowActions" ToRole="Workflow" />
+          <NavigationProperty Name="WorkflowStepActions" Relationship="PROModel.FK_WorkflowStepActions_WorkFlowActions" FromRole="WorkFlowActions" ToRole="WorkflowStepActions" />
+        </EntityType>
+        <EntityType Name="WorkflowStepActions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="StepId" Nullable="false" />
+          <Property Type="Int32" Name="ActionId" Nullable="false" />
+          <Property Type="Int32" Name="AlertId" Nullable="false" />
+          <Property Type="String" Name="DisplayName" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="PresetReason" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Alert" Relationship="PROModel.FK_WorkflowStepActions_Alert" FromRole="WorkflowStepActions" ToRole="Alert" />
+          <NavigationProperty Name="WorkFlowActions" Relationship="PROModel.FK_WorkflowStepActions_WorkFlowActions" FromRole="WorkflowStepActions" ToRole="WorkFlowActions" />
+          <NavigationProperty Name="WorkflowSteps" Relationship="PROModel.FK_WorkflowStepActions_WorkflowSteps" FromRole="WorkflowStepActions" ToRole="WorkflowSteps" />
+        </EntityType>
+        <EntityType Name="WorkflowSteps">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="WorkflowId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Status" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="RoleName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="Priority" Nullable="false" />
+          <Property Type="String" Name="ModifiedBy" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ModifiedDate" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Workflow" Relationship="PROModel.FK_WorkflowSteps_Workflow" FromRole="WorkflowSteps" ToRole="Workflow" />
+          <NavigationProperty Name="WorkflowStepActions" Relationship="PROModel.FK_WorkflowStepActions_WorkflowSteps" FromRole="WorkflowSteps" ToRole="WorkflowStepActions" />
+        </EntityType>
+        <Association Name="FK_Alert_WorkFlow">
+          <End Type="PROModel.Workflow" Role="Workflow" Multiplicity="1" />
+          <End Type="PROModel.Alert" Role="Alert" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Workflow">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Alert">
+              <PropertyRef Name="WorkflowId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkflowStepActions_Alert">
+          <End Type="PROModel.Alert" Role="Alert" Multiplicity="1" />
+          <End Type="PROModel.WorkflowStepActions" Role="WorkflowStepActions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alert">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkflowStepActions">
+              <PropertyRef Name="AlertId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AlertNotification_AlertType">
+          <End Type="PROModel.AlertType" Role="AlertType" Multiplicity="1" />
+          <End Type="PROModel.AlertNotification" Role="AlertNotification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AlertType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AlertNotification">
+              <PropertyRef Name="AlertTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MembershipApplication">
+          <End Type="PROModel.Applications" Role="Applications" Multiplicity="1" />
+          <End Type="PROModel.Memberships" Role="Memberships" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applications">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="Memberships">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RoleApplication">
+          <End Type="PROModel.Applications" Role="Applications" Multiplicity="1" />
+          <End Type="PROModel.Roles" Role="Roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applications">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="Roles">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserApplication">
+          <End Type="PROModel.Applications" Role="Applications" Multiplicity="1" />
+          <End Type="PROModel.Users" Role="Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Applications">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DocumentType_DocumentCategory">
+          <End Type="PROModel.DocumentCategory" Role="DocumentCategory" Multiplicity="1" />
+          <End Type="PROModel.DocumentType" Role="DocumentType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DocumentCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DocumentType">
+              <PropertyRef Name="DocumentCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MembershipUser">
+          <End Type="PROModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="PROModel.Memberships" Role="Memberships" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Memberships">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserProfile">
+          <End Type="PROModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="PROModel.Profiles" Role="Profiles" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Profiles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserDetail_Users">
+          <End Type="PROModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="PROModel.UserDetail" Role="UserDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserDetail">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkFlowActions_Workflow">
+          <End Type="PROModel.Workflow" Role="Workflow" Multiplicity="1" />
+          <End Type="PROModel.WorkFlowActions" Role="WorkFlowActions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Workflow">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkFlowActions">
+              <PropertyRef Name="WorkFlowId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkflowSteps_Workflow">
+          <End Type="PROModel.Workflow" Role="Workflow" Multiplicity="1" />
+          <End Type="PROModel.WorkflowSteps" Role="WorkflowSteps" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Workflow">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkflowSteps">
+              <PropertyRef Name="WorkflowId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkflowStepActions_WorkFlowActions">
+          <End Type="PROModel.WorkFlowActions" Role="WorkFlowActions" Multiplicity="1" />
+          <End Type="PROModel.WorkflowStepActions" Role="WorkflowStepActions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkFlowActions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkflowStepActions">
+              <PropertyRef Name="ActionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkflowStepActions_WorkflowSteps">
+          <End Type="PROModel.WorkflowSteps" Role="WorkflowSteps" Multiplicity="1" />
+          <End Type="PROModel.WorkflowStepActions" Role="WorkflowStepActions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkflowSteps">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WorkflowStepActions">
+              <PropertyRef Name="StepId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="DocumentTypeFormat">
+          <End Type="PROModel.DocumentFormat" Role="DocumentFormat" Multiplicity="*" />
+          <End Type="PROModel.DocumentType" Role="DocumentType" Multiplicity="*" />
+        </Association>
+        <Association Name="UsersInRoles">
+          <End Type="PROModel.Roles" Role="Roles" Multiplicity="*" />
+          <End Type="PROModel.Users" Role="Users" Multiplicity="*" />
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PROModelStoreContainer" CdmEntityContainer="PROEntities">
+          <EntitySetMapping Name="Alert">
+            <EntityTypeMapping TypeName="PROModel.Alert">
+              <MappingFragment StoreEntitySet="Alert">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Sms" ColumnName="Sms" />
+                <ScalarProperty Name="SubjectEmail" ColumnName="SubjectEmail" />
+                <ScalarProperty Name="SubjectSms" ColumnName="SubjectSms" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="WorkflowId" ColumnName="WorkflowId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AlertNotification">
+            <EntityTypeMapping TypeName="PROModel.AlertNotification">
+              <MappingFragment StoreEntitySet="AlertNotification">
+                <ScalarProperty Name="ModifedDate" ColumnName="ModifedDate" />
+                <ScalarProperty Name="ModifedBy" ColumnName="ModifedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="AlertTypeId" ColumnName="AlertTypeId" />
+                <ScalarProperty Name="SentDate" ColumnName="SentDate" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Receiver" ColumnName="Receiver" />
+                <ScalarProperty Name="Sender" ColumnName="Sender" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AlertType">
+            <EntityTypeMapping TypeName="PROModel.AlertType">
+              <MappingFragment StoreEntitySet="AlertType">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Applications">
+            <EntityTypeMapping TypeName="PROModel.Applications">
+              <MappingFragment StoreEntitySet="Applications">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="ApplicationName" ColumnName="ApplicationName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DataGenerator">
+            <EntityTypeMapping TypeName="PROModel.DataGenerator">
+              <MappingFragment StoreEntitySet="DataGenerator">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TableID" ColumnName="TableID" />
+                <ScalarProperty Name="TableName" ColumnName="TableName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentCategory">
+            <EntityTypeMapping TypeName="PROModel.DocumentCategory">
+              <MappingFragment StoreEntitySet="DocumentCategory">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentFormat">
+            <EntityTypeMapping TypeName="PROModel.DocumentFormat">
+              <MappingFragment StoreEntitySet="DocumentFormat">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentType">
+            <EntityTypeMapping TypeName="PROModel.DocumentType">
+              <MappingFragment StoreEntitySet="DocumentType">
+                <ScalarProperty Name="DocumentCategoryId" ColumnName="DocumentCategoryId" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Memberships">
+            <EntityTypeMapping TypeName="PROModel.Memberships">
+              <MappingFragment StoreEntitySet="Memberships">
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="FailedPasswordAnswerAttemptWindowsStart" ColumnName="FailedPasswordAnswerAttemptWindowsStart" />
+                <ScalarProperty Name="FailedPasswordAnswerAttemptCount" ColumnName="FailedPasswordAnswerAttemptCount" />
+                <ScalarProperty Name="FailedPasswordAttemptWindowStart" ColumnName="FailedPasswordAttemptWindowStart" />
+                <ScalarProperty Name="FailedPasswordAttemptCount" ColumnName="FailedPasswordAttemptCount" />
+                <ScalarProperty Name="LastLockoutDate" ColumnName="LastLockoutDate" />
+                <ScalarProperty Name="LastPasswordChangedDate" ColumnName="LastPasswordChangedDate" />
+                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="IsLockedOut" ColumnName="IsLockedOut" />
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="PasswordAnswer" ColumnName="PasswordAnswer" />
+                <ScalarProperty Name="PasswordQuestion" ColumnName="PasswordQuestion" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="PasswordFormat" ColumnName="PasswordFormat" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Profiles">
+            <EntityTypeMapping TypeName="PROModel.Profiles">
+              <MappingFragment StoreEntitySet="Profiles">
+                <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+                <ScalarProperty Name="PropertyValueBinary" ColumnName="PropertyValueBinary" />
+                <ScalarProperty Name="PropertyValueStrings" ColumnName="PropertyValueStrings" />
+                <ScalarProperty Name="PropertyNames" ColumnName="PropertyNames" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Resource">
+            <EntityTypeMapping TypeName="PROModel.Resource">
+              <MappingFragment StoreEntitySet="Resource">
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Order" ColumnName="Order" />
+                <ScalarProperty Name="Areas" ColumnName="Areas" />
+                <ScalarProperty Name="Controller" ColumnName="Controller" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResourcesInRole">
+            <EntityTypeMapping TypeName="PROModel.ResourcesInRole">
+              <MappingFragment StoreEntitySet="ResourcesInRole">
+                <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="PROModel.Roles">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Store">
+            <EntityTypeMapping TypeName="PROModel.Store">
+              <MappingFragment StoreEntitySet="Store">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Logo" ColumnName="Logo" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="ProcessInstaceId" ColumnName="ProcessInstaceId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserDetail">
+            <EntityTypeMapping TypeName="PROModel.UserDetail">
+              <MappingFragment StoreEntitySet="UserDetail">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+                <ScalarProperty Name="EmailAddres" ColumnName="EmailAddres" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="PROModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
+                <ScalarProperty Name="IsAnonymous" ColumnName="IsAnonymous" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Workflow">
+            <EntityTypeMapping TypeName="PROModel.Workflow">
+              <MappingFragment StoreEntitySet="Workflow">
+                <ScalarProperty Name="feedback" ColumnName="feedback" />
+                <ScalarProperty Name="guideline" ColumnName="guideline" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkFlowActions">
+            <EntityTypeMapping TypeName="PROModel.WorkFlowActions">
+              <MappingFragment StoreEntitySet="WorkFlowActions">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Direction" ColumnName="Direction" />
+                <ScalarProperty Name="IsMovable" ColumnName="IsMovable" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="WorkFlowId" ColumnName="WorkFlowId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkflowStepActions">
+            <EntityTypeMapping TypeName="PROModel.WorkflowStepActions">
+              <MappingFragment StoreEntitySet="WorkflowStepActions">
+                <ScalarProperty Name="PresetReason" ColumnName="PresetReason" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="AlertId" ColumnName="AlertId" />
+                <ScalarProperty Name="ActionId" ColumnName="ActionId" />
+                <ScalarProperty Name="StepId" ColumnName="StepId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkflowSteps">
+            <EntityTypeMapping TypeName="PROModel.WorkflowSteps">
+              <MappingFragment StoreEntitySet="WorkflowSteps">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="WorkflowId" ColumnName="WorkflowId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="DocumentTypeFormat" TypeName="PROModel.DocumentTypeFormat" StoreEntitySet="DocumentTypeFormat">
+            <EndProperty Name="DocumentType">
+              <ScalarProperty Name="Id" ColumnName="DocumentTypeId" />
+            </EndProperty>
+            <EndProperty Name="DocumentFormat">
+              <ScalarProperty Name="Id" ColumnName="DocumentTypeFormatId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="UsersInRoles" TypeName="PROModel.UsersInRoles" StoreEntitySet="UsersInRoles">
+            <EndProperty Name="Users">
+              <ScalarProperty Name="UserId" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="Roles">
+              <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Default" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>@ViewBag.Title | FORTRESS GENERAL ENTERPRISE</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="FORTRESS GENERAL ENTERPRISE">
+    <meta name="author" content="FORTRESS GENERAL ENTERPRISE">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/Content/Frontend/light/img/favicon.ico">
+    <!-- Font -->
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Arimo:300,400,700,400italic,700italic'>
+    <link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
+    <!-- Font Awesome Icons -->
+    @Styles.Render("~/Content/Frontend/light/css/font-awesome.min.css")
+    <!-- Bootstrap core CSS -->
+    @Styles.Render("~/Content/Frontend/light/css/bootstrap.min.css")
+    @Styles.Render("~/Content/Frontend/light/css/hover-dropdown-menu.css")
+    <!-- Icomoon Icons -->
+    @Styles.Render("~/Content/Frontend/light/css/icons.css")
+    <!-- Revolution Slider -->
+    @Styles.Render("~/Content/Frontend/light/css/revolution-slider.css")
+    @Styles.Render("~/Content/Frontend/light/rs-plugin/css/settings.css")
+    <!-- Animations -->
+    @Styles.Render("~/Content/Frontend/light/css/animate.min.css")
+    <!-- Owl Carousel Slider -->
+    @Styles.Render("~/Content/Frontend/light/css/owl/owl.carousel.css")
+    @Styles.Render("~/Content/Frontend/light/css/owl/owl.theme.css")
+    @Styles.Render("~/Content/Frontend/light/css/owl/owl.transitions.css")
+    <!-- PrettyPhoto Popup -->
+    @Styles.Render("~/Content/Frontend/light/css/prettyPhoto.css")
+    <!-- Custom Style -->
+    @Styles.Render("~/Content/Frontend/light/css/style.css")
+    @Styles.Render("~/Content/Frontend/light/css/responsive.css")
+    <!-- Color Scheme -->
+    @Styles.Render("~/Content/Frontend/light/css/color.css")
+    @RenderSection("featured", required: false)
+    <style>
+        .dropdown-menu > li > form > a {
+            display: block;
+            padding: 3px 20px;
+            clear: both;
+            font-weight: 400;
+            line-height: 1.42857143;
+            color: #333;
+            white-space: nowrap;
+        }
+
+        .has-submenu:after {
+            color: #1c9253;
+        }
+
+        .tparrows, .navbar-default .navbar-toggle .icon-bar {
+            background: #1c9253;
+        }
+
+        .mylivechat_collapsed {
+            background-color: rgb(0, 125, 83);
+        }
+    </style>
+</head>
+<body>
+    <div id="page">
+        <!-- Page Loader -->
+        <div id="pageloader">
+            <div class="loader-item fa fa-spin text-color"></div>
+        </div>
+        <!-- Top Bar -->
+        @Html.Partial("Partial/_TopBar")
+        <!-- Top Bar -->
+        <!-- Sticky Navbar -->
+        @Html.Partial("Partial/_MainMenu")
+
+        <section class="page-section animated fadeInUp visible" data-animation="fadeInUp">
+            <div class="container">
+                <div class="row">
+                    @if (TempData["message"] != null)
+                    {
+                        var alertType = (TempData["messageType"] != null) ? TempData["messageType"] : "alert-info";
+                        <div class="alert @alertType fade in">
+                            <button type="button" class="close" data-dismiss="alert">
+                                <i class="fa fa-times"></i>
+                            </button>
+                            @Html.Raw(TempData["message"])
+                        </div>
+                    }
+                    @RenderBody()
+                </div>
+            </div>
+        </section>
+
+        <div id="get-quote" class="bg-color get-a-quote black text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        Need Help? <a class="black" href="@Url.Action("Index", "Contact", new { Area = ""})">Contact Us </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- request -->
+        @Html.Partial("Partial/_Footer")
+    </div>
+    <!-- page -->
+    <!-- Scripts -->
+    @Scripts.Render("~/Content/Frontend/light/js/jquery.min.js")
+    @Scripts.Render("~/Content/Frontend/light/js/bootstrap.min.js")
+    <!-- Menu jQuery plugin -->
+    @Scripts.Render("~/Content/Frontend/light/js/hover-dropdown-menu.js")
+    <!-- Menu jQuery Bootstrap Addon -->
+    @Scripts.Render("~/Content/Frontend/light/js/jquery.hover-dropdown-menu-addon.js")
+    <!-- Scroll Top Menu -->
+    @Scripts.Render("~/Content/Frontend/light/js/jquery.easing.1.3.js")
+    <!-- Sticky Menu -->
+    @Scripts.Render("~/Content/Frontend/light/js/jquery.sticky.js")
+    <!-- Bootstrap Validation -->
+    @Scripts.Render("~/Content/Frontend/light/js/bootstrapValidator.min.js")
+    <!-- Revolution Slider -->
+    @Scripts.Render("~/Content/Frontend/light/rs-plugin/js/jquery.themepunch.tools.min.js")
+    @Scripts.Render("~/Content/Frontend/light/rs-plugin/js/jquery.themepunch.revolution.min.js")
+    @Scripts.Render("~/Content/Frontend/light/js/revolution-custom.js")
+    <!-- Portfolio Filter -->
+    @Scripts.Render("~/Content/Frontend/light/js/jquery.mixitup.min.js")
+    <!-- Animations -->
+    @Scripts.Render("~/Content/Frontend/light/js/jquery.appear.js")
+    @Scripts.Render("~/Content/Frontend/light/js/effect.js")
+    <!-- Owl Carousel Slider -->
+    @Scripts.Render("~/Content/Frontend/light/js/owl.carousel.min.js")
+    <!-- Pretty Photo Popup -->
+    @Scripts.Render("~/Content/Frontend/light/js/jquery.prettyPhoto.js")
+    <!-- Parallax BG -->
+    @Scripts.Render("~/Content/Frontend/light/js/jquery.parallax-1.1.3.js")
+    <!-- Fun Factor / Counter -->
+    @Scripts.Render("~/Content/Frontend/light/js/jquery.countTo.js")
+    <!-- Twitter Feed -->
+    @Scripts.Render("~/Content/Frontend/light/js/tweet/carousel.js")
+    @Scripts.Render("~/Content/Frontend/light/js/tweet/scripts.js")
+    @Scripts.Render("~/Content/Frontend/light/js/tweet/tweetie.min.js")
+    <!-- Background Video -->
+    @Scripts.Render("~/Content/Frontend/light/js/jquery.mb.YTPlayer.js")
+    <!-- Custom Js Code -->
+    @Scripts.Render("~/Content/Frontend/light/js/custom.js")
+
+
+</body>
+</html>

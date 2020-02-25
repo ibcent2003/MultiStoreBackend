@@ -1,0 +1,211 @@
+﻿@model Project.Areas.Setup.Models.WorkflowViewModel
+
+@{
+    ViewBag.Title = Model.workflow.Name + " Configure WorkFlow Steps";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.IsGreetings = "true";}
+
+@section Crumbs{
+    <div class="crumbs">
+
+        <ul class="breadcrumb" id="breadcrumbs">
+            <li> <i class="icon-home"></i> <a href="@Url.Action("Index", "Dashboard", new { area="Admin"})">Dashboard</a> </li>
+            <li class="current"> <a title="" href="javascript: return void(0)">Configure WorkFlow Steps</a> </li>
+        </ul>
+    </div>
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="widget box">
+            <div class="widget-header">
+                <h4>
+                    <i class="icon-reorder"></i>
+                   <a href="@Url.Action("Details", "WorkFlow", new { Id = Model.workflow.Id, @area="Setup" })" class="btn btn-xs btn-success">Back</a>  
+                </h4>       
+            </div>
+            <div class="widget-content">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr style="font-size: 12px;">
+                            <th>S/N</th>
+                            <th>Name</th>
+                            <th>Status</th>
+                            <th>Role Name</th>
+                            <th>Priorty</th>
+                            <th>Modified By</th>
+                            <th>Modified Date</th>
+                             
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.workflowStepList.Count != 0)
+                        {
+                            int i = 0;
+                            foreach (var item in Model.workflowStepList)
+                            {
+                                ++i;
+                                <tr style="font-size: 12px;">
+                                    <td>
+                                        @i
+                                    </td>
+                                    <td>@item.Name</td>
+                                    <td>
+                                        @item.Status
+                                    </td>
+                                    <td>@item.RoleName</td>
+                                    <td>@item.Priority</td>
+                                    <td>@item.ModifiedBy</td>
+                                    <td>@item.ModifiedDate</td>
+                                    
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8">No Records Found!...</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="widget box">
+            <div class="widget-header">
+                <h4>
+                     Workflow Steps   <i class="icon-reorder"></i>
+                   @*<a href="@Url.Action("Details", "WorkFlow", new { Id = Model.workflow.Id, @area="Setup" })" class="btn btn-xs btn-danger pull-right">Add Action</a>  *@
+                     <a data-toggle="modal" href="#myModal1" class="btn btn-xs btn-danger">Add New Action</a>
+                </h4> 
+                
+                  <div class="modal fade" id="myModal1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        @using (Html.BeginForm("ConfigureSteps", "WorkFlow", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal row-border" }))
+                        {
+                             @Html.AntiForgeryToken()
+                            @Html.HiddenFor(x=>x.workflow.Id)
+                            @Html.HiddenFor(x=>x.workflowsteps.Id)
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">Workflow Action Config</h4>
+                            </div>
+                        
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    @Html.Label("Action Name", new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-6">
+                                        @Html.DropDownListFor(model => model.workFlowStepActionform.ActionId, new SelectList(Model.ActionList, "Value", "Text"), "Select", new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.workFlowStepActionform.ActionId)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Alert Title", new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-6">
+                                       @Html.DropDownListFor(model => model.workFlowStepActionform.AlertId, new SelectList(Model.AlertList, "Value", "Text"), "Select", new { @class = "form-control" })
+                                         @Html.ValidationMessageFor(model => model.workFlowStepActionform.AlertId)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.Label("Display Name", new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-6">
+                                          @Html.TextBoxFor(m => m.workFlowStepActionform.DisplayName, new { @class = "form-control" })
+                                          @Html.ValidationMessageFor(model => model.workFlowStepActionform.DisplayName)
+                                    </div>
+                                </div>
+
+                                   <div class="form-group">
+                                    @Html.Label("Preset Reason", new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-6">
+                                          @Html.TextBoxFor(m => m.workFlowStepActionform.PresetReason, new { @class = "form-control" })
+                                                                    @Html.ValidationMessageFor(model => model.workFlowStepActionform.PresetReason)
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>                                
+                                <input type="submit" class="btn btn-primary" value="Save Changes" />
+                            </div>
+                         }
+                        </div>
+                    </div>
+                </div>      
+            </div>
+            <div class="widget-content">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr style="font-size: 12px;">
+                            <th>S/N</th>
+                            <th>Action Name</th>
+                            <th>Alert Title</th>
+                            <th>Display Name</th>
+                            <th>Preset Reason</th>
+                            <th>Action</th>
+                            
+                             
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.WorkflowStepActionslist.Count != 0)
+                        {
+                            int i = 0;
+                            foreach (var item in Model.WorkflowStepActionslist)
+                            {
+                                ++i;
+                                <tr style="font-size: 12px;">
+                                    <td>
+                                        @i
+                                    </td>
+                                    <td>@item.WorkFlowActions.Name</td>
+                                    <td>
+                                        @item.Alert.Title
+                                    </td>
+                                    <td>@item.DisplayName</td>
+                                    <td>@item.PresetReason</td>
+                                    <td>
+                                        <a href="@Url.Action("EditWorkflowAction", "WorkFlow", new { Id = item.Id, @area="Setup" })" class="btn btn-xs btn-warning">Edit</a>
+                                        <a href="@Url.Action("RemoveConfigureSteps", "WorkFlow", new { Id=item.Id, @area="Setup" })" class="btn btn-xs btn-danger" onclick = "return DeleteConfirm()">Delete</a>
+                                    </td>
+                                     
+                                    
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8">No Records Found!...</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    @Scripts.Render("~/Content/Backend/plugins/datatables/jquery.dataTables.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/datatables/tabletools/TableTools.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/datatables/colvis/ColVis.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/datatables/DT_bootstrap.js")
+    <script>
+    "use strict";
+
+    function DeleteConfirm() {
+        if (confirm("Are you sure want to remove this configuration?"))
+            return true;
+        else
+            return false;
+    }
+    </script>
+}

@@ -1,0 +1,180 @@
+﻿@model Project.Areas.Admin.Models.ResourceViewModel
+@using Project.HtmlHelpers;
+@{
+    ViewBag.Title = "Resources List";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.IsGreetings = "true";
+}
+
+
+@section Crumbs{
+    <div class="crumbs">
+        <ul class="breadcrumb" id="breadcrumbs">
+            <li> <i class="icon-home"></i> <a href="@Url.Action("Index", "Home", new { area = "Admin" })">Dashboard</a> </li>
+            <li class="current"> <a title="" href="javascript: return void(0)">Resources</a> </li>
+        </ul>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="widget-header">
+            <h4></h4>
+        </div>
+        <div class="widget-content">
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-md-12">
+                    @Html.ActionLink("Add New", "Create", null, new { @class = "btn btn-success" })
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="dataTables_header clearfix">
+                    <div class="col-md-6">
+                        @using (Html.BeginForm("Index", "Resource", FormMethod.Post))
+                        {
+                            <div id="DataTables_Table_0_length" class="dataTables_length">
+                                <label>
+
+                                    @Html.DropDownList("pgsize", new SelectList(Project.Models.PageSizeOption.Limit, "Value", "Label", Model.PageSize), new { onchange = "this.form.submit()", @class = "select2-offscreen", tabindex = "-1" })
+                                    <input type="hidden" name="page" value="1" />
+                                    @Html.Hidden("keywords", Model.CurrentKeywords)
+
+                                    records per page
+                                </label>
+                            </div>
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        @using (Html.BeginForm("Index", "Resource", FormMethod.Post))
+                        {
+
+                            <div class="dataTables_filter" id="DataTables_Table_0_filter">
+                                <label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon" onclick="this.form.submit()"><i class="icon-search"></i></span>
+
+
+                                        @Html.TextBox("keywords", null, new { @class = "form-control", placeholder = "Type a keyword(s) here to search..." })
+                                        <input type="hidden" name="page" value="1" />
+
+                                    </div>
+                                </label>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+
+            @if (Model.PagingInfo.TotalItems != 0)
+            {
+                using (Html.BeginForm("BulkAction", null, FormMethod.Post, new { name = "BulkAction", id = "BulkAction" }))
+                {
+                    <div class="dataTables_header clearfix">
+                        <div class="col-md-12" style="padding-right:0;">
+
+                            <div class="dataTables_filter" id="DataTables_Table_0_filter">
+                                <label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon" onclick="$('#BulkAction').submit()">Apply Action on Selected</span>
+                                        <select name="approvalaction" onchange="$('#BulkAction').submit()" class="form-control" style="width: 150px; line-height: 30px; padding: 5px;">
+                                            <option value="0">::Select an Option::</option>
+                                            <option value="1">Delete Selected</option>
+                                        </select>
+                                    </div>
+                                </label>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <table class="table table-striped table-bordered table-hover table-checkable table-condensed">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input onchange="$('.items').prop('checked' , this.checked)" type="checkbox" />
+                                </th>
+                                <th>
+                                    S/N
+                                </th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Order
+                                </th>
+                                <th>
+                                    ModifiedBy
+                                </th>
+                                <th>
+                                    ModifiedDate
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @{int i = Model.PagingInfo.FirstItem;
+                            }
+                            @foreach (var item in Model.Rows)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" class="items" name="items" value="@item.Id" />
+                                    </td>
+                                    <td>
+                                        @i
+                                        @{++i;}
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink(item.Name, "Edit", new { Id = item.Id })
+                                    </td>
+                                    <td>@item.Order</td>
+                                    <td>
+                                        @item.ModifiedBy
+                                    </td>
+                                    <td>
+                                        @item.ModifiedDate
+                                    </td>
+
+                                </tr>
+
+                                            }
+
+
+                        </tbody>
+                    </table>
+                                            }
+
+                                            if (Model.PagingInfo.TotalItems != 0)
+                                            {
+                                                <div class="row">
+                                                    <div class="dataTables_footer clearfix">
+                                                        <div class="col-md-6">
+                                                            <div class="dataTables_info" id="DataTables_Table_0_info">
+                                                                Showing @Model.PagingInfo.FirstItem to @Model.PagingInfo.LastItem of @Model.PagingInfo.TotalItems entries
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="dataTables_paginate paging_bootstrap">
+                                                                <ul class="pagination pagination-sm pull-right">
+                                                                    @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", "Resource", new { page = x, keywords = Model.CurrentKeywords, pgsize = Model.PageSize }))
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                <div class="well well-small">
+                                                    No Records Found!...
+                                                </div>
+                                            }
+
+        </div>
+    </div>
+</div>

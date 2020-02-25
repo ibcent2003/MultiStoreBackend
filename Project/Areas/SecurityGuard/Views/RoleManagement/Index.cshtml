@@ -1,0 +1,123 @@
+﻿@model Project.Areas.SecurityGuard.Models.RoleManagementViewModel
+
+@{
+    ViewBag.Title = "Roles Management";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Crumbs{
+    <div class="crumbs">
+
+        <ul class="breadcrumb" id="breadcrumbs">
+            <li> <i class="icon-home"></i> <a href="@Url.Action("Index", "Dashboard", new { area = "Admin" })">Dashboard</a> </li>
+            <li class="current"> <a title="" href="javascript: return void(0)">Roles Management</a> </li>
+        </ul>
+    </div>
+}
+
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="widget-header">
+            <h4></h4>
+        </div>
+        <div class="widget-content">
+            <div class="row" style="margin-bottom: 10px;">
+                    <div class="col-md-12">
+                         @Html.ActionLink("+ New Role ", "NewRole", null, new { @class = "btn btn-success" }) 
+                    </div>
+                
+            </div>  
+             
+             <table class="table table-striped table-bordered table-hover table-checkable datatable dataTable"> 
+                    <thead>
+                        <tr>
+                         
+                            <th>SN</th>
+                             <th>
+            Role Name
+        </th>
+         <th>
+            Description
+        </th>  
+                            <th style="text-align:right">
+                                Action
+                            </th>         
+                        </tr>
+                    </thead>
+                    <tbody>
+                       
+                           @if (Model.RoleList.Count != 0)
+                    {
+                        
+                        int i = 0;
+                        foreach (var item in Model.RoleList)
+                              {
+                                ++i;
+                            <tr>
+                                   <td>
+                                    @i
+                               
+                                   
+                                </td>
+                                <td>
+                                    @Html.ActionLink(item.RoleName, "EditRole", new { Id = item.RoleId })
+                                </td>
+                                <td>                                  
+                                @if (item.Description == null)
+                                {
+                                <span class="label label-danger">Not Available</span>
+                                }
+                                else
+                                {
+                                <span class="label label-success">@item.Description</span>                                                  
+                                }
+
+                                </td>   
+                                
+                                <td style="text-align:right">                          
+                                @Html.ActionLink("Remove","RemoveRole", new {Id=item.RoleId}, new { @class = "btn btn-xs btn-danger", onclick = " return DeleteConfirm()" })                                                                                                                                                     
+                                </td>                            
+                                                                                                                         
+                            </tr>
+    
+                              }
+                        
+
+                              }
+                  
+                      
+
+
+                    </tbody>
+                </table>   
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    @System.Web.Optimization.Scripts.Render("~/Content/Backend/plugins/datatables/jquery.dataTables.min.js")
+    @System.Web.Optimization.Scripts.Render("~/Content/Backend/plugins/datatables/tabletools/TableTools.min.js")
+@System.Web.Optimization.Scripts.Render("~/Content/Backend/plugins/datatables/colvis/ColVis.min.js")
+@System.Web.Optimization.Scripts.Render("~/Content/Backend/plugins/datatables/DT_bootstrap.js")
+<script>
+    "use strict";
+ 
+    </script>
+    }
+
+
+
+<script>
+    function DeleteConfirm() {
+        if (confirm("Are you sure want to remove this role?"))
+            return true;
+        else
+            return false;
+    }
+
+</script>

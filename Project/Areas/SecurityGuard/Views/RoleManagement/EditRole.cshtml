@@ -1,0 +1,54 @@
+﻿@model Project.Areas.SecurityGuard.Models.RoleManagementViewModel
+@{
+    ViewBag.Title = "Edit Role";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.IsGreetings = "true";
+    
+}
+
+@section Crumbs{
+     <div class="crumbs">
+            
+    <ul class="breadcrumb" id="breadcrumbs">
+          <li> <i class="icon-home"></i> <a href="@Url.Action("Index", "Dashboard", new { area="Admin"})">Dashboard</a> </li>      
+          <li class="current"> <a title="" href="javascript: return void(0)">Edit Role</a> </li>
+         </ul></div>
+    }
+<div class="row">
+    <div class="col-md-8">
+        <div class="widget box">
+            <div class="widget-header">
+                <h4>
+                    <i class="icon-reorder"></i>
+                    Role Entry
+                </h4>
+            </div>
+            <div class="widget-content">
+                @using (Html.BeginForm("EditRole", "RoleManagement", FormMethod.Post, new { @class = "form-horizontal row-border" }))
+                {                                
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.roleForm.RoleName, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(m => m.roleForm.RoleName, new { @class = "form-control" })
+                            @Html.HiddenFor(x=>x.roleForm.roleId)
+                            <span style="color:red">@Html.ValidationMessageFor(m => m.roleForm.RoleName)</span>
+                        </div>
+                     </div>
+                        <div class="form-group">
+                          @Html.LabelFor(m => m.roleForm.Description, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.TextAreaFor(m => m.roleForm.Description, new { @class = "form-control" })
+                           <span style="color:red"> @Html.ValidationMessageFor(m => m.roleForm.Description)</span>
+                        </div>
+</div>
+                  
+                    <div class="form-actions">
+                        <input type="submit" class="btn btn-warning pull-right" value="update" />
+                    </div>
+   
+                }
+                        
+            </div>
+        </div>
+    </div>
+    </div>

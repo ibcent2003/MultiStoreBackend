@@ -1,0 +1,226 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    @{var title = ViewBag.Title + " | PROJECT NAME";}
+    <title>@title</title>
+    <link href="~/Content/assets/img/favicon.png" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/Backend/bootstrap/css/bootstrap.min.css")
+    @Styles.Render("~/Content/Backend/assets/css/main.css")
+    @Styles.Render("~/Content/Backend/assets/css/plugins.css")
+    @Styles.Render("~/Content/Backend/assets/css/responsive.css")
+    @Styles.Render("~/Content/Backend/assets/css/icons.css")
+    @Styles.Render("~/Content/Backend/assets/css/fontawesome/font-awesome.min.css")
+    @RenderSection("Styles", required: false)
+
+    <style>
+        .help-block {
+            color: red;
+        }
+    </style>
+  
+</head>
+<body class="theme-dark">
+    <header class="header navbar navbar-fixed-top" role="banner">
+        <div class="container">
+            <ul class="nav navbar-nav">
+                <li class="nav-toggle"><a href="javascript:void(0);" title=""><i class="icon-reorder"></i></a></li>
+            </ul>
+            <a class="navbar-brand" href="#">
+              <img class="site_logo" alt="Ghana's Trading Hub"  src="~/Content/Frontend/light/img/backlogo.png" width="190" height="86">
+              
+
+            </a>
+            <a href="#" class="toggle-sidebar bs-tooltip" data-placement="bottom" data-original-title="Toggle navigation"><i class="icon-reorder"></i></a>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                   @* <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-envelope"></i><span id="notification-badge" class="badge">0</span> </a>*@
+                    <ul class="dropdown-menu extended notification"></ul>
+                </li>
+
+                <li><a href="#" class="dropdown-toggle row-bg-toggle"><i class="icon-resize-vertical"></i></a></li>
+
+                @if (Request.IsAuthenticated)
+                {
+                    <li class="dropdown user">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-male"></i><span class="username">
+                                @User.Identity.Name
+                            </span><i class="icon-caret-down small"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            @* <li><a href="#"><i class="icon-user"></i>My Profile</a></li>*@
+                            <li><a href="@Url.Action("ChangePassword", "Me", new { area = "Admin" })"><i class="icon-retweet"></i>Change Password</a></li>
+                            @* <li><a href="@Url.Action("Inbox", "Me", new { area = "Admin" })"><i class="icon-envelope"></i>Notification</a></li>*@
+                            @*<li><a href="#"><i class="icon-calendar"></i> My Tasks</a></li>*@
+                            <li class="divider"></li>
+                            @using (Html.BeginForm("LogOff", "SGAccount", new { Area = "" }, FormMethod.Post, new { id = "logoutForm" }))
+                            {
+                                @Html.AntiForgeryToken()}
+                            <li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="glyphicon glyphicon-off"></i>Log Out</a></li>
+
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </div>
+
+    </header>
+
+    <div id="container">
+        <div id="sidebar" class="sidebar-fixed">
+            <div id="sidebar-content">
+                @*<form class="sidebar-search">
+                    <div class="input-box">
+                        <button type="submit" class="submit"><i class="icon-search"></i></button>
+                        <span>
+                            <input type="text" placeholder="Search...">
+                        </span>
+                    </div>
+                </form>*@
+                <div class="sidebar-search-results">
+                    <i class="icon-remove close"></i>
+                    <div class="title">Documents </div>
+                    <ul class="notifications">
+                        <li>
+                            <a href="javascript:void(0);">
+                                <div class="col-left"><span class="label label-info"><i class="icon-file-text"></i></span></div>
+                                <div class="col-right with-margin"><span class="message"><strong>John Doe</strong> received $1.527,32</span> <span class="time">finances.xls</span> </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);">
+                                <div class="col-left"><span class="label label-success"><i class="icon-file-text"></i></span></div>
+                                <div class="col-right with-margin"><span class="message">My name is <strong>John Doe</strong> ...</span> <span class="time">briefing.docx</span> </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="title">Persons </div>
+                    <ul class="notifications">
+                        <li>
+                            <a href="javascript:void(0);">
+                                <div class="col-left"><span class="label label-danger"><i class="icon-female"></i></span></div>
+                                <div class="col-right with-margin"><span class="message">Jane <strong>Doe</strong></span> <span class="time">21 years old</span> </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <ul id="nav">
+                    @Html.Action("Nav", "Resource", new { area = "Admin" })
+                </ul>
+                @*<div class="sidebar-title"><span>Notifications</span></div>*@
+
+
+                <ul class="notifications demo-slide-in"></ul>                
+            </div>
+            <div id="divider" class="resizeable"></div>
+        </div>
+        <div id="content">
+            <div class="container">
+                <div class="crumbs">
+
+                    <ul id="breadcrumbs" class="breadcrumb">
+
+                        <!--<li><i class="icon-home"></i></li>-->
+                        @*Html.MvcSiteMap().SiteMapPath()*@
+                    </ul>
+
+                    @RenderSection("Crumbs", required: false)
+                    @*  @RenderSection("crumbsbuttons", required: false)*@
+                </div>
+                <div class="page-header">
+                    <div class="page-title">
+                        <h3>
+                            @if (!string.IsNullOrEmpty(ViewBag.Logo))
+                            {
+                                <img src="@ViewBag.Logo" style="max-height:48px; max-width:48px;" />
+                            }
+                            @ViewBag.Title
+                        </h3>
+                        @if (Request.IsAuthenticated)
+                        {
+                            string lblGreeting = "Welcome";
+                            if (DateTime.Now.Hour < 12)
+                            {
+                                lblGreeting = "Good Morning";
+                            }
+                            else if (DateTime.Now.Hour < 17)
+                            {
+                                lblGreeting = "Good Afternoon";
+                            }
+                            else
+                            {
+                                lblGreeting = "Good Evening";
+                            }
+                            if (ViewBag.IsGreetings == "true")
+                            {
+                                <span style="display: ;">@lblGreeting, @User.Identity.Name!</span>
+                            }
+                        }
+                    </div>
+                    @RenderSection("pagestats", required: false)
+
+                </div>
+
+                @RenderSection("statbox", required: false)
+                @if (TempData["message"] != null)
+                {
+                    var alertType = (TempData["messageType"] != null) ? TempData["messageType"] : "info";
+                    <div class="alert alert-@alertType fade in"><i class="icon-remove close" data-dismiss="alert"></i>@Html.Raw(TempData["message"])</div>
+                }
+                @RenderBody()
+
+
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/Content/Backend/assets/js/libs/jquery-1.10.2.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/jquery-ui/jquery-ui-1.10.2.custom.min.js")
+    @Scripts.Render("~/Content/Backend/bootstrap/js/bootstrap.min.js")
+    @Scripts.Render("~/Content/Backend/assets/js/libs/lodash.compat.min.js")<!--[if lt IE 9]><script src="assets/js/libs/html5shiv.js"></script><![endif]-->
+    @Scripts.Render("~/Content/Backend/plugins/touchpunch/jquery.ui.touch-punch.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/event.swipe/jquery.event.move.js")
+    @Scripts.Render("~/Content/Backend/plugins/event.swipe/jquery.event.swipe.js")
+    @Scripts.Render("~/Content/Backend/assets/js/libs/breakpoints.js")
+    @Scripts.Render("~/Content/Backend/plugins/respond/respond.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/cookie/jquery.cookie.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/slimscroll/jquery.slimscroll.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/slimscroll/jquery.slimscroll.horizontal.min.js")<!--[if lt IE 9]><script type="text/javascript" src="plugins/flot/excanvas.min.js"></script><![endif]-->
+    @Scripts.Render("~/Content/Backend/plugins/sparkline/jquery.sparkline.min.js")
+   
+
+    @Scripts.Render("~/Content/Backend/plugins/easy-pie-chart/jquery.easy-pie-chart.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/daterangepicker/moment.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/daterangepicker/daterangepicker.js")
+    @Scripts.Render("~/Content/Backend/plugins/blockui/jquery.blockUI.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/fullcalendar/fullcalendar.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/noty/jquery.noty.js")
+    @Scripts.Render("~/Content/Backend/plugins/noty/layouts/top.js")
+    @Scripts.Render("~/Content/Backend/plugins/noty/themes/default.js")
+    @Scripts.Render("~/Content/Backend/plugins/uniform/jquery.uniform.min.js")
+    @*@Scripts.Render("~/Content/plugins/select2/select2.min.js")*@
+    @Scripts.Render("~/Content/Backend/assets/js/app.js")
+    @Scripts.Render("~/Content/Backend/assets/js/plugins.js")
+    @Scripts.Render("~/Content/Backend/assets/js/plugins.form-components.js")
+    @Scripts.Render("~/Content/Backend/plugins/timeago/jquery.timeago.js")
+    @Scripts.Render("~/Content/Backend/plugins/bootbox/bootbox.js")
+    @Scripts.Render("~/Scripts/TimeoutMethods.js")
+    @Scripts.Render("~/Content/Backend/assets/js/demo/pages_calendar.js")
+
+    <script>
+        $(document).ready(function () {
+            App.init();
+            Plugins.init();
+            FormComponents.init();
+        });
+    </script>
+
+    @Scripts.Render("~/Content/Backend/assets/js/custom.js")
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

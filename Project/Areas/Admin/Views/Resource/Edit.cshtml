@@ -1,0 +1,119 @@
+﻿@model Project.Areas.Admin.Models.ResourceEditModel
+
+@{
+    ViewBag.Title = "Update Resources";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.IsGreetings = "true";
+}
+
+
+@section Scripts{
+    <script>
+        "use strict";
+        $(document).ready(function () {
+            $(".datepicker").datepicker({
+                defaultDate: +7,
+                showOtherMonths: true,
+                autoSize: true,
+                appendText: '<span class="help-block">(yyyy-mm-dd)</span>',
+                dateFormat: "yy-mm-dd"
+            });
+        });
+    </script>
+}
+@section Crumbs{
+    <div class="crumbs">
+
+        <ul class="breadcrumb" id="breadcrumbs">
+            <li> <i class="icon-home"></i> <a href="@Url.Action("Index", "Home", new { area = "Admin" })">Dashboard</a> </li>
+            <li class="current"> <a title="" href="javascript: return void(0)">Edit Resource</a> </li>
+        </ul>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="widget box">
+            <div class="widget-header">
+                <h4>
+                    <i class="icon-reorder"></i>
+                    Update Resources
+                </h4>
+            </div>
+            <div class="widget-content">
+                @using (Html.BeginForm("Edit", "Resource", FormMethod.Post, new { @class = "form-horizontal row-border" }))
+                {
+
+                    <div class="form-group">
+                        @Html.Label("Parent Resource", new { @class = "col-md-3 control-label" })
+                        <div class="col-md-5">
+                            @Html.DropDownListFor(m => m.Row.ParentId, Model.Resources, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Row.ParentId)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Row.Name, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-5">
+                            @Html.TextBoxFor(m => m.Row.Name, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Row.Name)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Row.Action, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-5">
+                            @Html.TextBoxFor(m => m.Row.Action, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Row.Action)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Row.Controller, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-5">
+                            @Html.TextBoxFor(m => m.Row.Controller, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Row.Controller)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Row.Areas, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-5">
+                            @Html.TextBoxFor(m => m.Row.Areas, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Row.Areas)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Row.Order, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-5">
+                            @Html.TextBoxFor(m => m.Row.Order, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Row.Order)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Row.Icon, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-5">
+                            @Html.TextBoxFor(m => m.Row.Icon, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Row.Icon)
+                        </div>
+                    </div>@*
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Row.EndDate, new { @class = "col-md-3 control-label" })
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(m => m.Row.EndDate, new { @class = "form-control datepicker" })
+                                @Html.ValidationMessageFor(m => m.Row.EndDate)
+                            </div>
+                        </div>*@
+
+                    <div class="form-actions">
+                        <input type="submit" class="btn btn-warning pull-right" value="Save" />
+                    </div>
+                    @Html.HiddenFor(m => m.Row.Id)
+                    @Html.HiddenFor(m => m.Row.ModifiedBy)
+                    @Html.HiddenFor(m => m.Row.ModifiedDate)
+
+                }
+            </div>
+        </div>
+    </div>
+</div>
