@@ -5,26 +5,33 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="c78484f9840e4d6598415a10416c8607" Name="Diagram1">
-        <EntityTypeShape EntityType="PROModel.Alert" Width="1.5" PointX="0.48410619445336339" PointY="0.82306955793084091" />
-        <EntityTypeShape EntityType="PROModel.AlertNotification" Width="1.5" PointX="4.5042991584652565" PointY="0.48614390217053888" />
-        <EntityTypeShape EntityType="PROModel.AlertType" Width="1.5" PointX="5.0409987666835079" PointY="14.907585329798788" />
-        <EntityTypeShape EntityType="PROModel.Applications" Width="1.5" PointX="9.9399088518414231" PointY="14.171861789269309" />
-        <EntityTypeShape EntityType="PROModel.DataGenerator" Width="1.5" PointX="5.5726846836380126" PointY="12.125141417665938" />
-        <EntityTypeShape EntityType="PROModel.DocumentCategory" Width="1.5" PointX="6.2915007575841155" PointY="23.428410377087264" />
-        <EntityTypeShape EntityType="PROModel.DocumentFormat" Width="1.5" PointX="10.023843961778955" PointY="27.525801358523687" />
-        <EntityTypeShape EntityType="PROModel.DocumentType" Width="1.5" PointX="9.4633315622170144" PointY="23.807087670921856" />
-        <EntityTypeShape EntityType="PROModel.Memberships" Width="1.5" PointX="5.3839449721313759" PointY="16.907057069664383" />
-        <EntityTypeShape EntityType="PROModel.Profiles" Width="1.5" PointX="9.9623025869775113" PointY="30.66590684590205" />
-        <EntityTypeShape EntityType="PROModel.Resource" Width="1.5" PointX="0.33085375667123768" PointY="23.699366014310794" />
-        <EntityTypeShape EntityType="PROModel.ResourcesInRole" Width="1.5" PointX="7.2064186088770716" PointY="26.780909908367743" />
-        <EntityTypeShape EntityType="PROModel.Roles" Width="1.5" PointX="1.3973418257186849" PointY="17.418221258287421" />
-        <EntityTypeShape EntityType="PROModel.Store" Width="1.5" PointX="5.5151336982451067" PointY="19.851344207232511" />
-        <EntityTypeShape EntityType="PROModel.UserDetail" Width="1.5" PointX="3.2452471010597641" PointY="18.156248145809514" />
-        <EntityTypeShape EntityType="PROModel.Users" Width="1.5" PointX="8.4642374815718444" PointY="8.13025235018239" />
-        <EntityTypeShape EntityType="PROModel.Workflow" Width="1.5" PointX="9.7856464953094928" PointY="6.24068364791604" />
-        <EntityTypeShape EntityType="PROModel.WorkFlowActions" Width="1.5" PointX="8.5285041707234939" PointY="31.467064723124292" />
-        <EntityTypeShape EntityType="PROModel.WorkflowStepActions" Width="1.5" PointX="10.376268138352907" PointY="12.666219314870526" />
-        <EntityTypeShape EntityType="PROModel.WorkflowSteps" Width="1.5" PointX="4.1912216191139171" PointY="18.064222731657431" />
+        <EntityTypeShape EntityType="PROModel.AddressBook" Width="1.5" PointX="5.25" PointY="16" />
+        <EntityTypeShape EntityType="PROModel.AddressType" Width="1.5" PointX="3" PointY="20.625" />
+        <EntityTypeShape EntityType="PROModel.Alert" Width="1.5" PointX="12" PointY="8.5" />
+        <EntityTypeShape EntityType="PROModel.AlertNotification" Width="1.5" PointX="17" PointY="1" />
+        <EntityTypeShape EntityType="PROModel.AlertType" Width="1.5" PointX="14.75" PointY="1.75" />
+        <EntityTypeShape EntityType="PROModel.Applications" Width="1.5" PointX="0.75" PointY="6" />
+        <EntityTypeShape EntityType="PROModel.DataGenerator" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="PROModel.DocumentCategory" Width="1.5" PointX="9.75" PointY="13.375" />
+        <EntityTypeShape EntityType="PROModel.DocumentFormat" Width="1.5" PointX="9.75" PointY="9.25" />
+        <EntityTypeShape EntityType="PROModel.DocumentInfo" Width="1.5" PointX="14.25" PointY="13" />
+        <EntityTypeShape EntityType="PROModel.DocumentType" Width="1.5" PointX="12" PointY="13.125" />
+        <EntityTypeShape EntityType="PROModel.LGA" Width="1.5" PointX="3" PointY="16.5" />
+        <EntityTypeShape EntityType="PROModel.Memberships" Width="1.5" PointX="3" PointY="4.625" />
+        <EntityTypeShape EntityType="PROModel.Profiles" Width="1.5" PointX="7.5" PointY="10.75" />
+        <EntityTypeShape EntityType="PROModel.Resource" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="PROModel.ResourcesInRole" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="PROModel.Roles" Width="1.5" PointX="3" PointY="11.875" />
+        <EntityTypeShape EntityType="PROModel.State" Width="1.5" PointX="0.75" PointY="16.625" />
+        <EntityTypeShape EntityType="PROModel.Store" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="PROModel.UserDetail" Width="1.5" PointX="7.5" PointY="7.25" />
+        <EntityTypeShape EntityType="PROModel.Users" Width="1.5" PointX="5.25" PointY="8.625" />
+        <EntityTypeShape EntityType="PROModel.Workflow" Width="1.5" PointX="9.75" PointY="5" />
+        <EntityTypeShape EntityType="PROModel.WorkFlowActions" Width="1.5" PointX="12" PointY="5" />
+        <EntityTypeShape EntityType="PROModel.WorkflowStepActions" Width="1.5" PointX="14.25" PointY="5.25" />
+        <EntityTypeShape EntityType="PROModel.WorkflowSteps" Width="1.5" PointX="12" PointY="1.375" />
+        <AssociationConnector Association="PROModel.FK_AddressBook_AddressType" />
+        <AssociationConnector Association="PROModel.FK_AddressBook_LGA" />
         <AssociationConnector Association="PROModel.FK_Alert_WorkFlow" />
         <AssociationConnector Association="PROModel.FK_WorkflowStepActions_Alert" />
         <AssociationConnector Association="PROModel.FK_AlertNotification_AlertType" />
@@ -32,6 +39,8 @@
         <AssociationConnector Association="PROModel.RoleApplication" />
         <AssociationConnector Association="PROModel.UserApplication" />
         <AssociationConnector Association="PROModel.FK_DocumentType_DocumentCategory" />
+        <AssociationConnector Association="PROModel.FK_DocumentInfo_DocumentType" />
+        <AssociationConnector Association="PROModel.FK_LGA_State" />
         <AssociationConnector Association="PROModel.MembershipUser" />
         <AssociationConnector Association="PROModel.UserProfile" />
         <AssociationConnector Association="PROModel.FK_UserDetail_Users" />

@@ -81,49 +81,46 @@ namespace Project.Areas.Setup.Controllers
 
                     CodeGenerator CodePassport = new CodeGenerator();
                     string EncKey1 = util.MD5Hash(DateTime.Now.Ticks.ToString());
-                    List<DocumentFormat> Passporttypes = db.DocumentType.FirstOrDefault(x => x.Id == Properties.Settings.Default.PassportPhoto).DocumentFormat.ToList();
+                    List<DocumentFormat> Passporttypes = db.DocumentType.FirstOrDefault(x => x.Id == 1).DocumentFormat.ToList();
 
                     List<string> supportedPassport = new List<string>();
                     foreach (var item in Passporttypes)
                     {
                         supportedPassport.Add(item.Extension);
                     }
-                    var filePassport = System.IO.Path.GetExtension(model.directorForm.Passport.FileName);
+                    var filePassport = System.IO.Path.GetExtension(model.storeform.Logo.FileName);
                     if (!supportedPassport.Contains(filePassport))
                     {
                         TempData["messageType"] = "alert-danger";
                         TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPassport) + " are supported for passport photograph";
-                        model.AllPersonel = (from p in db.PersonelInfoView where p.CompanyRegId == companyReg.Id && p.IsDirector == true select p).ToList();
+                       
                         string pathurl = "/../Content/CompanyDocuments/";
                         string downloadURL = "/../Content/CompanyDocuments/";
-                        model.DownloadPath = downloadURL;
-                        model.DocumentUploadPath = pathurl;
-                        model.newDocumentPath = Properties.Settings.Default.NewDocumentPath;
+                       // model.DownloadPath = downloadURL;
+                       // model.DocumentUploadPath = pathurl;
+                      //  model.newDocumentPath = Properties.Settings.Default.NewDocumentPath;
                         return View(model);
 
                     }
-                    else if (model.directorForm.Passport.ContentLength > max_upload)
+                    else if (model.storeform.Logo.ContentLength > max_upload)
                     {
 
                         TempData["messageType"] = "alert-danger";
                         TempData["message"] = "The passport photograph uploaded is larger than the 5MB upload limit";
-                        model.AllPersonel = (from p in db.PersonelInfoView where p.CompanyRegId == companyReg.Id && p.IsDirector == true select p).ToList();
+                        
                         string pathurl = "/../Content/CompanyDocuments/";
                         string downloadURL = "/../Content/CompanyDocuments/";
-                        model.DownloadPath = downloadURL;
-                        model.DocumentUploadPath = pathurl;
-                        model.newDocumentPath = Properties.Settings.Default.NewDocumentPath;
+                       // model.DownloadPath = downloadURL;
+                       // model.DocumentUploadPath = pathurl;
+                       // model.newDocumentPath = Properties.Settings.Default.NewDocumentPath;
                         return View(model);
                     }
 
                     //store passport
                     int pp = 0;
                     string pName;
-                    pName = EncKey1 + pp.ToString() + System.IO.Path.GetExtension(model.directorForm.Passport.FileName);
-                    model.directorForm.Passport.SaveAs(url + pName);
-                    // model.directorForm.Passport.SaveAs(Passportpath + pName);
-                    //uploadedPassport.Add(new GNSW.DAL.DocumentInfo { DocumentTypeId = Properties.Settings.Default.PassportPhoto, Name = pName, Path = Passportpath, Size = model.directorForm.Passport.ContentLength.ToString(), Extension = System.IO.Path.GetExtension(model.directorForm.Passport.FileName), ModifiedDate = DateTime.Now, ModifiedBy = User.Identity.Name, IssuedDate = DateTime.Now });
-
+                    pName = EncKey1 + pp.ToString() + System.IO.Path.GetExtension(model.storeform.Logo.FileName);
+                    model.storeform.Logo.SaveAs(url + pName);                  
 
                     #endregion
 
