@@ -120,9 +120,23 @@ namespace Project.Areas.Setup.Controllers
                     int pp = 0;
                     string pName;
                     pName = EncKey1 + pp.ToString() + System.IO.Path.GetExtension(model.storeform.Logo.FileName);
-                    model.storeform.Logo.SaveAs(url + pName);                  
+                    model.storeform.Logo.SaveAs(url + pName);
 
                     #endregion
+
+                    Store addnew = new Store()
+                    {
+                        Name = model.storeform.Name,
+                        Logo = pName,
+                        ModifiedBy = User.Identity.Name,
+                        ModifiedDate = DateTime.Now,
+                        IsDeleted = false
+                        
+                    };
+                    db.Store.AddObject(addnew);
+                    db.SaveChanges();
+                    TempData["message"] = "The Store "+model.storeform.Name+" has been added successfully.";
+                    return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
 
                 }
                 return View(model);
