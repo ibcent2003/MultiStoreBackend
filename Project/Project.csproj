@@ -1642,6 +1642,7 @@
     <Content Include="Areas\Setup\Views\AlertManagement\Create.cshtml" />
     <Content Include="Areas\Setup\Views\AlertManagement\Edit.cshtml" />
     <Content Include="Areas\Setup\Views\WorkFlow\ConfigureSteps.cshtml" />
+    <Content Include="Connected Services\Application Insights\ConnectedService.json" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="MvcInstaller\ajax-loader.gif" />
     <Content Include="MvcInstaller\jquery-1.6.1.min.js" />
@@ -1789,6 +1790,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
