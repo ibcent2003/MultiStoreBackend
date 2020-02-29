@@ -66,9 +66,8 @@
                             <td>
                                 @item.Name                               
                             </td>
-                             <td>
-                                @item.Logo
-                               @*  <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.newDocumentPath) + item.Logo })" height="100" width="200" />*@
+                             <td>                               
+                                 <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + item.Logo })" height="86" width="190" />
                             </td>
                                                         
                             <td>

@@ -92,27 +92,16 @@ namespace Project.Areas.Setup.Controllers
                     if (!supportedPassport.Contains(filePassport))
                     {
                         TempData["messageType"] = "alert-danger";
-                        TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPassport) + " are supported for passport photograph";
-                       
-                        string pathurl = "/../Content/CompanyDocuments/";
-                        string downloadURL = "/../Content/CompanyDocuments/";
-                       // model.DownloadPath = downloadURL;
-                       // model.DocumentUploadPath = pathurl;
-                      //  model.newDocumentPath = Properties.Settings.Default.NewDocumentPath;
+                        TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPassport) + " are supported for passport photograph";                                              
+                        model.documentPath = Properties.Settings.Default.DocumentPath;
                         return View(model);
 
                     }
                     else if (model.storeform.Logo.ContentLength > max_upload)
                     {
-
                         TempData["messageType"] = "alert-danger";
                         TempData["message"] = "The passport photograph uploaded is larger than the 5MB upload limit";
-                        
-                        string pathurl = "/../Content/CompanyDocuments/";
-                        string downloadURL = "/../Content/CompanyDocuments/";
-                       // model.DownloadPath = downloadURL;
-                       // model.DocumentUploadPath = pathurl;
-                       // model.newDocumentPath = Properties.Settings.Default.NewDocumentPath;
+                        model.documentPath = Properties.Settings.Default.DocumentPath;
                         return View(model);
                     }
 
@@ -123,15 +112,16 @@ namespace Project.Areas.Setup.Controllers
                     model.storeform.Logo.SaveAs(url + pName);
 
                     #endregion
-
+                   
                     Store addnew = new Store()
                     {
                         Name = model.storeform.Name,
                         Logo = pName,
                         ModifiedBy = User.Identity.Name,
                         ModifiedDate = DateTime.Now,
-                        IsDeleted = false
-                        
+                        IsDeleted = false,
+                        ProcessInstaceId = Guid.NewGuid(),
+                        URL = model.storeform.Name.TrimStart().TrimEnd()
                     };
                     db.Store.AddObject(addnew);
                     db.SaveChanges();
