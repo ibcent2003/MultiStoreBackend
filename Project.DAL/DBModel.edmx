@@ -236,6 +236,14 @@
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="StoreUser">
+          <Key>
+            <PropertyRef Name="StoreId" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="StoreId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
         <EntityType Name="UserDetail">
           <Key>
             <PropertyRef Name="Id" />
@@ -424,6 +432,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StoreUser_Store">
+          <End Role="Store" Type="Self.Store" Multiplicity="1" />
+          <End Role="StoreUser" Type="Self.StoreUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreUser">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreUser_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="StoreUser" Type="Self.StoreUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="StoreUser">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserDetail_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="*" />
@@ -601,6 +633,7 @@
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Store" EntityType="Self.Store" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StoreUser" EntityType="Self.StoreUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserDetail" EntityType="Self.UserDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UsersInRoles" EntityType="Self.UsersInRoles" Schema="dbo" store:Type="Tables" />
@@ -643,6 +676,14 @@
           <AssociationSet Name="FK_LGA_State" Association="Self.FK_LGA_State">
             <End Role="State" EntitySet="State" />
             <End Role="LGA" EntitySet="LGA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreUser_Store" Association="Self.FK_StoreUser_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="StoreUser" EntitySet="StoreUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreUser_Users" Association="Self.FK_StoreUser_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="StoreUser" EntitySet="StoreUser" />
           </AssociationSet>
           <AssociationSet Name="FK_UserDetail_Users" Association="Self.FK_UserDetail_Users">
             <End Role="Users" EntitySet="Users" />
@@ -802,6 +843,10 @@
           <AssociationSet Name="DocumentTypeFormat" Association="PROModel.DocumentTypeFormat">
             <End Role="DocumentFormat" EntitySet="DocumentFormat" />
             <End Role="DocumentType" EntitySet="DocumentType" />
+          </AssociationSet>
+          <AssociationSet Name="StoreUser" Association="PROModel.StoreUser">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="Users" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="UsersInRoles" Association="PROModel.UsersInRoles">
             <End Role="Roles" EntitySet="Roles" />
@@ -1054,6 +1099,7 @@
           <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="PROModel.StoreUser" FromRole="Store" ToRole="Users" />
         </EntityType>
         <EntityType Name="UserDetail">
           <Key>
@@ -1082,6 +1128,7 @@
           <NavigationProperty Name="Memberships" Relationship="PROModel.MembershipUser" FromRole="Users" ToRole="Memberships" />
           <NavigationProperty Name="Profiles" Relationship="PROModel.UserProfile" FromRole="Users" ToRole="Profiles" />
           <NavigationProperty Name="UserDetail" Relationship="PROModel.FK_UserDetail_Users" FromRole="Users" ToRole="UserDetail" />
+          <NavigationProperty Name="Store" Relationship="PROModel.StoreUser" FromRole="Users" ToRole="Store" />
           <NavigationProperty Name="Roles" Relationship="PROModel.UsersInRoles" FromRole="Users" ToRole="Roles" />
         </EntityType>
         <EntityType Name="Workflow">
@@ -1362,6 +1409,10 @@
         <Association Name="DocumentTypeFormat">
           <End Type="PROModel.DocumentFormat" Role="DocumentFormat" Multiplicity="*" />
           <End Type="PROModel.DocumentType" Role="DocumentType" Multiplicity="*" />
+        </Association>
+        <Association Name="StoreUser">
+          <End Type="PROModel.Store" Role="Store" Multiplicity="*" />
+          <End Type="PROModel.Users" Role="Users" Multiplicity="*" />
         </Association>
         <Association Name="UsersInRoles">
           <End Type="PROModel.Roles" Role="Roles" Multiplicity="*" />
@@ -1698,6 +1749,14 @@
             </EndProperty>
             <EndProperty Name="DocumentFormat">
               <ScalarProperty Name="Id" ColumnName="DocumentTypeFormatId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="StoreUser" TypeName="PROModel.StoreUser" StoreEntitySet="StoreUser">
+            <EndProperty Name="Users">
+              <ScalarProperty Name="UserId" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="Store">
+              <ScalarProperty Name="Id" ColumnName="StoreId" />
             </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="UsersInRoles" TypeName="PROModel.UsersInRoles" StoreEntitySet="UsersInRoles">

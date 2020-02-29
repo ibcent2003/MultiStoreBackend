@@ -1,5 +1,6 @@
-﻿@{
-    ViewBag.Title = "Dashboard";
+﻿@model Project.Areas.Admin.Models.DashboardViewModel
+@{
+    ViewBag.Title = "Dashboard for " + Model.store.Name;
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewBag.IsGreetings = "true";
 }
@@ -8,7 +9,72 @@
 
         <ul class="breadcrumb" id="breadcrumbs">
             <li> <i class="icon-home"></i> <a href="@Url.Action("Index", "Dashboard", new { area="Admin"})">Dashboard</a> </li>
-           
+            <li class="current"> <a title="" href="javascript: return void(0)">@Model.store.Name Dashboard</a> </li>
+
         </ul>
     </div>
 }
+<div class="widget-header">
+    <a href="@Url.Action("Edit", "Organisations", new { area="Admin", Id=Model.store.ProcessInstaceId})" class="btn btn-warning btn-xs">Edit Store</a> <a href="@Url.Action("Index", "Organisations", new { area = "Admin" })" class="btn btn-inverse btn-xs">View Store as User</a>
+</div>
+<br />
+
+
+
+<div class="row row-bg">
+    <div class="col-sm-6 col-md-3 hidden-xs">
+        <div class="statbox widget box box-shadow">
+            <div class="widget-content">
+                <div class="visual cyan"><i class="icon-file-text"></i></div>
+                <div class="title">Roles Management</div>
+                <div class="value">5</div>
+                <a class="more" href="@Url.Action("GrantStoreRole", "Membership", new { area="SecurityGuard", StoreId=Model.store.Id})">Manage <i class="pull-right icon-angle-right"></i></a>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-md-3 hidden-xs">
+        <div class="statbox widget box box-shadow">
+            <div class="widget-content">
+                <div class="visual cyan"><i class="icon-file-text"></i></div>
+                <div class="title">Accounts Management</div>
+                <div class="value">4</div>
+                <a class="more" href="@Url.Action("UserAccountList", "Organisation", new { area="Admin", Id=Model.store.Id})">Manage <i class="pull-right icon-angle-right"></i></a>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="col-sm-6 col-md-3 hidden-xs">
+        <div class="statbox widget box box-shadow">
+            <div class="widget-content">
+                <div class="visual yellow"><i class="icon-building"></i></div>
+                <div class="title">Contact Person</div>
+                <div class="value">4</div>
+                <a class="more" href="@Url.Action("ContactInfoList", "Organisations", new { area= "Admin", Id=Model.store.Id })">View More <i class="pull-right icon-angle-right"></i></a>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-3 hidden-xs">
+        <div class="statbox widget box box-shadow">
+            <div class="widget-content">
+                <div class="visual red"><i class="icon-building"></i></div>
+                <div class="title">
+                    Organisation Address
+                </div>
+                <div class="value">4</div>
+                <a class="more" href="@Url.Action("AddressList", "Organisations", new { area="Admin", Id=Model.store.Id})">View More <i class="pull-right icon-angle-right"></i></a>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+@Html.HiddenFor(x => x.store.Id)

@@ -192,6 +192,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\ResourceController.cs" />
+    <Compile Include="Areas\Admin\Models\DashboardViewModel.cs" />
     <Compile Include="Areas\Admin\Models\GrantResourceToRoleViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ResourceEditModel.cs" />
     <Compile Include="Areas\Admin\Models\ResourceViewModel.cs" />

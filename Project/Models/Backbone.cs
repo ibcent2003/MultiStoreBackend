@@ -17,6 +17,13 @@ namespace Project.Models
             return store;
         }
 
+        public static Store GetStore(PROEntities db, Guid Id)
+        {
+            var store = db.Store.Where(x => x.ProcessInstaceId == Id).FirstOrDefault();
+            return store;
+
+        }
+
 
         #region Send Notification to User
 

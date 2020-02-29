@@ -67,7 +67,7 @@
                                 @item.Name                               
                             </td>
                              <td>                               
-                                 <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + item.Logo })" height="86" width="190" />
+                                 <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + item.Logo })" height="60" width="190" />
                             </td>
                                                         
                             <td>
@@ -90,21 +90,16 @@
                                 
                             </td>
 
-                            <td>
+                              <td>
 
-                                   <div class="dropdown">
-                                    <span class="btn dropdown-toggle btn-success" type="button" id="dropdownMenu1" data-toggle="dropdown">Action List <i class="icon-angle-down"></i></span>
-                                    <ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="dropdownMenu1">
-                                        @*<li role="presentation">@Html.ActionLink("Edit Member", "EditMember", new { Id =item.Id , OrgId=item.OrganisationId }, new { role = "menuitem", tabindex = "-1" })</li>                                                                                                                                                   
-                                        <li role="presentation">@Html.ActionLink("View Information", "CompanyInformation", new { Id = Model.MemberId, OrgId=item.OrganisationId , TIN=item.TIN }, new { role = "menuitem", tabindex = "-1" })</li>                                        
-                                        @if (Roles.GetRolesForUser(User.Identity.Name).Contains("ADMINISTRATOR") || Roles.GetRolesForUser(User.Identity.Name).Contains("CHA ADMIN"))
-                                            {
-                                         <li role="presentation">@Html.ActionLink("Delete Information", "DeleteMember", new { MemberId = item.Id, Id=item.OrganisationId}, new { role = "menuitem", tabindex = "-1", onclick = "return DeleteConfirm()" })</li>                                        
-                                            }*@
 
-                                    </ul>
-                                </div> 
-                            </td>
+
+      
+           
+        
+           
+                                  <a class="btn btn-xs btn-success" href="@Url.Action("Index", "Dashboard", new { area="Admin", Id = item.ProcessInstaceId})">View Dashboard</a>
+                              </td>
                         </tr>
     
                         }
