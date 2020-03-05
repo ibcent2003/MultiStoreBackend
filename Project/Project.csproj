@@ -1406,6 +1406,12 @@
     <Content Include="Areas\Setup\Views\AlertManagement\Edit.cshtml" />
     <Content Include="Areas\Setup\Views\WorkFlow\ConfigureSteps.cshtml" />
     <Content Include="Connected Services\Application Insights\ConnectedService.json" />
+    <Content Include="Areas\Admin\Views\Dashboard\StoreDashboard.cshtml" />
+    <Content Include="Areas\Setup\Views\Store\EditStore.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\StoreRoles.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\CreateStoreuser.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\StoreUserList.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\GrantStoreUserRole.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="MvcInstaller\ajax-loader.gif" />
     <Content Include="MvcInstaller\jquery-1.6.1.min.js" />

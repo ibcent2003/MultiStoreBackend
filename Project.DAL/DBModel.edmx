@@ -75,6 +75,18 @@
           <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="256" />
         </EntityType>
+        <EntityType Name="ContactInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MobileNo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
         <EntityType Name="DataGenerator">
           <Key>
             <PropertyRef Name="ID" />
@@ -235,6 +247,30 @@
           <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StoreAddressBook">
+          <Key>
+            <PropertyRef Name="StoreId" />
+            <PropertyRef Name="AddressBookId" />
+          </Key>
+          <Property Name="StoreId" Type="int" Nullable="false" />
+          <Property Name="AddressBookId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StoreContactInfo">
+          <Key>
+            <PropertyRef Name="StoreId" />
+            <PropertyRef Name="ContactInfoId" />
+          </Key>
+          <Property Name="StoreId" Type="int" Nullable="false" />
+          <Property Name="ContactInfoId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StoreRole">
+          <Key>
+            <PropertyRef Name="StoreId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="StoreId" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="StoreUser">
           <Key>
@@ -432,6 +468,78 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StoreAddressBook_AddressBook">
+          <End Role="AddressBook" Type="Self.AddressBook" Multiplicity="1" />
+          <End Role="StoreAddressBook" Type="Self.StoreAddressBook" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AddressBook">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreAddressBook">
+              <PropertyRef Name="AddressBookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreAddressBook_Store">
+          <End Role="Store" Type="Self.Store" Multiplicity="1" />
+          <End Role="StoreAddressBook" Type="Self.StoreAddressBook" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreAddressBook">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreContactInfo_ContactInfo">
+          <End Role="ContactInfo" Type="Self.ContactInfo" Multiplicity="1" />
+          <End Role="StoreContactInfo" Type="Self.StoreContactInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactInfo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreContactInfo">
+              <PropertyRef Name="ContactInfoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreContactInfo_Store">
+          <End Role="Store" Type="Self.Store" Multiplicity="1" />
+          <End Role="StoreContactInfo" Type="Self.StoreContactInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreContactInfo">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreRole_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="StoreRole" Type="Self.StoreRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="StoreRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreRole_Store">
+          <End Role="Store" Type="Self.Store" Multiplicity="1" />
+          <End Role="StoreRole" Type="Self.StoreRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreRole">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_StoreUser_Store">
           <End Role="Store" Type="Self.Store" Multiplicity="1" />
           <End Role="StoreUser" Type="Self.StoreUser" Multiplicity="*" />
@@ -619,6 +727,7 @@
           <EntitySet Name="AlertNotification" EntityType="Self.AlertNotification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AlertType" EntityType="Self.AlertType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Applications" EntityType="Self.Applications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContactInfo" EntityType="Self.ContactInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DataGenerator" EntityType="Self.DataGenerator" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentCategory" EntityType="Self.DocumentCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentFormat" EntityType="Self.DocumentFormat" Schema="dbo" store:Type="Tables" />
@@ -633,6 +742,9 @@
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Store" EntityType="Self.Store" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StoreAddressBook" EntityType="Self.StoreAddressBook" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StoreContactInfo" EntityType="Self.StoreContactInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StoreRole" EntityType="Self.StoreRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreUser" EntityType="Self.StoreUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserDetail" EntityType="Self.UserDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
@@ -676,6 +788,30 @@
           <AssociationSet Name="FK_LGA_State" Association="Self.FK_LGA_State">
             <End Role="State" EntitySet="State" />
             <End Role="LGA" EntitySet="LGA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreAddressBook_AddressBook" Association="Self.FK_StoreAddressBook_AddressBook">
+            <End Role="AddressBook" EntitySet="AddressBook" />
+            <End Role="StoreAddressBook" EntitySet="StoreAddressBook" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreAddressBook_Store" Association="Self.FK_StoreAddressBook_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="StoreAddressBook" EntitySet="StoreAddressBook" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreContactInfo_ContactInfo" Association="Self.FK_StoreContactInfo_ContactInfo">
+            <End Role="ContactInfo" EntitySet="ContactInfo" />
+            <End Role="StoreContactInfo" EntitySet="StoreContactInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreContactInfo_Store" Association="Self.FK_StoreContactInfo_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="StoreContactInfo" EntitySet="StoreContactInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreRole_Roles" Association="Self.FK_StoreRole_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="StoreRole" EntitySet="StoreRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreRole_Store" Association="Self.FK_StoreRole_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="StoreRole" EntitySet="StoreRole" />
           </AssociationSet>
           <AssociationSet Name="FK_StoreUser_Store" Association="Self.FK_StoreUser_Store">
             <End Role="Store" EntitySet="Store" />
@@ -749,6 +885,7 @@
           <EntitySet Name="AlertNotification" EntityType="PROModel.AlertNotification" />
           <EntitySet Name="AlertType" EntityType="PROModel.AlertType" />
           <EntitySet Name="Applications" EntityType="PROModel.Applications" />
+          <EntitySet Name="ContactInfo" EntityType="PROModel.ContactInfo" />
           <EntitySet Name="DataGenerator" EntityType="PROModel.DataGenerator" />
           <EntitySet Name="DocumentCategory" EntityType="PROModel.DocumentCategory" />
           <EntitySet Name="DocumentFormat" EntityType="PROModel.DocumentFormat" />
@@ -844,6 +981,18 @@
             <End Role="DocumentFormat" EntitySet="DocumentFormat" />
             <End Role="DocumentType" EntitySet="DocumentType" />
           </AssociationSet>
+          <AssociationSet Name="StoreAddressBook" Association="PROModel.StoreAddressBook">
+            <End Role="AddressBook" EntitySet="AddressBook" />
+            <End Role="Store" EntitySet="Store" />
+          </AssociationSet>
+          <AssociationSet Name="StoreContactInfo" Association="PROModel.StoreContactInfo">
+            <End Role="ContactInfo" EntitySet="ContactInfo" />
+            <End Role="Store" EntitySet="Store" />
+          </AssociationSet>
+          <AssociationSet Name="StoreRole" Association="PROModel.StoreRole">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Store" EntitySet="Store" />
+          </AssociationSet>
           <AssociationSet Name="StoreUser" Association="PROModel.StoreUser">
             <End Role="Store" EntitySet="Store" />
             <End Role="Users" EntitySet="Users" />
@@ -869,6 +1018,7 @@
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="AddressType" Relationship="PROModel.FK_AddressBook_AddressType" FromRole="AddressBook" ToRole="AddressType" />
           <NavigationProperty Name="LGA" Relationship="PROModel.FK_AddressBook_LGA" FromRole="AddressBook" ToRole="LGA" />
+          <NavigationProperty Name="Store" Relationship="PROModel.StoreAddressBook" FromRole="AddressBook" ToRole="Store" />
         </EntityType>
         <EntityType Name="AddressType">
           <Key>
@@ -932,6 +1082,19 @@
           <NavigationProperty Name="Memberships" Relationship="PROModel.MembershipApplication" FromRole="Applications" ToRole="Memberships" />
           <NavigationProperty Name="Roles" Relationship="PROModel.RoleApplication" FromRole="Applications" ToRole="Roles" />
           <NavigationProperty Name="Users" Relationship="PROModel.UserApplication" FromRole="Applications" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="ContactInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EmailAddress" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MobileNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Store" Relationship="PROModel.StoreContactInfo" FromRole="ContactInfo" ToRole="Store" />
         </EntityType>
         <EntityType Name="DataGenerator">
           <Key>
@@ -1075,6 +1238,7 @@
           <Property Name="RoleName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Applications" Relationship="PROModel.RoleApplication" FromRole="Roles" ToRole="Applications" />
+          <NavigationProperty Name="Store" Relationship="PROModel.StoreRole" FromRole="Roles" ToRole="Store" />
           <NavigationProperty Name="Users" Relationship="PROModel.UsersInRoles" FromRole="Roles" ToRole="Users" />
         </EntityType>
         <EntityType Name="State">
@@ -1099,6 +1263,9 @@
           <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="AddressBook" Relationship="PROModel.StoreAddressBook" FromRole="Store" ToRole="AddressBook" />
+          <NavigationProperty Name="ContactInfo" Relationship="PROModel.StoreContactInfo" FromRole="Store" ToRole="ContactInfo" />
+          <NavigationProperty Name="Roles" Relationship="PROModel.StoreRole" FromRole="Store" ToRole="Roles" />
           <NavigationProperty Name="Users" Relationship="PROModel.StoreUser" FromRole="Store" ToRole="Users" />
         </EntityType>
         <EntityType Name="UserDetail">
@@ -1410,6 +1577,18 @@
           <End Type="PROModel.DocumentFormat" Role="DocumentFormat" Multiplicity="*" />
           <End Type="PROModel.DocumentType" Role="DocumentType" Multiplicity="*" />
         </Association>
+        <Association Name="StoreAddressBook">
+          <End Type="PROModel.AddressBook" Role="AddressBook" Multiplicity="*" />
+          <End Type="PROModel.Store" Role="Store" Multiplicity="*" />
+        </Association>
+        <Association Name="StoreContactInfo">
+          <End Type="PROModel.ContactInfo" Role="ContactInfo" Multiplicity="*" />
+          <End Type="PROModel.Store" Role="Store" Multiplicity="*" />
+        </Association>
+        <Association Name="StoreRole">
+          <End Type="PROModel.Roles" Role="Roles" Multiplicity="*" />
+          <End Type="PROModel.Store" Role="Store" Multiplicity="*" />
+        </Association>
         <Association Name="StoreUser">
           <End Type="PROModel.Store" Role="Store" Multiplicity="*" />
           <End Type="PROModel.Users" Role="Users" Multiplicity="*" />
@@ -1497,6 +1676,19 @@
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
                 <ScalarProperty Name="ApplicationName" ColumnName="ApplicationName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContactInfo">
+            <EntityTypeMapping TypeName="PROModel.ContactInfo">
+              <MappingFragment StoreEntitySet="ContactInfo">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1749,6 +1941,30 @@
             </EndProperty>
             <EndProperty Name="DocumentFormat">
               <ScalarProperty Name="Id" ColumnName="DocumentTypeFormatId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="StoreAddressBook" TypeName="PROModel.StoreAddressBook" StoreEntitySet="StoreAddressBook">
+            <EndProperty Name="Store">
+              <ScalarProperty Name="Id" ColumnName="StoreId" />
+            </EndProperty>
+            <EndProperty Name="AddressBook">
+              <ScalarProperty Name="Id" ColumnName="AddressBookId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="StoreContactInfo" TypeName="PROModel.StoreContactInfo" StoreEntitySet="StoreContactInfo">
+            <EndProperty Name="Store">
+              <ScalarProperty Name="Id" ColumnName="StoreId" />
+            </EndProperty>
+            <EndProperty Name="ContactInfo">
+              <ScalarProperty Name="Id" ColumnName="ContactInfoId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="StoreRole" TypeName="PROModel.StoreRole" StoreEntitySet="StoreRole">
+            <EndProperty Name="Store">
+              <ScalarProperty Name="Id" ColumnName="StoreId" />
+            </EndProperty>
+            <EndProperty Name="Roles">
+              <ScalarProperty Name="RoleId" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="StoreUser" TypeName="PROModel.StoreUser" StoreEntitySet="StoreUser">

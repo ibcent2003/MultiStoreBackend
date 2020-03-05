@@ -1,0 +1,162 @@
+﻿@model Project.Areas.Admin.Models.DashboardViewModel
+@{
+    ViewBag.Title = "New User for " + Model.store.Name;
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.IsGreetings = "true";
+}
+@section Crumbs{
+    <div class="crumbs">
+
+        <ul class="breadcrumb" id="breadcrumbs">
+            <li> <i class="icon-home"></i> <a href="@Url.Action("Index", "Dashboard", new { area="Admin"})">Dashboard</a> </li>
+            <li class="current"> <a title="" href="javascript: return void(0)">@Model.store.Name New Users</a> </li>
+
+        </ul>
+    </div>
+}
+
+<br />
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<div class="col-md-12">
+    <div class="widget">
+        <div class="widget-header">
+            <h4>Enter User Credentials </h4>
+        </div>
+        <div class="widget-content">
+            <div class="row">
+                <ul>
+                    <li>Password to be a minimum of @Membership.MinRequiredPasswordLength characters in length.</li>
+                    @if (Membership.MinRequiredNonAlphanumericCharacters > 0)
+                    {
+                        <li>To have a minimum of @Membership.MinRequiredNonAlphanumericCharacters non-alpha numeric characters included, such as &quot;<span style="font-family: Courier New; font-size: 16px;">(){}-_*&^%$#@@!</span>&quot;.</li>
+                    }
+                </ul>
+                @using (Html.BeginForm("CreateStoreuser", "Dashboard", FormMethod.Post, new { @class = "form-horizontal row-border" }))
+                {
+                    @Html.ValidationSummary(true)
+                    @Html.HiddenFor(x=>x.store.ProcessInstaceId)
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.userAccount.Username, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+
+                                <span class="input_wrapper">@Html.TextBoxFor(model => model.userAccount.Username, new { @class = "form-control" })</span>
+                                <span class="system negative" id="username-message">@Html.ValidationMessageFor(model => model.userAccount.Username)</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.userAccount.EmailAddress, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                <span class="input_wrapper">@Html.TextBoxFor(model => model.userAccount.EmailAddress, new { @class = "form-control" })</span>
+                                <span class="system negative" id="email-message">@Html.ValidationMessageFor(model => model.userAccount.EmailAddress)</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.userAccount.Password, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                <span class="input_wrapper">@Html.TextBoxFor(model => model.userAccount.Password, new { @class = "form-control" })</span>
+                                <span class="system negative" id="password-message">@Html.ValidationMessageFor(model => model.userAccount.Password)</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.userAccount.ConfirmPassword, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                <span class="input_wrapper">@Html.TextBoxFor(model => model.userAccount.ConfirmPassword, new { @class = "form-control" })</span>
+                                <span class="system negative" id="confirmpassword-message">@Html.ValidationMessageFor(model => model.userAccount.ConfirmPassword)</span>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.userAccount.FirstName, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                <span class="input_wrapper">@Html.TextBoxFor(model => model.userAccount.FirstName, new { @class = "form-control" })</span>
+                                <span class="system negative" id="firstname-message">@Html.ValidationMessageFor(model => model.userAccount.FirstName)</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.userAccount.LastName, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                <span class="input_wrapper">@Html.TextBoxFor(model => model.userAccount.LastName, new { @class = "form-control" })</span>
+                                <span class="system negative" id="lastname-message">@Html.ValidationMessageFor(model => model.userAccount.LastName)</span>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.userAccount.MobileNumber, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                <span class="input_wrapper">@Html.TextBoxFor(model => model.userAccount.MobileNumber, new { @class = "form-control" })</span>
+                                <span class="system negative" id="mobilenumber-message">@Html.ValidationMessageFor(model => model.userAccount.MobileNumber)</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.userAccount.IsApproved, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                <span class="input_wrapper">@Html.EditorFor(model => model.userAccount.IsApproved, new { @class = "form-control" })</span>
+
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <input type="submit" value="Submit" class="btn btn-primary pull-right">
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(function () {
+
+        var msg = $("#username-message");
+        var btn = $("input[type='submit']");
+
+        $("#UserName").focus();
+
+        $("#UserName").blur(function () {
+
+            var username = $(this).val();
+
+            if (username.length == 0) {
+                alert("No username.");
+                return;
+            }
+
+            $.ajax({
+                url: '@Url.Action("CheckForUniqueUser", "Membership")',
+                dataType: 'json',
+                type: 'GET',
+                data: { userName: username },
+                success: OnCheckForUniqueUserSuccess,
+                error: OnCheckForUniqueUserError
+            });
+        });
+
+        function OnCheckForUniqueUserSuccess(data) {
+            if (data.Exists) {
+                msg.text("This username already exists.  Please enter a new one.");
+                btn.attr("disabled", "disabled");
+            } else {
+                msg.text("");
+                btn.removeAttr("disabled");
+            }
+        }
+
+        function OnCheckForUniqueUserError(xhr, status, error) {
+            msg.text("There was an error checking uniqueness.");
+        }
+    });
+
+</script>
+

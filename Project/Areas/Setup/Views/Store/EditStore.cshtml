@@ -1,0 +1,75 @@
+﻿@model Project.Areas.Setup.Models.StoreManagementViewModel
+@using Project.HtmlHelpers
+@{
+    ViewBag.Title = "Eidt Store";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.IsGreetings = "true";
+}
+@section Crumbs{
+    <div class="crumbs">
+
+        <ul class="breadcrumb" id="breadcrumbs">
+            <li> <i class="icon-home"></i> <a href="@Url.Action("Index", "Dashboard", new { area="Admin"})">Dashboard</a> </li>
+            <li class="current"> <a title="" href="javascript: return void(0)"></a>Edit Store </li>
+        </ul>
+    </div>
+}
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="widget box">
+            <div class="widget-header">
+                <h4>
+                    <i class="icon-reorder"></i>
+                    New Store
+                </h4>
+            </div>
+            <div class="widget-content">
+                @using (Html.BeginForm("EditStore", "Store", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal row-border" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(x => x.storeform.Id)
+
+
+
+                    <div class="form-group">
+                        @Html.Label("Name", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.storeform.Name, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.storeform.Name)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Exisiting Logo", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + Model.documentValue })" height="60" width="190" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.storeform.Logo, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-3">
+                            @Html.TextBoxFor(x => Model.storeform.Logo, new { type = "file" })
+                            @Html.ValidationMessageFor(m => m.storeform.Logo)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Is Deleted?", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.CheckBoxFor(m => m.storeform.IsDeleted)
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        @Html.ActionLink("<< Back to List", "Index", null, new { @class = "btn btn-xs btn-warning" })
+                        <input type="submit" class="btn btn-xs btn-success pull-right" value="Save" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

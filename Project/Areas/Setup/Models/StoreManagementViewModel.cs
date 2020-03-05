@@ -10,6 +10,7 @@ namespace Project.Areas.Setup.Models
     public class StoreManagementViewModel
     {
         public string documentPath { get; set; }
+        public string documentValue { get; set; }
         public List<Store> storelist { get; set; }
         public StoreForm storeform { get; set; }
     }
@@ -17,6 +18,8 @@ namespace Project.Areas.Setup.Models
 
     public class StoreForm
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "Please enter your Store name")]
         [Display(Name = "Store Name")]
         public string Name { get; set; }

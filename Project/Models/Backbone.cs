@@ -24,6 +24,20 @@ namespace Project.Models
 
         }
 
+        public static Users StoreUser (PROEntities db, Guid UserId)
+        {
+            var getUser = db.Users.Where(x => x.UserId == UserId).FirstOrDefault();
+            return getUser;
+        }
+
+        public static List<Roles> GetAllRoles(PROEntities db)
+        {
+            List<Roles> role = db.Roles.OrderBy(x => x.RoleName).ToList();
+            return role;
+        }
+
+       
+
 
         #region Send Notification to User
 

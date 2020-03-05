@@ -20,5 +20,11 @@
     <Setting Name="DocumentPath" Type="System.String" Scope="Application">
       <Value Profile="(Default)">C:\FortressDocuments\</Value>
     </Setting>
+    <Setting Name="EmailReplyTo" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">no-reply@fortressenterprise.com.ng</Value>
+    </Setting>
+    <Setting Name="NewAccount" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">3</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

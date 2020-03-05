@@ -72,7 +72,7 @@ namespace Project.Areas.Setup.Controllers
                     System.IO.Directory.CreateDirectory(url);
 
 
-                    #region upload passport
+                    #region upload logo
 
                     int max_upload = 5242880;
 
@@ -92,7 +92,7 @@ namespace Project.Areas.Setup.Controllers
                     if (!supportedPassport.Contains(filePassport))
                     {
                         TempData["messageType"] = "alert-danger";
-                        TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPassport) + " are supported for passport photograph";                                              
+                        TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPassport) + " are supported for logo";                                              
                         model.documentPath = Properties.Settings.Default.DocumentPath;
                         return View(model);
 
@@ -100,7 +100,7 @@ namespace Project.Areas.Setup.Controllers
                     else if (model.storeform.Logo.ContentLength > max_upload)
                     {
                         TempData["messageType"] = "alert-danger";
-                        TempData["message"] = "The passport photograph uploaded is larger than the 5MB upload limit";
+                        TempData["message"] = "The logo uploaded is larger than the 5MB upload limit";
                         model.documentPath = Properties.Settings.Default.DocumentPath;
                         return View(model);
                     }
@@ -121,7 +121,7 @@ namespace Project.Areas.Setup.Controllers
                         ModifiedDate = DateTime.Now,
                         IsDeleted = false,
                         ProcessInstaceId = Guid.NewGuid(),
-                        URL = model.storeform.Name.TrimStart().TrimEnd()
+                        URL = model.storeform.Name.Replace(" ", string.Empty)
                     };
                     db.Store.AddObject(addnew);
                     db.SaveChanges();
@@ -132,6 +132,118 @@ namespace Project.Areas.Setup.Controllers
                 return View(model);
             }
             catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
+        public ActionResult EditStore(int Id)
+        {
+            try
+            {
+                StoreManagementViewModel model = new StoreManagementViewModel();
+                var GetStore = db.Store.Where(x => x.Id == Id).FirstOrDefault();
+                if(GetStore== null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                }
+                model.storeform = new StoreForm();
+                model.storeform.Name = GetStore.Name;
+                model.storeform.Id = GetStore.Id;
+                model.documentValue = GetStore.Logo;
+                model.documentPath = Properties.Settings.Default.DocumentPath;
+                return View(model);
+            }
+            catch(Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditStore(StoreManagementViewModel model)
+        {
+            try
+            {
+                var GetStore = db.Store.Where(x => x.Id == model.storeform.Id).FirstOrDefault();
+                if (GetStore == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                }
+
+                string url = Properties.Settings.Default.DocumentPath;
+                System.IO.Directory.CreateDirectory(url);
+
+                if (model.storeform.Logo != null && model.storeform.Logo.ContentLength > 0)
+                {
+                    //delete passport
+                    if (GetStore.Logo != null)
+                    {
+                        System.IO.FileInfo fi = new System.IO.FileInfo(url + GetStore.Logo);
+                        fi.Delete();
+                    }
+                    #region upload logo
+
+                    int max_upload = 5242880;
+                   
+                    List<DocumentInfo> uploadedPassport = new List<DocumentInfo>();
+                    CodeGenerator CodePassport = new CodeGenerator();
+                    string EncKey1 = util.MD5Hash(DateTime.Now.Ticks.ToString());
+                    List<DocumentFormat> Passporttypes = db.DocumentType.FirstOrDefault(x => x.Id == 1).DocumentFormat.ToList();
+
+                    List<string> supportedPassport = new List<string>();
+                    foreach (var item in Passporttypes)
+                    {
+                        supportedPassport.Add(item.Extension);
+                    }
+                    var filePassport = System.IO.Path.GetExtension(model.storeform.Logo.FileName);
+                    if (!supportedPassport.Contains(filePassport))
+                    {
+                        TempData["messageType"] = "alert-danger";
+                        TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPassport) + " are supported for logo";
+                        model.documentPath = Properties.Settings.Default.DocumentPath;
+                        return View(model);
+
+                    }
+                    else if (model.storeform.Logo.ContentLength > max_upload)
+                    {
+                        TempData["messageType"] = "alert-danger";
+                        TempData["message"] = "The logo uploaded is larger than the 5MB upload limit";
+                        model.documentPath = Properties.Settings.Default.DocumentPath;
+                        return View(model);
+                    }
+
+                    //store passport
+                    int pp = 0;
+                    string pName;
+                    pName = EncKey1 + pp.ToString() + System.IO.Path.GetExtension(model.storeform.Logo.FileName);
+                    model.storeform.Logo.SaveAs(url + pName);
+
+                    #endregion
+
+                GetStore.Logo = pName;
+                }
+                GetStore.Name = model.storeform.Name;
+                GetStore.URL = model.storeform.Name.Replace(" ", string.Empty);
+                GetStore.ModifiedBy = User.Identity.Name;
+                GetStore.ModifiedDate = DateTime.Now;
+                GetStore.IsDeleted = model.storeform.IsDeleted;
+                db.SaveChanges();
+                TempData["message"] = "The Store " + model.storeform.Name + " has been updated successfully.";
+                return RedirectToAction("StoreDashboard", "Dashboard", new {Id=GetStore.ProcessInstaceId, area = "Admin" });
+            }
+            catch(Exception ex)
             {
                 Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
                 TempData["message"] = Settings.Default.GenericExceptionMessage;

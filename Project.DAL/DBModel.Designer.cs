@@ -38,6 +38,9 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PROModel", "FK_WorkflowStepActions_WorkFlowActions", "WorkFlowActions", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.WorkFlowActions), "WorkflowStepActions", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.WorkflowStepActions), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "FK_WorkflowStepActions_WorkflowSteps", "WorkflowSteps", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.WorkflowSteps), "WorkflowStepActions", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.WorkflowStepActions), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "DocumentTypeFormat", "DocumentFormat", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.DocumentFormat), "DocumentType", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.DocumentType))]
+[assembly: EdmRelationshipAttribute("PROModel", "StoreAddressBook", "AddressBook", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.AddressBook), "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Store))]
+[assembly: EdmRelationshipAttribute("PROModel", "StoreContactInfo", "ContactInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.ContactInfo), "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Store))]
+[assembly: EdmRelationshipAttribute("PROModel", "StoreRole", "Roles", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Roles), "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Store))]
 [assembly: EdmRelationshipAttribute("PROModel", "StoreUser", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Store), "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Users))]
 [assembly: EdmRelationshipAttribute("PROModel", "UsersInRoles", "Roles", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Roles), "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Users))]
 
@@ -186,6 +189,22 @@ namespace Project.DAL
             }
         }
         private ObjectSet<Applications> _Applications;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<ContactInfo> ContactInfo
+        {
+            get
+            {
+                if ((_ContactInfo == null))
+                {
+                    _ContactInfo = base.CreateObjectSet<ContactInfo>("ContactInfo");
+                }
+                return _ContactInfo;
+            }
+        }
+        private ObjectSet<ContactInfo> _ContactInfo;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -541,6 +560,14 @@ namespace Project.DAL
         public void AddToApplications(Applications applications)
         {
             base.AddObject("Applications", applications);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the ContactInfo EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToContactInfo(ContactInfo contactInfo)
+        {
+            base.AddObject("ContactInfo", contactInfo);
         }
     
         /// <summary>
@@ -1063,6 +1090,28 @@ namespace Project.DAL
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<LGA>("PROModel.FK_AddressBook_LGA", "LGA", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "StoreAddressBook", "Store")]
+        public EntityCollection<Store> Store
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Store>("PROModel.StoreAddressBook", "Store");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Store>("PROModel.StoreAddressBook", "Store", value);
                 }
             }
         }
@@ -2219,6 +2268,244 @@ namespace Project.DAL
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Users>("PROModel.UserApplication", "Users", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PROModel", Name="ContactInfo")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class ContactInfo : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new ContactInfo object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="firstName">Initial value of the FirstName property.</param>
+        /// <param name="lastName">Initial value of the LastName property.</param>
+        /// <param name="emailAddress">Initial value of the EmailAddress property.</param>
+        /// <param name="mobileNo">Initial value of the MobileNo property.</param>
+        /// <param name="modifiedBy">Initial value of the ModifiedBy property.</param>
+        /// <param name="modifiedDate">Initial value of the ModifiedDate property.</param>
+        public static ContactInfo CreateContactInfo(global::System.Int32 id, global::System.String firstName, global::System.String lastName, global::System.String emailAddress, global::System.String mobileNo, global::System.String modifiedBy, global::System.DateTime modifiedDate)
+        {
+            ContactInfo contactInfo = new ContactInfo();
+            contactInfo.Id = id;
+            contactInfo.FirstName = firstName;
+            contactInfo.LastName = lastName;
+            contactInfo.EmailAddress = emailAddress;
+            contactInfo.MobileNo = mobileNo;
+            contactInfo.ModifiedBy = modifiedBy;
+            contactInfo.ModifiedDate = modifiedDate;
+            return contactInfo;
+        }
+
+        #endregion
+
+        #region Simple Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String FirstName
+        {
+            get
+            {
+                return _FirstName;
+            }
+            set
+            {
+                OnFirstNameChanging(value);
+                ReportPropertyChanging("FirstName");
+                _FirstName = StructuralObject.SetValidValue(value, false, "FirstName");
+                ReportPropertyChanged("FirstName");
+                OnFirstNameChanged();
+            }
+        }
+        private global::System.String _FirstName;
+        partial void OnFirstNameChanging(global::System.String value);
+        partial void OnFirstNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String LastName
+        {
+            get
+            {
+                return _LastName;
+            }
+            set
+            {
+                OnLastNameChanging(value);
+                ReportPropertyChanging("LastName");
+                _LastName = StructuralObject.SetValidValue(value, false, "LastName");
+                ReportPropertyChanged("LastName");
+                OnLastNameChanged();
+            }
+        }
+        private global::System.String _LastName;
+        partial void OnLastNameChanging(global::System.String value);
+        partial void OnLastNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String EmailAddress
+        {
+            get
+            {
+                return _EmailAddress;
+            }
+            set
+            {
+                OnEmailAddressChanging(value);
+                ReportPropertyChanging("EmailAddress");
+                _EmailAddress = StructuralObject.SetValidValue(value, false, "EmailAddress");
+                ReportPropertyChanged("EmailAddress");
+                OnEmailAddressChanged();
+            }
+        }
+        private global::System.String _EmailAddress;
+        partial void OnEmailAddressChanging(global::System.String value);
+        partial void OnEmailAddressChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String MobileNo
+        {
+            get
+            {
+                return _MobileNo;
+            }
+            set
+            {
+                OnMobileNoChanging(value);
+                ReportPropertyChanging("MobileNo");
+                _MobileNo = StructuralObject.SetValidValue(value, false, "MobileNo");
+                ReportPropertyChanged("MobileNo");
+                OnMobileNoChanged();
+            }
+        }
+        private global::System.String _MobileNo;
+        partial void OnMobileNoChanging(global::System.String value);
+        partial void OnMobileNoChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ModifiedBy
+        {
+            get
+            {
+                return _ModifiedBy;
+            }
+            set
+            {
+                OnModifiedByChanging(value);
+                ReportPropertyChanging("ModifiedBy");
+                _ModifiedBy = StructuralObject.SetValidValue(value, false, "ModifiedBy");
+                ReportPropertyChanged("ModifiedBy");
+                OnModifiedByChanged();
+            }
+        }
+        private global::System.String _ModifiedBy;
+        partial void OnModifiedByChanging(global::System.String value);
+        partial void OnModifiedByChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime ModifiedDate
+        {
+            get
+            {
+                return _ModifiedDate;
+            }
+            set
+            {
+                OnModifiedDateChanging(value);
+                ReportPropertyChanging("ModifiedDate");
+                _ModifiedDate = StructuralObject.SetValidValue(value, "ModifiedDate");
+                ReportPropertyChanged("ModifiedDate");
+                OnModifiedDateChanged();
+            }
+        }
+        private global::System.DateTime _ModifiedDate;
+        partial void OnModifiedDateChanging(global::System.DateTime value);
+        partial void OnModifiedDateChanged();
+
+        #endregion
+
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "StoreContactInfo", "Store")]
+        public EntityCollection<Store> Store
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Store>("PROModel.StoreContactInfo", "Store");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Store>("PROModel.StoreContactInfo", "Store", value);
                 }
             }
         }
@@ -4884,6 +5171,28 @@ namespace Project.DAL
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "StoreRole", "Store")]
+        public EntityCollection<Store> Store
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Store>("PROModel.StoreRole", "Store");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Store>("PROModel.StoreRole", "Store", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("PROModel", "UsersInRoles", "Users")]
         public EntityCollection<Users> Users
         {
@@ -5299,6 +5608,72 @@ namespace Project.DAL
         #endregion
 
         #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "StoreAddressBook", "AddressBook")]
+        public EntityCollection<AddressBook> AddressBook
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<AddressBook>("PROModel.StoreAddressBook", "AddressBook");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<AddressBook>("PROModel.StoreAddressBook", "AddressBook", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "StoreContactInfo", "ContactInfo")]
+        public EntityCollection<ContactInfo> ContactInfo
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ContactInfo>("PROModel.StoreContactInfo", "ContactInfo");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ContactInfo>("PROModel.StoreContactInfo", "ContactInfo", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "StoreRole", "Roles")]
+        public EntityCollection<Roles> Roles
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Roles>("PROModel.StoreRole", "Roles");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Roles>("PROModel.StoreRole", "Roles", value);
+                }
+            }
+        }
     
         /// <summary>
         /// No Metadata Documentation available.
