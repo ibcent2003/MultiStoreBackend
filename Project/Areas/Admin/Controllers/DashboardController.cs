@@ -1,4 +1,5 @@
 ﻿using Project.Areas.Admin.Models;
+using Project.Areas.SecurityGuard.Models;
 using Project.Areas.Setup.Models;
 using Project.DAL;
 using Project.Models;
@@ -27,9 +28,9 @@ namespace Project.Areas.Admin.Controllers
 
         public DashboardController()
         {
-           // this.roleService = new RoleService(Roles.Provider);
+            
             this.membershipService = new MembershipService(Membership.Provider);
-           // this.rows = new List<Users>();
+           
         }
 
         private Store storeDetails()
@@ -102,6 +103,7 @@ namespace Project.Areas.Admin.Controllers
             }
         }
 
+        #region manage store roles
         public ActionResult StoreRoles(Guid Id)
         {
             try
@@ -191,7 +193,9 @@ namespace Project.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Store", new { area = "Setup" });
             }
         }
+        #endregion
 
+        #region manage store user
 
         public ActionResult StoreUserList(Guid Id)
         {
@@ -314,7 +318,114 @@ namespace Project.Areas.Admin.Controllers
 
         }
 
+        public ActionResult EditStoreUser(Guid Id, Guid userId)
+        {
+            try
+            {
+                var GetStore = Backbone.GetStore(db, Id);
+                if (GetStore == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+                var getUser = Backbone.StoreUser(db, userId);
+                if (getUser == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+                var GetUserDetail = getUser.UserDetail.FirstOrDefault();               
+                DashboardViewModel model = new DashboardViewModel();
+                model.userForm = new SecurityGuard.Models.UserForm();
+                if (GetUserDetail != null)
+                {
+                    model.userForm.FirstName = GetUserDetail.FirstName;
+                    model.userForm.LastName = GetUserDetail.LastName;
+                    model.userForm.MobileNumber = GetUserDetail.MobileNumber;
+                    model.userForm.EmailAddress = GetUserDetail.EmailAddres;
+                }
+                var GetMembership = getUser.Memberships;               
+                model.userForm.Username = getUser.UserName;
+                model.userForm.EmailAddress = GetMembership.Email;             
+                model.userForm.IsApproved = GetMembership.IsApproved;
+                model.userForm.IsLocked = GetMembership.IsLockedOut;
+                model.userForm.UserId = getUser.UserId;
+                model.UserId = getUser.UserId;
+                model.store = GetStore;
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Store", new { area = "Setup" });
+            }
 
+        }
+
+
+        [HttpPost]
+        public ActionResult EditStoreUser(DashboardViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var GetUser = db.Users.Where(x => x.UserId == model.userForm.UserId).FirstOrDefault();
+                    var GetMembership = GetUser.Memberships;
+                    var GetUserDetail = GetUser.UserDetail.FirstOrDefault();
+                    if (GetUserDetail != null)
+                    {
+
+                        //update user details
+
+                        GetUserDetail.FirstName = model.userForm.FirstName;
+                        GetUserDetail.LastName = model.userForm.LastName;
+                        GetUserDetail.EmailAddres = model.userForm.EmailAddress;
+                        GetUserDetail.MobileNumber = model.userForm.MobileNumber;
+                        GetUserDetail.ModifiedBy = User.Identity.Name;
+                        GetUserDetail.ModifiedDate = DateTime.Now;
+                                            
+                    }
+                    else
+                    {
+                        // insert user details
+                        UserDetail addnew = new UserDetail
+                        {
+                            FirstName = model.userForm.FirstName,
+                            LastName = model.userForm.LastName,
+                            EmailAddres = model.userForm.EmailAddress,
+                            MobileNumber = model.userForm.MobileNumber,
+                            ModifiedDate = DateTime.Now,
+                            ModifiedBy = User.Identity.Name,
+                            UserId = GetUser.UserId
+                        };
+                        db.UserDetail.AddObject(addnew);
+                        db.SaveChanges();
+                    }
+
+                    GetMembership.IsLockedOut = model.userForm.IsLocked;
+                    GetMembership.IsApproved = model.userForm.IsApproved;
+                    GetMembership.Email = model.userForm.EmailAddress;
+                    
+                    db.SaveChanges();
+                    TempData["message"] = "<b>" + model.userForm.FirstName + " " + model.userForm.LastName + "</b> was Successfully updated";
+                    return base.RedirectToAction("StoreUserList", new { Id = model.store.ProcessInstaceId });
+
+                }
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                TempData["messageType"] = "danger";
+                TempData["message"] = "An Error occur. Please try again later or contact the system administrator";
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                return RedirectToAction("Index");
+            }
+        }
 
 
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)
@@ -368,8 +479,9 @@ namespace Project.Areas.Admin.Controllers
                     }
             }
         }
+        #endregion
 
-
+        #region Grant Store User Role
         public ActionResult GrantStoreUserRole(Guid Id, Guid UserId)
         {
             try
@@ -477,8 +589,488 @@ namespace Project.Areas.Admin.Controllers
             }
         }
 
+        #endregion
+
+        #region contact info 
+
+        public ActionResult ContactInfoList(Guid Id)
+        {
+            try
+            {
+                DashboardViewModel model = new DashboardViewModel();
+                model.store = Backbone.GetStore(db, Id);
+                if (model.store == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+                model.contactInfoList = Backbone.GetStoreContactInfo(db, Id);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Store", new { area = "Setup" });
+
+            }
+        }
 
 
+        public ActionResult NewContactInfo(Guid Id)
+        {
+            try
+            {
+                DashboardViewModel model = new DashboardViewModel();
+                model.store = Backbone.GetStore(db, Id);
+                if (model.store == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }                
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Store", new { area = "Setup" });
+
+            }
+        }
+
+        [HttpPost]
+        public ActionResult NewContactInfo(DashboardViewModel model)
+        {
+            try
+            {
+               // DashboardViewModel model = new DashboardViewModel();
+               var store = Backbone.GetStore(db, model.store.ProcessInstaceId);
+                if (model.store == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+                if (base.ModelState.IsValid)
+                {
+                    //validate email address
+                    var getemail = db.ContactInfo.Where(x => x.EmailAddress == model.contactform.EmailAddress).ToList();
+                    if(getemail.Any())
+                    {
+                        TempData["message"] ="The Email address <b>"+model.contactform.EmailAddress+"</b> has already been used by someone. Please enter another email address";
+                        TempData["messageType"] = "danger";
+                        return View(model);
+                    }
+                    ContactInfo contactInfo = new ContactInfo()
+                    {
+                        FirstName = model.contactform.FirstName,
+                        LastName = model.contactform.LastName,
+                        EmailAddress = model.contactform.EmailAddress,
+                        MobileNo = model.contactform.MobileNumber,
+                        ModifiedBy = base.User.Identity.Name,
+                        ModifiedDate = DateTime.Now
+                    };
+                    this.db.ContactInfo.AddObject(contactInfo);
+                    store.ContactInfo.Add(contactInfo);
+                    this.db.SaveChanges();
+                    base.TempData["message"] = string.Concat(new string[] { "<b>", model.contactform.FirstName, "</b> <b>", model.contactform.LastName, "</b>  was Successfully Added" });
+                   return RedirectToAction("ContactInfoList", "Dashboard", new {Id=store.ProcessInstaceId, area = "Admin" });
+                }
+                TempData["message"] = "<b>Ops!</b> something went wrong. Please make sure you enter all fields";
+                TempData["messageType"] = "danger";
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Store", new { area = "Setup" });
+
+            }
+        }
+
+        public ActionResult RemoveContactInfo(Guid Id, int ContactInfoId)
+        {
+            try
+            {
+                DashboardViewModel model = new DashboardViewModel();
+                var store = Backbone.GetStore(db, Id);
+                if (store == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+                var GetContact = db.ContactInfo.Where(x => x.Id == ContactInfoId).FirstOrDefault();
+                if(GetContact==null)
+                {
+                    TempData["message"] ="Record cannot be deleted. Please try again or contact the system administrator";
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("NewContactInfo", "Dashboard", new {Id=Id, area = "Admin" });
+                }
+                ContactInfo del = new ContactInfo {
+                };
+                db.ContactInfo.DeleteObject(GetContact);
+                store.ContactInfo.Remove(GetContact);
+                db.SaveChanges();
+                TempData["message"] = "Contact Information deleted successfully.";
+                return RedirectToAction("ContactInfoList", "Dashboard", new { Id = store.ProcessInstaceId, area = "Admin" });
+
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Store", new { area = "Setup" });
+
+            }
+        }
+
+        public ActionResult EditContactInfo(Guid Id, int ContactInfoId)
+        {
+            try
+            {
+                DashboardViewModel model = new DashboardViewModel();
+               var store = Backbone.GetStore(db, Id);
+                if (store == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+
+                var GetContact = db.ContactInfo.Where(x => x.Id == ContactInfoId).FirstOrDefault();
+                if (GetContact == null)
+                {
+                    TempData["message"] = "Record cannot be deleted. Please try again or contact the system administrator";
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("NewContactInfo", "Dashboard", new { Id = Id, area = "Admin" });
+                }
+                model.contactform = new SecurityGuard.Models.ContactInfoForm();
+                model.contactform.FirstName = GetContact.FirstName;
+                model.contactform.LastName = GetContact.LastName;
+                model.contactform.EmailAddress = GetContact.EmailAddress;
+                model.contactform.MobileNumber = GetContact.MobileNo;
+                model.contactform.Id = GetContact.Id;
+                model.store = store;
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Store", new { area = "Setup" });
+
+            }
+        }
+
+
+        [HttpPost]
+        public ActionResult EditContactInfo(DashboardViewModel model)
+        {
+            try
+            {
+                var store = Backbone.GetStore(db, model.store.ProcessInstaceId);
+                if (store == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+                if (base.ModelState.IsValid)
+                {
+                    var GetContact = store.ContactInfo.Where(x => x.Id == model.contactform.Id).FirstOrDefault();
+                    if(GetContact != null)
+                    {
+                        GetContact.FirstName = model.contactform.FirstName;
+                        GetContact.LastName = model.contactform.LastName;
+                        GetContact.EmailAddress = model.contactform.EmailAddress;
+                        GetContact.MobileNo = model.contactform.MobileNumber;
+                        GetContact.ModifiedBy = User.Identity.Name;
+                        GetContact.ModifiedDate = DateTime.Now;
+                        db.SaveChanges();
+                        base.TempData["message"] = string.Concat(new string[] { "<b>", model.contactform.FirstName, "</b> <b>", model.contactform.LastName, "</b>  was Successfully updated" });
+                        return RedirectToAction("ContactInfoList", "Dashboard", new { Id = store.ProcessInstaceId, area = "Admin" });
+                    }
+                }
+                TempData["message"] = "<b>Ops!</b> something went wrong. Please make sure you enter all fields";
+                TempData["messageType"] = "danger";
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Store", new { area = "Setup" });
+
+            }
+        }
+
+        #endregion
+
+        #region Address management
+
+        public ActionResult AddressList(Guid Id)
+        {
+            try
+            {
+                DashboardViewModel model = new DashboardViewModel();
+                model.store = Backbone.GetStore(db, Id);
+                if (model.store == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+                model.addressList = Backbone.GetStorAddress(db, Id);
+                return View(model);               
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Store", new { area = "Setup" });
+
+            }
+        }
+
+
+        [HttpPost]
+        public ActionResult GetLGAId(int stateId)
+        {
+            List<IntegerSelectListItem> list = (
+                from d in this.db.LGA
+                where d.StateId == stateId
+                orderby d.Name
+                select new IntegerSelectListItem()
+                {
+                    Text = d.Name,
+                    Value = d.Id
+                }).ToList<IntegerSelectListItem>();
+            return base.Json(list);
+        }
+
+        public ActionResult NewAddress(Guid Id)
+        {
+            try
+            {
+                DashboardViewModel model = new DashboardViewModel();
+                model.store = Backbone.GetStore(db, Id);
+                if (model.store == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+                model.StateList = (from s in this.db.State select new IntegerSelectListItem(){Text = s.Name, Value = s.Id} into x orderby x.Text select x).ToList<IntegerSelectListItem>();
+                model.LgaList = (from s in this.db.LGA select new IntegerSelectListItem(){Text = s.Name,Value = s.Id} into x orderby x.Text select x).ToList<IntegerSelectListItem>();
+                model.AddressTypeList = (from s in this.db.AddressType where !s.IsDeleted select new IntegerSelectListItem() { Text = s.Name, Value = s.Id } into x orderby x.Text select x).ToList<IntegerSelectListItem>();
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Store", new { area = "Setup" });
+
+            }
+        }
+
+        [HttpPost]
+        public ActionResult NewAddress(DashboardViewModel model)
+        {
+            try
+            {
+
+                if (ModelState.IsValid)
+                {
+                    //validate email
+                    var check = db.AddressBook.Where(x => x.EmailAddress == model.addressform.EmailAddress).ToList();
+                    if(check.Any())
+                    {
+                        model.StateList = (from s in this.db.State select new IntegerSelectListItem() { Text = s.Name, Value = s.Id } into x orderby x.Text select x).ToList<IntegerSelectListItem>();
+                        model.LgaList = (from s in this.db.LGA select new IntegerSelectListItem() { Text = s.Name, Value = s.Id } into x orderby x.Text select x).ToList<IntegerSelectListItem>();
+                        model.AddressTypeList = (from s in this.db.AddressType where !s.IsDeleted select new IntegerSelectListItem() { Text = s.Name, Value = s.Id } into x orderby x.Text select x).ToList<IntegerSelectListItem>();
+                        base.TempData["messageType"] = "danger";
+                        base.TempData["message"] = string.Concat("The Email ", model.addressform.EmailAddress, " already exist. Please try different email");
+                        return View(model);
+                    }
+
+                    var store = Backbone.GetStore(db, model.store.ProcessInstaceId);
+
+                    AddressBook addressBook = new AddressBook()
+                    {
+                        AddressTypeId = model.addressform.AddressTypeId,
+                        Street = model.addressform.Street,
+                        LgaId = model.addressform.LgaId,
+                        MobileNumber = model.addressform.MobileNumber,
+                        EmailAddress = model.addressform.EmailAddress,
+                        GoogleMapURL = model.addressform.GoogleMap,
+                        ModifiedBy = base.User.Identity.Name,
+                        ModifiedDate = DateTime.Now,
+                        IsDeleted = false,
+                    };
+                    this.db.AddressBook.AddObject(addressBook);
+                    store.AddressBook.Add(addressBook);
+                    this.db.SaveChanges();
+                    base.TempData["message"] = string.Concat("<b>", model.addressform.Street, "</b> was Successfully created");
+                   return RedirectToAction("AddressList", "Dashboard", new {Id=model.store.ProcessInstaceId, area = "admin" });
+
+                }
+                model.StateList = (from s in this.db.State select new IntegerSelectListItem() { Text = s.Name, Value = s.Id } into x orderby x.Text select x).ToList<IntegerSelectListItem>();
+                model.LgaList = (from s in this.db.LGA select new IntegerSelectListItem() { Text = s.Name, Value = s.Id } into x orderby x.Text select x).ToList<IntegerSelectListItem>();
+                model.AddressTypeList = (from s in this.db.AddressType where !s.IsDeleted select new IntegerSelectListItem() { Text = s.Name, Value = s.Id } into x orderby x.Text select x).ToList<IntegerSelectListItem>();
+                base.TempData["messageType"] = "danger";
+                base.TempData["message"] = string.Concat("Ops! Something went wrong. Please make sure you enter all fields with red *.");
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Store", new { area = "Setup" });
+
+            }
+        }
+
+
+        public ActionResult EditAddress(Guid Id, int addressId)
+        {
+            try
+            {
+                DashboardViewModel model = new DashboardViewModel();
+                model.store = Backbone.GetStore(db, Id);
+                if (model.store == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+                model.StateList = (from s in this.db.State select new IntegerSelectListItem() { Text = s.Name, Value = s.Id } into x orderby x.Text select x).ToList<IntegerSelectListItem>();              
+                model.AddressTypeList = (from s in this.db.AddressType where !s.IsDeleted select new IntegerSelectListItem() { Text = s.Name, Value = s.Id } into x orderby x.Text select x).ToList<IntegerSelectListItem>();
+                AddressBook addressBook = (from x in model.store.AddressBook where x.Id == addressId select x).FirstOrDefault<AddressBook>();
+                model.LgaList = (from s in this.db.LGA where s.StateId == addressBook.LGA.StateId select new IntegerSelectListItem(){Text = s.Name, Value = s.Id} into x orderby x.Text select x).ToList<IntegerSelectListItem>();
+
+                model.addressform = new CompanyAddressForm()
+                {
+                    AddressTypeId = addressBook.AddressTypeId,
+                    Street = addressBook.Street,
+                    LgaId = addressBook.LgaId,
+                    MobileNumber = addressBook.MobileNumber,
+                    EmailAddress = addressBook.EmailAddress,
+                    GoogleMap = addressBook.GoogleMapURL
+                };
+                model.StateId = addressBook.LGA.StateId;
+                model.addressform.Id = addressId;               
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Store", new { area = "Setup" });
+
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditAddress(DashboardViewModel model)
+        {
+            try
+            {
+
+                if (ModelState.IsValid)
+                {
+
+                    var store = Backbone.GetStore(db, model.store.ProcessInstaceId);
+
+                    var addressType = store.AddressBook.Where(x => x.Id == model.addressform.Id).FirstOrDefault();
+                    //AddressBook addressType = (from x in this.db.AddressBook  where x.Id == model.addressform.Id select x).FirstOrDefault<AddressBook>();
+
+
+                    addressType.AddressTypeId = model.addressform.AddressTypeId;
+                    addressType.Street = model.addressform.Street;
+                    addressType.LgaId = model.addressform.LgaId;
+                    addressType.MobileNumber = model.addressform.MobileNumber;
+                    addressType.EmailAddress = model.addressform.EmailAddress;
+                    addressType.ModifiedBy = base.User.Identity.Name;
+                    addressType.ModifiedDate = DateTime.Now;
+                    addressType.GoogleMapURL = model.addressform.GoogleMap;
+                    this.db.SaveChanges();                                    
+                    base.TempData["message"] = string.Concat("<b>", model.addressform.Street, "</b> was Successfully created");
+                    return RedirectToAction("AddressList", "Dashboard", new { Id = model.store.ProcessInstaceId, area = "admin" });
+
+                }
+                model.StateList = (from s in this.db.State select new IntegerSelectListItem() { Text = s.Name, Value = s.Id } into x orderby x.Text select x).ToList<IntegerSelectListItem>();
+                model.LgaList = (from s in this.db.LGA select new IntegerSelectListItem() { Text = s.Name, Value = s.Id } into x orderby x.Text select x).ToList<IntegerSelectListItem>();
+                model.AddressTypeList = (from s in this.db.AddressType where !s.IsDeleted select new IntegerSelectListItem() { Text = s.Name, Value = s.Id } into x orderby x.Text select x).ToList<IntegerSelectListItem>();
+                base.TempData["messageType"] = "danger";
+                base.TempData["message"] = string.Concat("Ops! Something went wrong. Please make sure you enter all fields with red *.");
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Store", new { area = "Setup" });
+
+            }
+        }
+
+
+        public ActionResult RemoveAddress(Guid Id, int addressId)
+        {
+            try
+            {
+                DashboardViewModel model = new DashboardViewModel();
+                var store = Backbone.GetStore(db, Id);
+                if (store == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+                var Getaddress =store.AddressBook.Where(x => x.Id == addressId).FirstOrDefault();
+                if (Getaddress == null)
+                {
+                    TempData["message"] = "Record cannot be deleted. Please try again or contact the system administrator";
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("AddressList", "Dashboard", new { Id = Id, area = "Admin" });
+                }
+                AddressBook del = new AddressBook
+                {
+                };
+                db.AddressBook.DeleteObject(Getaddress);
+                store.AddressBook.Remove(Getaddress);
+                db.SaveChanges();
+                TempData["message"] = "Address Information has been deleted successfully.";
+                return RedirectToAction("AddressList", "Dashboard", new { Id = store.ProcessInstaceId, area = "Admin" });
+
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Store", new { area = "Setup" });
+
+            }
+        }
+        #endregion
 
     }
 }

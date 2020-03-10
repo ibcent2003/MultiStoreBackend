@@ -101,7 +101,7 @@
                                     <div class="dropdown">
                                         <span class="btn dropdown-toggle btn-success" type="button" id="dropdownMenu1" data-toggle="dropdown">Action List <i class="icon-angle-down"></i></span>
                                         <ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="dropdownMenu1">
-                                            <li role="presentation">@Html.ActionLink("Edit User", "EditUser", new { username = item.UserName }, new { role = "menuitem", tabindex = "-1" })</li>
+                                            <li role="presentation">@Html.ActionLink("Edit User", "EditStoreUser", new {Id=Model.store.ProcessInstaceId, UserId = item.UserId }, new { role = "menuitem", tabindex = "-1" })</li>
                                             <li role="presentation">@Html.ActionLink("Assign Role", "GrantStoreUserRole", new {Id=Model.store.ProcessInstaceId, UserId = item.UserId }, new { role = "menuitem", tabindex = "-1" })</li>
 
                                         </ul>

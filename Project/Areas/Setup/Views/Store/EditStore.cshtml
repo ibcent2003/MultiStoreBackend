@@ -65,7 +65,10 @@
                     </div>
 
                     <div class="form-actions">
-                        @Html.ActionLink("<< Back to List", "Index", null, new { @class = "btn btn-xs btn-warning" })
+                        
+
+                        <a href="@Url.Action("StoreDashboard", "Dashboard", new {Id=Model.store.ProcessInstaceId, area = "Admin" })" class="btn btn-warning">Back</a>
+
                         <input type="submit" class="btn btn-xs btn-success pull-right" value="Save" />
                     </div>
                 }

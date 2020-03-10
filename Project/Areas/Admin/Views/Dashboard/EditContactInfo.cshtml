@@ -1,0 +1,100 @@
+﻿@model Project.Areas.Admin.Models.DashboardViewModel
+@{
+   ViewBag.Title = "Edit Contact Info "+ Model.store.Name;
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.IsGreetings = "true";
+}
+
+
+@section Crumbs{
+    <div class="crumbs">
+
+        <ul class="breadcrumb" id="breadcrumbs">
+            <li><i class="icon-home"></i><a href="@Url.Action("Index", "Home", new { area = "Admin" })">Dashboard</a> </li>
+            <li><i class="current"></i><a href="javascript: return void(0)">@Model.store.Name Edit Contact Info</a> </li>
+
+
+        </ul>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="widget box">
+            <div class="widget-header">
+                <h4>
+                    <i class="icon-reorder"></i>
+                    New Contact Information
+                </h4>
+            </div>
+            <div class="widget-content">
+                @using (Html.BeginForm("EditContactInfo", "Dashboard", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal row-border" }))
+                {
+                    @Html.AntiForgeryToken()
+
+
+                    @Html.HiddenFor(x => x.store.ProcessInstaceId)
+                    @Html.HiddenFor(x=>x.contactform.Id)
+                    <div class="form-group">
+                        @Html.Label("First Name", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.contactform.FirstName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.contactform.FirstName, null, new { @style = "color:red" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Last Name", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.contactform.LastName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.contactform.LastName, null, new { @style = "color:red" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        @Html.Label("Email Address", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.contactform.EmailAddress, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.contactform.EmailAddress, null, new { @style = "color:red" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        @Html.Label("Mobile No", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.contactform.MobileNumber, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.contactform.MobileNumber, null, new { @style = "color:red" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <a href="@Url.Action("ContactInfoList", "Dashboard", new { area="Admin", Id=Model.store.ProcessInstaceId})" class="btn btn-warning btn-xs">Back</a>
+                        <input type="submit" class="btn btn-success btn-xs pull-right" value="Save" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,111 @@
+﻿@model Project.Areas.Admin.Models.DashboardViewModel
+@{
+    ViewBag.Title = "Edit User for " + Model.store.Name;
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.IsGreetings = "true";
+}
+@section Crumbs{
+    <div class="crumbs">
+
+        <ul class="breadcrumb" id="breadcrumbs">
+            <li> <i class="icon-home"></i> <a href="@Url.Action("Index", "Dashboard", new { area="Admin"})">Dashboard</a> </li>
+            <li class="current"> <a title="" href="javascript: return void(0)">@Model.store.Name Edit Users</a> </li>
+
+        </ul>
+    </div>
+}
+<div class="row">
+    <div class="col-md-8">
+        <div class="widget box">
+            <div class="widget-header">
+                <h4>
+                    <i class="icon-reorder"></i>
+                    Edit User Entry
+                </h4>
+            </div>
+            <div class="widget-content">
+                @using (Html.BeginForm("EditStoreUser", "Dashboard", FormMethod.Post, new { @class = "form-horizontal row-border" }))
+                {
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.userForm.Username, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(m => m.userForm.Username, new { @class = "form-control", @readonly = true })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.userForm.FirstName, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(m => m.userForm.FirstName, new { @class = "form-control" })
+                            <span style="color:red">@Html.ValidationMessageFor(m => m.userForm.FirstName)</span>
+                            @Html.HiddenFor(x => x.userForm.UserId)
+                            @Html.HiddenFor(x => x.store.ProcessInstaceId)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.userForm.LastName, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(m => m.userForm.LastName, new { @class = "form-control" })
+                            <span style="color:red">@Html.ValidationMessageFor(m => m.userForm.LastName)</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.userForm.EmailAddress, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(m => m.userForm.EmailAddress, new { @class = "form-control" })
+                            <span style="color:red">@Html.ValidationMessageFor(m => m.userForm.EmailAddress)</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.userForm.MobileNumber, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(m => m.userForm.MobileNumber, new { @class = "form-control" })
+                            <span style="color:red">@Html.ValidationMessageFor(m => m.userForm.MobileNumber)</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.userForm.IsLocked, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.DropDownListFor(m => m.userForm.IsLocked,
+                         new List<SelectListItem>
+                          {
+                         new SelectListItem { Text = "Yes", Value = "True"},
+                         new SelectListItem { Text = "No", Value = "False"}
+
+                   }, new { @class = "form-control" }
+                             )
+                            <span style="color:red">@Html.ValidationMessageFor(m => m.userForm.IsLocked)</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.userForm.IsApproved, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.DropDownListFor(m => m.userForm.IsApproved,
+                         new List<SelectListItem>
+                          {
+                         new SelectListItem { Text = "Yes", Value = "True"},
+                         new SelectListItem { Text = "No", Value = "False"}
+
+                   }, new { @class = "form-control" }
+                             )
+                            <span style="color:red">@Html.ValidationMessageFor(m => m.userForm.IsApproved)</span>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <input type="submit" class="btn btn-warning pull-right" value="Save" />
+                    </div>
+
+                }
+
+            </div>
+        </div>
+    </div>
+</div>

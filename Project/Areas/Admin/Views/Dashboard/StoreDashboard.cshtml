@@ -56,7 +56,7 @@
                 <div class="visual yellow"><i class="icon-building"></i></div>
                 <div class="title">Contact Person</div>
                 <div class="value">@Model.TotalContactinfo</div>
-                <a class="more" href="@Url.Action("ContactInfoList", "Organisations", new { area= "Admin", Id=Model.store.Id })">View More <i class="pull-right icon-angle-right"></i></a>
+                <a class="more" href="@Url.Action("ContactInfoList", "Dashboard", new { area= "Admin", Id=Model.store.ProcessInstaceId })">View More <i class="pull-right icon-angle-right"></i></a>
 
             </div>
         </div>
@@ -69,7 +69,7 @@
                     Organisation Address
                 </div>
                 <div class="value">@Model.TotalAddress</div>
-                <a class="more" href="@Url.Action("AddressList", "Organisations", new { area="Admin", Id=Model.store.Id})">View More <i class="pull-right icon-angle-right"></i></a>
+                <a class="more" href="@Url.Action("AddressList", "Dashboard", new { area="Admin", Id=Model.store.ProcessInstaceId})">View More <i class="pull-right icon-angle-right"></i></a>
 
             </div>
         </div>

@@ -1412,6 +1412,13 @@
     <Content Include="Areas\Admin\Views\Dashboard\CreateStoreuser.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\StoreUserList.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\GrantStoreUserRole.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\EditStoreUser.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\ContactInfoList.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\NewContactInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\EditContactInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\AddressList.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\NewAddress.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\EditAddress.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="MvcInstaller\ajax-loader.gif" />
     <Content Include="MvcInstaller\jquery-1.6.1.min.js" />

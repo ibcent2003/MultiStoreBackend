@@ -157,6 +157,7 @@ namespace Project.Areas.Setup.Controllers
                 model.storeform.Id = GetStore.Id;
                 model.documentValue = GetStore.Logo;
                 model.documentPath = Properties.Settings.Default.DocumentPath;
+                model.store = GetStore;
                 return View(model);
             }
             catch(Exception ex)

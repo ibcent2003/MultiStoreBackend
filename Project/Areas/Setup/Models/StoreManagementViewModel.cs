@@ -13,6 +13,8 @@ namespace Project.Areas.Setup.Models
         public string documentValue { get; set; }
         public List<Store> storelist { get; set; }
         public StoreForm storeform { get; set; }
+
+        public Store store { get; set; }
     }
 
 

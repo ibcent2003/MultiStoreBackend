@@ -209,6 +209,22 @@ namespace Project.DAL
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
+        public ObjectSet<Country> Country
+        {
+            get
+            {
+                if ((_Country == null))
+                {
+                    _Country = base.CreateObjectSet<Country>("Country");
+                }
+                return _Country;
+            }
+        }
+        private ObjectSet<Country> _Country;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
         public ObjectSet<DataGenerator> DataGenerator
         {
             get
@@ -568,6 +584,14 @@ namespace Project.DAL
         public void AddToContactInfo(ContactInfo contactInfo)
         {
             base.AddObject("ContactInfo", contactInfo);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Country EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToCountry(Country country)
+        {
+            base.AddObject("Country", country);
         }
     
         /// <summary>
@@ -2509,6 +2533,218 @@ namespace Project.DAL
                 }
             }
         }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PROModel", Name="Country")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Country : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Country object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="currencyName">Initial value of the CurrencyName property.</param>
+        /// <param name="currencyCode">Initial value of the CurrencyCode property.</param>
+        /// <param name="modifiedDate">Initial value of the ModifiedDate property.</param>
+        /// <param name="modifiedBy">Initial value of the ModifiedBy property.</param>
+        /// <param name="isDeleted">Initial value of the IsDeleted property.</param>
+        public static Country CreateCountry(global::System.Int32 id, global::System.String name, global::System.String currencyName, global::System.String currencyCode, global::System.String modifiedDate, global::System.String modifiedBy, global::System.String isDeleted)
+        {
+            Country country = new Country();
+            country.Id = id;
+            country.Name = name;
+            country.CurrencyName = currencyName;
+            country.CurrencyCode = currencyCode;
+            country.ModifiedDate = modifiedDate;
+            country.ModifiedBy = modifiedBy;
+            country.IsDeleted = isDeleted;
+            return country;
+        }
+
+        #endregion
+
+        #region Simple Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false, "Name");
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String CurrencyName
+        {
+            get
+            {
+                return _CurrencyName;
+            }
+            set
+            {
+                OnCurrencyNameChanging(value);
+                ReportPropertyChanging("CurrencyName");
+                _CurrencyName = StructuralObject.SetValidValue(value, false, "CurrencyName");
+                ReportPropertyChanged("CurrencyName");
+                OnCurrencyNameChanged();
+            }
+        }
+        private global::System.String _CurrencyName;
+        partial void OnCurrencyNameChanging(global::System.String value);
+        partial void OnCurrencyNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String CurrencyCode
+        {
+            get
+            {
+                return _CurrencyCode;
+            }
+            set
+            {
+                OnCurrencyCodeChanging(value);
+                ReportPropertyChanging("CurrencyCode");
+                _CurrencyCode = StructuralObject.SetValidValue(value, false, "CurrencyCode");
+                ReportPropertyChanged("CurrencyCode");
+                OnCurrencyCodeChanged();
+            }
+        }
+        private global::System.String _CurrencyCode;
+        partial void OnCurrencyCodeChanging(global::System.String value);
+        partial void OnCurrencyCodeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ModifiedDate
+        {
+            get
+            {
+                return _ModifiedDate;
+            }
+            set
+            {
+                OnModifiedDateChanging(value);
+                ReportPropertyChanging("ModifiedDate");
+                _ModifiedDate = StructuralObject.SetValidValue(value, false, "ModifiedDate");
+                ReportPropertyChanged("ModifiedDate");
+                OnModifiedDateChanged();
+            }
+        }
+        private global::System.String _ModifiedDate;
+        partial void OnModifiedDateChanging(global::System.String value);
+        partial void OnModifiedDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ModifiedBy
+        {
+            get
+            {
+                return _ModifiedBy;
+            }
+            set
+            {
+                OnModifiedByChanging(value);
+                ReportPropertyChanging("ModifiedBy");
+                _ModifiedBy = StructuralObject.SetValidValue(value, false, "ModifiedBy");
+                ReportPropertyChanged("ModifiedBy");
+                OnModifiedByChanged();
+            }
+        }
+        private global::System.String _ModifiedBy;
+        partial void OnModifiedByChanging(global::System.String value);
+        partial void OnModifiedByChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String IsDeleted
+        {
+            get
+            {
+                return _IsDeleted;
+            }
+            set
+            {
+                OnIsDeletedChanging(value);
+                ReportPropertyChanging("IsDeleted");
+                _IsDeleted = StructuralObject.SetValidValue(value, false, "IsDeleted");
+                ReportPropertyChanged("IsDeleted");
+                OnIsDeletedChanged();
+            }
+        }
+        private global::System.String _IsDeleted;
+        partial void OnIsDeletedChanging(global::System.String value);
+        partial void OnIsDeletedChanged();
 
         #endregion
 
@@ -5390,16 +5626,18 @@ namespace Project.DAL
         /// <param name="name">Initial value of the Name property.</param>
         /// <param name="processInstaceId">Initial value of the ProcessInstaceId property.</param>
         /// <param name="uRL">Initial value of the URL property.</param>
+        /// <param name="countryId">Initial value of the CountryId property.</param>
         /// <param name="modifiedBy">Initial value of the ModifiedBy property.</param>
         /// <param name="modifiedDate">Initial value of the ModifiedDate property.</param>
         /// <param name="isDeleted">Initial value of the IsDeleted property.</param>
-        public static Store CreateStore(global::System.Int32 id, global::System.String name, global::System.Guid processInstaceId, global::System.String uRL, global::System.String modifiedBy, global::System.DateTime modifiedDate, global::System.Boolean isDeleted)
+        public static Store CreateStore(global::System.Int32 id, global::System.String name, global::System.Guid processInstaceId, global::System.String uRL, global::System.Int32 countryId, global::System.String modifiedBy, global::System.DateTime modifiedDate, global::System.Boolean isDeleted)
         {
             Store store = new Store();
             store.Id = id;
             store.Name = name;
             store.ProcessInstaceId = processInstaceId;
             store.URL = uRL;
+            store.CountryId = countryId;
             store.ModifiedBy = modifiedBy;
             store.ModifiedDate = modifiedDate;
             store.IsDeleted = isDeleted;
@@ -5532,6 +5770,30 @@ namespace Project.DAL
         private global::System.String _Logo;
         partial void OnLogoChanging(global::System.String value);
         partial void OnLogoChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 CountryId
+        {
+            get
+            {
+                return _CountryId;
+            }
+            set
+            {
+                OnCountryIdChanging(value);
+                ReportPropertyChanging("CountryId");
+                _CountryId = StructuralObject.SetValidValue(value, "CountryId");
+                ReportPropertyChanged("CountryId");
+                OnCountryIdChanged();
+            }
+        }
+        private global::System.Int32 _CountryId;
+        partial void OnCountryIdChanging(global::System.Int32 value);
+        partial void OnCountryIdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.

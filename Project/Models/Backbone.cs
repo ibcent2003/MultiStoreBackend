@@ -36,7 +36,21 @@ namespace Project.Models
             return role;
         }
 
-       
+        public static List<ContactInfo> GetStoreContactInfo(PROEntities db, Guid Id)
+        {
+            var getstore = db.Store.Where(x => x.ProcessInstaceId == Id).FirstOrDefault();
+            var getContact = getstore.ContactInfo.ToList();
+            return getContact;
+        }
+
+        public static List<AddressBook> GetStorAddress(PROEntities db, Guid Id)
+        {
+            var getstore = db.Store.Where(x => x.ProcessInstaceId == Id).FirstOrDefault();
+            var getaddress = getstore.AddressBook.ToList();
+            return getaddress;
+        }
+
+
 
 
         #region Send Notification to User

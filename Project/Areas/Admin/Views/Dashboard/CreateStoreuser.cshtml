@@ -19,7 +19,16 @@
 
 <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<div class="container">
+    <div class="row">
+        <div class="col-md-9" style="text-align: left">
+            <a href="@Url.Action("StoreUserList", "Dashboard", new {Id=Model.store.ProcessInstaceId, area = "Admin" })" class="btn btn-info">Back</a>
+        </div>
+        <div class="col-md-3"></div>
 
+    </div>
+</div>
+<br />
 <div class="col-md-12">
     <div class="widget">
         <div class="widget-header">
@@ -104,9 +113,9 @@
 
                             </div>
                         </div>
-                        <div class="form-actions">
-                            <input type="submit" value="Submit" class="btn btn-primary pull-right">
-                        </div>
+                        
+                        <input type="submit" value="Submit" class="btn btn-primary pull-right">
+
                     </div>
 
                 }
