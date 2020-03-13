@@ -31,6 +31,8 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PROModel", "FK_DocumentInfo_DocumentType", "DocumentType", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.DocumentType), "DocumentInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.DocumentInfo), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "FK_LGA_State", "State", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.State), "LGA", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.LGA), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "MembershipUser", "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.Users), "Memberships", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Project.DAL.Memberships), true)]
+[assembly: EdmRelationshipAttribute("PROModel", "FK_ProductSubCategory_ProductCategory", "ProductCategory", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.ProductCategory), "ProductSubCategory", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.ProductSubCategory), true)]
+[assembly: EdmRelationshipAttribute("PROModel", "FK_ProductChildCategory_ProductSubCategory", "ProductSubCategory", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.ProductSubCategory), "ProductChildCategory", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.ProductChildCategory), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "UserProfile", "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.Users), "Profiles", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Project.DAL.Profiles), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "FK_UserDetail_Users", "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.Users), "UserDetail", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.UserDetail), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "FK_WorkFlowActions_Workflow", "Workflow", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.Workflow), "WorkFlowActions", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.WorkFlowActions), true)]
@@ -38,6 +40,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PROModel", "FK_WorkflowStepActions_WorkFlowActions", "WorkFlowActions", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.WorkFlowActions), "WorkflowStepActions", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.WorkflowStepActions), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "FK_WorkflowStepActions_WorkflowSteps", "WorkflowSteps", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.WorkflowSteps), "WorkflowStepActions", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.WorkflowStepActions), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "DocumentTypeFormat", "DocumentFormat", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.DocumentFormat), "DocumentType", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.DocumentType))]
+[assembly: EdmRelationshipAttribute("PROModel", "ProductCategoryBrand", "ProductBrand", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.ProductBrand), "ProductCategory", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.ProductCategory))]
 [assembly: EdmRelationshipAttribute("PROModel", "StoreAddressBook", "AddressBook", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.AddressBook), "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Store))]
 [assembly: EdmRelationshipAttribute("PROModel", "StoreContactInfo", "ContactInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.ContactInfo), "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Store))]
 [assembly: EdmRelationshipAttribute("PROModel", "StoreRole", "Roles", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Roles), "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Store))]
@@ -333,6 +336,70 @@ namespace Project.DAL
             }
         }
         private ObjectSet<Memberships> _Memberships;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<ProductBrand> ProductBrand
+        {
+            get
+            {
+                if ((_ProductBrand == null))
+                {
+                    _ProductBrand = base.CreateObjectSet<ProductBrand>("ProductBrand");
+                }
+                return _ProductBrand;
+            }
+        }
+        private ObjectSet<ProductBrand> _ProductBrand;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<ProductCategory> ProductCategory
+        {
+            get
+            {
+                if ((_ProductCategory == null))
+                {
+                    _ProductCategory = base.CreateObjectSet<ProductCategory>("ProductCategory");
+                }
+                return _ProductCategory;
+            }
+        }
+        private ObjectSet<ProductCategory> _ProductCategory;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<ProductChildCategory> ProductChildCategory
+        {
+            get
+            {
+                if ((_ProductChildCategory == null))
+                {
+                    _ProductChildCategory = base.CreateObjectSet<ProductChildCategory>("ProductChildCategory");
+                }
+                return _ProductChildCategory;
+            }
+        }
+        private ObjectSet<ProductChildCategory> _ProductChildCategory;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<ProductSubCategory> ProductSubCategory
+        {
+            get
+            {
+                if ((_ProductSubCategory == null))
+                {
+                    _ProductSubCategory = base.CreateObjectSet<ProductSubCategory>("ProductSubCategory");
+                }
+                return _ProductSubCategory;
+            }
+        }
+        private ObjectSet<ProductSubCategory> _ProductSubCategory;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -648,6 +715,38 @@ namespace Project.DAL
         public void AddToMemberships(Memberships memberships)
         {
             base.AddObject("Memberships", memberships);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the ProductBrand EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToProductBrand(ProductBrand productBrand)
+        {
+            base.AddObject("ProductBrand", productBrand);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the ProductCategory EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToProductCategory(ProductCategory productCategory)
+        {
+            base.AddObject("ProductCategory", productCategory);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the ProductChildCategory EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToProductChildCategory(ProductChildCategory productChildCategory)
+        {
+            base.AddObject("ProductChildCategory", productChildCategory);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the ProductSubCategory EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToProductSubCategory(ProductSubCategory productSubCategory)
+        {
+            base.AddObject("ProductSubCategory", productSubCategory);
         }
     
         /// <summary>
@@ -4638,6 +4737,930 @@ namespace Project.DAL
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Users>("PROModel.MembershipUser", "Users", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PROModel", Name="ProductBrand")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class ProductBrand : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new ProductBrand object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="modifiedBy">Initial value of the ModifiedBy property.</param>
+        /// <param name="modifiedDate">Initial value of the ModifiedDate property.</param>
+        /// <param name="isDeleted">Initial value of the IsDeleted property.</param>
+        public static ProductBrand CreateProductBrand(global::System.Int32 id, global::System.String name, global::System.String modifiedBy, global::System.DateTime modifiedDate, global::System.Boolean isDeleted)
+        {
+            ProductBrand productBrand = new ProductBrand();
+            productBrand.Id = id;
+            productBrand.Name = name;
+            productBrand.ModifiedBy = modifiedBy;
+            productBrand.ModifiedDate = modifiedDate;
+            productBrand.IsDeleted = isDeleted;
+            return productBrand;
+        }
+
+        #endregion
+
+        #region Simple Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false, "Name");
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ModifiedBy
+        {
+            get
+            {
+                return _ModifiedBy;
+            }
+            set
+            {
+                OnModifiedByChanging(value);
+                ReportPropertyChanging("ModifiedBy");
+                _ModifiedBy = StructuralObject.SetValidValue(value, false, "ModifiedBy");
+                ReportPropertyChanged("ModifiedBy");
+                OnModifiedByChanged();
+            }
+        }
+        private global::System.String _ModifiedBy;
+        partial void OnModifiedByChanging(global::System.String value);
+        partial void OnModifiedByChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime ModifiedDate
+        {
+            get
+            {
+                return _ModifiedDate;
+            }
+            set
+            {
+                OnModifiedDateChanging(value);
+                ReportPropertyChanging("ModifiedDate");
+                _ModifiedDate = StructuralObject.SetValidValue(value, "ModifiedDate");
+                ReportPropertyChanged("ModifiedDate");
+                OnModifiedDateChanged();
+            }
+        }
+        private global::System.DateTime _ModifiedDate;
+        partial void OnModifiedDateChanging(global::System.DateTime value);
+        partial void OnModifiedDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsDeleted
+        {
+            get
+            {
+                return _IsDeleted;
+            }
+            set
+            {
+                OnIsDeletedChanging(value);
+                ReportPropertyChanging("IsDeleted");
+                _IsDeleted = StructuralObject.SetValidValue(value, "IsDeleted");
+                ReportPropertyChanged("IsDeleted");
+                OnIsDeletedChanged();
+            }
+        }
+        private global::System.Boolean _IsDeleted;
+        partial void OnIsDeletedChanging(global::System.Boolean value);
+        partial void OnIsDeletedChanged();
+
+        #endregion
+
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "ProductCategoryBrand", "ProductCategory")]
+        public EntityCollection<ProductCategory> ProductCategory
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ProductCategory>("PROModel.ProductCategoryBrand", "ProductCategory");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ProductCategory>("PROModel.ProductCategoryBrand", "ProductCategory", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PROModel", Name="ProductCategory")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class ProductCategory : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new ProductCategory object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="icon">Initial value of the Icon property.</param>
+        /// <param name="sampleImage">Initial value of the SampleImage property.</param>
+        /// <param name="modifiedBy">Initial value of the ModifiedBy property.</param>
+        /// <param name="modifiedDate">Initial value of the ModifiedDate property.</param>
+        /// <param name="isDeleted">Initial value of the IsDeleted property.</param>
+        public static ProductCategory CreateProductCategory(global::System.Int32 id, global::System.String name, global::System.String icon, global::System.String sampleImage, global::System.String modifiedBy, global::System.DateTime modifiedDate, global::System.Boolean isDeleted)
+        {
+            ProductCategory productCategory = new ProductCategory();
+            productCategory.Id = id;
+            productCategory.Name = name;
+            productCategory.Icon = icon;
+            productCategory.SampleImage = sampleImage;
+            productCategory.ModifiedBy = modifiedBy;
+            productCategory.ModifiedDate = modifiedDate;
+            productCategory.IsDeleted = isDeleted;
+            return productCategory;
+        }
+
+        #endregion
+
+        #region Simple Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false, "Name");
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Icon
+        {
+            get
+            {
+                return _Icon;
+            }
+            set
+            {
+                OnIconChanging(value);
+                ReportPropertyChanging("Icon");
+                _Icon = StructuralObject.SetValidValue(value, false, "Icon");
+                ReportPropertyChanged("Icon");
+                OnIconChanged();
+            }
+        }
+        private global::System.String _Icon;
+        partial void OnIconChanging(global::System.String value);
+        partial void OnIconChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String SampleImage
+        {
+            get
+            {
+                return _SampleImage;
+            }
+            set
+            {
+                OnSampleImageChanging(value);
+                ReportPropertyChanging("SampleImage");
+                _SampleImage = StructuralObject.SetValidValue(value, false, "SampleImage");
+                ReportPropertyChanged("SampleImage");
+                OnSampleImageChanged();
+            }
+        }
+        private global::System.String _SampleImage;
+        partial void OnSampleImageChanging(global::System.String value);
+        partial void OnSampleImageChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ModifiedBy
+        {
+            get
+            {
+                return _ModifiedBy;
+            }
+            set
+            {
+                OnModifiedByChanging(value);
+                ReportPropertyChanging("ModifiedBy");
+                _ModifiedBy = StructuralObject.SetValidValue(value, false, "ModifiedBy");
+                ReportPropertyChanged("ModifiedBy");
+                OnModifiedByChanged();
+            }
+        }
+        private global::System.String _ModifiedBy;
+        partial void OnModifiedByChanging(global::System.String value);
+        partial void OnModifiedByChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime ModifiedDate
+        {
+            get
+            {
+                return _ModifiedDate;
+            }
+            set
+            {
+                OnModifiedDateChanging(value);
+                ReportPropertyChanging("ModifiedDate");
+                _ModifiedDate = StructuralObject.SetValidValue(value, "ModifiedDate");
+                ReportPropertyChanged("ModifiedDate");
+                OnModifiedDateChanged();
+            }
+        }
+        private global::System.DateTime _ModifiedDate;
+        partial void OnModifiedDateChanging(global::System.DateTime value);
+        partial void OnModifiedDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsDeleted
+        {
+            get
+            {
+                return _IsDeleted;
+            }
+            set
+            {
+                OnIsDeletedChanging(value);
+                ReportPropertyChanging("IsDeleted");
+                _IsDeleted = StructuralObject.SetValidValue(value, "IsDeleted");
+                ReportPropertyChanged("IsDeleted");
+                OnIsDeletedChanged();
+            }
+        }
+        private global::System.Boolean _IsDeleted;
+        partial void OnIsDeletedChanging(global::System.Boolean value);
+        partial void OnIsDeletedChanged();
+
+        #endregion
+
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "FK_ProductSubCategory_ProductCategory", "ProductSubCategory")]
+        public EntityCollection<ProductSubCategory> ProductSubCategory
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ProductSubCategory>("PROModel.FK_ProductSubCategory_ProductCategory", "ProductSubCategory");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ProductSubCategory>("PROModel.FK_ProductSubCategory_ProductCategory", "ProductSubCategory", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "ProductCategoryBrand", "ProductBrand")]
+        public EntityCollection<ProductBrand> ProductBrand
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ProductBrand>("PROModel.ProductCategoryBrand", "ProductBrand");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ProductBrand>("PROModel.ProductCategoryBrand", "ProductBrand", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PROModel", Name="ProductChildCategory")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class ProductChildCategory : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new ProductChildCategory object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="productSubCategoryId">Initial value of the ProductSubCategoryId property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="modifiedBy">Initial value of the ModifiedBy property.</param>
+        /// <param name="modifiedDate">Initial value of the ModifiedDate property.</param>
+        /// <param name="isDeleted">Initial value of the IsDeleted property.</param>
+        public static ProductChildCategory CreateProductChildCategory(global::System.Int32 id, global::System.Int32 productSubCategoryId, global::System.String name, global::System.String modifiedBy, global::System.DateTime modifiedDate, global::System.Boolean isDeleted)
+        {
+            ProductChildCategory productChildCategory = new ProductChildCategory();
+            productChildCategory.Id = id;
+            productChildCategory.ProductSubCategoryId = productSubCategoryId;
+            productChildCategory.Name = name;
+            productChildCategory.ModifiedBy = modifiedBy;
+            productChildCategory.ModifiedDate = modifiedDate;
+            productChildCategory.IsDeleted = isDeleted;
+            return productChildCategory;
+        }
+
+        #endregion
+
+        #region Simple Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ProductSubCategoryId
+        {
+            get
+            {
+                return _ProductSubCategoryId;
+            }
+            set
+            {
+                OnProductSubCategoryIdChanging(value);
+                ReportPropertyChanging("ProductSubCategoryId");
+                _ProductSubCategoryId = StructuralObject.SetValidValue(value, "ProductSubCategoryId");
+                ReportPropertyChanged("ProductSubCategoryId");
+                OnProductSubCategoryIdChanged();
+            }
+        }
+        private global::System.Int32 _ProductSubCategoryId;
+        partial void OnProductSubCategoryIdChanging(global::System.Int32 value);
+        partial void OnProductSubCategoryIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false, "Name");
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ModifiedBy
+        {
+            get
+            {
+                return _ModifiedBy;
+            }
+            set
+            {
+                OnModifiedByChanging(value);
+                ReportPropertyChanging("ModifiedBy");
+                _ModifiedBy = StructuralObject.SetValidValue(value, false, "ModifiedBy");
+                ReportPropertyChanged("ModifiedBy");
+                OnModifiedByChanged();
+            }
+        }
+        private global::System.String _ModifiedBy;
+        partial void OnModifiedByChanging(global::System.String value);
+        partial void OnModifiedByChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime ModifiedDate
+        {
+            get
+            {
+                return _ModifiedDate;
+            }
+            set
+            {
+                OnModifiedDateChanging(value);
+                ReportPropertyChanging("ModifiedDate");
+                _ModifiedDate = StructuralObject.SetValidValue(value, "ModifiedDate");
+                ReportPropertyChanged("ModifiedDate");
+                OnModifiedDateChanged();
+            }
+        }
+        private global::System.DateTime _ModifiedDate;
+        partial void OnModifiedDateChanging(global::System.DateTime value);
+        partial void OnModifiedDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsDeleted
+        {
+            get
+            {
+                return _IsDeleted;
+            }
+            set
+            {
+                OnIsDeletedChanging(value);
+                ReportPropertyChanging("IsDeleted");
+                _IsDeleted = StructuralObject.SetValidValue(value, "IsDeleted");
+                ReportPropertyChanged("IsDeleted");
+                OnIsDeletedChanged();
+            }
+        }
+        private global::System.Boolean _IsDeleted;
+        partial void OnIsDeletedChanging(global::System.Boolean value);
+        partial void OnIsDeletedChanged();
+
+        #endregion
+
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "FK_ProductChildCategory_ProductSubCategory", "ProductSubCategory")]
+        public ProductSubCategory ProductSubCategory
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ProductSubCategory>("PROModel.FK_ProductChildCategory_ProductSubCategory", "ProductSubCategory").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ProductSubCategory>("PROModel.FK_ProductChildCategory_ProductSubCategory", "ProductSubCategory").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<ProductSubCategory> ProductSubCategoryReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ProductSubCategory>("PROModel.FK_ProductChildCategory_ProductSubCategory", "ProductSubCategory");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<ProductSubCategory>("PROModel.FK_ProductChildCategory_ProductSubCategory", "ProductSubCategory", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PROModel", Name="ProductSubCategory")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class ProductSubCategory : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new ProductSubCategory object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="productCategoryId">Initial value of the ProductCategoryId property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="modifiedBy">Initial value of the ModifiedBy property.</param>
+        /// <param name="modifiedDate">Initial value of the ModifiedDate property.</param>
+        /// <param name="isDeleted">Initial value of the IsDeleted property.</param>
+        public static ProductSubCategory CreateProductSubCategory(global::System.Int32 id, global::System.Int32 productCategoryId, global::System.String name, global::System.String modifiedBy, global::System.DateTime modifiedDate, global::System.Boolean isDeleted)
+        {
+            ProductSubCategory productSubCategory = new ProductSubCategory();
+            productSubCategory.Id = id;
+            productSubCategory.ProductCategoryId = productCategoryId;
+            productSubCategory.Name = name;
+            productSubCategory.ModifiedBy = modifiedBy;
+            productSubCategory.ModifiedDate = modifiedDate;
+            productSubCategory.IsDeleted = isDeleted;
+            return productSubCategory;
+        }
+
+        #endregion
+
+        #region Simple Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ProductCategoryId
+        {
+            get
+            {
+                return _ProductCategoryId;
+            }
+            set
+            {
+                OnProductCategoryIdChanging(value);
+                ReportPropertyChanging("ProductCategoryId");
+                _ProductCategoryId = StructuralObject.SetValidValue(value, "ProductCategoryId");
+                ReportPropertyChanged("ProductCategoryId");
+                OnProductCategoryIdChanged();
+            }
+        }
+        private global::System.Int32 _ProductCategoryId;
+        partial void OnProductCategoryIdChanging(global::System.Int32 value);
+        partial void OnProductCategoryIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false, "Name");
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ModifiedBy
+        {
+            get
+            {
+                return _ModifiedBy;
+            }
+            set
+            {
+                OnModifiedByChanging(value);
+                ReportPropertyChanging("ModifiedBy");
+                _ModifiedBy = StructuralObject.SetValidValue(value, false, "ModifiedBy");
+                ReportPropertyChanged("ModifiedBy");
+                OnModifiedByChanged();
+            }
+        }
+        private global::System.String _ModifiedBy;
+        partial void OnModifiedByChanging(global::System.String value);
+        partial void OnModifiedByChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime ModifiedDate
+        {
+            get
+            {
+                return _ModifiedDate;
+            }
+            set
+            {
+                OnModifiedDateChanging(value);
+                ReportPropertyChanging("ModifiedDate");
+                _ModifiedDate = StructuralObject.SetValidValue(value, "ModifiedDate");
+                ReportPropertyChanged("ModifiedDate");
+                OnModifiedDateChanged();
+            }
+        }
+        private global::System.DateTime _ModifiedDate;
+        partial void OnModifiedDateChanging(global::System.DateTime value);
+        partial void OnModifiedDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsDeleted
+        {
+            get
+            {
+                return _IsDeleted;
+            }
+            set
+            {
+                OnIsDeletedChanging(value);
+                ReportPropertyChanging("IsDeleted");
+                _IsDeleted = StructuralObject.SetValidValue(value, "IsDeleted");
+                ReportPropertyChanged("IsDeleted");
+                OnIsDeletedChanged();
+            }
+        }
+        private global::System.Boolean _IsDeleted;
+        partial void OnIsDeletedChanging(global::System.Boolean value);
+        partial void OnIsDeletedChanged();
+
+        #endregion
+
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "FK_ProductSubCategory_ProductCategory", "ProductCategory")]
+        public ProductCategory ProductCategory
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ProductCategory>("PROModel.FK_ProductSubCategory_ProductCategory", "ProductCategory").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ProductCategory>("PROModel.FK_ProductSubCategory_ProductCategory", "ProductCategory").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<ProductCategory> ProductCategoryReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ProductCategory>("PROModel.FK_ProductSubCategory_ProductCategory", "ProductCategory");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<ProductCategory>("PROModel.FK_ProductSubCategory_ProductCategory", "ProductCategory", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "FK_ProductChildCategory_ProductSubCategory", "ProductChildCategory")]
+        public EntityCollection<ProductChildCategory> ProductChildCategory
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ProductChildCategory>("PROModel.FK_ProductChildCategory_ProductSubCategory", "ProductChildCategory");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ProductChildCategory>("PROModel.FK_ProductChildCategory_ProductSubCategory", "ProductChildCategory", value);
                 }
             }
         }

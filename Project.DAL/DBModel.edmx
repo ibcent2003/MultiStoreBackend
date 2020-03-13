@@ -195,6 +195,58 @@
           <Property Name="FailedPasswordAnswerAttemptWindowsStart" Type="datetime" Nullable="false" />
           <Property Name="Comment" Type="nvarchar" MaxLength="256" />
         </EntityType>
+        <EntityType Name="ProductBrand">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Icon" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SampleImage" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductCategoryBrand">
+          <Key>
+            <PropertyRef Name="ProductCategoryId" />
+            <PropertyRef Name="ProductBrandId" />
+          </Key>
+          <Property Name="ProductCategoryId" Type="int" Nullable="false" />
+          <Property Name="ProductBrandId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductChildCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductSubCategoryId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductSubCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductCategoryId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Profiles">
           <Key>
             <PropertyRef Name="UserId" />
@@ -481,6 +533,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ProductCategoryBrand_ProductBrand">
+          <End Role="ProductBrand" Type="Self.ProductBrand" Multiplicity="1" />
+          <End Role="ProductCategoryBrand" Type="Self.ProductCategoryBrand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductBrand">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductCategoryBrand">
+              <PropertyRef Name="ProductBrandId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductCategoryBrand_ProductCategory">
+          <End Role="ProductCategory" Type="Self.ProductCategory" Multiplicity="1" />
+          <End Role="ProductCategoryBrand" Type="Self.ProductCategoryBrand" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductCategoryBrand">
+              <PropertyRef Name="ProductCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductChildCategory_ProductSubCategory">
+          <End Role="ProductSubCategory" Type="Self.ProductSubCategory" Multiplicity="1" />
+          <End Role="ProductChildCategory" Type="Self.ProductChildCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductSubCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductChildCategory">
+              <PropertyRef Name="ProductSubCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductSubCategory_ProductCategory">
+          <End Role="ProductCategory" Type="Self.ProductCategory" Multiplicity="1" />
+          <End Role="ProductSubCategory" Type="Self.ProductSubCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductSubCategory">
+              <PropertyRef Name="ProductCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_StoreAddressBook_AddressBook">
           <End Role="AddressBook" Type="Self.AddressBook" Multiplicity="1" />
           <End Role="StoreAddressBook" Type="Self.StoreAddressBook" Multiplicity="*" />
@@ -750,6 +850,11 @@
           <EntitySet Name="DocumentTypeFormat" EntityType="Self.DocumentTypeFormat" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LGA" EntityType="Self.LGA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Memberships" EntityType="Self.Memberships" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductBrand" EntityType="Self.ProductBrand" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductCategoryBrand" EntityType="Self.ProductCategoryBrand" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductChildCategory" EntityType="Self.ProductChildCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductSubCategory" EntityType="Self.ProductSubCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Profiles" EntityType="Self.Profiles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Resource" EntityType="Self.Resource" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ResourcesInRole" EntityType="Self.ResourcesInRole" Schema="dbo" store:Type="Tables" />
@@ -802,6 +907,22 @@
           <AssociationSet Name="FK_LGA_State" Association="Self.FK_LGA_State">
             <End Role="State" EntitySet="State" />
             <End Role="LGA" EntitySet="LGA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductCategoryBrand_ProductBrand" Association="Self.FK_ProductCategoryBrand_ProductBrand">
+            <End Role="ProductBrand" EntitySet="ProductBrand" />
+            <End Role="ProductCategoryBrand" EntitySet="ProductCategoryBrand" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductCategoryBrand_ProductCategory" Association="Self.FK_ProductCategoryBrand_ProductCategory">
+            <End Role="ProductCategory" EntitySet="ProductCategory" />
+            <End Role="ProductCategoryBrand" EntitySet="ProductCategoryBrand" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductChildCategory_ProductSubCategory" Association="Self.FK_ProductChildCategory_ProductSubCategory">
+            <End Role="ProductSubCategory" EntitySet="ProductSubCategory" />
+            <End Role="ProductChildCategory" EntitySet="ProductChildCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductSubCategory_ProductCategory" Association="Self.FK_ProductSubCategory_ProductCategory">
+            <End Role="ProductCategory" EntitySet="ProductCategory" />
+            <End Role="ProductSubCategory" EntitySet="ProductSubCategory" />
           </AssociationSet>
           <AssociationSet Name="FK_StoreAddressBook_AddressBook" Association="Self.FK_StoreAddressBook_AddressBook">
             <End Role="AddressBook" EntitySet="AddressBook" />
@@ -908,6 +1029,10 @@
           <EntitySet Name="DocumentType" EntityType="PROModel.DocumentType" />
           <EntitySet Name="LGA" EntityType="PROModel.LGA" />
           <EntitySet Name="Memberships" EntityType="PROModel.Memberships" />
+          <EntitySet Name="ProductBrand" EntityType="PROModel.ProductBrand" />
+          <EntitySet Name="ProductCategory" EntityType="PROModel.ProductCategory" />
+          <EntitySet Name="ProductChildCategory" EntityType="PROModel.ProductChildCategory" />
+          <EntitySet Name="ProductSubCategory" EntityType="PROModel.ProductSubCategory" />
           <EntitySet Name="Profiles" EntityType="PROModel.Profiles" />
           <EntitySet Name="Resource" EntityType="PROModel.Resource" />
           <EntitySet Name="ResourcesInRole" EntityType="PROModel.ResourcesInRole" />
@@ -968,6 +1093,14 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Memberships" EntitySet="Memberships" />
           </AssociationSet>
+          <AssociationSet Name="FK_ProductSubCategory_ProductCategory" Association="PROModel.FK_ProductSubCategory_ProductCategory">
+            <End Role="ProductCategory" EntitySet="ProductCategory" />
+            <End Role="ProductSubCategory" EntitySet="ProductSubCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductChildCategory_ProductSubCategory" Association="PROModel.FK_ProductChildCategory_ProductSubCategory">
+            <End Role="ProductSubCategory" EntitySet="ProductSubCategory" />
+            <End Role="ProductChildCategory" EntitySet="ProductChildCategory" />
+          </AssociationSet>
           <AssociationSet Name="UserProfile" Association="PROModel.UserProfile">
             <End Role="Users" EntitySet="Users" />
             <End Role="Profiles" EntitySet="Profiles" />
@@ -995,6 +1128,10 @@
           <AssociationSet Name="DocumentTypeFormat" Association="PROModel.DocumentTypeFormat">
             <End Role="DocumentFormat" EntitySet="DocumentFormat" />
             <End Role="DocumentType" EntitySet="DocumentType" />
+          </AssociationSet>
+          <AssociationSet Name="ProductCategoryBrand" Association="PROModel.ProductCategoryBrand">
+            <End Role="ProductBrand" EntitySet="ProductBrand" />
+            <End Role="ProductCategory" EntitySet="ProductCategory" />
           </AssociationSet>
           <AssociationSet Name="StoreAddressBook" Association="PROModel.StoreAddressBook">
             <End Role="AddressBook" EntitySet="AddressBook" />
@@ -1220,6 +1357,56 @@
           <Property Name="Comment" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Applications" Relationship="PROModel.MembershipApplication" FromRole="Memberships" ToRole="Applications" />
           <NavigationProperty Name="Users" Relationship="PROModel.MembershipUser" FromRole="Memberships" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="ProductBrand">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ProductCategory" Relationship="PROModel.ProductCategoryBrand" FromRole="ProductBrand" ToRole="ProductCategory" />
+        </EntityType>
+        <EntityType Name="ProductCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Icon" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SampleImage" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ProductSubCategory" Relationship="PROModel.FK_ProductSubCategory_ProductCategory" FromRole="ProductCategory" ToRole="ProductSubCategory" />
+          <NavigationProperty Name="ProductBrand" Relationship="PROModel.ProductCategoryBrand" FromRole="ProductCategory" ToRole="ProductBrand" />
+        </EntityType>
+        <EntityType Name="ProductChildCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductSubCategoryId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ProductSubCategory" Relationship="PROModel.FK_ProductChildCategory_ProductSubCategory" FromRole="ProductChildCategory" ToRole="ProductSubCategory" />
+        </EntityType>
+        <EntityType Name="ProductSubCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductCategoryId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ProductCategory" Relationship="PROModel.FK_ProductSubCategory_ProductCategory" FromRole="ProductSubCategory" ToRole="ProductCategory" />
+          <NavigationProperty Name="ProductChildCategory" Relationship="PROModel.FK_ProductChildCategory_ProductSubCategory" FromRole="ProductSubCategory" ToRole="ProductChildCategory" />
         </EntityType>
         <EntityType Name="Profiles">
           <Key>
@@ -1529,6 +1716,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ProductSubCategory_ProductCategory">
+          <End Type="PROModel.ProductCategory" Role="ProductCategory" Multiplicity="1" />
+          <End Type="PROModel.ProductSubCategory" Role="ProductSubCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductSubCategory">
+              <PropertyRef Name="ProductCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductChildCategory_ProductSubCategory">
+          <End Type="PROModel.ProductSubCategory" Role="ProductSubCategory" Multiplicity="1" />
+          <End Type="PROModel.ProductChildCategory" Role="ProductChildCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductSubCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductChildCategory">
+              <PropertyRef Name="ProductSubCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="UserProfile">
           <End Type="PROModel.Users" Role="Users" Multiplicity="1" />
           <End Type="PROModel.Profiles" Role="Profiles" Multiplicity="0..1" />
@@ -1604,6 +1815,10 @@
         <Association Name="DocumentTypeFormat">
           <End Type="PROModel.DocumentFormat" Role="DocumentFormat" Multiplicity="*" />
           <End Type="PROModel.DocumentType" Role="DocumentType" Multiplicity="*" />
+        </Association>
+        <Association Name="ProductCategoryBrand">
+          <End Type="PROModel.ProductBrand" Role="ProductBrand" Multiplicity="*" />
+          <End Type="PROModel.ProductCategory" Role="ProductCategory" Multiplicity="*" />
         </Association>
         <Association Name="StoreAddressBook">
           <End Type="PROModel.AddressBook" Role="AddressBook" Multiplicity="*" />
@@ -1828,6 +2043,54 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ProductBrand">
+            <EntityTypeMapping TypeName="PROModel.ProductBrand">
+              <MappingFragment StoreEntitySet="ProductBrand">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductCategory">
+            <EntityTypeMapping TypeName="PROModel.ProductCategory">
+              <MappingFragment StoreEntitySet="ProductCategory">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="SampleImage" ColumnName="SampleImage" />
+                <ScalarProperty Name="Icon" ColumnName="Icon" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductChildCategory">
+            <EntityTypeMapping TypeName="PROModel.ProductChildCategory">
+              <MappingFragment StoreEntitySet="ProductChildCategory">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ProductSubCategoryId" ColumnName="ProductSubCategoryId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductSubCategory">
+            <EntityTypeMapping TypeName="PROModel.ProductSubCategory">
+              <MappingFragment StoreEntitySet="ProductSubCategory">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Profiles">
             <EntityTypeMapping TypeName="PROModel.Profiles">
               <MappingFragment StoreEntitySet="Profiles">
@@ -1983,6 +2246,14 @@
             </EndProperty>
             <EndProperty Name="DocumentFormat">
               <ScalarProperty Name="Id" ColumnName="DocumentTypeFormatId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ProductCategoryBrand" TypeName="PROModel.ProductCategoryBrand" StoreEntitySet="ProductCategoryBrand">
+            <EndProperty Name="ProductCategory">
+              <ScalarProperty Name="Id" ColumnName="ProductCategoryId" />
+            </EndProperty>
+            <EndProperty Name="ProductBrand">
+              <ScalarProperty Name="Id" ColumnName="ProductBrandId" />
             </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="StoreAddressBook" TypeName="PROModel.StoreAddressBook" StoreEntitySet="StoreAddressBook">

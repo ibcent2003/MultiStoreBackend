@@ -218,10 +218,13 @@
     <Compile Include="Areas\SecurityGuard\SecurityGuardAreaRegistration.cs" />
     <Compile Include="Areas\Setup\Controllers\AlertManagementController.cs" />
     <Compile Include="Areas\Setup\Controllers\DocumentTypeController.cs" />
+    <Compile Include="Areas\Setup\Controllers\ProductCategoryController.cs" />
     <Compile Include="Areas\Setup\Controllers\StoreController.cs" />
     <Compile Include="Areas\Setup\Controllers\WorkFlowController.cs" />
     <Compile Include="Areas\Setup\Models\AlertViewModel.cs" />
     <Compile Include="Areas\Setup\Models\DocumentTypeViewModel.cs" />
+    <Compile Include="Areas\Setup\Models\ProductCategoryModel.cs" />
+    <Compile Include="Areas\Setup\Models\ProductChildModel.cs" />
     <Compile Include="Areas\Setup\Models\StoreManagementViewModel.cs" />
     <Compile Include="Areas\Setup\Models\WorkflowViewModel.cs" />
     <Compile Include="Areas\Setup\SetupAreaRegistration.cs" />
@@ -1419,6 +1422,11 @@
     <Content Include="Areas\Admin\Views\Dashboard\AddressList.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\NewAddress.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\EditAddress.cshtml" />
+    <Content Include="Areas\Setup\Views\ProductCategory\Index.cshtml" />
+    <Content Include="Areas\Setup\Views\ProductCategory\NewProductCategory.cshtml" />
+    <Content Include="Areas\Setup\Views\ProductCategory\EditProductCategory.cshtml" />
+    <Content Include="Areas\Setup\Views\ProductCategory\SubCategoryList.cshtml" />
+    <Content Include="Areas\Setup\Views\ProductCategory\ChildCategoryList.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="MvcInstaller\ajax-loader.gif" />
     <Content Include="MvcInstaller\jquery-1.6.1.min.js" />

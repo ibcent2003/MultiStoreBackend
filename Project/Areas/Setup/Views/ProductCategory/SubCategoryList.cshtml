@@ -1,0 +1,321 @@
+﻿@model Project.Areas.Setup.Models.ProductCategoryModel
+@using Project.HtmlHelpers
+@{
+    ViewBag.Title =  Model.productcategory.Name;
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.IsGreetings = "true";
+        var db = new Project.DAL.PROEntities();
+    
+}
+@section Crumbs{
+    <div class="crumbs">
+
+        <ul class="breadcrumb" id="breadcrumbs">
+            <li> <i class="icon-home"></i> <a href="@Url.Action("Index", "Dashboard", new { area="Admin"})">Dashboard</a> </li>
+            <li class="current"> <a title="" href="javascript: return void(0)"></a> @Model.productcategory.Name</li>
+        </ul>
+    </div>
+}
+
+<link href="~/Content/Backend/DataTable/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="~/Content/Backend/DataTable/css/buttons.dataTables.min.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="widget box">
+            <div class="widget-header">
+                <h4>
+                    <i class="icon-reorder"></i>
+                   Product Category
+                </h4>
+            </div>
+            <div class="widget-content">
+
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                S/N
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Icon
+                            </th>
+
+                            <th>
+                                Modified By
+                            </th>
+                            <th>
+                                Modified Date
+                            </th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.productcategory != null)
+                        {
+
+
+                            <tr>
+                                <td>
+                                    1
+
+                                </td>
+                                <td>
+                                    @Model.productcategory.Name
+                                </td>
+                                <td>
+                                    @Model.productcategory.Icon
+                                </td>
+
+                                <td>
+                                    @Model.productcategory.ModifiedBy
+                                </td>
+                                <td>
+                                    @Model.productcategory.ModifiedDate
+                                </td>
+
+
+                                <td>
+                                    @if (@Model.productcategory.IsDeleted == true)
+                                    {
+                                        <span class="label label-info">Yes</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="label label-warning">No</span>
+                                    }
+
+                                </td>
+
+                            </tr>
+
+
+
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="99">No Records Found!...</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="widget box">
+            <div class="widget-header">
+                <h4>
+                    <i class="icon-reorder"></i>
+                    Product Sub Category  <a class="btn btn-xs btn-warning" href="@Url.Action("Index", "ProductCategory", new { area="Setup"})">Back</a>  <a data-toggle="modal" href="#myModal1" class="btn btn-xs btn-danger">Add New</a>
+                </h4>
+
+                <div class="modal fade" id="myModal1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            @using (Html.BeginForm("NewSubCategory", "ProductCategory", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal row-border" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(x => x.ProductSubCategoryform.ProductCategoryId)
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title">Add Sub Product Category</h4>
+                                </div>
+
+                                <div class="modal-body">
+
+                                    <div class="form-group">
+                                        @Html.Label("Product Category", new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-5">
+                                            @Html.TextBoxFor(m => m.productcategory.Name, new { @class = "form-control" , @readonly=true})
+                                           
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.Label("Sub Category", new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-5">
+                                            @Html.TextBoxFor(m => m.ProductSubCategoryform.Name, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.ProductSubCategoryform.Name)
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.Label("Is Deleted", new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-5">
+                                            @Html.CheckBoxFor(m => m.ProductSubCategoryform.IsDeleted)
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <input type="submit" class="btn btn-primary" value="Save Changes" />
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="widget-content">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr style="font-size: 12px;">
+                            <th>S/N</th>
+                            <th>Name</th>
+                            <th>Is Deleted?</th>                           
+                            <th>Modified By</th>
+                            <th>Modified Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.ProductSubCategorylist.Count != 0)
+                        {
+                            int i = 0;
+                            foreach (var item in Model.ProductSubCategorylist)
+                            {
+                                ++i;
+                        <tr style="font-size: 12px;">
+                            <td>
+                                @i
+                            </td>
+                            <td>@item.Name</td>
+                            <td>
+                                @if (item.IsDeleted == true)
+                                {
+                                    <span class="label label-success"> <strong>Yes</strong></span>
+                                }
+                                else
+                                {
+                                    <span class="label label-danger"> <strong>No</strong></span>
+                                }
+
+                            </td>
+
+                            <td>@item.ModifiedBy</td>
+                            <td>@item.ModifiedDate</td>
+                            <td>
+                                @{
+                                    var getSubCategory = db.ProductSubCategory.Where(x => x.Id == item.Id).FirstOrDefault();
+                                    Model.ProductCategoryform = new Project.Areas.Setup.Models.ProductCategoryForm();
+                                    Model.ProductSubCategoryform.Name = getSubCategory.Name;
+                                    Model.ProductSubCategoryform.IsDeleted = getSubCategory.IsDeleted;
+                                    Model.ProductSubCategoryform.Id = item.Id;
+                                }
+                                <div class="modal fade" id="@getSubCategory.Id">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            @using (Html.BeginForm("EditSubCategory", "ProductCategory", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal row-border" }))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                @Html.HiddenFor(x => x.ProductSubCategoryform.ProductCategoryId)
+                                                @Html.HiddenFor(x => x.ProductSubCategoryform.Id)
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h4 class="modal-title">Edit Sub Product Category</h4>
+                                                </div>
+
+                                                <div class="modal-body">
+
+                                                    <div class="form-group">
+                                                        @Html.Label("Product Category", new { @class = "col-md-3 control-label" })
+                                                        <div class="col-md-5">
+                                                            @Html.TextBoxFor(m => m.productcategory.Name, new { @class = "form-control", @readonly = true })
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.Label("Sub Category", new { @class = "col-md-3 control-label" })
+                                                        <div class="col-md-5">
+                                                            @Html.TextBoxFor(m => m.ProductSubCategoryform.Name, new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.ProductSubCategoryform.Name)
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.Label("Is Deleted", new { @class = "col-md-3 control-label" })
+                                                        <div class="col-md-5">
+                                                            @Html.CheckBoxFor(m => m.ProductSubCategoryform.IsDeleted)
+                                                        </div>
+                                                    </div>
+
+
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    <input type="submit" class="btn btn-primary" value="Save Changes" />
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <a data-toggle="modal" href="#@getSubCategory.Id" class="btn btn-xs btn-warning">Edit</a>
+                                <a class="btn btn-xs btn-success" href="@Url.Action("ChildCategoryList", "ProductCategory", new {CategoryId=getSubCategory.ProductCategoryId,SubId=item.Id, area="Setup"})">Manage Child Category</a>
+
+                            </td>
+                          
+                        </tr>
+
+                              
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8">No Records Found!...</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Content/Backend/DataTable/js/jquery.dataTables.min.js"></script>
+<script src="~/Content/Backend/DataTable/js/dataTables.buttons.min.js"></script>
+<script src="~/Content/Backend/DataTable/js/buttons.flash.min.js"></script>
+<script src="~/Content/Backend/DataTable/js/buttons.html5.min.js"></script>
+<script src="~/Content/Backend/DataTable/js/buttons.print.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#coverNone').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'excel', 'pdf'
+            ]
+        });
+
+    });
+
+    function DeleteConfirm() {
+        if (confirm("Are you sure want to remove this member?"))
+            return true;
+        else
+            return false;
+    }
+
+
+</script>
