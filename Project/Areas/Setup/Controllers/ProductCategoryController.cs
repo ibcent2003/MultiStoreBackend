@@ -37,6 +37,35 @@ namespace Project.Areas.Setup.Controllers
                 return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
             }
         }
+        //public ActionResult ExecuteCommand()
+        //{
+        //    try
+        //    {
+        //        var GetCategory = db.ProductCategory.ToList();
+        //        foreach(var c in GetCategory)
+        //        {
+        //           var getbrandInSheet = db.Sheet.Where(x=>x.Category==c.Name).ToList();
+        //            foreach(var s in getbrandInSheet)
+        //            {
+        //              var getb = db.ProductBrand.Where(x => x.Name == s.BrandName).FirstOrDefault();
+        //                c.ProductBrand.Add(getb);
+        //                db.SaveChanges();
+        //            }
+                    
+                  
+        //        }
+        //        TempData["message"] ="Brand Uploaded successfully.";
+        //        return RedirectToAction("Index");
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+        //        TempData["message"] = Settings.Default.GenericExceptionMessage;
+        //        TempData["messageType"] = "danger";
+        //        return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+        //    }
+        //}
 
         public ActionResult NewProductCategory()
         {
@@ -132,6 +161,101 @@ namespace Project.Areas.Setup.Controllers
                 return View(model);
             }
             catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
+
+        public ActionResult BrandInProduct(int Id)
+        {
+            try
+            {
+                ProductCategoryModel model = new ProductCategoryModel();
+
+                var getcategory = db.ProductCategory.Where(x => x.Id == Id).FirstOrDefault();
+                if(getcategory==null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index");
+                }
+
+                List<int> list = (from x in getcategory.ProductBrand select x.Id).ToList<int>();
+                model.Brandlist = db.ProductBrand.Where(x => x.IsDeleted == false && !list.Contains(x.Id)).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x=>x.Text).ToList();
+                var productbrand = getcategory.ProductBrand.ToList();
+                model.prductbrand = productbrand;
+                model.productcategory = getcategory;
+                model.ProductCategoryId = Id;
+                return View(model);
+            }
+            catch(Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult BrandInProduct(ProductCategoryModel model)
+        {
+            try
+            {
+                var getcategory = db.ProductCategory.Where(x => x.Id == model.ProductCategoryId).FirstOrDefault();
+                if (getcategory == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index");
+                }
+                List<int> list = (from x in getcategory.ProductBrand select x.Id).ToList<int>();
+                model.Brandlist = db.ProductBrand.Where(x => x.IsDeleted == false && !list.Contains(x.Id)).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).ToList();
+
+                var productbrand = getcategory.ProductBrand.ToList();
+                model.prductbrand = productbrand;
+                model.productcategory = getcategory;
+                if(model.BrandId==0)
+                {
+                    base.TempData["messageType"] = "danger";
+                    base.TempData["message"] = "Please select a brand from the dropdownlist and click on the Add button";
+                     return RedirectToAction("BrandInProduct", "ProductCategory", new { Id = model.ProductCategoryId, area = "Setup" });
+                }
+
+                var getbrand = db.ProductBrand.Where(x => x.Id == model.BrandId).FirstOrDefault();
+                getcategory.ProductBrand.Add(getbrand);
+                db.SaveChanges();
+                base.TempData["message"] = "The Brand "+getbrand.Name+" has been added Successfully";
+                return RedirectToAction("BrandInProduct", "ProductCategory", new { Id = model.ProductCategoryId, area = "Setup" });
+              
+            }
+            catch(Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
+        public ActionResult RemoveBrandInProduct(int Id, int BrandId)
+        {
+            try
+            {
+                ProductCategoryModel model = new ProductCategoryModel();
+                var getcategory = db.ProductCategory.Where(x => x.Id == Id).FirstOrDefault();
+                var getbrand = db.ProductBrand.Where(x => x.Id == BrandId).FirstOrDefault();
+                getcategory.ProductBrand.Remove(getbrand);
+                db.SaveChanges();
+                base.TempData["message"] = "The "+getbrand.Name+" has been deleted successfully.";
+                return RedirectToAction("BrandInProduct", "ProductCategory", new { Id = Id, area = "Setup" });
+
+            }
+            catch(Exception ex)
             {
                 Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
                 TempData["message"] = Settings.Default.GenericExceptionMessage;

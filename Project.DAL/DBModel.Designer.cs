@@ -468,6 +468,22 @@ namespace Project.DAL
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
+        public ObjectSet<Sheet> Sheet
+        {
+            get
+            {
+                if ((_Sheet == null))
+                {
+                    _Sheet = base.CreateObjectSet<Sheet>("Sheet");
+                }
+                return _Sheet;
+            }
+        }
+        private ObjectSet<Sheet> _Sheet;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
         public ObjectSet<State> State
         {
             get
@@ -779,6 +795,14 @@ namespace Project.DAL
         public void AddToRoles(Roles roles)
         {
             base.AddObject("Roles", roles);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Sheet EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToSheet(Sheet sheet)
+        {
+            base.AddObject("Sheet", sheet);
         }
     
         /// <summary>
@@ -6467,6 +6491,114 @@ namespace Project.DAL
                 }
             }
         }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PROModel", Name="Sheet")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Sheet : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Sheet object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="brandName">Initial value of the BrandName property.</param>
+        /// <param name="category">Initial value of the Category property.</param>
+        public static Sheet CreateSheet(global::System.Int32 id, global::System.String brandName, global::System.String category)
+        {
+            Sheet sheet = new Sheet();
+            sheet.Id = id;
+            sheet.BrandName = brandName;
+            sheet.Category = category;
+            return sheet;
+        }
+
+        #endregion
+
+        #region Simple Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String BrandName
+        {
+            get
+            {
+                return _BrandName;
+            }
+            set
+            {
+                OnBrandNameChanging(value);
+                ReportPropertyChanging("BrandName");
+                _BrandName = StructuralObject.SetValidValue(value, false, "BrandName");
+                ReportPropertyChanged("BrandName");
+                OnBrandNameChanged();
+            }
+        }
+        private global::System.String _BrandName;
+        partial void OnBrandNameChanging(global::System.String value);
+        partial void OnBrandNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Category
+        {
+            get
+            {
+                return _Category;
+            }
+            set
+            {
+                OnCategoryChanging(value);
+                ReportPropertyChanging("Category");
+                _Category = StructuralObject.SetValidValue(value, false, "Category");
+                ReportPropertyChanged("Category");
+                OnCategoryChanged();
+            }
+        }
+        private global::System.String _Category;
+        partial void OnCategoryChanging(global::System.String value);
+        partial void OnCategoryChanged();
 
         #endregion
 

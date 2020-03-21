@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Project.Areas.Setup.Models
 {
@@ -25,6 +26,12 @@ namespace Project.Areas.Setup.Models
         public ProductCategoryForm ProductCategoryform { get; set; }
         public ProductSubCategoryForm ProductSubCategoryform { get; set; }
         public ProductChildCategoryForm ProductChildCategoryform { get; set; }
+
+
+        public List<SelectListItem> Brandlist {get;  set; }
+        public int BrandId { get; set; }
+        public int ProductCategoryId { get; set; }
+        public List<ProductBrand> prductbrand { get; set; }
     }
 
 

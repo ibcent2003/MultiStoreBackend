@@ -218,11 +218,13 @@
     <Compile Include="Areas\SecurityGuard\SecurityGuardAreaRegistration.cs" />
     <Compile Include="Areas\Setup\Controllers\AlertManagementController.cs" />
     <Compile Include="Areas\Setup\Controllers\DocumentTypeController.cs" />
+    <Compile Include="Areas\Setup\Controllers\ProductBrandController.cs" />
     <Compile Include="Areas\Setup\Controllers\ProductCategoryController.cs" />
     <Compile Include="Areas\Setup\Controllers\StoreController.cs" />
     <Compile Include="Areas\Setup\Controllers\WorkFlowController.cs" />
     <Compile Include="Areas\Setup\Models\AlertViewModel.cs" />
     <Compile Include="Areas\Setup\Models\DocumentTypeViewModel.cs" />
+    <Compile Include="Areas\Setup\Models\ProductBrandViewModel.cs" />
     <Compile Include="Areas\Setup\Models\ProductCategoryModel.cs" />
     <Compile Include="Areas\Setup\Models\ProductChildModel.cs" />
     <Compile Include="Areas\Setup\Models\StoreManagementViewModel.cs" />
@@ -1427,6 +1429,10 @@
     <Content Include="Areas\Setup\Views\ProductCategory\EditProductCategory.cshtml" />
     <Content Include="Areas\Setup\Views\ProductCategory\SubCategoryList.cshtml" />
     <Content Include="Areas\Setup\Views\ProductCategory\ChildCategoryList.cshtml" />
+    <Content Include="Areas\Setup\Views\ProductBrand\Index.cshtml" />
+    <Content Include="Areas\Setup\Views\ProductBrand\NewBrand.cshtml" />
+    <Content Include="Areas\Setup\Views\ProductBrand\EditBrand.cshtml" />
+    <Content Include="Areas\Setup\Views\ProductCategory\BrandInProduct.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="MvcInstaller\ajax-loader.gif" />
     <Content Include="MvcInstaller\jquery-1.6.1.min.js" />

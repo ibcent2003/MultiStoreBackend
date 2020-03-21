@@ -25,7 +25,7 @@
         <div class="widget-content">
             <div class="row" style="margin-bottom: 10px;">
                 <div class="col-md-12">
-                <a class="btn btn-xs btn-warning" href="@Url.Action("Index", "Dashboard", new { area="Admin"})">Dashboard</a>   @Html.ActionLink("Create New", "NewProductCategory", null, new { @class = "btn btn-xs btn-success" })
+                    <a class="btn btn-xs btn-warning" href="@Url.Action("Index", "Dashboard", new { area="Admin"})">Dashboard</a>   @Html.ActionLink("Create New", "NewProductCategory", null, new { @class = "btn btn-xs btn-success" })   @*@Html.ActionLink("Execute Command", "ExecuteCommand", null, new { @class = "btn btn-xs btn-primary" })*@
                 </div>
 
             </div>
@@ -99,6 +99,7 @@
 
                         <td>
                             <a class="btn btn-xs btn-danger" href="@Url.Action("EditProductCategory", "ProductCategory", new { area="Setup", Id = item.Id})">Edit</a>
+                            <a class="btn btn-xs btn-warning" href="@Url.Action("BrandInProduct", "ProductCategory", new { area="Setup", Id = item.Id})">Brand</a>
                             <a class="btn btn-xs btn-success" href="@Url.Action("SubCategoryList", "ProductCategory", new { area="Setup", Id = item.Id})">Details</a>
                         </td>
                     </tr>
