@@ -82,7 +82,8 @@ namespace Project.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        //return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
                     }
                 }
                 else

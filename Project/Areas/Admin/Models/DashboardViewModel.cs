@@ -40,5 +40,30 @@ namespace Project.Areas.Admin.Models
 
         public List<IntegerSelectListItem> LgaList{get; set;}
         public List<IntegerSelectListItem> StateList { get; set; }
+
+
+          //list items
+        public List<SelectListItem> Categorylist { get; set; }       
+        public int ProductCategoryId { get; set; }
+        public List<ProductCategory> StoreProductCategory { get; set; }
+
+
+        //list items
+        public List<SelectListItem> SubCategorylist { get; set; }
+        public int ProductSubCategoryId { get; set; }
+        public List<ProductSubCategory> StoreProductSubCategory { get; set; }
+
+        public ProductCategory storeCate { get; set; }
+        public bool HasAllSubCategory { get; set; }
+
+
+        //list items
+        public List<SelectListItem> ChildCategorylist { get; set; }
+        public int ProductChildCategoryId { get; set; }
+        public List<ProductChildCategory> StoreProductChildCategory { get; set; }
+
+        public ProductSubCategory storesubCate { get; set; }
+        public bool HasAllChildCategory { get; set; }
+
     }
 }

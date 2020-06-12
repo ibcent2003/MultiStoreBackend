@@ -80,6 +80,25 @@ namespace Project.Areas.Admin.Controllers
             try
             {
                 DashboardViewModel model = new DashboardViewModel();
+
+
+                //var storeDetail = storeDetails();
+                //if (storeDetail == null && !User.IsInRole("ADMINISTRATOR"))
+                //{
+                //    Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Unauthorised Access"));
+                //    TempData["message"] = "Unauthorised Access";
+                //    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                //}
+
+                    //var storeDetail = storeDetails();                
+                    //if (storeDetail == null)
+                    //{
+                    //    Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Unauthorised Access"));
+                    //    TempData["message"] = "Unauthorised Access";
+                    //    return RedirectToAction("Index", "Store", new { area = "Setup" });                   
+                    //}
+
+              //  storeDetail = model.store;
                 model.store = Backbone.GetStore(db, Id);
                 if(model.store==null)
                 {
@@ -102,6 +121,406 @@ namespace Project.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Store", new { area = "Setup" });
             }
         }
+
+        public ActionResult StoreCategory(Guid Id)
+        {
+            try
+            {
+
+                //var storeDetail = storeDetails();
+                //if (storeDetail == null || !Roles.GetRolesForUser(User.Identity.Name).Contains("ADMINISTRATOR"))
+                //{
+                //    Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Unauthorised Access"));
+                //    TempData["message"] = "Unauthorised Access";
+                //    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                //}
+
+                DashboardViewModel model = new DashboardViewModel();
+                model.store = Backbone.GetStore(db, Id);
+                if (model.store == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }                               
+                List<int> list = (from x in model.store.ProductCategory  select x.Id).ToList<int>();
+                model.Categorylist = db.ProductCategory.Where(x => x.IsDeleted == false && !list.Contains(x.Id)).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+               
+                model.StoreProductCategory = model.store.ProductCategory.ToList();
+                
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Store", new { area = "Setup" });
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult StoreCategory(DashboardViewModel model)
+        {
+            try
+            {
+
+                model.store = Backbone.GetStore(db, model.store.ProcessInstaceId);
+                if (model.store == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+
+
+                var getcategory = db.ProductCategory.Where(x => x.Id == model.ProductCategoryId).FirstOrDefault();
+                if (getcategory == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index");
+                }
+                List<int> list = (from x in model.store.ProductCategory select x.Id).ToList<int>();
+                model.Categorylist = db.ProductCategory.Where(x => x.IsDeleted == false && !list.Contains(x.Id)).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+
+                model.StoreProductCategory = model.store.ProductCategory.ToList();
+               
+                if (model.ProductCategoryId == 0)
+                {
+                    base.TempData["messageType"] = "danger";
+                    base.TempData["message"] = "Please select a Category from the dropdownlist and click on the Add button";
+                    return RedirectToAction("StoreCategory", "Dashboard", new { Id = model.store.ProcessInstaceId, area = "Admin" });
+                }
+               
+                model.store.ProductCategory.Add(getcategory);
+                db.SaveChanges();
+                base.TempData["message"] = "The Category " + getcategory.Name.ToUpper() + " has been added Successfully";
+                return RedirectToAction("StoreCategory", "Dashboard", new { Id = model.store.ProcessInstaceId, area = "Admin" });
+
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
+        public ActionResult RemoveStoreCategory(Guid Id, int CategoryId)
+        {
+            try
+            {
+                DashboardViewModel model = new DashboardViewModel();
+
+                model.store = Backbone.GetStore(db, Id);
+                if (model.store == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+                var getcategory = db.ProductCategory.Where(x => x.Id == CategoryId).FirstOrDefault();
+                if (getcategory == null)
+                {
+                    TempData["message"] = "Error: Something went wrong. Please try again later or contact the system administrator. ";
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("StoreCategory", "Dashboard", new { Id = Id, area = "Admin" });
+                }
+            
+                //check if product has been uploaded for this category
+                var validateProduct = model.store.StoreProduct.Where(x => x.ProductCategoryId == CategoryId).ToList();
+                if (validateProduct.Any())
+                {
+                    TempData["message"] = "You can not remove this category from your store because there is an existing product attacted to the category "+getcategory.Name.ToUpper()+". Kindly delete the product before deleting the category or contact the system administrator. ";
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("StoreCategory", "Dashboard", new { Id = Id, area = "Admin" });
+                }
+             
+                model.store.ProductCategory.Remove(getcategory);
+                db.SaveChanges();
+                base.TempData["message"] = "The " + getcategory.Name + " has been deleted successfully.";
+                return RedirectToAction("StoreCategory", "Dashboard", new { Id = Id, area = "Admin" });
+
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
+        public ActionResult StoreSubCategory(Guid Id, int CategoryId)
+        {
+            try
+            {
+                DashboardViewModel model = new DashboardViewModel();
+                model.store = Backbone.GetStore(db, Id);
+                if (model.store == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+                var GetCate = db.ProductCategory.Where(x => x.Id == CategoryId).FirstOrDefault();
+                if (GetCate == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+               
+
+                model.storeCate = GetCate;
+                List<int> list = (from x in model.store.ProductSubCategory select x.Id).ToList<int>();
+                model.SubCategorylist = db.ProductSubCategory.Where(x => x.IsDeleted == false && !list.Contains(x.Id) && x.ProductCategoryId==CategoryId).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+
+                model.StoreProductSubCategory = model.store.ProductSubCategory.Where(x=>x.ProductCategoryId==CategoryId).ToList();
+                if (model.SubCategorylist.Count() == 0)
+                {
+                    model.HasAllSubCategory = false;
+                }
+                else
+                {
+                    model.HasAllSubCategory = true;
+                }
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult StoreSubCategory(DashboardViewModel model)
+        {
+            try
+            {
+                model.store = Backbone.GetStore(db, model.store.ProcessInstaceId);
+                if (model.store == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+                var getSubcategory = db.ProductSubCategory.Where(x => x.Id == model.ProductSubCategoryId).FirstOrDefault();
+                if (getSubcategory == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index");
+                }
+                 List<int> list = (from x in model.store.ProductSubCategory select x.Id).ToList<int>();
+                 model.SubCategorylist = db.ProductSubCategory.Where(x => x.IsDeleted == false && !list.Contains(x.Id) && x.ProductCategoryId == getSubcategory.ProductCategoryId).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                 if (model.SubCategorylist == null)
+                 {
+                     model.HasAllSubCategory = true;
+                 }
+                 else
+                 {
+                     model.HasAllSubCategory = false;
+                 }
+
+
+                model.StoreProductSubCategory = model.store.ProductSubCategory.Where(x => x.ProductCategoryId == getSubcategory.ProductCategoryId).ToList();
+                model.store.ProductSubCategory.Add(getSubcategory);
+                db.SaveChanges();
+                base.TempData["message"] = "The Category " + getSubcategory.Name.ToUpper() + " has been added Successfully";
+                return RedirectToAction("StoreSubCategory", "Dashboard", new { Id = model.store.ProcessInstaceId, CategoryId = getSubcategory.ProductCategoryId, area = "Admin" });
+            }
+            catch(Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
+        public ActionResult RemoveStoreSubCategory(Guid Id, int SubCategoryId)
+        {
+            try
+            {
+                DashboardViewModel model = new DashboardViewModel();
+                model.store = Backbone.GetStore(db, Id);
+                if (model.store == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+                var getSubcategory = db.ProductSubCategory.Where(x => x.Id == SubCategoryId).FirstOrDefault();
+                if (getSubcategory == null)
+                {
+                    TempData["message"] = "Error: Something went wrong. Please try again later or contact the system administrator. ";
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+                //check if product has been uploaded for this subcategory
+                var validateProduct = model.store.StoreProduct.Where(x => x.ProductSubCategoryId == SubCategoryId).ToList();
+                if (validateProduct.Any())
+                {
+                    TempData["message"] = "You can not remove this category from your store because there is an existing product attacted to the category " + getSubcategory.Name.ToUpper() + ". Kindly delete the product before deleting the category or contact the system administrator. ";
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("StoreSubCategory", "Dashboard", new { Id = Id,CategoryId=getSubcategory.ProductCategoryId, area = "Admin" });
+                }
+                model.store.ProductSubCategory.Remove(getSubcategory);
+                db.SaveChanges();
+                base.TempData["message"] = "The " + getSubcategory.Name + " has been deleted successfully.";
+                return RedirectToAction("StoreSubCategory", "Dashboard", new { Id = Id, CategoryId = getSubcategory.ProductCategoryId, area = "Admin" });
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
+        public ActionResult StoreChildCategory(Guid Id, int SubCategoryId)
+        {
+            try
+            {
+                DashboardViewModel model = new DashboardViewModel();
+                model.store = Backbone.GetStore(db, Id);
+                if (model.store == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+                var GetSubCate = db.ProductSubCategory.Where(x => x.Id == SubCategoryId).FirstOrDefault();
+                if (GetSubCate == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+                model.storesubCate = GetSubCate;
+                List<int> list = (from x in model.store.ProductChildCategory select x.Id).ToList<int>();
+                model.ChildCategorylist = db.ProductChildCategory.Where(x => x.IsDeleted == false && !list.Contains(x.Id) && x.ProductSubCategoryId==SubCategoryId).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                model.StoreProductChildCategory = model.store.ProductChildCategory.Where(x => x.ProductSubCategoryId == SubCategoryId).ToList();
+                if (model.ChildCategorylist.Count() == 0)
+                {
+                    model.HasAllChildCategory = false;
+                }
+                else
+                {
+                    model.HasAllChildCategory = true;
+                }
+                var GetCate = db.ProductCategory.Where(x => x.Id == GetSubCate.ProductCategoryId).FirstOrDefault();
+                model.storeCate = GetCate;
+                model.storesubCate = GetSubCate;
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+
+            }
+        }
+
+        [HttpPost]
+        public ActionResult StoreChildCategory(DashboardViewModel model)
+        {
+            try
+            {
+                model.store = Backbone.GetStore(db, model.store.ProcessInstaceId);
+                if (model.store == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+                var getChildbcategory = db.ProductChildCategory.Where(x => x.Id == model.ProductChildCategoryId).FirstOrDefault();
+                if (getChildbcategory == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index");
+                }
+                List<int> list = (from x in model.store.ProductChildCategory select x.Id).ToList<int>();
+
+                model.ChildCategorylist = db.ProductChildCategory.Where(x => x.IsDeleted == false && !list.Contains(x.Id) && x.ProductSubCategoryId == getChildbcategory.ProductSubCategoryId).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                if (model.ChildCategorylist == null)
+                {
+                    model.HasAllSubCategory = true;
+                }
+                else
+                {
+                    model.HasAllSubCategory = false;
+                }
+
+
+                model.StoreProductChildCategory = model.store.ProductChildCategory.Where(x => x.ProductSubCategoryId == getChildbcategory.ProductSubCategoryId).ToList();
+                model.store.ProductChildCategory.Add(getChildbcategory);
+                db.SaveChanges();
+                base.TempData["message"] = "The Category " + getChildbcategory.Name.ToUpper() + " has been added Successfully";
+                return RedirectToAction("StoreChildCategory", "Dashboard", new { Id = model.store.ProcessInstaceId, SubCategoryId = getChildbcategory.ProductSubCategoryId, area = "Admin" });
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
+        public ActionResult RemoveStoreChildCategory(Guid Id, int ChildCategoryId)
+        {
+            try
+            {
+                DashboardViewModel model = new DashboardViewModel();
+                model.store = Backbone.GetStore(db, Id);
+                if (model.store == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+                var getSubcategory = db.ProductChildCategory.Where(x => x.Id == ChildCategoryId).FirstOrDefault();
+                if (getSubcategory == null)
+                {
+                    TempData["message"] = "Error: Something went wrong. Please try again later or contact the system administrator. ";
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+                //check if product has been uploaded for this subcategory
+                var validateProduct = model.store.StoreProduct.Where(x => x.ProductChildCategoryId == ChildCategoryId).ToList();
+                if (validateProduct.Any())
+                {
+                    TempData["message"] = "You can not remove this Child category from your store because there is an existing product attacted to " + getSubcategory.Name.ToUpper() + ". Kindly delete the product before deleting the child category or contact the system administrator. ";
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("StoreChildCategory", "Dashboard", new { Id = Id, SubCategoryId = getSubcategory.ProductSubCategoryId, area = "Admin" });
+                }
+                model.store.ProductChildCategory.Remove(getSubcategory);
+                db.SaveChanges();
+                base.TempData["message"] = "The " + getSubcategory.Name + " has been deleted successfully.";
+                return RedirectToAction("StoreChildCategory", "Dashboard", new { Id = Id, SubCategoryId = getSubcategory.ProductSubCategoryId, area = "Admin" });
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
 
         #region manage store roles
         public ActionResult StoreRoles(Guid Id)
