@@ -12,9 +12,14 @@ namespace Project.Areas.Setup.Models
     {
         public SizeForm sizeForm{get;set;}
 
-        public IList<Size> Rows{get; set;}
+        public List<Size> Rows{get; set;}
 
         public List<IntegerSelectListItem> SizeTypeList{get;set;}
+
+        public SizeTypeForm sizeTypeform { get; set; }
+
+        public List<SizeType> TypeList { get; set; }
+
     }
 
     public class SizeForm
@@ -28,7 +33,18 @@ namespace Project.Areas.Setup.Models
 
         [Display(Name = "Size Type")]
         [Required(ErrorMessage = "Please select Size Type")]
-        public int WorkFlowId{get;set;}
+        public int SizeTypeId{get;set;}
+
+        public bool IsDeleted { get; set; }
+    }
+
+    public class SizeTypeForm
+    {
+        public int Id { get; set; }
+
+        [Display(Name = "Size Name")]
+        [Required(ErrorMessage = "Please enter Size Type")]
+        public string Name { get; set; }       
 
         public bool IsDeleted { get; set; }
     }

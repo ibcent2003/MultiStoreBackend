@@ -190,13 +190,13 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Areas\Setup\Models\Admin\AdminAreaRegistration.cs" />
-    <Compile Include="Areas\Setup\Models\Admin\Controllers\DashboardController.cs" />
-    <Compile Include="Areas\Setup\Models\Admin\Controllers\ResourceController.cs" />
-    <Compile Include="Areas\Setup\Models\Admin\Models\DashboardViewModel.cs" />
-    <Compile Include="Areas\Setup\Models\Admin\Models\GrantResourceToRoleViewModel.cs" />
-    <Compile Include="Areas\Setup\Models\Admin\Models\ResourceEditModel.cs" />
-    <Compile Include="Areas\Setup\Models\Admin\Models\ResourceViewModel.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ResourceController.cs" />
+    <Compile Include="Areas\Admin\Models\DashboardViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\GrantResourceToRoleViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\ResourceEditModel.cs" />
+    <Compile Include="Areas\Admin\Models\ResourceViewModel.cs" />
     <Compile Include="Areas\SecurityGuard\Controllers\DashboardController.cs" />
     <Compile Include="Areas\SecurityGuard\Controllers\MembershipController.cs" />
     <Compile Include="Areas\SecurityGuard\Controllers\RoleController.cs" />
@@ -1327,16 +1327,10 @@
     <Content Include="installer.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Areas\Setup\Models\Admin\Views\Web.config" />
     <Content Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </Content>
-    <Content Include="Areas\Setup\Models\Admin\Views\Resource\Nav.cshtml" />
-    <Content Include="Areas\Setup\Models\Admin\Views\Resource\Index.cshtml" />
-    <Content Include="Areas\Setup\Models\Admin\Views\Resource\Edit.cshtml" />
-    <Content Include="Areas\Setup\Models\Admin\Views\Resource\ResourceToRole.cshtml" />
-    <Content Include="Areas\Setup\Models\Admin\Views\Dashboard\Index.cshtml" />
     <Content Include="Scripts\jquery-1.12.4.min.map" />
     <Content Include="Content\Backend\assets\css\font\fontawesome-webfont.svg" />
     <Content Include="Content\Backend\assets\css\font\fontawesome-webfontd41d.eot" />
@@ -1416,19 +1410,7 @@
     <Content Include="Areas\Setup\Views\AlertManagement\Edit.cshtml" />
     <Content Include="Areas\Setup\Views\WorkFlow\ConfigureSteps.cshtml" />
     <Content Include="Connected Services\Application Insights\ConnectedService.json" />
-    <Content Include="Areas\Setup\Models\Admin\Views\Dashboard\StoreDashboard.cshtml" />
     <Content Include="Areas\Setup\Views\Store\EditStore.cshtml" />
-    <Content Include="Areas\Setup\Models\Admin\Views\Dashboard\StoreRoles.cshtml" />
-    <Content Include="Areas\Setup\Models\Admin\Views\Dashboard\CreateStoreuser.cshtml" />
-    <Content Include="Areas\Setup\Models\Admin\Views\Dashboard\StoreUserList.cshtml" />
-    <Content Include="Areas\Setup\Models\Admin\Views\Dashboard\GrantStoreUserRole.cshtml" />
-    <Content Include="Areas\Setup\Models\Admin\Views\Dashboard\EditStoreUser.cshtml" />
-    <Content Include="Areas\Setup\Models\Admin\Views\Dashboard\ContactInfoList.cshtml" />
-    <Content Include="Areas\Setup\Models\Admin\Views\Dashboard\NewContactInfo.cshtml" />
-    <Content Include="Areas\Setup\Models\Admin\Views\Dashboard\EditContactInfo.cshtml" />
-    <Content Include="Areas\Setup\Models\Admin\Views\Dashboard\AddressList.cshtml" />
-    <Content Include="Areas\Setup\Models\Admin\Views\Dashboard\NewAddress.cshtml" />
-    <Content Include="Areas\Setup\Models\Admin\Views\Dashboard\EditAddress.cshtml" />
     <Content Include="Areas\Setup\Views\ProductCategory\Index.cshtml" />
     <Content Include="Areas\Setup\Views\ProductCategory\NewProductCategory.cshtml" />
     <Content Include="Areas\Setup\Views\ProductCategory\EditProductCategory.cshtml" />
@@ -1438,13 +1420,35 @@
     <Content Include="Areas\Setup\Views\ProductBrand\NewBrand.cshtml" />
     <Content Include="Areas\Setup\Views\ProductBrand\EditBrand.cshtml" />
     <Content Include="Areas\Setup\Views\ProductCategory\BrandInProduct.cshtml" />
-    <Content Include="Areas\Setup\Models\Admin\Views\Dashboard\StoreCategory.cshtml" />
-    <Content Include="Areas\Setup\Models\Admin\Views\Dashboard\StoreSubCategory.cshtml" />
-    <Content Include="Areas\Setup\Models\Admin\Views\Dashboard\StoreChildCategory.cshtml" />
     <Content Include="Areas\Setup\Views\ProductColor\Index.cshtml" />
     <Content Include="Areas\Setup\Views\ProductColor\NewProductColor.cshtml" />
     <Content Include="Areas\Setup\Views\ProductColor\EditProductColor.cshtml" />
     <Content Include="Areas\Setup\Views\SizeManagement\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\AddressList.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\ContactInfoList.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\CreateStoreuser.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\EditAddress.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\EditContactInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\EditStoreUser.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\GrantStoreUserRole.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\NewAddress.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\NewContactInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\StoreCategory.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\StoreChildCategory.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\StoreDashboard.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\StoreRoles.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\StoreSubCategory.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\StoreUserList.cshtml" />
+    <Content Include="Areas\Admin\Views\Resource\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Resource\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Resource\Nav.cshtml" />
+    <Content Include="Areas\Admin\Views\Resource\ResourceToRole.cshtml" />
+    <Content Include="Areas\Admin\Views\Web.config" />
+    <Content Include="Areas\Setup\Views\SizeManagement\NewSize.cshtml" />
+    <Content Include="Areas\Setup\Views\SizeManagement\EditSize.cshtml" />
+    <Content Include="Areas\Setup\Views\SizeManagement\SizeTypeIndex.cshtml" />
+    <Content Include="Areas\Setup\Views\SizeManagement\EditSizeType.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="MvcInstaller\ajax-loader.gif" />
     <Content Include="MvcInstaller\jquery-1.6.1.min.js" />
@@ -1545,7 +1549,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Setup\Models\Admin\Views\Shared\" />
+    <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Areas\Setup\Views\Shared\" />
     <Folder Include="Content\Backend\datatables\extensions\AutoFill\css\" />
     <Folder Include="Content\Backend\datatables\extensions\AutoFill\examples\" />

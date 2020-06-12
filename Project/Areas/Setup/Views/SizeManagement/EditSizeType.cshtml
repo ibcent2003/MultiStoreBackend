@@ -1,0 +1,98 @@
+﻿@model Project.Areas.Setup.Models.SizeManagementViewModel
+
+@{
+    ViewBag.Title = "Edit Size Type";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.IsGreetings = "true";}
+
+@section Crumbs{
+    <div class="crumbs">
+
+        <ul class="breadcrumb" id="breadcrumbs">
+            <li> <i class="icon-home"></i> <a href="@Url.Action("Index", "Dashboard", new { area="Admin"})">Dashboard</a> </li>
+            <li class="current"> <a title="" href="javascript: return void(0)">Edit Size Type</a> </li>
+        </ul>
+    </div>
+}
+<style>
+    .required:after {
+        content: "*";
+        font-weight: bold;
+        color: red;
+    }
+</style>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="widget box">
+            <div class="widget-header">
+                <h4>
+                    <i class="icon-reorder"></i>
+                    New Size Type
+
+                </h4>
+            </div>
+            <div class="widget-content">
+                @using (Html.BeginForm("EditSizeType", "SizeManagement", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal row-border" }))
+                {
+
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(x => x.sizeTypeform.Id)
+                   
+                    <div class="form-group">
+                        @Html.Label("Size Type", new { @class = "col-md-2 control-label required" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.sizeTypeform.Name, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.sizeTypeform.Name, null, new { @style = "color:red" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Is Deleted?", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.CheckBoxFor(m => m.sizeTypeform.IsDeleted)
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="form-actions">
+                        <a href="@Url.Action("SizeTypeIndex", "SizeManagement", new { area="Setup"})" class="btn btn-success btn-xs"><< Back to List </a>
+                        <input type="submit" class="btn btn-warning btn-xs pull-right" value="Save" />
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    @Scripts.Render("~/Content/Backend/plugins/datatables/jquery.dataTables.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/datatables/tabletools/TableTools.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/datatables/colvis/ColVis.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/datatables/DT_bootstrap.js")
+    @Scripts.Render("~/Content/Backend/plugins/jquery-ui/jquery-ui-1.10.2.custom.min.js")
+    <script>
+        "use strict";
+        $(document).ready(function () {
+            $(".datepicker-issueddate").datepicker({
+                defaultDate: +7,
+                showOtherMonths: true,
+                autoSize: false,
+                maxDate: new Date(),
+                appendText: '<span class="help-block">(yyyy-mm-dd)</span>',
+                dateFormat: "yy-mm-dd"
+            });
+
+        });
+    </script>
+}
+
+
+
+
+
