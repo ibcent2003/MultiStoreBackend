@@ -58,10 +58,10 @@ namespace Project.Areas.Admin.Controllers
                  {
                     return View(model);
                 }
-                else if (Roles.GetRolesForUser(User.Identity.Name).Contains("Store Admin"))
+                else if (Roles.GetRolesForUser(User.Identity.Name).Contains("Store Admin") || Roles.GetRolesForUser(User.Identity.Name).Contains("Product Manager"))
                 {
                     var store = storeDetails();
-                    return RedirectToAction("StoreDashboard", "Dashboard", new { area = "Setup", Id=store.ProcessInstaceId });
+                    return RedirectToAction("StoreDashboard", "Dashboard", new { area = "Admin", Id=store.ProcessInstaceId });
                 }                             
                 return View(model); 
             }
@@ -82,23 +82,17 @@ namespace Project.Areas.Admin.Controllers
                 DashboardViewModel model = new DashboardViewModel();
 
 
-                //var storeDetail = storeDetails();
-                //if (storeDetail == null && !User.IsInRole("ADMINISTRATOR"))
-                //{
-                //    Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Unauthorised Access"));
-                //    TempData["message"] = "Unauthorised Access";
-                //    return RedirectToAction("Index", "Store", new { area = "Setup" });
-                //}
-
-                    //var storeDetail = storeDetails();                
-                    //if (storeDetail == null)
-                    //{
-                    //    Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Unauthorised Access"));
-                    //    TempData["message"] = "Unauthorised Access";
-                    //    return RedirectToAction("Index", "Store", new { area = "Setup" });                   
-                    //}
-
-              //  storeDetail = model.store;
+                var storeDetail = storeDetails();
+                if (!System.Web.Security.Roles.IsUserInRole("Administrator"))
+                {
+                    if (storeDetail == null)
+                    {
+                        Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Unauthorised Access"));
+                        TempData["message"] = "Unauthorised Access";
+                        return RedirectToAction("Index", "Store", new { area = "Setup" });
+                    }
+                }
+               
                 model.store = Backbone.GetStore(db, Id);
                 if(model.store==null)
                 {
