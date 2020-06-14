@@ -15,7 +15,7 @@
     </div>
 }
 <div class="widget-header">
-    <a href="@Url.Action("EditStore", "Store", new { area="Setup", Id=Model.store.Id})" class="btn btn-warning btn-xs">Edit Store</a> <a href="@Url.Action("Index", "Organisations", new { area = "Admin" })" class="btn btn-inverse btn-xs">View Store as User</a> <a href="@Url.Action("StoreCategory", "Dashboard", new { area="Admin", Id=Model.store.ProcessInstaceId})" class="btn btn-danger btn-xs">Manage Category</a>  <a href="@Url.Action("StoreCategory", "Dashboard", new { area="Admin", Id=Model.store.ProcessInstaceId})" class="btn btn-success btn-xs">Manage Product</a>
+    <a href="@Url.Action("EditStore", "Store", new { area="Setup", Id=Model.store.Id})" class="btn btn-warning btn-xs">Edit Store</a> <a href="@Url.Action("Index", "Organisations", new { area = "Admin" })" class="btn btn-inverse btn-xs">View Store as User</a> <a href="@Url.Action("StoreCategory", "Dashboard", new { area="Admin", Id=Model.store.ProcessInstaceId})" class="btn btn-danger btn-xs">Manage Category</a>  <a href="@Url.Action("Index", "ProductManagement", new { area="Setup", Id=Model.store.ProcessInstaceId})" class="btn btn-success btn-xs">Manage Product</a>
 </div>
 <br />
 

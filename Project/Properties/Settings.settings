@@ -26,5 +26,8 @@
     <Setting Name="NewAccount" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">3</Value>
     </Setting>
+    <Setting Name="ProductImagePath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\FortressDocuments\ProductImages\</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -10,8 +10,15 @@ namespace Project.Areas.Setup.Models
 {
     public class ProductManagementViewModel
     {
+        //Tables Mostly Index Page
+        public List<ProductCategory> CategoryList { get; set; }
         public List<StoreProduct> ProductList { get; set; }
+
+        //Dropdown list
         public List<IntegerSelectListItem> BrandList { get; set; }
+        public List<IntegerSelectListItem> SubcategoryList { get; set; }
+        public List<IntegerSelectListItem> ChildcategoryList { get; set; }
+
 
         public Store store { get; set; }
         public ProductForm Productform { get; set; }

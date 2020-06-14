@@ -1,0 +1,268 @@
+﻿@model Project.Areas.Setup.Models.ProductManagementViewModel
+@{
+    ViewBag.Title = "Product List for " + Model.store.Name + "";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.IsGreetings = "true";
+    var db = new Project.DAL.PROEntities();
+}
+@section Crumbs{
+    <div class="crumbs">
+
+        <ul class="breadcrumb" id="breadcrumbs">
+            <li> <i class="icon-home"></i> <a href="@Url.Action("Index", "Dashboard", new { area="Admin"})">Dashboard</a> </li>
+            <li class="current"> <a title="" href="javascript: return void(0)">Product List for @Model.store.Name</a> </li>
+
+        </ul>
+    </div>
+}
+@section Styles {
+    <link href="@Url.Content("~/Backend/Content/Custom/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Backend/Content/themes/base/jquery.ui.all.css")" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="widget">
+            <div class="widget-header">
+                <a href="@Url.Action("StoreDashboard", "Dashboard", new {Id=Model.store.ProcessInstaceId, area = "Admin" })" class="btn btn-xs btn-info">Back</a>
+                <div class="toolbar no-padding">
+                    <div class="btn-group"><span class="btn btn-xs widget-collapse"><i class="icon-angle-down"></i></span><span class="btn btn-xs widget-refresh"><i class="icon-refresh"></i></span></div>
+                </div>
+            </div>
+
+            <div class="widget-content">
+                <table class="table table-striped table-bordered table-hover table-checkable datatable dataTable">
+                    <thead>
+                        <tr>
+
+                            <th>SN</th>
+                            <th>
+                              Name
+                            </th>
+                            <th>
+                                Discount Price
+                            </th>
+                            <th>
+                                Acutal Price
+                            </th>
+                            <th>
+                                Quantity
+                            </th>
+                            <th>
+                                Reorder Level
+                            </th>
+                           
+                            <th>
+                                Photo
+                            </th>
+                            <th>
+                            Deleted?
+                            </th>
+
+                            <th style="text-align:right">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @if (Model.ProductList.Count != 0)
+                        {
+
+                            int i = 0;
+                            foreach (var item in Model.ProductList)
+                            {
+                                ++i;
+                                <tr>
+                                    <td>
+                                        @i
+                                    </td>
+                                    <td>
+                                        @item.Name
+                                    </td>
+                                    <td>                                        
+                                        <span class="label label-danger"> <strong>₦@String.Format("{0:n0}", item.DiscountPrice)</strong></span>
+                                    </td>
+                                    <td>
+                                        <span class="label label-success"> <strong>₦@String.Format("{0:n0}", item.AcutalPrice)</strong></span>
+                                    </td>
+
+                                    <td>
+                                        <span class="label label-info"> <strong>@item.Quantity</strong></span>
+                                    </td>
+
+                                    <td>
+                                        <span class="label label-success"> <strong>@item.ReorderLevel</strong></span>
+                                    </td>
+                                    <td>
+                                        <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + item.Photo1 })" height="50" width="50" style="border:solid" />
+                                    </td>
+                                    <td>
+                                        @if (item.IsDeleted == true)
+                                        {
+                                            <span class="label label-success"> <strong>Yes</strong></span>
+                                        }
+                                        else
+                                        {
+                                            <span class="label label-danger"> <strong>No</strong></span>
+                                        }
+                                    </td>
+                                    <td>
+                                       
+                                        <div class="dropdown">
+                                            <span class="btn dropdown-toggle btn-xs btn-success" type="button" id="dropdownMenu1" data-toggle="dropdown">Action List <i class="icon-angle-down"></i></span>
+                                            <ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="dropdownMenu1">
+                                                <li role="presentation">@Html.ActionLink("Remove", "DeleteStaffInformation", new { StaffId = item.Id, Id = Model.store.ProcessInstaceId }, new { role = "menuitem", tabindex = "-1", onclick = "return DeleteConfirm()" })</li>
+                                                <li role="presentation">@Html.ActionLink("Re-Order", "DeleteStaffInformation", new { StaffId = item.Id, Id = Model.store.ProcessInstaceId }, new { role = "menuitem", tabindex = "-1" })</li>
+                                                @if (item.HasSize == true)
+                                                {
+                                                <li role="presentation">@Html.ActionLink("Attach Size", "DeleteStaffInformation", new { StaffId = item.Id, Id = Model.store.ProcessInstaceId }, new { role = "menuitem", tabindex = "-1" })</li>
+                                                }
+                                                @if (item.HasColor == true)
+                                                {
+                                                 <li role="presentation">@Html.ActionLink("Attach Color", "DeleteStaffInformation", new { StaffId = item.Id, Id = Model.store.ProcessInstaceId }, new { role = "menuitem", tabindex = "-1" })</li>
+                                                }                                               
+                                                <li role="presentation">@Html.ActionLink("Edit Product", "EditStaffInformation", new { StaffId = item.Id, Id = Model.store.ProcessInstaceId }, new { role = "menuitem", tabindex = "-1" })</li>
+                                                <li role="presentation"><a data-toggle="modal" title="Product Information" href="#@item.Id"><i class="icon-eye-open"></i></a></li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="row">
+
+
+
+
+                                            <div class="modal fade" id="@item.Id">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                            <h4 class="modal-title">Product Information</h4>
+
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            <table class="my-acct">
+                                                                <tr>
+                                                                    <td>Product Name: </td>
+                                                                    <td>@item.Name</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Discount Price: </td>
+                                                                    <td>₦@String.Format("{0:n0}", item.DiscountPrice)</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Acutal Price: </td>
+                                                                    <td>₦@String.Format("{0:n0}", item.AcutalPrice)</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Quantity: </td>
+                                                                    <td>@item.Quantity</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Reorder Level: </td>
+                                                                    <td>@item.ReorderLevel</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Product Category: </td>
+                                                                    <td>@item.ProductCategory.Name</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Sub Category: </td>
+                                                                    <td>@item.ProductSubCategory.Name</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Child Category: </td>
+                                                                    <td>@item.ProductChildCategory.Name</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Brand: </td>
+                                                                    <td>@item.ProductBrand.Name</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Customers View: </td>
+                                                                    <td>@item.NoOfView</td>
+                                                                </tr>
+
+                                                                      <tr>
+                                                                    <td>Photo:</td>
+                                                                    <td>
+                                                                        <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + item.Photo1 })" height="100" width="100" style="border:solid" /> <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + item.Photo2 })" height="100" width="100" style="border:solid" /> <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + item.Photo3 })" height="100" width="100" style="border:solid" />
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Description:</td>
+                                                                    <td>
+                                                                       @Html.Raw(item.Description)
+                                                                    </td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Modified By:</td>
+                                                                    <td>
+                                                                        @item.ModifiedBy
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Modified Date:</td>
+                                                                    <td>
+                                                                        @item.ModifiedDate
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Is Deleted:</td>
+                                                                    <td>
+                                                                        @if (item.IsDeleted == true)
+                                                                        {
+                                                                            <span class="label label-success"> <strong>Yes</strong></span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <span class="label label-danger"> <strong>No</strong></span>
+                                                                        }
+                                                                    </td>
+                                                                </tr>
+
+
+                                                            </table>
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                     
+                                    </td>
+
+                                </tr>
+
+                            }
+
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    function DeleteConfirm() {
+        if (confirm("Are you sure want to remove this Category from you Store?"))
+            return true;
+        else
+            return false;
+    }
+
+</script>
+

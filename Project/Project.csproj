@@ -218,6 +218,7 @@
     <Compile Include="Areas\SecurityGuard\Models\UserViewModel.cs" />
     <Compile Include="Areas\SecurityGuard\SecurityGuardAreaRegistration.cs" />
     <Compile Include="Areas\Setup\Controllers\AlertManagementController.cs" />
+    <Compile Include="Areas\Setup\Controllers\ProductManagementController.cs" />
     <Compile Include="Areas\Setup\Controllers\SizeManagementController.cs" />
     <Compile Include="Areas\Setup\Controllers\ProductColorController.cs" />
     <Compile Include="Areas\Setup\Controllers\DocumentTypeController.cs" />
@@ -1450,6 +1451,8 @@
     <Content Include="Areas\Setup\Views\SizeManagement\EditSize.cshtml" />
     <Content Include="Areas\Setup\Views\SizeManagement\SizeTypeIndex.cshtml" />
     <Content Include="Areas\Setup\Views\SizeManagement\EditSizeType.cshtml" />
+    <Content Include="Areas\Setup\Views\ProductManagement\Index.cshtml" />
+    <Content Include="Areas\Setup\Views\ProductManagement\ProductList.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="MvcInstaller\ajax-loader.gif" />
     <Content Include="MvcInstaller\jquery-1.6.1.min.js" />
