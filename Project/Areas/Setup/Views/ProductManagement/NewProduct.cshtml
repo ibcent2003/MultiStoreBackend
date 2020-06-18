@@ -1,0 +1,240 @@
+﻿@model Project.Areas.Setup.Models.ProductManagementViewModel
+@{
+    ViewBag.Title = Model.store.Name + " New Product";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.IsGreetings = "true";
+}
+
+@section Crumbs{
+    <div class="crumbs">
+
+        <ul class="breadcrumb" id="breadcrumbs">
+            <li><i class="icon-home"></i><a href="@Url.Action("Index", "Home", new { area = "Admin" })">Dashboard</a> </li>
+            <li><i class="current"></i><a href="javascript: return void(0)">@Model.store.Name  New Product</a> </li>
+
+
+        </ul>
+    </div>
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="widget box">
+            <div class="widget-header">
+               <h4><i class="icon-reorder"></i>You are adding a product for under @Model.category.Name.ToUpper() Category :</h4> <h4 style="color:red">  Please note fileds with red * is required. </h4> 
+            </div>
+            <div class="widget-content">
+                @using (Html.BeginForm("NewProduct", "ProductManagement", new {Id=Model.store.ProcessInstaceId, CategoryId=Model.Productform.CategoryId }, FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal row-border" }))
+                {
+                    @Html.HiddenFor(x => x.store.ProcessInstaceId)
+                    @Html.HiddenFor(x=>x.Productform.CategoryId)
+                    @Html.AntiForgeryToken()  
+                    @Html.ValidationSummary()                 
+                    <div class="form-group">
+                        @Html.Label("Product Name", new { @class = "col-md-2 control-label required" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.Productform.Name, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Productform.Name, null, new { @style = "color:red" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Brand", new { @class = "col-md-2 control-label required" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(m => m.Productform.BrandId, new SelectList(Model.BrandList, "Value", "Text"), new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Productform.BrandId, null, new { @style = "color:red" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Discount Price", new { @class = "col-md-2 control-label required" })
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(m => m.Productform.DiscountPrice, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Productform.DiscountPrice, null, new { @style = "color:red" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Actual Price", new { @class = "col-md-2 control-label required" })
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(m => m.Productform.AcutalPrice, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Productform.AcutalPrice, null, new { @style = "color:red" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Quantity", new { @class = "col-md-2 control-label required" })
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(m => m.Productform.Quantity, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Productform.Quantity, null, new { @style = "color:red" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Re-order Level", new { @class = "col-md-2 control-label required" })
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(m => m.Productform.ReorderLevel, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Productform.ReorderLevel, null, new { @style = "color:red" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Sub Category", new { @class = "col-md-2 control-label required" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(m => m.Productform.ProductSubCategoryId, new SelectList(Model.SubcategoryList, "Value", "Text"), "select One", new { @class = "form-control", onChange = "GetAllChild(this)" })
+                            @Html.ValidationMessageFor(model => model.Productform.ProductSubCategoryId, null, new { @style = "color:red" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Child Category", new { @class = "col-md-2 control-label required" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(m => m.Productform.ProductChildCategoryId, new SelectList(Model.ChildcategoryList, "Value", "Text"), new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Productform.ProductChildCategoryId, null, new { @style = "color:red" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Photo 1", new { @class = "col-md-2 control-label required" })
+                        <div class="col-md-6">                           
+                            @Html.TextBoxFor(x => Model.Productform.Photo1, new { type = "file", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Productform.Photo1, null, new { @style = "color:red" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Photo 2", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(x => Model.Productform.Photo2, new { type = "file", @class = "form-control" })
+                            @*@Html.ValidationMessageFor(model => model.Productform.Photo2, null, new { @style = "color:red" })*@
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Photo 3", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(x => Model.Productform.Photo3, new { type = "file", @class = "form-control" })
+                            @*@Html.ValidationMessageFor(model => model.Productform.Photo3, null, new { @style = "color:red" })*@
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Has Color", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-1">
+                            @Html.CheckBoxFor(x => Model.Productform.HasColor, new {@class = "form-control" })
+                            
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Has Size", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-1">
+                            @Html.CheckBoxFor(x => Model.Productform.HasSize, new { @class = "form-control" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Description", new { @class = "col-md-2 control-label required" })
+                        <div class="col-md-6">
+                            @Html.TextAreaFor(x => Model.Productform.Description, new { @class = "form-control" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <a href="@Url.Action("ProductList", "ProductManagement", new {Id=Model.store.ProcessInstaceId,CategoryId=Model.Productform.CategoryId, area="Setup"})" class="btn btn-success btn-xs"><< Back to List </a>
+                        <input type="submit" class="btn btn-warning btn-xs pull-right" value="Save" />
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/Content/Backend/plugins/datatables/jquery.dataTables.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/datatables/tabletools/TableTools.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/datatables/colvis/ColVis.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/datatables/DT_bootstrap.js")
+    @Scripts.Render("~/Content/Backend/plugins/jquery-ui/jquery-ui-1.10.2.custom.min.js")
+    @Scripts.Render("~/Content/Backend/vendors/tinymce/tinymce.min.js")
+    <script>
+        "use strict";
+        $(document).ready(function () {
+            $(".datepicker-issueddate").datepicker({
+                defaultDate: +7,
+                showOtherMonths: true,
+                autoSize: false,
+                maxDate: new Date(),
+                appendText: '<span class="help-block">(yyyy-mm-dd)</span>',
+                dateFormat: "yy-mm-dd"
+            });
+
+        });
+
+        function getchild(e) {
+            var subcategoryId = $(e).val();
+
+            var currentRequest = null;
+            var currentRequest = $.ajax({
+                url: '@Url.Action("GetChildId", "ProductManagement")',
+                dataType: 'json',
+                type: 'POST',
+                data: { SubCategoryId: subcategoryId },
+                beforeSend: function () {
+                    if (currentRequest != null) {
+                        currentRequest.abort();
+                    }
+                },
+                success: function (msg) {
+                    $("#Productform_ProductChildCategoryId").html("");
+                    $.each(msg, function (index, element) {
+                        $("#Productform_ProductChildCategoryId").append('<option  value="' + element.Value + '">' + element.Text + '</option>');
+                    });
+                },
+                error: function (errmsg) { }
+            });
+        }
+
+        function GetAllChild(e) {
+            getchild(e);
+
+        }
+
+
+
+        tinymce.init({
+            selector: "textarea",
+            mode: "exact",
+            elements: "newsform_NewsContent",
+            theme: "modern",
+
+
+
+
+            plugins: [
+                "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                "searchreplace wordcount visualblocks visualchars code fullscreen",
+                "insertdatetime media nonbreaking save table contextmenu directionality",
+                "emoticons template paste textcolor "
+            ],
+            toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+            toolbar2: "print preview media | forecolor backcolor emoticons",
+            image_advtab: true,
+            templates: [
+                { title: 'Test template 1', content: 'Test 1' },
+                { title: 'Test template 2', content: 'Test 2' }
+            ]
+        });
+    </script>
+}
+<style>
+    .required:after {
+        content: "*";
+        font-weight: bold;
+        color: red;
+    }
+</style>
+
+

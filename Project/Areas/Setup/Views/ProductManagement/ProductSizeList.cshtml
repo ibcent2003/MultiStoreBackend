@@ -1,0 +1,423 @@
+﻿@model Project.Areas.Setup.Models.ProductManagementViewModel
+@{
+    ViewBag.Title = Model.store.Name + " Product Color";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Crumbs{
+    <div class="crumbs">
+
+        <ul class="breadcrumb" id="breadcrumbs">
+            <li><i class="icon-home"></i><a href="@Url.Action("Index", "Home", new { area = "Admin" })">Dashboard</a> </li>
+            <li><i class="current"></i><a href="javascript: return void(0)">@Model.store.Name Product Color</a> </li>
+
+        </ul>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="widget box">
+            <div class="widget-header">
+                <h4><i class="icon-reorder"></i>Size Category</h4>
+            </div>
+            <div class="widget-content">
+
+                <div class="alert alert-info fade in">                   
+                    <p>
+                       select the size category and click on the load size type button.
+                    </p>
+                </div>
+                @using (Html.BeginForm("ProductSizeList", "ProductManagement", new { Id =Model.store.ProcessInstaceId, PId = Model.product.Id, SizeTypeId=Model.SizeTypeId }, FormMethod.Post, new { @enctype = "multipart/form-data", area = "Admin" }))
+                {
+                <form class="form-vertical" action="#">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-7">
+                                
+                                @Html.DropDownListFor(m => m.SizeTypeId, new SelectList(Model.AllSizeType, "Value", "Text"), new { @class = "form-control" })
+                                @Html.HiddenFor(x => x.SizeTypeId)
+                            </div>
+                            <div class="col-md-5">
+                              
+                                <input type="submit" value="Load Size" class="btn btn-xs btn-success" />
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                }
+
+
+            </div>
+        </div>
+        </div>
+        <div class="col-md-6">
+            <div class="widget box">
+                <div class="widget-header">
+                    <h4><i class="icon-reorder"></i> You're adding Size(s) to the product below.</h4> <a href="@Url.Action("ProductList", "ProductManagement", new {Id=Model.store.ProcessInstaceId, CategoryId=Model.product.ProductCategoryId , area = "Setup" })" class="btn btn-xs btn-info">Back</a>
+                </div>
+                <div class="widget-content">
+
+
+                    <table class="table table-striped table-bordered table-hover table-checkable datatable dataTable">
+                        <thead>
+                            <tr>
+
+                                <th>SN</th>
+                                <th>
+                                    Name
+                                </th>
+                              
+                                <th>
+                                    Photo
+                                </th>                               
+                                <th style="text-align:right">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @if (Model.ProductList.Count != 0)
+                        {
+
+                            int i = 0;
+                            foreach (var item in Model.ProductList)
+                            {
+                                ++i;
+                        <tr>
+                            <td>
+                                @i
+                            </td>
+                            <td>
+                                @item.Name
+                            </td>
+                           
+                            <td>
+                                <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + item.Photo1 })" height="50" width="50" style="border:solid" />
+                            </td>
+                           
+                            <td>
+
+                                <a data-toggle="modal" title="Product Information" href="#@item.Id"><i class="icon-eye-open"></i></a>
+                                <div class="row">
+
+
+
+
+                                    <div class="modal fade" id="@item.Id">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h4 class="modal-title">Product Information</h4>
+
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    <table class="my-acct">
+                                                        <tr>
+                                                            <td>Product Name: </td>
+                                                            <td>@item.Name</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Discount Price: </td>
+                                                            <td>
+                                                                ₦
+                                                                @String.Format("{0:n0}", item.DiscountPrice)
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Acutal Price: </td>
+                                                            <td>₦@String.Format("{0:n0}", item.AcutalPrice)</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Quantity: </td>
+                                                            <td>@item.Quantity</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Reorder Level: </td>
+                                                            <td>@item.ReorderLevel</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Product Category: </td>
+                                                            <td>@item.ProductCategory.Name</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>Sub Category: </td>
+                                                            <td>@item.ProductSubCategory.Name</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Child Category: </td>
+                                                            <td>@item.ProductChildCategory.Name</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Brand: </td>
+                                                            <td>@item.ProductBrand.Name</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Customers View: </td>
+                                                            <td>@item.NoOfView</td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>Photo:</td>
+                                                            <td>
+                                                                <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + item.Photo1 })" height="100" width="100" style="border:solid" />
+                                                                @if (item.Photo2 != null)
+                                                                        {
+                                                                        <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + item.Photo2 })" height="100" width="100" style="border:solid" />
+                                                                        }
+
+                                                                @if (item.Photo3 != null)
+                                                                        {
+                                                                        <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + item.Photo3 })" height="100" width="100" style="border:solid" />
+                                                                        }
+
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>Description:</td>
+                                                            <td>
+                                                                @Html.Raw(item.Description)
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>Modified By:</td>
+                                                            <td>
+                                                                @item.ModifiedBy
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Modified Date:</td>
+                                                            <td>
+                                                                @item.ModifiedDate
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Is Deleted:</td>
+                                                            <td>
+                                                                @if (item.IsDeleted == true)
+                                                                        {
+                                                                        <span class="label label-success"> <strong>Yes</strong></span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                        <span class="label label-danger"> <strong>No</strong></span>
+                                                                        }
+                                                            </td>
+                                                        </tr>
+
+
+                                                    </table>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </td>
+
+                        </tr>
+
+                            }
+
+
+                        }
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="widget">
+            <div class="widget-header">
+                <h4><i class="icon-reorder"></i>Available Size(s)</h4>
+                <div class="toolbar no-padding">
+                    <div class="btn-group"><span class="btn btn-xs widget-collapse"><i class="icon-angle-down"></i></span><span class="btn btn-xs widget-refresh"><i class="icon-refresh"></i></span></div>
+                </div>
+            </div>
+            @using (Html.BeginForm("GrantSize", "ProductManagement", new { Id = Model.store.ProcessInstaceId, PId = Model.product.Id, SizeTypeId=Model.SizeTypeId }, FormMethod.Post, new { @enctype = "multipart/form-data", area = "Admin" }))
+            {
+                @Html.HiddenFor(x => x.product.Id)
+                @Html.HiddenFor(x => x.store.ProcessInstaceId)
+                <div class="widget-content">
+                    <div class="tabbable tabbable-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab_feed_1" data-toggle="tab">Available Size(s)</a></li>
+
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab_feed_1">
+                                <div class="scroller" data-height="290px" data-always-visible="1" data-rail-visible="0">
+
+                                    <ul class="feeds clearfix">
+                                        <li>
+                                            @{
+
+                                                int i = 1;
+                                                var me = Guid.Parse(Model.store.ProcessInstaceId.ToString());
+                                                var ColortoAdd = from index in Enumerable.Range(0, Model.AllSize.Distinct().Count())
+                                                                 group Model.AllSize[index] by index / 20;
+                                                string selectedcolor = "";
+
+                                            }
+                                            @foreach (var item in ColortoAdd.Distinct())
+                                            {
+
+                                                foreach (Project.DAL.Size a in ColortoAdd.SelectMany(r => r).Distinct())
+                                                {
+                                                    <div class="col1">
+
+                                                        <div class="content">
+                                                            <div class="content-col1">
+                                                                <div class="label label-success"><i class="icon-plus"></i></div>
+                                                            </div>
+                                                            <div class="content-col2">
+                                                                <div class="desc">
+                                                                    @a.Name
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col2">
+                                                        <div class="date">
+                                                            <label class="checkbox">
+                                                                <div class="checker">
+                                                                    <label>
+                                                                        <input type="checkbox" class="uniform" name="SizeUsed" id="SizeUsed" @selectedcolor value="@a.Name" />
+                                                                    </label>
+                                                                </div>
+
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    i++;
+                                                }
+                                            }
+                                        </li>
+
+                                    </ul>
+                                </div>
+                                <div class="row">
+                                    <div class="table-footer">
+                                        <div class="col-md-12">
+                                            <div class="table-actions">
+                                                @Html.HiddenFor(m => Model.store.ProcessInstaceId)
+                                                <input type="submit" value="Attach" class="btn btn-success" />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                                                }
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="widget">
+            <div class="widget-header">
+                <h4><i class="icon-reorder"></i>Added Size(s)</h4>
+                <div class="toolbar no-padding">
+                    <div class="btn-group"><span class="btn btn-xs widget-collapse"><i class="icon-angle-down"></i></span><span class="btn btn-xs widget-refresh"><i class="icon-refresh"></i></span></div>
+                </div>
+            </div>
+            @using (Html.BeginForm("RevokeSize", "ProductManagement", new { Id = Model.store.ProcessInstaceId, PId = Model.product.Id, SizeTypeId = Model.SizeTypeId }, FormMethod.Post, new { @enctype = "multipart/form-data", area = "Setup" }))
+            {
+                @Html.HiddenFor(x => x.product.Id)
+                @Html.HiddenFor(x => x.store.ProcessInstaceId)
+                <div class="widget-content">
+                    <div class="tabbable tabbable-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab_feed_2" data-toggle="tab">Added Size(s)</a></li>
+
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab_feed_2">
+                                <div class="scroller" data-height="290px" data-always-visible="1" data-rail-visible="0">
+                                    <ul class="feeds clearfix">
+                                        <li>
+                                            @{
+
+                                                int ii = 1;
+                                                var me = Guid.Parse(Model.store.ProcessInstaceId.ToString());
+                                                var roleRevoke = from index in Enumerable.Range(0, Model.AllSelectedSize.Distinct().Count())
+                                                                 group Model.AllSelectedSize[index] by index / 20;
+                                                string selectedrovke = "";
+
+                                            }
+
+                                            @foreach (var item in roleRevoke.Distinct())
+                                            {
+
+                                                foreach (Project.DAL.Size a in roleRevoke.SelectMany(r => r).Distinct())
+                                                {
+                                                    <div class="col1">
+
+                                                        <div class="content">
+                                                            <div class="content-col1">
+                                                                <div class="label label-success"><i class="icon-plus"></i></div>
+                                                            </div>
+                                                            <div class="content-col2">
+                                                                <div class="desc">
+                                                                    @a.Name
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col2">
+                                                        <div class="date">
+                                                            <label class="checkbox">
+                                                                <div class="checker">
+                                                                    <label>
+                                                                        <input type="checkbox" class="uniform" name="GrantedSizeUsed" id="GrantedSizeUsed" @selectedrovke value="@a.Id" />
+                                                                    </label>
+                                                                </div>
+
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    ii++;
+                                                }
+                                            }
+                                        </li>
+
+                                    </ul>
+                                </div>
+                                <div class="table-footer">
+                                    <div class="col-md-12">
+                                        <div class="table-actions">
+                                            @Html.HiddenFor(m => Model.store.ProcessInstaceId)
+                                            <input type="submit" value="Detach" class="btn btn-success" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                                                }
+        </div>
+    </div>
+</div>

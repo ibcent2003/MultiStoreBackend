@@ -1453,6 +1453,11 @@
     <Content Include="Areas\Setup\Views\SizeManagement\EditSizeType.cshtml" />
     <Content Include="Areas\Setup\Views\ProductManagement\Index.cshtml" />
     <Content Include="Areas\Setup\Views\ProductManagement\ProductList.cshtml" />
+    <Content Include="Areas\Setup\Views\ProductManagement\NewProduct.cshtml" />
+    <Content Include="Areas\Setup\Views\ProductManagement\EditProduct.cshtml" />
+    <Content Include="Areas\Setup\Views\ProductManagement\ReorderProduct.cshtml" />
+    <Content Include="Areas\Setup\Views\ProductManagement\ProductColorList.cshtml" />
+    <Content Include="Areas\Setup\Views\ProductManagement\ProductSizeList.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="MvcInstaller\ajax-loader.gif" />
     <Content Include="MvcInstaller\jquery-1.6.1.min.js" />

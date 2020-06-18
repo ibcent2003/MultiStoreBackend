@@ -1,36 +1,29 @@
 ﻿@model Project.Areas.Setup.Models.ProductManagementViewModel
 @{
-    ViewBag.Title = "Product List for " + Model.store.Name + "";
+    ViewBag.Title = Model.store.Name + " Product Color";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    ViewBag.IsGreetings = "true";
-  
 }
+
 @section Crumbs{
     <div class="crumbs">
 
         <ul class="breadcrumb" id="breadcrumbs">
-            <li> <i class="icon-home"></i> <a href="@Url.Action("Index", "Dashboard", new { area="Admin"})">Dashboard</a> </li>
-            <li class="current"> <a title="" href="javascript: return void(0)">Product List for @Model.store.Name</a> </li>
+            <li><i class="icon-home"></i><a href="@Url.Action("Index", "Home", new { area = "Admin" })">Dashboard</a> </li>
+            <li><i class="current"></i><a href="javascript: return void(0)">@Model.store.Name Product Color</a> </li>
 
         </ul>
     </div>
 }
-@section Styles {
-    <link href="@Url.Content("~/Content/Backend/Custom/gritter/css/jquery.gritter.css")" rel="stylesheet" type="text/css" />
-    <link href="@Url.Content("~/Content/Backend/themes/base/jquery.ui.all.css")" rel="stylesheet" />
 
-}
 <div class="row">
     <div class="col-md-12">
-        <div class="widget">
+        <div class="widget box">
             <div class="widget-header">
-                <a href="@Url.Action("StoreDashboard", "Dashboard", new {Id=Model.store.ProcessInstaceId, area = "Admin" })" class="btn btn-xs btn-info">Back</a> <a href="@Url.Action("NewProduct", "ProductManagement", new {Id=Model.store.ProcessInstaceId, CategoryId=Model.category.Id, area = "Setup" })" class="btn btn-xs btn-success">New Product</a>  @*<a href="@Url.Action("NewProduct", null, new {Id=Model.store.ProcessInstaceId, @CategoryId=Model.category.Id})" class="btn btn-xs btn-success">New Product</a>*@
-                <div class="toolbar no-padding">
-                    <div class="btn-group"><span class="btn btn-xs widget-collapse"><i class="icon-angle-down"></i></span><span class="btn btn-xs widget-refresh"><i class="icon-refresh"></i></span></div>
-                </div>
+                <h4><i class="icon-reorder"></i> You're adding color(s) to the product below.</h4> <a href="@Url.Action("ProductList", "ProductManagement", new {Id=Model.store.ProcessInstaceId, CategoryId=Model.product.ProductCategoryId , area = "Setup" })" class="btn btn-xs btn-info">Back</a>
             </div>
-
             <div class="widget-content">
+
+                
                 <table class="table table-striped table-bordered table-hover table-checkable datatable dataTable">
                     <thead>
                         <tr>
@@ -38,20 +31,10 @@
                             <th>SN</th>
                             <th>
                                 Name
-                            </th>
-                            <th>
-                                Discount Price
-                            </th>
-                            <th>
-                                Acutal Price
-                            </th>
+                            </th>                            
                             <th>
                                 Quantity
-                            </th>
-                            <th>
-                                Reorder Level
-                            </th>
-
+                            </th>                           
                             <th>
                                 Photo
                             </th>
@@ -80,20 +63,10 @@
                                     <td>
                                         @item.Name
                                     </td>
-                                    <td>
-                                        <span class="label label-danger"> <strong>₦@String.Format("{0:n0}", item.DiscountPrice)</strong></span>
-                                    </td>
-                                    <td>
-                                        <span class="label label-success"> <strong>₦@String.Format("{0:n0}", item.AcutalPrice)</strong></span>
-                                    </td>
-
+                                   
                                     <td>
                                         <span class="label label-info"> <strong>@item.Quantity</strong></span>
-                                    </td>
-
-                                    <td>
-                                        <span class="label label-success"> <strong>@item.ReorderLevel</strong></span>
-                                    </td>
+                                    </td>                                 
                                     <td>
                                         <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + item.Photo1 })" height="50" width="50" style="border:solid" />
                                     </td>
@@ -109,24 +82,7 @@
                                     </td>
                                     <td>
 
-                                        <div class="dropdown">
-                                            <span class="btn dropdown-toggle btn-xs btn-success" type="button" id="dropdownMenu1" data-toggle="dropdown">Action List <i class="icon-angle-down"></i></span>
-                                            <ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="dropdownMenu1">
-                                                @*<li role="presentation">@Html.ActionLink("Remove", "DeleteStaffInformation", new { StaffId = item.Id, Id = Model.store.ProcessInstaceId }, new { role = "menuitem", tabindex = "-1", onclick = "return DeleteConfirm()" })</li>*@
-                                                <li role="presentation">@Html.ActionLink("Re-Order", "ReorderProduct", new { Id = Model.store.ProcessInstaceId, PId = item.Id }, new { role = "menuitem", tabindex = "-1" })</li>
-                                                @if (item.HasSize == true)
-                                                {
-                                                    <li role="presentation">@Html.ActionLink("Attach Size", "ProductSizeList", new { Id = Model.store.ProcessInstaceId, PId = item.Id, SizeTypeId=0 }, new { role = "menuitem", tabindex = "-1" })</li>
-                                                }
-                                                @if (item.HasColor == true)
-                                                {
-                                                    <li role="presentation">@Html.ActionLink("Attach Color", "ProductColorList", new { Id = Model.store.ProcessInstaceId, PId = item.Id }, new { role = "menuitem", tabindex = "-1" })</li>
-                                                }
-                                                <li role="presentation">@Html.ActionLink("Edit Product", "EditProduct", new { Id = Model.store.ProcessInstaceId, PId =item.Id }, new { role = "menuitem", tabindex = "-1" })</li>
-                                                <li role="presentation"><a data-toggle="modal" title="Product Information" href="#@item.Id"><i class="icon-eye-open"></i></a></li>
-
-                                            </ul>
-                                        </div>
+                                       <a data-toggle="modal" title="Product Information" href="#@item.Id"><i class="icon-eye-open"></i></a>
                                         <div class="row">
 
 
@@ -150,8 +106,8 @@
                                                                 <tr>
                                                                     <td>Discount Price: </td>
                                                                     <td>
-                                                                    ₦
-                                                                    @String.Format("{0:n0}", item.DiscountPrice)
+                                                                        ₦
+                                                                        @String.Format("{0:n0}", item.DiscountPrice)
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -262,31 +218,188 @@
 
                     </tbody>
                 </table>
-            </div>
 
+
+            </div>
         </div>
     </div>
-
 </div>
+ 
+<div class="row">
+    <div class="col-md-6">
+        <div class="widget">
+            <div class="widget-header">
+                <h4><i class="icon-reorder"></i>Available Color(s)</h4>
+                <div class="toolbar no-padding">
+                    <div class="btn-group"><span class="btn btn-xs widget-collapse"><i class="icon-angle-down"></i></span><span class="btn btn-xs widget-refresh"><i class="icon-refresh"></i></span></div>
+                </div>
+            </div>
+            @using (Html.BeginForm("Grant", "ProductManagement", new { Id = Model.store.ProcessInstaceId, PId=Model.product.Id }, FormMethod.Post, new { @enctype = "multipart/form-data", area = "Admin" }))
+            {
+                @Html.HiddenFor(x=>x.product.Id)
+                @Html.HiddenFor(x=>x.store.ProcessInstaceId)
+                <div class="widget-content">
+                    <div class="tabbable tabbable-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab_feed_1" data-toggle="tab">Available Color(s)</a></li>
 
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab_feed_1">
+                                <div class="scroller" data-height="290px" data-always-visible="1" data-rail-visible="0">
 
-<script>
-    function DeleteConfirm() {
-        if (confirm("Are you sure want to remove this Category from you Store?"))
-            return true;
-        else
-            return false;
-    }
+                                    <ul class="feeds clearfix">
+                                        <li>
+                                            @{
 
-</script>
+                                                int i = 1;
+                                                var me = Guid.Parse(Model.store.ProcessInstaceId.ToString());
+                                                var ColortoAdd = from index in Enumerable.Range(0, Model.AllColor.Distinct().Count())
+                                                                  group Model.AllColor[index] by index / 20;
+                                                string selectedcolor = "";
 
-@section Scripts{
-    @Scripts.Render("~/Content/Backend/plugins/datatables/jquery.dataTables.min.js")
-    @Scripts.Render("~/Content/Backend/plugins/datatables/tabletools/TableTools.min.js")
-    @Scripts.Render("~/Content/Backend/plugins/datatables/colvis/ColVis.min.js")
-    @Scripts.Render("~/Content/Backend/plugins/datatables/DT_bootstrap.js")
-    <script>
-        "use strict";
+                                            }
+                                            @foreach (var item in ColortoAdd.Distinct())
+                                            {
 
-    </script>
-}
+                                                foreach (Project.DAL.ProductColor a in ColortoAdd.SelectMany(r => r).Distinct())
+                                                {
+                                                    <div class="col1">
+
+                                                        <div class="content">
+                                                            <div class="content-col1">
+                                                                <div class="label label-success"><i class="icon-plus"></i></div>
+                                                            </div>
+                                                            <div class="content-col2">
+                                                                <div class="desc">
+                                                                    @a.Name
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col2">
+                                                        <div class="date">
+                                                            <label class="checkbox">
+                                                                <div class="checker">
+                                                                    <label>
+                                                                        <input type="checkbox" class="uniform" name="ColorUsed" id="ColorUsed" @selectedcolor value="@a.Name" />
+                                                                    </label>
+                                                                </div>
+
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    i++;
+                                                }
+                                            }
+                                        </li>
+
+                                    </ul>
+                                </div>
+                                <div class="row">
+                                    <div class="table-footer">
+                                        <div class="col-md-12">
+                                            <div class="table-actions">
+                                                @Html.HiddenFor(m => Model.store.ProcessInstaceId)
+                                                <input type="submit" value="Attach" class="btn btn-success" />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                                                }
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="widget">
+            <div class="widget-header">
+                <h4><i class="icon-reorder"></i>Added Color(s)</h4>
+                <div class="toolbar no-padding">
+                    <div class="btn-group"><span class="btn btn-xs widget-collapse"><i class="icon-angle-down"></i></span><span class="btn btn-xs widget-refresh"><i class="icon-refresh"></i></span></div>
+                </div>
+            </div>
+            @using (Html.BeginForm("RevokeColor", "ProductManagement", new { Id = Model.store.ProcessInstaceId, PId = Model.product.Id }, FormMethod.Post, new { @enctype = "multipart/form-data", area = "Setup" }))
+            {
+                @Html.HiddenFor(x => x.product.Id)
+                @Html.HiddenFor(x => x.store.ProcessInstaceId)
+                <div class="widget-content">
+                    <div class="tabbable tabbable-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab_feed_2" data-toggle="tab">Added Color(s)</a></li>
+
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab_feed_2">
+                                <div class="scroller" data-height="290px" data-always-visible="1" data-rail-visible="0">
+                                    <ul class="feeds clearfix">
+                                        <li>
+                                            @{
+
+                                                int ii = 1;
+                                                var me = Guid.Parse(Model.store.ProcessInstaceId.ToString());
+                                                var roleRevoke = from index in Enumerable.Range(0, Model.AllSelectColor.Distinct().Count())
+                                                                 group Model.AllSelectColor[index] by index / 20;
+                                                string selectedrovke = "";
+
+                                            }
+
+                                            @foreach (var item in roleRevoke.Distinct())
+                                            {
+
+                                                foreach (Project.DAL.ProductColor a in roleRevoke.SelectMany(r => r).Distinct())
+                                                {
+                                                    <div class="col1">
+
+                                                        <div class="content">
+                                                            <div class="content-col1">
+                                                                <div class="label label-success"><i class="icon-plus"></i></div>
+                                                            </div>
+                                                            <div class="content-col2">
+                                                                <div class="desc">
+                                                                    @a.Name
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col2">
+                                                        <div class="date">
+                                                            <label class="checkbox">
+                                                                <div class="checker">
+                                                                    <label>
+                                                                        <input type="checkbox" class="uniform" name="GrantedColorUsed" id="GrantedColorUsed" @selectedrovke value="@a.Id" />
+                                                                    </label>
+                                                                </div>
+
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    ii++;
+                                                }
+                                            }
+                                        </li>
+
+                                    </ul>
+                                </div>
+                                <div class="table-footer">
+                                    <div class="col-md-12">
+                                        <div class="table-actions">
+                                            @Html.HiddenFor(m => Model.store.ProcessInstaceId)
+                                            <input type="submit" value="Detach" class="btn btn-success" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                                                }
+        </div>
+    </div>
+</div>

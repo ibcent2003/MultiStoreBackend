@@ -188,12 +188,7 @@ namespace Project.Areas.Setup.Controllers
 
                 if (model.storeform.Logo != null && model.storeform.Logo.ContentLength > 0)
                 {
-                    //delete passport
-                    if (GetStore.Logo != null)
-                    {
-                        System.IO.FileInfo fi = new System.IO.FileInfo(url + GetStore.Logo);
-                        fi.Delete();
-                    }
+                   
                     #region upload logo
 
                     int max_upload = 5242880;
@@ -211,21 +206,27 @@ namespace Project.Areas.Setup.Controllers
                     var filePassport = System.IO.Path.GetExtension(model.storeform.Logo.FileName);
                     if (!supportedPassport.Contains(filePassport))
                     {
-                        TempData["messageType"] = "alert-danger";
+                        TempData["messageType"] = "danger";
                         TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPassport) + " are supported for logo";
                         model.documentPath = Properties.Settings.Default.DocumentPath;
                         return View(model);
-
                     }
                     else if (model.storeform.Logo.ContentLength > max_upload)
                     {
-                        TempData["messageType"] = "alert-danger";
+                        TempData["messageType"] = "danger";
                         TempData["message"] = "The logo uploaded is larger than the 5MB upload limit";
                         model.documentPath = Properties.Settings.Default.DocumentPath;
                         return View(model);
                     }
+                   
 
-                    //store passport
+                    //delete passport
+                    if (GetStore.Logo != null)
+                    {
+                        System.IO.FileInfo fi = new System.IO.FileInfo(url + GetStore.Logo);
+                        fi.Delete();
+                    }
+                    //store logo
                     int pp = 0;
                     string pName;
                     pName = EncKey1 + pp.ToString() + System.IO.Path.GetExtension(model.storeform.Logo.FileName);

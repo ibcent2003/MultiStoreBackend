@@ -5,41 +5,41 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="c78484f9840e4d6598415a10416c8607" Name="Diagram1">
-        <EntityTypeShape EntityType="PROModel.AddressBook" Width="1.5" PointX="9.67831444818448" PointY="31.617081522763279" />
-        <EntityTypeShape EntityType="PROModel.AddressType" Width="1.5" PointX="10.826472255786168" PointY="0.98126277373231141" />
-        <EntityTypeShape EntityType="PROModel.Alert" Width="1.5" PointX="9.392342340849499" PointY="14.600531197432677" />
-        <EntityTypeShape EntityType="PROModel.AlertNotification" Width="1.5" PointX="4.1194306966473491" PointY="27.422426862373214" />
-        <EntityTypeShape EntityType="PROModel.AlertType" Width="1.5" PointX="0.90328855854612244" PointY="16.239657305292624" />
-        <EntityTypeShape EntityType="PROModel.Applications" Width="1.5" PointX="8.5133423695868551" PointY="28.815530060238917" />
-        <EntityTypeShape EntityType="PROModel.ContactInfo" Width="1.5" PointX="7.0544279660351705" PointY="31.32459196416875" />
-        <EntityTypeShape EntityType="PROModel.Country" Width="1.5" PointX="4.72390484843585" PointY="19.850493261520981" />
-        <EntityTypeShape EntityType="PROModel.DataGenerator" Width="1.5" PointX="7.0801547537931029" PointY="6.7434353561808518" />
-        <EntityTypeShape EntityType="PROModel.DocumentCategory" Width="1.5" PointX="0.62016905873090455" PointY="1.3489293164335794" />
-        <EntityTypeShape EntityType="PROModel.DocumentFormat" Width="1.5" PointX="8.0198395308199526" PointY="9.6095038101121339" />
-        <EntityTypeShape EntityType="PROModel.DocumentInfo" Width="1.5" PointX="2.4943369545481806" PointY="10.360105251129765" />
-        <EntityTypeShape EntityType="PROModel.DocumentType" Width="1.5" PointX="7.8623549024864818" PointY="24.560834031813236" />
-        <EntityTypeShape EntityType="PROModel.LGA" Width="1.5" PointX="8.0788270347187421" PointY="17.649880342953782" />
-        <EntityTypeShape EntityType="PROModel.Memberships" Width="1.5" PointX="5.6937063903052856" PointY="9.33901139038569" />
-        <EntityTypeShape EntityType="PROModel.ProductBrand" Width="1.5" PointX="3.353995192495173" PointY="8.3720032611731448" />
-        <EntityTypeShape EntityType="PROModel.ProductCategory" Width="1.5" PointX="0.50323026650735658" PointY="30.652810707060997" />
-        <EntityTypeShape EntityType="PROModel.ProductChildCategory" Width="1.5" PointX="0.037166375684163706" PointY="22.852922688635495" />
-        <EntityTypeShape EntityType="PROModel.ProductColor" Width="1.5" PointX="11.673323470947018" PointY="11.369105299640962" />
-        <EntityTypeShape EntityType="PROModel.ProductSubCategory" Width="1.5" PointX="2.6121371717248749" PointY="12.493650010085501" />
-        <EntityTypeShape EntityType="PROModel.Profiles" Width="1.5" PointX="4.8296046652037674" PointY="4.8280774228405567" />
-        <EntityTypeShape EntityType="PROModel.Resource" Width="1.5" PointX="3.4940593705950587" PointY="3.1241028621439368" />
-        <EntityTypeShape EntityType="PROModel.ResourcesInRole" Width="1.5" PointX="3.3915220067796867" PointY="9.92250659033773" />
-        <EntityTypeShape EntityType="PROModel.Roles" Width="1.5" PointX="2.3077159758227488" PointY="20.56529551211991" />
-        <EntityTypeShape EntityType="PROModel.Size" Width="1.5" PointX="5.6237719196936915" PointY="1.6177652634762998" />
-        <EntityTypeShape EntityType="PROModel.SizeType" Width="1.5" PointX="5.7636693370359344" PointY="6.1456005601890391" />
-        <EntityTypeShape EntityType="PROModel.State" Width="1.5" PointX="8.4125399591459615" PointY="26.132766720900669" />
-        <EntityTypeShape EntityType="PROModel.Store" Width="1.5" PointX="11.660853540366913" PointY="16.199334718379813" />
-        <EntityTypeShape EntityType="PROModel.StoreProduct" Width="1.5" PointX="9.3620686164880489" PointY="18.510487430966688" />
-        <EntityTypeShape EntityType="PROModel.UserDetail" Width="1.5" PointX="4.5056186376631349" PointY="0.48541221045209665" />
-        <EntityTypeShape EntityType="PROModel.Users" Width="1.5" PointX="9.39637216431851" PointY="25.335268181439147" />
-        <EntityTypeShape EntityType="PROModel.Workflow" Width="1.5" PointX="4.58970368308467" PointY="25.069758099070636" />
-        <EntityTypeShape EntityType="PROModel.WorkFlowActions" Width="1.5" PointX="2.735876296989562" PointY="14.330243057725133" />
-        <EntityTypeShape EntityType="PROModel.WorkflowStepActions" Width="1.5" PointX="10.302593506082237" PointY="20.158997202366123" />
-        <EntityTypeShape EntityType="PROModel.WorkflowSteps" Width="1.5" PointX="11.709555610879118" PointY="21.744156907193435" />
+        <EntityTypeShape EntityType="PROModel.AddressBook" Width="1.5" PointX="3" PointY="20.5" />
+        <EntityTypeShape EntityType="PROModel.AddressType" Width="1.5" PointX="0.75" PointY="19.625" />
+        <EntityTypeShape EntityType="PROModel.Alert" Width="1.5" PointX="14" PointY="1.375" />
+        <EntityTypeShape EntityType="PROModel.AlertNotification" Width="1.5" PointX="15" PointY="13" />
+        <EntityTypeShape EntityType="PROModel.AlertType" Width="1.5" PointX="12.75" PointY="13.75" />
+        <EntityTypeShape EntityType="PROModel.Applications" Width="1.5" PointX="0.75" PointY="9.875" />
+        <EntityTypeShape EntityType="PROModel.ContactInfo" Width="1.5" PointX="3" PointY="32.25" />
+        <EntityTypeShape EntityType="PROModel.Country" Width="1.5" PointX="7.75" PointY="4.75" />
+        <EntityTypeShape EntityType="PROModel.DataGenerator" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="PROModel.DocumentCategory" Width="1.5" PointX="5.75" PointY="5.375" />
+        <EntityTypeShape EntityType="PROModel.DocumentFormat" Width="1.5" PointX="5.75" PointY="1.25" />
+        <EntityTypeShape EntityType="PROModel.DocumentInfo" Width="1.5" PointX="10.25" PointY="1" />
+        <EntityTypeShape EntityType="PROModel.DocumentType" Width="1.5" PointX="8" PointY="1.125" />
+        <EntityTypeShape EntityType="PROModel.LGA" Width="1.5" PointX="0.75" PointY="22.5" />
+        <EntityTypeShape EntityType="PROModel.Memberships" Width="1.5" PointX="3" PointY="8.5" />
+        <EntityTypeShape EntityType="PROModel.ProductBrand" Width="1.5" PointX="0.75" PointY="4.125" />
+        <EntityTypeShape EntityType="PROModel.ProductCategory" Width="1.5" PointX="3" PointY="3.75" />
+        <EntityTypeShape EntityType="PROModel.ProductChildCategory" Width="1.5" PointX="3" PointY="28.75" />
+        <EntityTypeShape EntityType="PROModel.ProductColor" Width="1.5" PointX="8.25" PointY="17" />
+        <EntityTypeShape EntityType="PROModel.ProductSubCategory" Width="1.5" PointX="0.75" PointY="28.625" />
+        <EntityTypeShape EntityType="PROModel.Profiles" Width="1.5" PointX="9.75" PointY="10.625" />
+        <EntityTypeShape EntityType="PROModel.Resource" Width="1.5" PointX="5.75" PointY="8.75" />
+        <EntityTypeShape EntityType="PROModel.ResourcesInRole" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="PROModel.Roles" Width="1.5" PointX="3" PointY="15.625" />
+        <EntityTypeShape EntityType="PROModel.Size" Width="1.5" PointX="8.25" PointY="26" />
+        <EntityTypeShape EntityType="PROModel.SizeType" Width="1.5" PointX="6" PointY="26.125" />
+        <EntityTypeShape EntityType="PROModel.State" Width="1.5" PointX="1.5" PointY="25.75" />
+        <EntityTypeShape EntityType="PROModel.Store" Width="1.5" PointX="5.25" PointY="14.5" />
+        <EntityTypeShape EntityType="PROModel.StoreProduct" Width="1.5" PointX="10.5" PointY="13.625" />
+        <EntityTypeShape EntityType="PROModel.UserDetail" Width="1.5" PointX="9.75" PointY="21.5" />
+        <EntityTypeShape EntityType="PROModel.Users" Width="1.5" PointX="7.5" PointY="12.875" />
+        <EntityTypeShape EntityType="PROModel.Workflow" Width="1.5" PointX="11.75" PointY="5" />
+        <EntityTypeShape EntityType="PROModel.WorkFlowActions" Width="1.5" PointX="14" PointY="5.375" />
+        <EntityTypeShape EntityType="PROModel.WorkflowStepActions" Width="1.5" PointX="16.25" PointY="5.25" />
+        <EntityTypeShape EntityType="PROModel.WorkflowSteps" Width="1.5" PointX="14" PointY="8.875" />
         <AssociationConnector Association="PROModel.FK_AddressBook_AddressType" />
         <AssociationConnector Association="PROModel.FK_AddressBook_LGA" />
         <AssociationConnector Association="PROModel.FK_Alert_WorkFlow" />

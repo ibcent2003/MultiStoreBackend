@@ -8018,8 +8018,6 @@ namespace Project.DAL
         /// <param name="quantity">Initial value of the Quantity property.</param>
         /// <param name="reorderLevel">Initial value of the ReorderLevel property.</param>
         /// <param name="photo1">Initial value of the Photo1 property.</param>
-        /// <param name="photo2">Initial value of the Photo2 property.</param>
-        /// <param name="photo3">Initial value of the Photo3 property.</param>
         /// <param name="brandId">Initial value of the BrandId property.</param>
         /// <param name="hasColor">Initial value of the HasColor property.</param>
         /// <param name="hasSize">Initial value of the HasSize property.</param>
@@ -8030,7 +8028,7 @@ namespace Project.DAL
         /// <param name="modifiedBy">Initial value of the ModifiedBy property.</param>
         /// <param name="modifiedDate">Initial value of the ModifiedDate property.</param>
         /// <param name="isDeleted">Initial value of the IsDeleted property.</param>
-        public static StoreProduct CreateStoreProduct(global::System.Int32 id, global::System.String name, global::System.String description, global::System.Decimal discountPrice, global::System.Decimal acutalPrice, global::System.Int32 quantity, global::System.Int32 reorderLevel, global::System.String photo1, global::System.String photo2, global::System.String photo3, global::System.Int32 brandId, global::System.Boolean hasColor, global::System.Boolean hasSize, global::System.Int32 noOfView, global::System.Int32 productCategoryId, global::System.Int32 productSubCategoryId, global::System.Int32 productChildCategoryId, global::System.String modifiedBy, global::System.DateTime modifiedDate, global::System.Boolean isDeleted)
+        public static StoreProduct CreateStoreProduct(global::System.Int32 id, global::System.String name, global::System.String description, global::System.Decimal discountPrice, global::System.Decimal acutalPrice, global::System.Int32 quantity, global::System.Int32 reorderLevel, global::System.String photo1, global::System.Int32 brandId, global::System.Boolean hasColor, global::System.Boolean hasSize, global::System.Int32 noOfView, global::System.Int32 productCategoryId, global::System.Int32 productSubCategoryId, global::System.Int32 productChildCategoryId, global::System.String modifiedBy, global::System.DateTime modifiedDate, global::System.Boolean isDeleted)
         {
             StoreProduct storeProduct = new StoreProduct();
             storeProduct.Id = id;
@@ -8041,8 +8039,6 @@ namespace Project.DAL
             storeProduct.Quantity = quantity;
             storeProduct.ReorderLevel = reorderLevel;
             storeProduct.Photo1 = photo1;
-            storeProduct.Photo2 = photo2;
-            storeProduct.Photo3 = photo3;
             storeProduct.BrandId = brandId;
             storeProduct.HasColor = hasColor;
             storeProduct.HasSize = hasSize;
@@ -8258,7 +8254,7 @@ namespace Project.DAL
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
         public global::System.String Photo2
         {
@@ -8270,7 +8266,7 @@ namespace Project.DAL
             {
                 OnPhoto2Changing(value);
                 ReportPropertyChanging("Photo2");
-                _Photo2 = StructuralObject.SetValidValue(value, false, "Photo2");
+                _Photo2 = StructuralObject.SetValidValue(value, true, "Photo2");
                 ReportPropertyChanged("Photo2");
                 OnPhoto2Changed();
             }
@@ -8282,7 +8278,7 @@ namespace Project.DAL
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
         public global::System.String Photo3
         {
@@ -8294,7 +8290,7 @@ namespace Project.DAL
             {
                 OnPhoto3Changing(value);
                 ReportPropertyChanging("Photo3");
-                _Photo3 = StructuralObject.SetValidValue(value, false, "Photo3");
+                _Photo3 = StructuralObject.SetValidValue(value, true, "Photo3");
                 ReportPropertyChanged("Photo3");
                 OnPhoto3Changed();
             }
