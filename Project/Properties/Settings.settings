@@ -29,5 +29,8 @@
     <Setting Name="ProductImagePath" Type="System.String" Scope="Application">
       <Value Profile="(Default)">C:\FortressDocuments\ProductImages\</Value>
     </Setting>
+    <Setting Name="StoreRegistrationWorkFlowId" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

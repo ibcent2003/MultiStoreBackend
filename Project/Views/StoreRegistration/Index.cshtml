@@ -1,0 +1,84 @@
+﻿@model Project.Models.StoreRegistrationViewModel
+@{
+    ViewBag.Title = "Store Registration - Guidelines ";
+    var db = new Project.DAL.PROEntities();
+}
+<style>
+    .disabledTab {
+        pointer-events: none;
+    }
+</style>
+<div class="page-header page-title-left mini">
+    <div class="image-bg content-in" data-background="@Url.Content("~/Content/Frontend/light/img/sections/slider/backmenu.jpg")" data-stellar-background-ratio="0.5" style="background-image: @Url.Content("~/Content/Frontend/light/img/sections/slider/backmenu.jpg"); background-position: 50% 0%;"></div>
+    <div class="container">
+        <div class="col-md-12">
+            <h1 class="title" style="color:white">Store Registration - Guidelines</h1>
+            <ul class="breadcrumb" style="color:white">
+                <li style="color:white">
+                    <a href="@Url.Action("Classic", "Home", new {area = "" })" style="color:white">Home</a>
+                </li>              
+                <li class="active" style="color:white">Store Registration - Guidelines</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<section id="addition-info" class="page-section">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div id="tabbed_widget" class="tabbable" style="display:;">
+                    <ul class="nav nav-tabs" style="margin: 0 0 20px 0;">
+                        <li class="active">
+                            <a href="#">Guidelines</a>
+                        </li>
+                        <li class="disabled disabledTab">
+                            <a href="#">Step 1: Store Information</a>
+                        </li>
+                        <li class="disabled disabledTab">
+                            <a href="#">Step 2: Store Address</a>
+                        </li>
+                        <li class="disabled disabledTab">
+                            <a href="#">Step 3: Contact Person</a>
+                        </li>
+
+                        <li class="disabled disabledTab">
+                            <a href="#">Step 4: Product Category</a>
+                        </li>
+                        <li class="disabled disabledTab">
+                            <a href="#">Step 5: Account Info</a>
+                        </li>
+                        <li class="disabled disabledTab">
+                            <a href="#">Step 6:Review</a>
+                        </li>
+                        <li class="disabled disabledTab">
+                            <a href="#">Feedback</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="panel panel-primary" id="tabbed_widget_panel">
+                    <div class="panel-heading" style="background-color: #143856;border-color: #143856;">
+                        Guidelines
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-lg-9">
+                            @Html.Raw(@TempData["GuideLines"])
+                        </div>
+                        <div class="col-lg-2">
+                            <a class="btn btn-danger" target="_blank" href="~/Content/Frontend/light/img/sections/Documents/guide.pdf" style="color:white"> DOWNLOAD <BR />STORE REGISTRATION GUIDE </a>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <div style="text-align: right;">
+                            <a href="@Url.Action("StoreInformation")" class="btn btn-sm btn-default" style="color:white">Next</a>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</section>
+

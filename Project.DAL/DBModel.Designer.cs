@@ -7548,17 +7548,21 @@ namespace Project.DAL
         /// <param name="name">Initial value of the Name property.</param>
         /// <param name="processInstaceId">Initial value of the ProcessInstaceId property.</param>
         /// <param name="uRL">Initial value of the URL property.</param>
+        /// <param name="storeCurrency">Initial value of the StoreCurrency property.</param>
+        /// <param name="ownProcurement">Initial value of the OwnProcurement property.</param>
         /// <param name="countryId">Initial value of the CountryId property.</param>
         /// <param name="modifiedBy">Initial value of the ModifiedBy property.</param>
         /// <param name="modifiedDate">Initial value of the ModifiedDate property.</param>
         /// <param name="isDeleted">Initial value of the IsDeleted property.</param>
-        public static Store CreateStore(global::System.Int32 id, global::System.String name, global::System.Guid processInstaceId, global::System.String uRL, global::System.Int32 countryId, global::System.String modifiedBy, global::System.DateTime modifiedDate, global::System.Boolean isDeleted)
+        public static Store CreateStore(global::System.Int32 id, global::System.String name, global::System.Guid processInstaceId, global::System.String uRL, global::System.String storeCurrency, global::System.Boolean ownProcurement, global::System.Int32 countryId, global::System.String modifiedBy, global::System.DateTime modifiedDate, global::System.Boolean isDeleted)
         {
             Store store = new Store();
             store.Id = id;
             store.Name = name;
             store.ProcessInstaceId = processInstaceId;
             store.URL = uRL;
+            store.StoreCurrency = storeCurrency;
+            store.OwnProcurement = ownProcurement;
             store.CountryId = countryId;
             store.ModifiedBy = modifiedBy;
             store.ModifiedDate = modifiedDate;
@@ -7696,7 +7700,7 @@ namespace Project.DAL
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.String StoreCurrency
         {
@@ -7708,7 +7712,7 @@ namespace Project.DAL
             {
                 OnStoreCurrencyChanging(value);
                 ReportPropertyChanging("StoreCurrency");
-                _StoreCurrency = StructuralObject.SetValidValue(value, true, "StoreCurrency");
+                _StoreCurrency = StructuralObject.SetValidValue(value, false, "StoreCurrency");
                 ReportPropertyChanged("StoreCurrency");
                 OnStoreCurrencyChanged();
             }
@@ -7716,6 +7720,30 @@ namespace Project.DAL
         private global::System.String _StoreCurrency;
         partial void OnStoreCurrencyChanging(global::System.String value);
         partial void OnStoreCurrencyChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean OwnProcurement
+        {
+            get
+            {
+                return _OwnProcurement;
+            }
+            set
+            {
+                OnOwnProcurementChanging(value);
+                ReportPropertyChanging("OwnProcurement");
+                _OwnProcurement = StructuralObject.SetValidValue(value, "OwnProcurement");
+                ReportPropertyChanged("OwnProcurement");
+                OnOwnProcurementChanged();
+            }
+        }
+        private global::System.Boolean _OwnProcurement;
+        partial void OnOwnProcurementChanging(global::System.Boolean value);
+        partial void OnOwnProcurementChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -8021,6 +8049,7 @@ namespace Project.DAL
         /// <param name="brandId">Initial value of the BrandId property.</param>
         /// <param name="hasColor">Initial value of the HasColor property.</param>
         /// <param name="hasSize">Initial value of the HasSize property.</param>
+        /// <param name="hasSales">Initial value of the HasSales property.</param>
         /// <param name="noOfView">Initial value of the NoOfView property.</param>
         /// <param name="productCategoryId">Initial value of the ProductCategoryId property.</param>
         /// <param name="productSubCategoryId">Initial value of the ProductSubCategoryId property.</param>
@@ -8028,7 +8057,7 @@ namespace Project.DAL
         /// <param name="modifiedBy">Initial value of the ModifiedBy property.</param>
         /// <param name="modifiedDate">Initial value of the ModifiedDate property.</param>
         /// <param name="isDeleted">Initial value of the IsDeleted property.</param>
-        public static StoreProduct CreateStoreProduct(global::System.Int32 id, global::System.String name, global::System.String description, global::System.Decimal discountPrice, global::System.Decimal acutalPrice, global::System.Int32 quantity, global::System.Int32 reorderLevel, global::System.String photo1, global::System.Int32 brandId, global::System.Boolean hasColor, global::System.Boolean hasSize, global::System.Int32 noOfView, global::System.Int32 productCategoryId, global::System.Int32 productSubCategoryId, global::System.Int32 productChildCategoryId, global::System.String modifiedBy, global::System.DateTime modifiedDate, global::System.Boolean isDeleted)
+        public static StoreProduct CreateStoreProduct(global::System.Int32 id, global::System.String name, global::System.String description, global::System.Decimal discountPrice, global::System.Decimal acutalPrice, global::System.Int32 quantity, global::System.Int32 reorderLevel, global::System.String photo1, global::System.Int32 brandId, global::System.Boolean hasColor, global::System.Boolean hasSize, global::System.Boolean hasSales, global::System.Int32 noOfView, global::System.Int32 productCategoryId, global::System.Int32 productSubCategoryId, global::System.Int32 productChildCategoryId, global::System.String modifiedBy, global::System.DateTime modifiedDate, global::System.Boolean isDeleted)
         {
             StoreProduct storeProduct = new StoreProduct();
             storeProduct.Id = id;
@@ -8042,6 +8071,7 @@ namespace Project.DAL
             storeProduct.BrandId = brandId;
             storeProduct.HasColor = hasColor;
             storeProduct.HasSize = hasSize;
+            storeProduct.HasSales = hasSales;
             storeProduct.NoOfView = noOfView;
             storeProduct.ProductCategoryId = productCategoryId;
             storeProduct.ProductSubCategoryId = productSubCategoryId;
@@ -8370,6 +8400,30 @@ namespace Project.DAL
         private global::System.Boolean _HasSize;
         partial void OnHasSizeChanging(global::System.Boolean value);
         partial void OnHasSizeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean HasSales
+        {
+            get
+            {
+                return _HasSales;
+            }
+            set
+            {
+                OnHasSalesChanging(value);
+                ReportPropertyChanging("HasSales");
+                _HasSales = StructuralObject.SetValidValue(value, "HasSales");
+                ReportPropertyChanged("HasSales");
+                OnHasSalesChanged();
+            }
+        }
+        private global::System.Boolean _HasSales;
+        partial void OnHasSalesChanging(global::System.Boolean value);
+        partial void OnHasSalesChanged();
     
         /// <summary>
         /// No Metadata Documentation available.

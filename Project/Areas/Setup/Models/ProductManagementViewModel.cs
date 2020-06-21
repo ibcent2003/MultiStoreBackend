@@ -121,6 +121,9 @@ namespace Project.Areas.Setup.Models
         [Display(Name = "Has Size")]
         public bool HasSize { get; set; }
 
+        [Display(Name = "Has Sales")]
+        public bool HasSales { get; set; }
+
         [Display(Name = "Sub Category")]
         [Required(ErrorMessage = "Please select a Sub Category")]
         public int ProductSubCategoryId { get; set; }

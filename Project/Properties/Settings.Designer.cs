@@ -104,5 +104,14 @@ namespace Project.Properties {
                 return ((string)(this["ProductImagePath"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int StoreRegistrationWorkFlowId {
+            get {
+                return ((int)(this["StoreRegistrationWorkFlowId"]));
+            }
+        }
     }
 }

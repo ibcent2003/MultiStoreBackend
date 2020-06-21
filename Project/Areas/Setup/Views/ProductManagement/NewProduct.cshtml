@@ -134,9 +134,17 @@
                     </div>
 
                     <div class="form-group">
+                        @Html.Label("Has Sales", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-1">
+                            @Html.CheckBoxFor(x => Model.Productform.HasSales, new { @class = "form-control" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         @Html.Label("Description", new { @class = "col-md-2 control-label required" })
-                        <div class="col-md-6">
-                            @Html.TextAreaFor(x => Model.Productform.Description, new { @class = "form-control" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(x => Model.Productform.Description, new { @class = "col-md-10 form-control" })
 
                         </div>
                     </div>
@@ -207,7 +215,7 @@
         tinymce.init({
             selector: "textarea",
             mode: "exact",
-            elements: "newsform_NewsContent",
+            elements: "Productform_Description",
             theme: "modern",
 
 

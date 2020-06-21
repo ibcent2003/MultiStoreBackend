@@ -419,6 +419,7 @@ namespace Project.Areas.Setup.Controllers
                         Photo3 = model.p3,
                         HasColor = model.Productform.HasColor,
                         HasSize = model.Productform.HasSize,
+                        HasSales = model.Productform.HasSales,
                         Description = model.Productform.Description,
                         ModifiedBy = User.Identity.Name,
                         ModifiedDate = DateTime.Now,
@@ -497,6 +498,7 @@ namespace Project.Areas.Setup.Controllers
                 }
                 model.Productform.HasColor = product.HasColor;
                 model.Productform.HasSize = product.HasSize;
+                model.Productform.HasSales = product.HasSales;
                 model.Productform.Id = PId;
                 model.Productform.Description = product.Description;
                 model.Productform.IsDeleted = product.IsDeleted;
@@ -784,6 +786,7 @@ namespace Project.Areas.Setup.Controllers
                     product.ProductSubCategoryId = model.Productform.ProductSubCategoryId;
                     product.ProductChildCategoryId = model.Productform.ProductChildCategoryId;
                     product.HasColor = model.Productform.HasColor;
+                    product.HasSales = model.Productform.HasSales;
                     product.HasSize = model.Productform.HasSize;
                     product.Description = model.Productform.Description;
                     product.IsDeleted = model.Productform.IsDeleted;

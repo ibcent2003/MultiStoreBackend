@@ -354,7 +354,8 @@
           <Property Name="ProcessInstaceId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="URL" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="Logo" Type="varchar" MaxLength="100" />
-          <Property Name="StoreCurrency" Type="varchar" MaxLength="20" />
+          <Property Name="StoreCurrency" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="OwnProcurement" Type="bit" Nullable="false" />
           <Property Name="CountryId" Type="int" Nullable="false" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
@@ -401,6 +402,7 @@
           <Property Name="BrandId" Type="int" Nullable="false" />
           <Property Name="HasColor" Type="bit" Nullable="false" />
           <Property Name="HasSize" Type="bit" Nullable="false" />
+          <Property Name="HasSales" Type="bit" Nullable="false" />
           <Property Name="NoOfView" Type="int" Nullable="false" />
           <Property Name="ProductCategoryId" Type="int" Nullable="false" />
           <Property Name="ProductSubCategoryId" Type="int" Nullable="false" />
@@ -1950,7 +1952,8 @@
           <Property Name="ProcessInstaceId" Type="Guid" Nullable="false" />
           <Property Name="URL" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="Logo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="StoreCurrency" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="StoreCurrency" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="OwnProcurement" Type="Boolean" Nullable="false" />
           <Property Name="CountryId" Type="Int32" Nullable="false" />
           <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
@@ -1981,6 +1984,7 @@
           <Property Name="BrandId" Type="Int32" Nullable="false" />
           <Property Name="HasColor" Type="Boolean" Nullable="false" />
           <Property Name="HasSize" Type="Boolean" Nullable="false" />
+          <Property Name="HasSales" Type="Boolean" Nullable="false" />
           <Property Name="NoOfView" Type="Int32" Nullable="false" />
           <Property Name="ProductCategoryId" Type="Int32" Nullable="false" />
           <Property Name="ProductSubCategoryId" Type="Int32" Nullable="false" />
@@ -2785,6 +2789,7 @@
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="OwnProcurement" ColumnName="OwnProcurement" />
                 <ScalarProperty Name="StoreCurrency" ColumnName="StoreCurrency" />
                 <ScalarProperty Name="Logo" ColumnName="Logo" />
                 <ScalarProperty Name="URL" ColumnName="URL" />
@@ -2804,6 +2809,7 @@
                 <ScalarProperty Name="ProductSubCategoryId" ColumnName="ProductSubCategoryId" />
                 <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
                 <ScalarProperty Name="NoOfView" ColumnName="NoOfView" />
+                <ScalarProperty Name="HasSales" ColumnName="HasSales" />
                 <ScalarProperty Name="HasSize" ColumnName="HasSize" />
                 <ScalarProperty Name="HasColor" ColumnName="HasColor" />
                 <ScalarProperty Name="BrandId" ColumnName="BrandId" />

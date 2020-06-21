@@ -20,6 +20,12 @@
         <div class="widget box">
             <div class="widget-header">
                 <h4><i class="icon-reorder"></i> You're adding color(s) to the product below.</h4> <a href="@Url.Action("ProductList", "ProductManagement", new {Id=Model.store.ProcessInstaceId, CategoryId=Model.product.ProductCategoryId , area = "Setup" })" class="btn btn-xs btn-info">Back</a>
+                @*<a href="@Url.Action("ProductList", "ProductManagement", new {Id=Model.store.ProcessInstaceId, CategoryId=Model.product.ProductCategoryId , area = "Setup" })" class="btn btn-xs btn-success">Add Color(s)</a>*@
+                @if (Model.product.HasSize == true)
+                {
+                    <a href="@Url.Action("ProductSizeList", "ProductManagement", new {Id=Model.store.ProcessInstaceId, PId=Model.product.Id, SizeTypeId = Model.SizeTypeId=0 , area = "Setup" })" class="btn btn-xs btn-danger">Add Size(s)</a>
+                }
+               
             </div>
             <div class="widget-content">
 

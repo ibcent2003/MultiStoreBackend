@@ -239,6 +239,7 @@
     <Compile Include="Areas\Setup\SetupAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\StoreRegistrationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SGAccountController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -263,6 +264,7 @@
     <Compile Include="Models\PageSizeOption.cs" />
     <Compile Include="Models\PagingInfo.cs" />
     <Compile Include="Models\ProcessUtility.cs" />
+    <Compile Include="Models\StoreRegistrationViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -1555,6 +1557,8 @@
     <Content Include="Views\Shared\_AuthenticationLayout.cshtml" />
     <Content Include="Scripts\PasswordResetMailer\PasswordReset.cshtml" />
     <Content Include="Scripts\PasswordResetMailer\_Layout.cshtml" />
+    <Content Include="Views\StoreRegistration\Index.cshtml" />
+    <Content Include="Views\StoreRegistration\StoreInformation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

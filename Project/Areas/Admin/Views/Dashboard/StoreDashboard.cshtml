@@ -15,11 +15,77 @@
     </div>
 }
 <div class="widget-header">
-    <a href="@Url.Action("EditStore", "Store", new { area="Setup", Id=Model.store.Id})" class="btn btn-warning btn-xs">Edit Store</a> <a href="@Url.Action("Index", "Organisations", new { area = "Admin" })" class="btn btn-inverse btn-xs">View Store as User</a> <a href="@Url.Action("StoreCategory", "Dashboard", new { area="Admin", Id=Model.store.ProcessInstaceId})" class="btn btn-danger btn-xs">Manage Category</a>  <a href="@Url.Action("Index", "ProductManagement", new { area="Setup", Id=Model.store.ProcessInstaceId})" class="btn btn-success btn-xs">Manage Product</a>
+    <a href="@Url.Action("EditStore", "Store", new { area="Setup", Id=Model.store.Id})" class="btn btn-danger btn-xs">Store Profile</a> 
 </div>
 <br />
 
 
+
+<div class="row row-bg">
+    <div class="col-sm-6 col-md-3 hidden-xs">
+             
+            <div class="statbox widget box box-shadow">
+                <div class="widget-content">
+                    <div class="visual cyan">
+                        <div class="statbox-sparkline">30,20,15,30,22,25,26,30,27</div>
+                    </div>
+                    <div class="title">NEW ORDERS</div>
+                    <div class="value">@Model.TototalRole</div>
+                    <a class="more" href="@Url.Action("StoreRoles", "Dashboard", new { area="Admin", Id=Model.store.ProcessInstaceId})">View <i class="pull-right icon-angle-right"></i></a>
+                </div>
+            </div>
+
+     
+    </div>
+
+    <div class="col-sm-6 col-md-3 hidden-xs">
+        <div class="statbox widget box box-shadow">
+            <div class="widget-content">
+                <div class="visual red">
+                    <div class="statbox-sparkline">30,20,15,30,22,25,26,30,27</div>
+                </div>
+                <div class="title">our customers</div>
+                <div class="value">@Model.TotalUser</div>
+                <a class="more" href="@Url.Action("StoreCategory", "Dashboard", new { area="Admin", Id=Model.store.ProcessInstaceId})">Manage <i class="pull-right icon-angle-right"></i></a>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="col-sm-6 col-md-3 hidden-xs">
+        <div class="statbox widget box box-shadow">
+            <div class="widget-content">
+                <div class="visual blue">
+                    <div class="statbox-sparkline">30,20,15,30,22,25,26,30,27</div>
+                </div>
+                <div class="title">MANAGE PRODUCTS</div>
+                <div class="value">@Model.TotalContactinfo</div>
+                <a class="more" href="@Url.Action("Index", "ProductManagement", new { area="Setup", Id=Model.store.ProcessInstaceId})">Manage <i class="pull-right icon-angle-right"></i></a>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-3 hidden-xs">
+        
+            <div class="statbox widget box box-shadow">
+                <div class="widget-content">
+                    <div class="visual green">
+                        <div class="statbox-sparkline">30,20,15,30,22,25,26,30,27</div>
+                    </div>
+                    <div class="title">SALES REPORTS</div>
+                    <div class="value">@Model.TototalRole</div>
+                    <a class="more" href="@Url.Action("StoreRoles", "Dashboard", new { area="Admin", Id=Model.store.ProcessInstaceId})">View <i class="pull-right icon-angle-right"></i></a>
+                </div>
+            </div>
+        
+    </div>
+
+
+</div>
 
 <div class="row row-bg">
     <div class="col-sm-6 col-md-3 hidden-xs">
@@ -76,5 +142,35 @@
     </div>
 
 
+</div>
+
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="widget box">
+            <div class="widget-header">
+                <h4><i class="icon-reorder"></i>Sine/ Cosine</h4>
+                <div class="toolbar no-padding">
+                    <div class="btn-group"><span class="btn btn-xs widget-collapse"><i class="icon-angle-down"></i></span></div>
+                </div>
+            </div>
+            <div class="widget-content">
+               
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="widget box">
+            <div class="widget-header">
+                <h4><i class="icon-reorder"></i>Sine/ Cosine</h4>
+                <div class="toolbar no-padding">
+                    <div class="btn-group"><span class="btn btn-xs widget-collapse"><i class="icon-angle-down"></i></span></div>
+                </div>
+            </div>
+            <div class="widget-content">
+
+            </div>
+        </div>
+    </div>   
 </div>
 @Html.HiddenFor(x => x.store.Id)

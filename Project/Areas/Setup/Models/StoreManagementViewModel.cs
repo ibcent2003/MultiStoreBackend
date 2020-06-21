@@ -29,6 +29,11 @@ namespace Project.Areas.Setup.Models
         [Display(Name = "Logo")]
         public HttpPostedFileBase Logo { get; set; }
 
+        [Display(Name = "Store Currency")]
+        public string StoreCurrency { get; set; }
+
+        public bool OwnProcurement { get; set; }
+
         public bool IsDeleted { get; set; }
 
     }

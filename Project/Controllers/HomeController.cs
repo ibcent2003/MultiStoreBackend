@@ -28,5 +28,11 @@ namespace Project.Controllers
 
             return View();
         }
+
+        public ActionResult Error404()
+        {
+            return View();
+        }
+
     }
 }

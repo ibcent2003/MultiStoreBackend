@@ -9,7 +9,7 @@
 
         <ul class="breadcrumb" id="breadcrumbs">
             <li><i class="icon-home"></i><a href="@Url.Action("Index", "Home", new { area = "Admin" })">Dashboard</a> </li>
-            <li><i class="current"></i><a href="javascript: return void(0)">@Model.store.Name Product Color</a> </li>
+            <li><i class="current"></i><a href="javascript: return void(0)">@Model.store.Name Product Size</a> </li>
 
         </ul>
     </div>
@@ -56,6 +56,12 @@
             <div class="widget box">
                 <div class="widget-header">
                     <h4><i class="icon-reorder"></i> You're adding Size(s) to the product below.</h4> <a href="@Url.Action("ProductList", "ProductManagement", new {Id=Model.store.ProcessInstaceId, CategoryId=Model.product.ProductCategoryId , area = "Setup" })" class="btn btn-xs btn-info">Back</a>
+
+                    
+                    @if (Model.product.HasColor == true)
+                    {
+                        <a href="@Url.Action("ProductColorList", "ProductManagement", new {Id=Model.store.ProcessInstaceId, PId=Model.product.Id , area = "Setup" })" class="btn btn-xs btn-danger">Add Color(s)</a>
+                    }
                 </div>
                 <div class="widget-content">
 

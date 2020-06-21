@@ -614,8 +614,19 @@ namespace Project.Areas.Admin.Controllers
         {
             try
             {
+                var storeDetail = storeDetails();
+                if (!Roles.IsUserInRole("Administrator"))
+                {
+                    if (storeDetail == null)
+                    {
+                        Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Unauthorised Access"));
+                        TempData["message"] = "Unauthorised Access";
+                        return RedirectToAction("Index", "Store", new { area = "Setup" });
+                    }
+                }
+
                 DashboardViewModel model = new DashboardViewModel();
-                var GetStore = Backbone.GetStore(db, Id);
+                var GetStore = Backbone.GetStore(db, storeDetail.ProcessInstaceId);
                 model.store = GetStore;
                 model.users = GetStore.Users.ToList();
                 return View(model);

@@ -20,7 +20,7 @@
     <div class="col-md-12">
         <div class="widget box">
             <div class="widget-header">
-                <h4><i class="icon-reorder"></i>You are reordering a product for under @Model.category.Name.ToUpper() Category :</h4> <h4 style="color:red">  Please note fileds with red * is required. </h4>
+                <h4><i class="icon-reorder"></i>You are reordering a product for under @Model.category.Name.ToUpper() Category :</h4> <h4 style="color:red">  Please note fileds with red * is required. </h4> <a href="@Url.Action("ProductList", "ProductManagement", new {Id=Model.store.ProcessInstaceId, CategoryId=Model.product.ProductCategoryId , area = "Setup" })" class="btn btn-xs btn-danger">Back</a>
             </div>
             <div class="widget-content">
                 @using (Html.BeginForm("ReorderProduct", "ProductManagement", new { Id = Model.store.ProcessInstaceId, PId = Model.Productform.Id }, FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal row-border" }))
