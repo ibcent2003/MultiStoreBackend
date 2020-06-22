@@ -1559,6 +1559,8 @@
     <Content Include="Scripts\PasswordResetMailer\_Layout.cshtml" />
     <Content Include="Views\StoreRegistration\Index.cshtml" />
     <Content Include="Views\StoreRegistration\StoreInformation.cshtml" />
+    <Content Include="Views\Home\Error404.cshtml" />
+    <Content Include="Views\StoreRegistration\AddressList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

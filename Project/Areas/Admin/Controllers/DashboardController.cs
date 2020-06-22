@@ -1391,7 +1391,7 @@ namespace Project.Areas.Admin.Controllers
                 {
                     AddressTypeId = addressBook.AddressTypeId,
                     Street = addressBook.Street,
-                    LgaId = addressBook.LgaId,
+                    LgaId = addressBook.LgaId.Value,
                     MobileNumber = addressBook.MobileNumber,
                     EmailAddress = addressBook.EmailAddress,
                     GoogleMap = addressBook.GoogleMapURL

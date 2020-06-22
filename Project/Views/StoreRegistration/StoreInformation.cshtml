@@ -15,7 +15,7 @@
             <h1 class="title" style="color:white">Store Information</h1>
             <ul class="breadcrumb" style="color:white">
                 <li style="color:white">
-                    <a href="@Url.Action("Classic", "Home", new {area = "" })" style="color:white">Home</a>
+                    <a href="@Url.Action("Index", "Home", new {area = "" })" style="color:white">Home</a>
                 </li>
                 <li class="active" style="color:white">Store Information</li>
             </ul>
@@ -62,17 +62,88 @@
                     <div class="panel-heading" style="background-color: #143856;border-color: #143856;">
                         Store Information
                     </div>
+@using (Html.BeginForm("StoreInformation", "StoreRegistration", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal row-border" }))
+    
+    {
                     <div class="panel-body">
                         <div class="col-lg-9">
-                            @Html.Raw(@TempData["GuideLines"])
+            
+                                @Html.AntiForgeryToken()
+                                <div class="panel-body">
+
+                                    <div class="content col-sm-12 col-md-8">
+                                        <div class="editor-label">
+                                            @Html.LabelFor(model => model.storeform.Name, new { @class = "required" })
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-icon">
+                                                @Html.TextBoxFor(model => model.storeform.Name, new { @class = "form-control", @placeholder = "Enter the Store Name." })
+                                                @Html.ValidationMessageFor(model => model.storeform.Name, null, new { @style = "color:red" })
+                                            </div>
+                                        </div>
+
+
+                                        <div class="editor-label">
+                                            @Html.LabelFor(model => model.storeform.Logo, new { @class = "" })
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-icon">                                                
+                                                @Html.TextBoxFor(x => Model.storeform.Logo, new { type = "file", @class = "form-control" })
+                                                @*@Html.ValidationMessageFor(model => model.CompanyRegFrom.RegistrationNumber, null, new { @style = "color:red" })*@
+                                            </div>
+                                        </div>
+
+                                        <div class="editor-label">
+                                            @Html.Label("Check if you want us to handle your logistics")
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-icon">
+                                                @Html.CheckBoxFor(m => m.storeform.OwnProcurement)
+                                            </div>
+                                        </div> 
+
+                                        <div class="editor-label">
+                                            @Html.Label("Accepted Currency", new { @class = "required" })
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-icon">
+                                                @Html.DropDownListFor(m => m.storeform.StoreCurrency,
+new List<SelectListItem>
+{
+
+                        new SelectListItem { Text = "Nigeria Naira", Value = "1"},
+                        new SelectListItem { Text = "Ghana Cedis", Value = "2"},
+
+}, new { @class = "form-control" })
+                                            </div>
+                                        </div> 
+                                        
+                                        
+                                        
+                                       
+
+</div>
+
+                                </div>
+
+
+                            
+                           
                         </div>
                         
                     </div>
+
                     <div class="panel-footer">
-                        <div style="text-align: right;">
-                            <a href="@Url.Action("StoreInformation")" class="btn btn-sm btn-default" style="color:white">Next</a>
+                        <div class="row">
+                            <div style="text-align: left;" class="col-md-6">
+                                <a href="@Url.Action("Index")" class="btn btn-sm btn-default" style="color:white">Back</a>
+                            </div>
+                            <div style="text-align: right;" class="col-md-6">
+                                <input type="submit" value="Next" class="btn btn-sm btn-default" style="color:white">
+                            </div>
                         </div>
                     </div>
+}
                 </div>
 
             </div>
@@ -80,3 +151,14 @@
     </div>
 </section>
 
+<style>
+    .disabledTab {
+        pointer-events: none;
+    }
+
+    .required:after {
+        content: "*";
+        font-weight: bold;
+        color: red;
+    }
+</style>

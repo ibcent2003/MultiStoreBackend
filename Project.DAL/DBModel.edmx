@@ -12,7 +12,8 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AddressTypeId" Type="int" Nullable="false" />
           <Property Name="Street" Type="varchar" MaxLength="500" Nullable="false" />
-          <Property Name="LgaId" Type="int" Nullable="false" />
+          <Property Name="LgaId" Type="int" />
+          <Property Name="DistrictId" Type="int" />
           <Property Name="MobileNumber" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="EmailAddress" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="GoogleMapURL" Type="varchar(max)" />
@@ -106,6 +107,14 @@
           <Property Name="TableName" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="TableID" Type="int" Nullable="false" />
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="District">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="500" />
+          <Property Name="StateId" Type="int" />
         </EntityType>
         <EntityType Name="DocumentCategory">
           <Key>
@@ -282,6 +291,14 @@
           <Property Name="PropertyValueBinary" Type="image" Nullable="false" />
           <Property Name="LastUpdatedDate" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Code" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Resource">
           <Key>
             <PropertyRef Name="Id" />
@@ -356,6 +373,9 @@
           <Property Name="Logo" Type="varchar" MaxLength="100" />
           <Property Name="StoreCurrency" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="OwnProcurement" Type="bit" Nullable="false" />
+          <Property Name="WorkFlowId" Type="int" />
+          <Property Name="OwnedBy" Type="varchar" MaxLength="50" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
           <Property Name="CountryId" Type="int" Nullable="false" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
@@ -368,6 +388,14 @@
           </Key>
           <Property Name="StoreId" Type="int" Nullable="false" />
           <Property Name="AddressBookId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StoreApplication">
+          <Key>
+            <PropertyRef Name="StoreId" />
+            <PropertyRef Name="WorkFlowStepId" />
+          </Key>
+          <Property Name="StoreId" Type="int" Nullable="false" />
+          <Property Name="WorkFlowStepId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="StoreContactInfo">
           <Key>
@@ -543,8 +571,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_AddressBook_District">
+          <End Role="District" Type="Self.District" Multiplicity="1" />
+          <End Role="AddressBook" Type="Self.AddressBook" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="District">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AddressBook">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_AddressBook_LGA">
-          <End Role="LGA" Type="Self.LGA" Multiplicity="1" />
+          <End Role="LGA" Type="Self.LGA" Multiplicity="0..1" />
           <End Role="AddressBook" Type="Self.AddressBook" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="LGA">
@@ -768,6 +808,30 @@
             </Principal>
             <Dependent Role="StoreAddressBook">
               <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreApplication_Store">
+          <End Role="Store" Type="Self.Store" Multiplicity="1" />
+          <End Role="StoreApplication" Type="Self.StoreApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreApplication">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreApplication_WorkflowSteps">
+          <End Role="WorkflowSteps" Type="Self.WorkflowSteps" Multiplicity="1" />
+          <End Role="StoreApplication" Type="Self.StoreApplication" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkflowSteps">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreApplication">
+              <PropertyRef Name="WorkFlowStepId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1153,6 +1217,7 @@
           <EntitySet Name="ContactInfo" EntityType="Self.ContactInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DataGenerator" EntityType="Self.DataGenerator" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="District" EntityType="Self.District" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentCategory" EntityType="Self.DocumentCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentFormat" EntityType="Self.DocumentFormat" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentInfo" EntityType="Self.DocumentInfo" Schema="dbo" store:Type="Tables" />
@@ -1169,6 +1234,7 @@
           <EntitySet Name="ProductSize" EntityType="Self.ProductSize" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductSubCategory" EntityType="Self.ProductSubCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Profiles" EntityType="Self.Profiles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Region" EntityType="Self.Region" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Resource" EntityType="Self.Resource" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ResourcesInRole" EntityType="Self.ResourcesInRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
@@ -1177,6 +1243,7 @@
           <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Store" EntityType="Self.Store" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreAddressBook" EntityType="Self.StoreAddressBook" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StoreApplication" EntityType="Self.StoreApplication" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreContactInfo" EntityType="Self.StoreContactInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreInProduct" EntityType="Self.StoreInProduct" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreProduct" EntityType="Self.StoreProduct" Schema="dbo" store:Type="Tables" />
@@ -1194,6 +1261,10 @@
           <EntitySet Name="WorkflowSteps" EntityType="Self.WorkflowSteps" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_AddressBook_AddressType" Association="Self.FK_AddressBook_AddressType">
             <End Role="AddressType" EntitySet="AddressType" />
+            <End Role="AddressBook" EntitySet="AddressBook" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AddressBook_District" Association="Self.FK_AddressBook_District">
+            <End Role="District" EntitySet="District" />
             <End Role="AddressBook" EntitySet="AddressBook" />
           </AssociationSet>
           <AssociationSet Name="FK_AddressBook_LGA" Association="Self.FK_AddressBook_LGA">
@@ -1271,6 +1342,14 @@
           <AssociationSet Name="FK_StoreAddressBook_Store" Association="Self.FK_StoreAddressBook_Store">
             <End Role="Store" EntitySet="Store" />
             <End Role="StoreAddressBook" EntitySet="StoreAddressBook" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreApplication_Store" Association="Self.FK_StoreApplication_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="StoreApplication" EntitySet="StoreApplication" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreApplication_WorkflowSteps" Association="Self.FK_StoreApplication_WorkflowSteps">
+            <End Role="WorkflowSteps" EntitySet="WorkflowSteps" />
+            <End Role="StoreApplication" EntitySet="StoreApplication" />
           </AssociationSet>
           <AssociationSet Name="FK_StoreContactInfo_ContactInfo" Association="Self.FK_StoreContactInfo_ContactInfo">
             <End Role="ContactInfo" EntitySet="ContactInfo" />
@@ -1411,6 +1490,7 @@
           <EntitySet Name="ContactInfo" EntityType="PROModel.ContactInfo" />
           <EntitySet Name="Country" EntityType="PROModel.Country" />
           <EntitySet Name="DataGenerator" EntityType="PROModel.DataGenerator" />
+          <EntitySet Name="District" EntityType="PROModel.District" />
           <EntitySet Name="DocumentCategory" EntityType="PROModel.DocumentCategory" />
           <EntitySet Name="DocumentFormat" EntityType="PROModel.DocumentFormat" />
           <EntitySet Name="DocumentInfo" EntityType="PROModel.DocumentInfo" />
@@ -1423,6 +1503,7 @@
           <EntitySet Name="ProductColor" EntityType="PROModel.ProductColor" />
           <EntitySet Name="ProductSubCategory" EntityType="PROModel.ProductSubCategory" />
           <EntitySet Name="Profiles" EntityType="PROModel.Profiles" />
+          <EntitySet Name="Region" EntityType="PROModel.Region" />
           <EntitySet Name="Resource" EntityType="PROModel.Resource" />
           <EntitySet Name="ResourcesInRole" EntityType="PROModel.ResourcesInRole" />
           <EntitySet Name="Roles" EntityType="PROModel.Roles" />
@@ -1439,6 +1520,10 @@
           <EntitySet Name="WorkflowSteps" EntityType="PROModel.WorkflowSteps" />
           <AssociationSet Name="FK_AddressBook_AddressType" Association="PROModel.FK_AddressBook_AddressType">
             <End Role="AddressType" EntitySet="AddressType" />
+            <End Role="AddressBook" EntitySet="AddressBook" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AddressBook_District" Association="PROModel.FK_AddressBook_District">
+            <End Role="District" EntitySet="District" />
             <End Role="AddressBook" EntitySet="AddressBook" />
           </AssociationSet>
           <AssociationSet Name="FK_AddressBook_LGA" Association="PROModel.FK_AddressBook_LGA">
@@ -1557,6 +1642,10 @@
             <End Role="AddressBook" EntitySet="AddressBook" />
             <End Role="Store" EntitySet="Store" />
           </AssociationSet>
+          <AssociationSet Name="StoreApplication" Association="PROModel.StoreApplication">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="WorkflowSteps" EntitySet="WorkflowSteps" />
+          </AssociationSet>
           <AssociationSet Name="StoreContactInfo" Association="PROModel.StoreContactInfo">
             <End Role="ContactInfo" EntitySet="ContactInfo" />
             <End Role="Store" EntitySet="Store" />
@@ -1597,7 +1686,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AddressTypeId" Type="Int32" Nullable="false" />
           <Property Name="Street" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="LgaId" Type="Int32" Nullable="false" />
+          <Property Name="LgaId" Type="Int32" />
+          <Property Name="DistrictId" Type="Int32" />
           <Property Name="MobileNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="EmailAddress" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="GoogleMapURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
@@ -1605,6 +1695,7 @@
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="AddressType" Relationship="PROModel.FK_AddressBook_AddressType" FromRole="AddressBook" ToRole="AddressType" />
+          <NavigationProperty Name="District" Relationship="PROModel.FK_AddressBook_District" FromRole="AddressBook" ToRole="District" />
           <NavigationProperty Name="LGA" Relationship="PROModel.FK_AddressBook_LGA" FromRole="AddressBook" ToRole="LGA" />
           <NavigationProperty Name="Store" Relationship="PROModel.StoreAddressBook" FromRole="AddressBook" ToRole="Store" />
         </EntityType>
@@ -1703,6 +1794,15 @@
           <Property Name="TableName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="TableID" Type="Int32" Nullable="false" />
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="District">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="StateId" Type="Int32" />
+          <NavigationProperty Name="AddressBook" Relationship="PROModel.FK_AddressBook_District" FromRole="District" ToRole="AddressBook" />
         </EntityType>
         <EntityType Name="DocumentCategory">
           <Key>
@@ -1873,6 +1973,14 @@
           <Property Name="LastUpdatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Users" Relationship="PROModel.UserProfile" FromRole="Profiles" ToRole="Users" />
         </EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="Resource">
           <Key>
             <PropertyRef Name="Id" />
@@ -1954,11 +2062,15 @@
           <Property Name="Logo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="StoreCurrency" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="OwnProcurement" Type="Boolean" Nullable="false" />
+          <Property Name="WorkFlowId" Type="Int32" />
+          <Property Name="OwnedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CountryId" Type="Int32" Nullable="false" />
           <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="AddressBook" Relationship="PROModel.StoreAddressBook" FromRole="Store" ToRole="AddressBook" />
+          <NavigationProperty Name="WorkflowSteps" Relationship="PROModel.StoreApplication" FromRole="Store" ToRole="WorkflowSteps" />
           <NavigationProperty Name="ContactInfo" Relationship="PROModel.StoreContactInfo" FromRole="Store" ToRole="ContactInfo" />
           <NavigationProperty Name="StoreProduct" Relationship="PROModel.StoreInProduct" FromRole="Store" ToRole="StoreProduct" />
           <NavigationProperty Name="ProductCategory" Relationship="PROModel.StoreProductCategory" FromRole="Store" ToRole="ProductCategory" />
@@ -2088,6 +2200,7 @@
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
           <NavigationProperty Name="Workflow" Relationship="PROModel.FK_WorkflowSteps_Workflow" FromRole="WorkflowSteps" ToRole="Workflow" />
           <NavigationProperty Name="WorkflowStepActions" Relationship="PROModel.FK_WorkflowStepActions_WorkflowSteps" FromRole="WorkflowSteps" ToRole="WorkflowStepActions" />
+          <NavigationProperty Name="Store" Relationship="PROModel.StoreApplication" FromRole="WorkflowSteps" ToRole="Store" />
         </EntityType>
         <Association Name="FK_AddressBook_AddressType">
           <End Type="PROModel.AddressType" Role="AddressType" Multiplicity="1" />
@@ -2101,8 +2214,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_AddressBook_District">
+          <End Type="PROModel.District" Role="District" Multiplicity="1" />
+          <End Type="PROModel.AddressBook" Role="AddressBook" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="District">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AddressBook">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_AddressBook_LGA">
-          <End Type="PROModel.LGA" Role="LGA" Multiplicity="1" />
+          <End Type="PROModel.LGA" Role="LGA" Multiplicity="0..1" />
           <End Type="PROModel.AddressBook" Role="AddressBook" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="LGA">
@@ -2409,6 +2534,10 @@
           <End Type="PROModel.AddressBook" Role="AddressBook" Multiplicity="*" />
           <End Type="PROModel.Store" Role="Store" Multiplicity="*" />
         </Association>
+        <Association Name="StoreApplication">
+          <End Type="PROModel.Store" Role="Store" Multiplicity="*" />
+          <End Type="PROModel.WorkflowSteps" Role="WorkflowSteps" Multiplicity="*" />
+        </Association>
         <Association Name="StoreContactInfo">
           <End Type="PROModel.ContactInfo" Role="ContactInfo" Multiplicity="*" />
           <End Type="PROModel.Store" Role="Store" Multiplicity="*" />
@@ -2456,6 +2585,7 @@
                 <ScalarProperty Name="GoogleMapURL" ColumnName="GoogleMapURL" />
                 <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
                 <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+                <ScalarProperty Name="DistrictId" ColumnName="DistrictId" />
                 <ScalarProperty Name="LgaId" ColumnName="LgaId" />
                 <ScalarProperty Name="Street" ColumnName="Street" />
                 <ScalarProperty Name="AddressTypeId" ColumnName="AddressTypeId" />
@@ -2555,6 +2685,15 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="TableID" ColumnName="TableID" />
                 <ScalarProperty Name="TableName" ColumnName="TableName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="District">
+            <EntityTypeMapping TypeName="PROModel.District">
+              <MappingFragment StoreEntitySet="District">
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2714,6 +2853,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Region">
+            <EntityTypeMapping TypeName="PROModel.Region">
+              <MappingFragment StoreEntitySet="Region">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Resource">
             <EntityTypeMapping TypeName="PROModel.Resource">
               <MappingFragment StoreEntitySet="Resource">
@@ -2789,6 +2937,9 @@
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="OwnedBy" ColumnName="OwnedBy" />
+                <ScalarProperty Name="WorkFlowId" ColumnName="WorkFlowId" />
                 <ScalarProperty Name="OwnProcurement" ColumnName="OwnProcurement" />
                 <ScalarProperty Name="StoreCurrency" ColumnName="StoreCurrency" />
                 <ScalarProperty Name="Logo" ColumnName="Logo" />
@@ -2943,6 +3094,14 @@
             </EndProperty>
             <EndProperty Name="AddressBook">
               <ScalarProperty Name="Id" ColumnName="AddressBookId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="StoreApplication" TypeName="PROModel.StoreApplication" StoreEntitySet="StoreApplication">
+            <EndProperty Name="WorkflowSteps">
+              <ScalarProperty Name="Id" ColumnName="WorkFlowStepId" />
+            </EndProperty>
+            <EndProperty Name="Store">
+              <ScalarProperty Name="Id" ColumnName="StoreId" />
             </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="StoreContactInfo" TypeName="PROModel.StoreContactInfo" StoreEntitySet="StoreContactInfo">
