@@ -17,6 +17,9 @@ namespace Project.Areas.SecurityGuard.Models
         public ContactInfoForm contactform { get; set; }
 
         public CompanyAddressForm addressform { get; set; }
+
+        public TempUserForm tempUserform { get; set; }
+        
     }
 
     public class UserForm
@@ -106,6 +109,7 @@ namespace Project.Areas.SecurityGuard.Models
         [Required(ErrorMessage = "Email Address is required")]
         [Display(Name = "Email Address")]
         [DataType(DataType.EmailAddress)]
+        [EmailAddress(ErrorMessage = "Invalid Email Address.")]
         public string EmailAddress { get; set; }
 
         [Required(ErrorMessage = "Mobile Number is required")]
@@ -126,18 +130,17 @@ namespace Project.Areas.SecurityGuard.Models
         [Display(Name = "Email Address")]
         [EmailAddress(ErrorMessage = "Invalid Email Address.")]
         [Required(ErrorMessage = "Please enter Email Address")]
+       // [RegularExpression("^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$", ErrorMessage ="The Email address is invalid")]
         public string EmailAddress{get;set;}
 
         public int Id { get; set; }
 
 
-        [Display(Name = "Local Government")]
-        [Required(ErrorMessage = "Please select your LGA")]
-        public int LgaId { get; set; }
-
+        [Display(Name = "Local Government")]        
+        public int LgaId { get; set; }     
 
         [Display(Name = "Mobile Numbe")]
-        [RegularExpression("^([0-9]{11})$", ErrorMessage = "Invalid Mobile Number.")]
+       // [RegularExpression("^([0-9]{10})$", ErrorMessage = "Invalid Mobile Number.")]
         [Required(ErrorMessage = "Please enter Mobile Number")]
         public string MobileNumber { get; set; }
 
@@ -152,4 +155,35 @@ namespace Project.Areas.SecurityGuard.Models
 
 
     }
+
+
+    public class TempUserForm
+    {                  
+        [Required(ErrorMessage = "Email Address is required")]
+        [Display(Name = "Email Address")]
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress(ErrorMessage = "Invalid Email Address.")]
+        public string EmailAddress { get; set; }       
+
+        [Required(ErrorMessage = "User Name is required")]
+        [Display(Name = "Username")]
+        public string Username { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
+
+        [DataType(DataType.Password)]
+        [Required]
+        [Display(Name = "Confirm password")]
+        [System.Web.Mvc.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+
+
+    }
+
+ 
 }

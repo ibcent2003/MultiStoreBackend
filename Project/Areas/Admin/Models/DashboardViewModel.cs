@@ -11,6 +11,8 @@ namespace Project.Areas.Admin.Models
 {
     public class DashboardViewModel
     {
+        public int TotalStore { get; set; }
+
         public int StateId { get; set; }
         public Guid RoleId { get; set; }
         public List<SelectListItem> RolesList { get; set; }
@@ -18,6 +20,7 @@ namespace Project.Areas.Admin.Models
 
         public List<Roles> storeUserRoles { get; set; }
 
+        public string documentPath { get; set; }
         public List<Users> users { get; set; }
 
         public List<ContactInfo> contactInfoList { get; set; }

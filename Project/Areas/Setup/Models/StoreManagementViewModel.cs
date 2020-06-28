@@ -26,6 +26,10 @@ namespace Project.Areas.Setup.Models
         [Display(Name = "Store Name")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "Please enter your Store Profile")]
+        [Display(Name = "Store Profile")]
+        public string Description { get; set; }
+
         [Display(Name = "Logo")]
         public HttpPostedFileBase Logo { get; set; }
 
@@ -35,6 +39,10 @@ namespace Project.Areas.Setup.Models
         public bool OwnProcurement { get; set; }
 
         public bool IsDeleted { get; set; }
+
+        [Required(ErrorMessage = "Please select a currency")]
+        [Display(Name = "Accepted Currency")]
+        public int CountryId { get; set; }
 
     }
 }

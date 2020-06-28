@@ -1460,6 +1460,8 @@
     <Content Include="Areas\Setup\Views\ProductManagement\ReorderProduct.cshtml" />
     <Content Include="Areas\Setup\Views\ProductManagement\ProductColorList.cshtml" />
     <Content Include="Areas\Setup\Views\ProductManagement\ProductSizeList.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\PendingApproval.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\Details.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="MvcInstaller\ajax-loader.gif" />
     <Content Include="MvcInstaller\jquery-1.6.1.min.js" />
@@ -1561,6 +1563,16 @@
     <Content Include="Views\StoreRegistration\StoreInformation.cshtml" />
     <Content Include="Views\Home\Error404.cshtml" />
     <Content Include="Views\StoreRegistration\AddressList.cshtml" />
+    <Content Include="Views\StoreRegistration\ViewStoreInformation.cshtml" />
+    <Content Include="Views\StoreRegistration\EditStoreInformation.cshtml" />
+    <Content Include="Views\StoreRegistration\NewAddress.cshtml" />
+    <Content Include="Views\StoreRegistration\ContactPerson.cshtml" />
+    <Content Include="Views\StoreRegistration\ProductCategory.cshtml" />
+    <Content Include="Views\StoreRegistration\SubCategory.cshtml" />
+    <Content Include="Views\StoreRegistration\ChildCategory.cshtml" />
+    <Content Include="Views\StoreRegistration\UserAccount.cshtml" />
+    <Content Include="Views\StoreRegistration\Review.cshtml" />
+    <Content Include="Views\StoreRegistration\Feedback.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

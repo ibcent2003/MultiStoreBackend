@@ -20,7 +20,7 @@ using System.Xml.Serialization;
 #region EDM Relationship Metadata
 
 [assembly: EdmRelationshipAttribute("PROModel", "FK_AddressBook_AddressType", "AddressType", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.AddressType), "AddressBook", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.AddressBook), true)]
-[assembly: EdmRelationshipAttribute("PROModel", "FK_AddressBook_District", "District", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.District), "AddressBook", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Project.DAL.AddressBook), true)]
+[assembly: EdmRelationshipAttribute("PROModel", "FK_AddressBook_District", "District", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Project.DAL.District), "AddressBook", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.AddressBook), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "FK_AddressBook_LGA", "LGA", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Project.DAL.LGA), "AddressBook", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.AddressBook), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "FK_Alert_WorkFlow", "Workflow", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.Workflow), "Alert", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Alert), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "FK_WorkflowStepActions_Alert", "Alert", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.Alert), "WorkflowStepActions", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.WorkflowStepActions), true)]
@@ -28,6 +28,9 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PROModel", "MembershipApplication", "Applications", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.Applications), "Memberships", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Memberships), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "RoleApplication", "Applications", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.Applications), "Roles", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Roles), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "UserApplication", "Applications", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.Applications), "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Users), true)]
+[assembly: EdmRelationshipAttribute("PROModel", "FK_State_Country", "Country", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Project.DAL.Country), "State", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.State), true)]
+[assembly: EdmRelationshipAttribute("PROModel", "FK_Store_Country", "Country", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.Country), "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Store), true)]
+[assembly: EdmRelationshipAttribute("PROModel", "FK_District_Region", "Region", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.Region), "District", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.District), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "FK_DocumentType_DocumentCategory", "DocumentCategory", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.DocumentCategory), "DocumentType", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.DocumentType), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "FK_DocumentInfo_DocumentType", "DocumentType", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.DocumentType), "DocumentInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.DocumentInfo), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "FK_LGA_State", "State", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.State), "LGA", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.LGA), true)]
@@ -40,6 +43,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PROModel", "FK_StoreProduct_ProductSubCategory", "ProductSubCategory", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.ProductSubCategory), "StoreProduct", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.StoreProduct), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "UserProfile", "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.Users), "Profiles", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Project.DAL.Profiles), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "FK_Size_SizeType", "SizeType", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.SizeType), "Size", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Size), true)]
+[assembly: EdmRelationshipAttribute("PROModel", "FK_TempUser_Store", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.Store), "TempUser", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.TempUser), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "FK_UserDetail_Users", "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.Users), "UserDetail", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.UserDetail), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "FK_WorkFlowActions_Workflow", "Workflow", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.Workflow), "WorkFlowActions", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.WorkFlowActions), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "FK_WorkflowSteps_Workflow", "Workflow", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.Workflow), "WorkflowSteps", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.WorkflowSteps), true)]
@@ -50,7 +54,6 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PROModel", "ProductInColor", "ProductColor", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.ProductColor), "StoreProduct", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Project.DAL.StoreProduct))]
 [assembly: EdmRelationshipAttribute("PROModel", "ProductSize", "Size", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Size), "StoreProduct", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.StoreProduct))]
 [assembly: EdmRelationshipAttribute("PROModel", "StoreAddressBook", "AddressBook", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.AddressBook), "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Store))]
-[assembly: EdmRelationshipAttribute("PROModel", "StoreApplication", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Store), "WorkflowSteps", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.WorkflowSteps))]
 [assembly: EdmRelationshipAttribute("PROModel", "StoreContactInfo", "ContactInfo", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.ContactInfo), "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Store))]
 [assembly: EdmRelationshipAttribute("PROModel", "StoreInProduct", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Store), "StoreProduct", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.StoreProduct))]
 [assembly: EdmRelationshipAttribute("PROModel", "StoreProductCategory", "ProductCategory", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.ProductCategory), "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Store))]
@@ -58,6 +61,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PROModel", "StoreProductSubCategory", "ProductSubCategory", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.ProductSubCategory), "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Store))]
 [assembly: EdmRelationshipAttribute("PROModel", "StoreRole", "Roles", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Roles), "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Store))]
 [assembly: EdmRelationshipAttribute("PROModel", "StoreUser", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Store), "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Users))]
+[assembly: EdmRelationshipAttribute("PROModel", "StoreWorkflowSteps", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Store), "WorkflowSteps", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.WorkflowSteps))]
 [assembly: EdmRelationshipAttribute("PROModel", "UsersInRoles", "Roles", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Roles), "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Users))]
 
 #endregion
@@ -609,6 +613,22 @@ namespace Project.DAL
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
+        public ObjectSet<TempUser> TempUser
+        {
+            get
+            {
+                if ((_TempUser == null))
+                {
+                    _TempUser = base.CreateObjectSet<TempUser>("TempUser");
+                }
+                return _TempUser;
+            }
+        }
+        private ObjectSet<TempUser> _TempUser;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
         public ObjectSet<UserDetail> UserDetail
         {
             get
@@ -952,6 +972,14 @@ namespace Project.DAL
         public void AddToStoreProduct(StoreProduct storeProduct)
         {
             base.AddObject("StoreProduct", storeProduct);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the TempUser EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToTempUser(TempUser tempUser)
+        {
+            base.AddObject("TempUser", tempUser);
         }
     
         /// <summary>
@@ -2874,7 +2902,7 @@ namespace Project.DAL
         /// <param name="modifiedDate">Initial value of the ModifiedDate property.</param>
         /// <param name="modifiedBy">Initial value of the ModifiedBy property.</param>
         /// <param name="isDeleted">Initial value of the IsDeleted property.</param>
-        public static Country CreateCountry(global::System.Int32 id, global::System.String name, global::System.String currencyName, global::System.String currencyCode, global::System.String modifiedDate, global::System.String modifiedBy, global::System.String isDeleted)
+        public static Country CreateCountry(global::System.Int32 id, global::System.String name, global::System.String currencyName, global::System.String currencyCode, global::System.String modifiedDate, global::System.String modifiedBy, global::System.Boolean isDeleted)
         {
             Country country = new Country();
             country.Id = id;
@@ -3043,7 +3071,7 @@ namespace Project.DAL
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String IsDeleted
+        public global::System.Boolean IsDeleted
         {
             get
             {
@@ -3053,14 +3081,62 @@ namespace Project.DAL
             {
                 OnIsDeletedChanging(value);
                 ReportPropertyChanging("IsDeleted");
-                _IsDeleted = StructuralObject.SetValidValue(value, false, "IsDeleted");
+                _IsDeleted = StructuralObject.SetValidValue(value, "IsDeleted");
                 ReportPropertyChanged("IsDeleted");
                 OnIsDeletedChanged();
             }
         }
-        private global::System.String _IsDeleted;
-        partial void OnIsDeletedChanging(global::System.String value);
+        private global::System.Boolean _IsDeleted;
+        partial void OnIsDeletedChanging(global::System.Boolean value);
         partial void OnIsDeletedChanged();
+
+        #endregion
+
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "FK_State_Country", "State")]
+        public EntityCollection<State> State
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<State>("PROModel.FK_State_Country", "State");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<State>("PROModel.FK_State_Country", "State", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "FK_Store_Country", "Store")]
+        public EntityCollection<Store> Store
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Store>("PROModel.FK_Store_Country", "Store");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Store>("PROModel.FK_Store_Country", "Store", value);
+                }
+            }
+        }
 
         #endregion
 
@@ -3188,10 +3264,14 @@ namespace Project.DAL
         /// Create a new District object.
         /// </summary>
         /// <param name="id">Initial value of the Id property.</param>
-        public static District CreateDistrict(global::System.Int32 id)
+        /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="regionId">Initial value of the RegionId property.</param>
+        public static District CreateDistrict(global::System.Int32 id, global::System.String name, global::System.Int32 regionId)
         {
             District district = new District();
             district.Id = id;
+            district.Name = name;
+            district.RegionId = regionId;
             return district;
         }
 
@@ -3229,7 +3309,7 @@ namespace Project.DAL
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.String Name
         {
@@ -3241,7 +3321,7 @@ namespace Project.DAL
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, true, "Name");
+                _Name = StructuralObject.SetValidValue(value, false, "Name");
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -3253,26 +3333,26 @@ namespace Project.DAL
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int32> StateId
+        public global::System.Int32 RegionId
         {
             get
             {
-                return _StateId;
+                return _RegionId;
             }
             set
             {
-                OnStateIdChanging(value);
-                ReportPropertyChanging("StateId");
-                _StateId = StructuralObject.SetValidValue(value, "StateId");
-                ReportPropertyChanged("StateId");
-                OnStateIdChanged();
+                OnRegionIdChanging(value);
+                ReportPropertyChanging("RegionId");
+                _RegionId = StructuralObject.SetValidValue(value, "RegionId");
+                ReportPropertyChanged("RegionId");
+                OnRegionIdChanged();
             }
         }
-        private Nullable<global::System.Int32> _StateId;
-        partial void OnStateIdChanging(Nullable<global::System.Int32> value);
-        partial void OnStateIdChanged();
+        private global::System.Int32 _RegionId;
+        partial void OnRegionIdChanging(global::System.Int32 value);
+        partial void OnRegionIdChanged();
 
         #endregion
 
@@ -3285,15 +3365,37 @@ namespace Project.DAL
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("PROModel", "FK_AddressBook_District", "AddressBook")]
-        public AddressBook AddressBook
+        public EntityCollection<AddressBook> AddressBook
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<AddressBook>("PROModel.FK_AddressBook_District", "AddressBook").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<AddressBook>("PROModel.FK_AddressBook_District", "AddressBook");
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<AddressBook>("PROModel.FK_AddressBook_District", "AddressBook").Value = value;
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<AddressBook>("PROModel.FK_AddressBook_District", "AddressBook", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "FK_District_Region", "Region")]
+        public Region Region
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Region>("PROModel.FK_District_Region", "Region").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Region>("PROModel.FK_District_Region", "Region").Value = value;
             }
         }
         /// <summary>
@@ -3301,17 +3403,17 @@ namespace Project.DAL
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<AddressBook> AddressBookReference
+        public EntityReference<Region> RegionReference
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<AddressBook>("PROModel.FK_AddressBook_District", "AddressBook");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Region>("PROModel.FK_District_Region", "Region");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<AddressBook>("PROModel.FK_AddressBook_District", "AddressBook", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Region>("PROModel.FK_District_Region", "Region", value);
                 }
             }
         }
@@ -6692,6 +6794,32 @@ namespace Project.DAL
 
         #endregion
 
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "FK_District_Region", "District")]
+        public EntityCollection<District> District
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<District>("PROModel.FK_District_Region", "District");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<District>("PROModel.FK_District_Region", "District", value);
+                }
+            }
+        }
+
+        #endregion
+
     }
     
     /// <summary>
@@ -7860,10 +7988,72 @@ namespace Project.DAL
         private global::System.DateTime _ModifiedDate;
         partial void OnModifiedDateChanging(global::System.DateTime value);
         partial void OnModifiedDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> CountryId
+        {
+            get
+            {
+                return _CountryId;
+            }
+            set
+            {
+                OnCountryIdChanging(value);
+                ReportPropertyChanging("CountryId");
+                _CountryId = StructuralObject.SetValidValue(value, "CountryId");
+                ReportPropertyChanged("CountryId");
+                OnCountryIdChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _CountryId;
+        partial void OnCountryIdChanging(Nullable<global::System.Int32> value);
+        partial void OnCountryIdChanged();
 
         #endregion
 
         #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "FK_State_Country", "Country")]
+        public Country Country
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Country>("PROModel.FK_State_Country", "Country").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Country>("PROModel.FK_State_Country", "Country").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Country> CountryReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Country>("PROModel.FK_State_Country", "Country");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Country>("PROModel.FK_State_Country", "Country", value);
+                }
+            }
+        }
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -7906,23 +8096,27 @@ namespace Project.DAL
         /// </summary>
         /// <param name="id">Initial value of the Id property.</param>
         /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="description">Initial value of the Description property.</param>
         /// <param name="processInstaceId">Initial value of the ProcessInstaceId property.</param>
         /// <param name="uRL">Initial value of the URL property.</param>
-        /// <param name="storeCurrency">Initial value of the StoreCurrency property.</param>
         /// <param name="ownProcurement">Initial value of the OwnProcurement property.</param>
+        /// <param name="workFlowId">Initial value of the WorkFlowId property.</param>
+        /// <param name="status">Initial value of the Status property.</param>
         /// <param name="countryId">Initial value of the CountryId property.</param>
         /// <param name="modifiedBy">Initial value of the ModifiedBy property.</param>
         /// <param name="modifiedDate">Initial value of the ModifiedDate property.</param>
         /// <param name="isDeleted">Initial value of the IsDeleted property.</param>
-        public static Store CreateStore(global::System.Int32 id, global::System.String name, global::System.Guid processInstaceId, global::System.String uRL, global::System.String storeCurrency, global::System.Boolean ownProcurement, global::System.Int32 countryId, global::System.String modifiedBy, global::System.DateTime modifiedDate, global::System.Boolean isDeleted)
+        public static Store CreateStore(global::System.Int32 id, global::System.String name, global::System.String description, global::System.Guid processInstaceId, global::System.String uRL, global::System.Boolean ownProcurement, global::System.Int32 workFlowId, global::System.String status, global::System.Int32 countryId, global::System.String modifiedBy, global::System.DateTime modifiedDate, global::System.Boolean isDeleted)
         {
             Store store = new Store();
             store.Id = id;
             store.Name = name;
+            store.Description = description;
             store.ProcessInstaceId = processInstaceId;
             store.URL = uRL;
-            store.StoreCurrency = storeCurrency;
             store.OwnProcurement = ownProcurement;
+            store.WorkFlowId = workFlowId;
+            store.Status = status;
             store.CountryId = countryId;
             store.ModifiedBy = modifiedBy;
             store.ModifiedDate = modifiedDate;
@@ -7984,6 +8178,30 @@ namespace Project.DAL
         private global::System.String _Name;
         partial void OnNameChanging(global::System.String value);
         partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Description
+        {
+            get
+            {
+                return _Description;
+            }
+            set
+            {
+                OnDescriptionChanging(value);
+                ReportPropertyChanging("Description");
+                _Description = StructuralObject.SetValidValue(value, false, "Description");
+                ReportPropertyChanged("Description");
+                OnDescriptionChanged();
+            }
+        }
+        private global::System.String _Description;
+        partial void OnDescriptionChanging(global::System.String value);
+        partial void OnDescriptionChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -8062,30 +8280,6 @@ namespace Project.DAL
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String StoreCurrency
-        {
-            get
-            {
-                return _StoreCurrency;
-            }
-            set
-            {
-                OnStoreCurrencyChanging(value);
-                ReportPropertyChanging("StoreCurrency");
-                _StoreCurrency = StructuralObject.SetValidValue(value, false, "StoreCurrency");
-                ReportPropertyChanged("StoreCurrency");
-                OnStoreCurrencyChanged();
-            }
-        }
-        private global::System.String _StoreCurrency;
-        partial void OnStoreCurrencyChanging(global::System.String value);
-        partial void OnStoreCurrencyChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
         public global::System.Boolean OwnProcurement
         {
             get
@@ -8108,9 +8302,9 @@ namespace Project.DAL
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int32> WorkFlowId
+        public global::System.Int32 WorkFlowId
         {
             get
             {
@@ -8125,8 +8319,8 @@ namespace Project.DAL
                 OnWorkFlowIdChanged();
             }
         }
-        private Nullable<global::System.Int32> _WorkFlowId;
-        partial void OnWorkFlowIdChanging(Nullable<global::System.Int32> value);
+        private global::System.Int32 _WorkFlowId;
+        partial void OnWorkFlowIdChanging(global::System.Int32 value);
         partial void OnWorkFlowIdChanged();
     
         /// <summary>
@@ -8156,7 +8350,7 @@ namespace Project.DAL
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.String Status
         {
@@ -8168,7 +8362,7 @@ namespace Project.DAL
             {
                 OnStatusChanging(value);
                 ReportPropertyChanging("Status");
-                _Status = StructuralObject.SetValidValue(value, true, "Status");
+                _Status = StructuralObject.SetValidValue(value, false, "Status");
                 ReportPropertyChanged("Status");
                 OnStatusChanged();
             }
@@ -8272,10 +8466,94 @@ namespace Project.DAL
         private global::System.Boolean _IsDeleted;
         partial void OnIsDeletedChanging(global::System.Boolean value);
         partial void OnIsDeletedChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> SubmissionDate
+        {
+            get
+            {
+                return _SubmissionDate;
+            }
+            set
+            {
+                OnSubmissionDateChanging(value);
+                ReportPropertyChanging("SubmissionDate");
+                _SubmissionDate = StructuralObject.SetValidValue(value, "SubmissionDate");
+                ReportPropertyChanged("SubmissionDate");
+                OnSubmissionDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _SubmissionDate;
+        partial void OnSubmissionDateChanging(Nullable<global::System.DateTime> value);
+        partial void OnSubmissionDateChanged();
 
         #endregion
 
         #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "FK_Store_Country", "Country")]
+        public Country Country
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Country>("PROModel.FK_Store_Country", "Country").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Country>("PROModel.FK_Store_Country", "Country").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Country> CountryReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Country>("PROModel.FK_Store_Country", "Country");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Country>("PROModel.FK_Store_Country", "Country", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "FK_TempUser_Store", "TempUser")]
+        public EntityCollection<TempUser> TempUser
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<TempUser>("PROModel.FK_TempUser_Store", "TempUser");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<TempUser>("PROModel.FK_TempUser_Store", "TempUser", value);
+                }
+            }
+        }
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -8295,28 +8573,6 @@ namespace Project.DAL
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<AddressBook>("PROModel.StoreAddressBook", "AddressBook", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("PROModel", "StoreApplication", "WorkflowSteps")]
-        public EntityCollection<WorkflowSteps> WorkflowSteps
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<WorkflowSteps>("PROModel.StoreApplication", "WorkflowSteps");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<WorkflowSteps>("PROModel.StoreApplication", "WorkflowSteps", value);
                 }
             }
         }
@@ -8471,6 +8727,28 @@ namespace Project.DAL
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Users>("PROModel.StoreUser", "Users", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "StoreWorkflowSteps", "WorkflowSteps")]
+        public EntityCollection<WorkflowSteps> WorkflowSteps
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<WorkflowSteps>("PROModel.StoreWorkflowSteps", "WorkflowSteps");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<WorkflowSteps>("PROModel.StoreWorkflowSteps", "WorkflowSteps", value);
                 }
             }
         }
@@ -9265,6 +9543,208 @@ namespace Project.DAL
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Store>("PROModel.StoreInProduct", "Store", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PROModel", Name="TempUser")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class TempUser : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new TempUser object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="emailAddres">Initial value of the EmailAddres property.</param>
+        /// <param name="username">Initial value of the Username property.</param>
+        /// <param name="password">Initial value of the Password property.</param>
+        /// <param name="storeId">Initial value of the StoreId property.</param>
+        public static TempUser CreateTempUser(global::System.Int32 id, global::System.String emailAddres, global::System.String username, global::System.String password, global::System.Int32 storeId)
+        {
+            TempUser tempUser = new TempUser();
+            tempUser.Id = id;
+            tempUser.EmailAddres = emailAddres;
+            tempUser.Username = username;
+            tempUser.Password = password;
+            tempUser.StoreId = storeId;
+            return tempUser;
+        }
+
+        #endregion
+
+        #region Simple Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String EmailAddres
+        {
+            get
+            {
+                return _EmailAddres;
+            }
+            set
+            {
+                OnEmailAddresChanging(value);
+                ReportPropertyChanging("EmailAddres");
+                _EmailAddres = StructuralObject.SetValidValue(value, false, "EmailAddres");
+                ReportPropertyChanged("EmailAddres");
+                OnEmailAddresChanged();
+            }
+        }
+        private global::System.String _EmailAddres;
+        partial void OnEmailAddresChanging(global::System.String value);
+        partial void OnEmailAddresChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Username
+        {
+            get
+            {
+                return _Username;
+            }
+            set
+            {
+                OnUsernameChanging(value);
+                ReportPropertyChanging("Username");
+                _Username = StructuralObject.SetValidValue(value, false, "Username");
+                ReportPropertyChanged("Username");
+                OnUsernameChanged();
+            }
+        }
+        private global::System.String _Username;
+        partial void OnUsernameChanging(global::System.String value);
+        partial void OnUsernameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Password
+        {
+            get
+            {
+                return _Password;
+            }
+            set
+            {
+                OnPasswordChanging(value);
+                ReportPropertyChanging("Password");
+                _Password = StructuralObject.SetValidValue(value, false, "Password");
+                ReportPropertyChanged("Password");
+                OnPasswordChanged();
+            }
+        }
+        private global::System.String _Password;
+        partial void OnPasswordChanging(global::System.String value);
+        partial void OnPasswordChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 StoreId
+        {
+            get
+            {
+                return _StoreId;
+            }
+            set
+            {
+                OnStoreIdChanging(value);
+                ReportPropertyChanging("StoreId");
+                _StoreId = StructuralObject.SetValidValue(value, "StoreId");
+                ReportPropertyChanged("StoreId");
+                OnStoreIdChanged();
+            }
+        }
+        private global::System.Int32 _StoreId;
+        partial void OnStoreIdChanging(global::System.Int32 value);
+        partial void OnStoreIdChanged();
+
+        #endregion
+
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "FK_TempUser_Store", "Store")]
+        public Store Store
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("PROModel.FK_TempUser_Store", "Store").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("PROModel.FK_TempUser_Store", "Store").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Store> StoreReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Store>("PROModel.FK_TempUser_Store", "Store");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Store>("PROModel.FK_TempUser_Store", "Store", value);
                 }
             }
         }
@@ -11079,18 +11559,18 @@ namespace Project.DAL
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("PROModel", "StoreApplication", "Store")]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "StoreWorkflowSteps", "Store")]
         public EntityCollection<Store> Store
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Store>("PROModel.StoreApplication", "Store");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Store>("PROModel.StoreWorkflowSteps", "Store");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Store>("PROModel.StoreApplication", "Store", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Store>("PROModel.StoreWorkflowSteps", "Store", value);
                 }
             }
         }

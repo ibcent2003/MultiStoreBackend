@@ -450,8 +450,6 @@ namespace Project.Areas.Setup.Controllers
             }
         }
 
-
-
         public ActionResult EditProduct(Guid Id, int PId)
         {
             try

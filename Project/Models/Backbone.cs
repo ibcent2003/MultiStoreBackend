@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 
 namespace Project.Models
 {
@@ -30,9 +31,9 @@ namespace Project.Models
             return getUser;
         }
 
-        public static List<Roles> GetAllRoles(PROEntities db)
+        public static List<DAL.Roles> GetAllRoles(PROEntities db)
         {
-            List<Roles> role = db.Roles.OrderBy(x => x.RoleName).ToList();
+            List<DAL.Roles> role = db.Roles.OrderBy(x => x.RoleName).ToList();
             return role;
         }
 
@@ -50,6 +51,12 @@ namespace Project.Models
             return getaddress;
         }
 
+        public static List<Store> GetNewStoreRegistration(PROEntities db, string[] roles)
+        {
+            string username = Membership.GetUser().UserName;
+            List<Store> applications = db.Store.Where(x => x.WorkFlowId == Properties.Settings.Default.StoreRegistrationWorkFlowId && x.Status == "Registration Verification" && roles.Contains(x.OwnedBy) || x.OwnedBy == username).ToList();
+            return applications;
+        }
 
 
 
@@ -95,7 +102,7 @@ namespace Project.Models
 
         #region Send Notification to Admin Role
 
-        public void SendEmailNotificationToChamsAdmin(string subject, String message, string EmailAddress, string sender, int Id)
+        public void SendEmailNotificationToAdmin(string subject, String message, string EmailAddress, string sender, int Id)
         {
             AlertNotification notification = new AlertNotification
             {

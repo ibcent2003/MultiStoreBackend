@@ -28,6 +28,18 @@
 
         <div class="row">
             <div class="col-md-12">
+                @if (TempData["Message"] != null)
+            {
+                var alertType = (TempData["MessageType"] != null) ? TempData["MessageType"] : "alert-info";
+                    <div class="alert @alertType fade in">
+                        <button type="button" class="close" data-dismiss="alert">
+                            <i class="fa fa-times"></i>
+                        </button>
+                        @Html.Raw(TempData["Message"])
+                    </div>
+                }
+
+
                 <div id="tabbed_widget" class="tabbable" style="display:;">
                     <ul class="nav nav-tabs" style="margin: 0 0 20px 0;">
                         <li class="disabled disabledTab">
@@ -62,12 +74,12 @@
                     <div class="panel-heading" style="background-color: #143856;border-color: #143856;">
                         Store Information
                     </div>
-@using (Html.BeginForm("StoreInformation", "StoreRegistration", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal row-border" }))
-    
-    {
-                    <div class="panel-body">
-                        <div class="col-lg-9">
-            
+                    @using (Html.BeginForm("EditStoreInformation", "StoreRegistration", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal row-border" }))
+
+                    {
+                        <div class="panel-body">
+                            <div class="col-lg-9">
+                                @Html.HiddenFor(x=>x.store.ProcessInstaceId)
                                 @Html.AntiForgeryToken()
                                 <div class="panel-body">
 
@@ -92,61 +104,73 @@
                                             </div>
                                         </div>
 
+                                        @if (Model.logos != null)
+                                        {
+                                            <div class="editor-label">
+                                                @Html.Label("Exisiting Logo", new { @class = "" })
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-icon">
+                                                    <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + Model.store.Logo })" height="60" width="190" />
 
+                                                </div>
+                                            </div>
+
+                                       }
                                         <div class="editor-label">
                                             @Html.LabelFor(model => model.storeform.Logo, new { @class = "" })
                                         </div>
                                         <div class="form-group">
-                                            <div class="input-icon">                                                
+                                            <div class="input-icon">
                                                 @Html.TextBoxFor(x => Model.storeform.Logo, new { type = "file", @class = "form-control" })
-                                                @*@Html.ValidationMessageFor(model => model.CompanyRegFrom.RegistrationNumber, null, new { @style = "color:red" })*@
+                                              
                                             </div>
                                         </div>
 
                                         <div class="editor-label">
-                                            @Html.Label("Check if you want us to handle your logistics") @Html.CheckBoxFor(m => m.storeform.OwnProcurement)
+                                            @Html.Label("Check if you want us to handle your logistics") @Html.CheckBoxFor(m => m.storeform.OwnProcurement, new { @class = "form-control" })
                                         </div>
                                         <div class="form-group">
                                             <div class="input-icon">
-                                               
+                                          
                                             </div>
-                                        </div> 
+                                        </div>
 
                                         <div class="editor-label">
                                             @Html.Label("Accepted Currency", new { @class = "required" })
                                         </div>
                                         <div class="form-group">
                                             <div class="input-icon">
-                                                @Html.DropDownListFor(m => Model.storeform.CountryId, new SelectList(Model.CountryList, "Value", "Text"), new { @class = "form-control" })
+                                              @Html.DropDownListFor(m => Model.storeform.CountryId, new SelectList(Model.CountryList, "Value", "Text"), new { @class = "form-control" })
                                             </div>
-                                        </div> 
-                                        
-                                        
-                                        
-                                       
+                                        </div>
 
-</div>
+
+
+
+
+                                    </div>
 
                                 </div>
 
 
-                            
-                           
-                        </div>
-                        
-                    </div>
 
-                    <div class="panel-footer">
-                        <div class="row">
-                            <div style="text-align: left;" class="col-md-6">
-                                <a href="@Url.Action("Index")" class="btn btn-sm btn-default" style="color:white">Back</a>
+
                             </div>
-                            <div style="text-align: right;" class="col-md-6">
-                                <input type="submit" value="Next" class="btn btn-sm btn-default" style="color:white">
+
+                        </div>
+
+                        <div class="panel-footer">
+                            <div class="row">
+                                <div style="text-align: left;" class="col-md-6">                                    
+                                    <a class="btn btn-xs btn-default" style="color:white" href="@Url.Action("ViewStoreInformation", "storeRegistration", new { area="", Id = Model.store.ProcessInstaceId})">Back</a>
+                                </div>
+                                <div style="text-align: right;" class="col-md-6">
+                                    <input type="submit" value="Next" class="btn btn-sm btn-default" style="color:white">
+                                </div>
                             </div>
                         </div>
-                    </div>
-}
+                    }
                 </div>
 
             </div>

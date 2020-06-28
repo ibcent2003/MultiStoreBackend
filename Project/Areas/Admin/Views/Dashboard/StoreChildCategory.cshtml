@@ -178,7 +178,7 @@
                                         @item.Name
                                     </td>                                   
                                     <td style="text-align:right">
-                                        @Html.ActionLink("Remove", "RemoveStoreChildCategory", new { Id = Model.store.ProcessInstaceId, ChildCategoryId = item.Id }, new { @class = "btn btn-xs btn-danger", onclick = " return DeleteConfirm()" }) 
+                                        @Html.ActionLink("Remove", "RemoveStoreChildCategory", new { Id = Model.store.ProcessInstaceId, ChildCategoryId = item.Id }, new { @class = "btn btn-xs btn-default", onclick = " return DeleteConfirm()" }) 
 
                                     </td>
 
@@ -201,7 +201,7 @@
 
 <script>
     function DeleteConfirm() {
-        if (confirm("Are you sure want to remove this Sub Category from you Store?"))
+        if (confirm("Are you sure want to remove this child Category from you Store?"))
             return true;
         else
             return false;

@@ -61,7 +61,15 @@ namespace Project.Areas.Admin.Controllers
                 else if (Roles.GetRolesForUser(User.Identity.Name).Contains("Store Admin") || Roles.GetRolesForUser(User.Identity.Name).Contains("Product Manager"))
                 {
                     var store = storeDetails();
-                    return RedirectToAction("StoreDashboard", "Dashboard", new { area = "Admin", Id=store.ProcessInstaceId });
+                    if(store.Status== "Registration Verification" || store.Status=="Rejected")
+                    {
+                        return RedirectToAction("PendingApproval", "Dashboard", new { area = "Admin", Id = store.ProcessInstaceId });
+                    }
+                    else if(store.Status=="Approved")
+                    {
+                        return RedirectToAction("StoreDashboard", "Dashboard", new { area = "Admin", Id = store.ProcessInstaceId });
+                    }
+                   
                 }                             
                 return View(model); 
             }
@@ -72,6 +80,79 @@ namespace Project.Areas.Admin.Controllers
                 TempData["messageType"] = "danger";
                 return RedirectToAction("Index", "Store", new { area = "Setup" });
 
+            }
+        }
+
+        public ActionResult PendingApproval(Guid Id)
+        {
+            try
+            {
+                DashboardViewModel model = new DashboardViewModel();
+
+
+                var storeDetail = storeDetails();
+                if (storeDetail == null)
+                {
+                    Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Unauthorised Access"));
+                    TempData["message"] = "Unauthorised Access";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+
+                model.store = Backbone.GetStore(db, Id);
+                if (model.store == null)
+                {
+
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+                model.documentPath = Properties.Settings.Default.DocumentPath;
+                return View(model);
+            }
+            catch(Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Store", new { area = "Setup" });
+            }
+        }
+
+        public ActionResult Details(Guid Id)
+        {
+            try
+            {
+                DashboardViewModel model = new DashboardViewModel();
+
+
+                var storeDetail = storeDetails();
+                if (storeDetail == null)
+                {
+                    Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Unauthorised Access"));
+                    TempData["message"] = "Unauthorised Access";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+
+                model.store = Backbone.GetStore(db, Id);
+                if (model.store == null)
+                {
+
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+                model.documentPath = Properties.Settings.Default.DocumentPath;
+                model.addressList = Backbone.GetStorAddress(db, Id);
+                model.contactInfoList = Backbone.GetStoreContactInfo(db, model.store.ProcessInstaceId);
+                model.StoreProductCategory = model.store.ProductCategory.ToList();
+                return View(model);
+            }
+            catch(Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Store", new { area = "Setup" });
             }
         }
 
@@ -1495,6 +1576,40 @@ namespace Project.Areas.Admin.Controllers
             }
         }
         #endregion
+
+        public ActionResult DocumentsUploadedPath(string path)
+        {
+            try
+            {
+                var filepath = new Uri(path);
+                if (System.IO.File.Exists(filepath.AbsolutePath))
+                {
+                    byte[] filedata = System.IO.File.ReadAllBytes(filepath.AbsolutePath);
+                    string contentType = MimeMapping.GetMimeMapping(filepath.AbsolutePath);
+
+                    System.Net.Mime.ContentDisposition cd = new System.Net.Mime.ContentDisposition
+                    {
+                        FileName = path,
+                        Inline = true,
+                    };
+
+                    Response.AppendHeader("Content-Disposition", cd.ToString());
+
+                    return File(filedata, contentType);
+                }
+                else
+                {
+                    return null;
+                    throw new Exception("ERROR: System could not generate report.");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                return null;
+            }
+        }
 
     }
 }

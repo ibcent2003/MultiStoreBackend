@@ -15,11 +15,12 @@
         </ul>
     </div>
 }
+
 <div class="row">
     <div class="col-md-12">
         <div class="widget">
             <div class="widget-header">
-                <a href="@Url.Action("StoreDashboard", "Dashboard", new {Id=Model.store.ProcessInstaceId, area = "Admin" })" class="btn btn-xs btn-info">Back</a>
+                <a href="@Url.Action("StoreDashboard", "Dashboard", new {Id=Model.store.ProcessInstaceId, area = "Admin" })" class="btn btn-xs btn-info">Back</a> <a href="@Url.Action("StoreCategory", "Dashboard", new { area="Admin", Id=Model.store.ProcessInstaceId})" class="btn btn-xs btn-danger">Product Category</a>
                 <div class="toolbar no-padding">
                     <div class="btn-group"><span class="btn btn-xs widget-collapse"><i class="icon-angle-down"></i></span><span class="btn btn-xs widget-refresh"><i class="icon-refresh"></i></span></div>
                 </div>
@@ -59,8 +60,11 @@
                                     <td>
                                         @item.Name
                                     </td>
-                                    <td>                                     
-                                        <span class="label label-danger"> <strong>@item.StoreProduct.Count()</strong></span>
+                                    <td> 
+                                        @{ 
+                                            var count = Model.store.StoreProduct.Where(x => x.ProductCategoryId == item.Id).Count();
+                                        }                                 
+                                        <span class="label label-danger"> <strong>@count</strong></span>
                                     </td>
                                     <td style="text-align:right">
                                       @Html.ActionLink("Products List", "ProductList", new { Id = Model.store.ProcessInstaceId, CategoryId = item.Id }, new { @class = "btn btn-xs btn-warning" })

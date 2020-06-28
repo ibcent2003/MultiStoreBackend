@@ -30,7 +30,7 @@
                         <div class="statbox-sparkline">30,20,15,30,22,25,26,30,27</div>
                     </div>
                     <div class="title">NEW ORDERS</div>
-                    <div class="value">@Model.TototalRole</div>
+                    <div class="value">0</div>
                     <a class="more" href="@Url.Action("StoreRoles", "Dashboard", new { area="Admin", Id=Model.store.ProcessInstaceId})">View <i class="pull-right icon-angle-right"></i></a>
                 </div>
             </div>
@@ -44,8 +44,8 @@
                 <div class="visual red">
                     <div class="statbox-sparkline">30,20,15,30,22,25,26,30,27</div>
                 </div>
-                <div class="title">our customers</div>
-                <div class="value">@Model.TotalUser</div>
+                <div class="title">oUR customers</div>
+                <div class="value">0</div>
                 <a class="more" href="@Url.Action("StoreCategory", "Dashboard", new { area="Admin", Id=Model.store.ProcessInstaceId})">Manage <i class="pull-right icon-angle-right"></i></a>
 
             </div>
@@ -63,7 +63,7 @@
                     <div class="statbox-sparkline">30,20,15,30,22,25,26,30,27</div>
                 </div>
                 <div class="title">MANAGE PRODUCTS</div>
-                <div class="value">@Model.TotalContactinfo</div>
+                <div class="value">@Model.store.StoreProduct.Count()</div>
                 <a class="more" href="@Url.Action("Index", "ProductManagement", new { area="Setup", Id=Model.store.ProcessInstaceId})">Manage <i class="pull-right icon-angle-right"></i></a>
 
             </div>
@@ -77,7 +77,7 @@
                         <div class="statbox-sparkline">30,20,15,30,22,25,26,30,27</div>
                     </div>
                     <div class="title">SALES REPORTS</div>
-                    <div class="value">@Model.TototalRole</div>
+                    <div class="value">0</div>
                     <a class="more" href="@Url.Action("StoreRoles", "Dashboard", new { area="Admin", Id=Model.store.ProcessInstaceId})">View <i class="pull-right icon-angle-right"></i></a>
                 </div>
             </div>

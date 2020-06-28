@@ -1,0 +1,210 @@
+﻿@model Project.Areas.Admin.Models.DashboardViewModel
+@{
+    ViewBag.Title = "Pending Approvl for " + Model.store.Name;
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.IsGreetings = "true";
+}
+@section Crumbs{
+    <div class="crumbs">
+
+        <ul class="breadcrumb" id="breadcrumbs">
+            <li> <i class="icon-home"></i> <a href="@Url.Action("Index", "Dashboard", new { area="Admin"})">Dashboard</a> </li>
+            <li class="current"> <a title="" href="javascript: return void(0)">@Model.store.Name Dashboard</a> </li>
+
+        </ul>
+    </div>
+}
+@Html.HiddenFor(x => x.store.Id)
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">                
+            <div class="panel-body">
+                <div class="widget-content">
+                    <div class="row-fluid">
+                        <div class="span8">
+                           
+                        </div>
+                        @if (Model.store.Status == "Registration Verification")
+                        {
+                            <div class="span8">
+                                <div class="alert alert-danger">Your registration is still under processing. Below is the status of your registration. Alert would be sent to you upon approval or rejection.  </div>                              
+                                <table class="table table-striped table-bordered table-hover" id="coverNone">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                S/N
+                                            </th>
+                                            <th>
+                                                Name
+                                            </th>
+                                            <th>
+                                                Logo
+                                            </th>
+                                            <th>
+                                                Modified By
+                                            </th>
+                                            
+                                            <th>
+                                                Modified Date
+                                            </th>
+                                            <th>
+                                                Currency
+                                            </th>
+                                            <th>
+                                                Status
+                                            </th>
+
+
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                      
+                                                <tr>
+                                                    <td>
+                                                        1
+
+                                                    </td>
+                                                    <td>
+                                                        @Model.store.Name
+                                                    </td>
+                                                    <td>
+                                                        <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + Model.store.Logo })" height="60" width="190" />
+                                                    </td>
+
+                                                    <td>
+                                                        @Model.store.ModifiedBy
+                                                    </td>
+                                                    <td>
+                                                        @Model.store.ModifiedDate
+                                                    </td>
+
+
+                                                    <td>
+                                                        <span class="label label-info">@Model.store.Country.CurrencyName</span>
+
+                                                    </td>
+                                                    <td>
+                                                        <span class="label label-danger">@Model.store.Status</span>
+
+                                                    </td>
+
+                                                    <td>
+                                                        <a class="btn btn-xs btn-success" href="@Url.Action("Details", "Dashboard", new { area="Admin", Id = Model.store.ProcessInstaceId})">Details</a>
+                                                    </td>
+                                                </tr>
+
+                                           
+                                       
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        }
+                        else if (Model.store.Status == "Rejected")
+                        {
+                            <div class="span8">
+                                <div class="alert alert-danger">Your Application has been rejected. Kindly click<a data-toggle="modal" href="#myModal1"> here</a> to see the reason and re-submit your application again. </div>
+                                <div class="modal fade" id="myModal1" style="display: none;" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                <h4 class="modal-title">Application Log</h4>
+                                            </div>
+                                            <div class="modal-body"> @*@Html.Raw(@TempData["Reason"])*@ </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <table class="table table-striped table-bordered table-hover" id="coverNone">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                S/N
+                                            </th>
+                                            <th>
+                                                Name
+                                            </th>
+                                            <th>
+                                                Logo
+                                            </th>
+                                            <th>
+                                                Modified By
+                                            </th>
+
+                                            <th>
+                                                Modified Date
+                                            </th>
+                                            <th>
+                                                Currency
+                                            </th>
+                                            <th>
+                                                Status
+                                            </th>
+
+
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr>
+                                            <td>
+                                                1
+
+                                            </td>
+                                            <td>
+                                                @Model.store.Name
+                                            </td>
+                                            <td>
+                                                <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + Model.store.Logo })" height="60" width="190" />
+                                            </td>
+
+                                            <td>
+                                                @Model.store.ModifiedBy
+                                            </td>
+                                            <td>
+                                                @Model.store.ModifiedDate
+                                            </td>
+
+
+                                            <td>
+                                                <span class="label label-info">@Model.store.Country.CurrencyName</span>
+
+                                            </td>
+                                            <td>
+                                                <span class="label label-danger">@Model.store.Status</span>
+
+                                            </td>
+
+                                            <td>
+                                                <a class="btn btn-xs btn-success" href="@Url.Action("Details", "StoreRegistration", new { area="Admin", Id = Model.store.ProcessInstaceId})">Details</a> <a class="btn btn-xs btn-success" href="@Url.Action("ViewStoreInformation", "StoreRegistration", new { area="", Id = Model.store.ProcessInstaceId})">Re-submit</a>
+                                            </td>
+                                        </tr>
+
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                        }
+
+                       
+
+                    </div>
+                    <div class="span4"></div>
+                </div>
+            </div>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel -->
+</div>
+
