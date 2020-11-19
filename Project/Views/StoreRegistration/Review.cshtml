@@ -377,8 +377,14 @@
                                                 }
                                                 else
                                                 {
-                                                    <tr>
-                                                        <td colspan="8">No Records Found!...</td>
+                                                    <tr style="font-size: 12px;">
+
+                                                        <td>@Model.userDetail.Users.UserName</td>
+                                                        <td>@Model.userDetail.EmailAddres</td>
+                                                        <td><span>***************</span> <span style="color:red">(Password is hidden for security purpose.)</span></td>
+
+
+
                                                     </tr>
                                                 }
                                             </tbody>
@@ -398,7 +404,14 @@
                                         <a href="@Url.Action("UserAccount", "StoreRegistration", new { Id = Model.store.ProcessInstaceId, @area = "" })" class="btn btn-sm btn-default" style="color:white">Back</a>
                                     </div>
                                     <div style="text-align: right;" class="col-md-6">
+                                       @if (Model.store.Status == "Registration Rejected")
+                                       {
+                                        @Html.ActionLink("Submit Registration", "SubmitedRejected", "StoreRegistration", new { Id = Model.store.ProcessInstaceId }, new { @class = "btn btn-sm btn-default", style = "color:white" })
+                                       }
+                                       else
+                                       {
                                         @Html.ActionLink("Submit Registration", "SubmitRegistration", "StoreRegistration", new { Id = Model.store.ProcessInstaceId }, new { @class = "btn btn-sm btn-default", style = "color:white" })
+                                       }
                                     </div>
                                 </div>
                             </div>

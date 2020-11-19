@@ -54,14 +54,30 @@ namespace Project.Areas.Admin.Controllers
             try
             {
                 DashboardViewModel model = new DashboardViewModel();
-                if (Roles.GetRolesForUser(User.Identity.Name).Contains("ADMINISTRATOR"))
+                string username = Membership.GetUser().UserName;
+                string[] roles = System.Web.Security.Roles.GetRolesForUser(User.Identity.Name);
+                if (Roles.GetRolesForUser(User.Identity.Name).Contains("Administrator"))
                  {
+                    //count total store
+                   
+                    var getstore = db.Store.Where(x => x.Status == "Registration Verification" && x.OwnedBy  == "Administrator").ToList();
+                    model.TotalNewRegistration = getstore.Count();
+
+                    var getApproved = db.Store.Where(x => x.Status == "Approved").ToList().Count();
+                    model.TotalApproved = getApproved;
+
+                    var getRejected = db.Store.Where(x => x.Status == "Registration Rejected").ToList().Count();
+                    model.TotalRejected = getRejected;
+
+                    var getOwnedBy = db.Store.Where(x => x.OwnedBy == User.Identity.Name).ToList().Count();
+                    model.OwnedBy = getOwnedBy;
+
                     return View(model);
                 }
                 else if (Roles.GetRolesForUser(User.Identity.Name).Contains("Store Admin") || Roles.GetRolesForUser(User.Identity.Name).Contains("Product Manager"))
                 {
                     var store = storeDetails();
-                    if(store.Status== "Registration Verification" || store.Status=="Rejected")
+                    if(store.Status== "Registration Verification" || store.Status== "Registration Rejected")
                     {
                         return RedirectToAction("PendingApproval", "Dashboard", new { area = "Admin", Id = store.ProcessInstaceId });
                     }
@@ -105,6 +121,12 @@ namespace Project.Areas.Admin.Controllers
                     TempData["message"] = Settings.Default.GenericExceptionMessage;
                     TempData["messageType"] = "danger";
                     return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+                if (storeDetail.Status == "Registration Rejected")
+                {
+                    var GetActionLog = db.StoreAction.Where(x => x.StoreId == storeDetail.Id && x.Name == "Registration Rejected").OrderByDescending(x => x.ModifiedDate).FirstOrDefault();                   
+                    model.storeAction = GetActionLog;
+                    TempData["Reason"] = GetActionLog.Reason;
                 }
                 model.documentPath = Properties.Settings.Default.DocumentPath;
                 return View(model);
@@ -803,8 +825,8 @@ namespace Project.Areas.Admin.Controllers
                             from x in this.db.Alert
                             where x.Id == Properties.Settings.Default.NewAccount
                             select x).FirstOrDefault<Alert>();
-                        this.services.SendEmailNotificationToUser(alert.SubjectEmail, alert.Email.Replace("%Email%", model.userAccount.EmailAddress).Replace("%uname%", model.userAccount.Username).Replace("%pwd%", model.userAccount.Password).Replace("%First_Name%",model.userAccount.FirstName), model.userAccount.EmailAddress, Settings.Default.EmailReplyTo, alert.Id);
-                        this.services.SendSMSNotificationToUser(alert.SubjectSms, alert.Sms.Replace("%First_Name%", model.userAccount.FirstName), model.userAccount.MobileNumber, "FORTRESS", alert.Id);
+                        Backbone.SendEmailNotificationToUser(db,alert.SubjectEmail, alert.Email.Replace("%Email%", model.userAccount.EmailAddress).Replace("%uname%", model.userAccount.Username).Replace("%pwd%", model.userAccount.Password).Replace("%First_Name%",model.userAccount.FirstName), model.userAccount.EmailAddress, Settings.Default.EmailReplyTo, alert.Id);
+                        Backbone.SendSMSNotificationToUser(db,alert.SubjectSms, alert.Sms.Replace("%First_Name%", model.userAccount.FirstName), model.userAccount.MobileNumber, "FORTRESS", alert.Id);
                         base.TempData["message"] = string.Concat(new string[] { "<b>", model.userAccount.FirstName, "</b> <b>", model.userAccount.LastName, "</b> has been added Successfully. Please assign role to user" });
                         return base.RedirectToAction("GrantStoreUserRole", new {Id=model.store.ProcessInstaceId, UserId = user.UserId });
                     }
@@ -1610,6 +1632,244 @@ namespace Project.Areas.Admin.Controllers
                 return null;
             }
         }
+
+        #region store approval methods
+        public ActionResult RegistrationList()
+        {
+            try
+            {
+                DashboardViewModel model = new DashboardViewModel();
+                var rowsToShow = Backbone.GetNewStoreRegistration(db, System.Web.Security.Roles.GetRolesForUser(User.Identity. Name),Properties.Settings.Default.StoreRegistrationWorkFlowId);
+                model.StoreApproval = rowsToShow.OrderByDescending(x => x.ModifiedDate).ToList();
+                model.documentPath = Properties.Settings.Default.DocumentPath;
+                return View(model);
+            }
+            catch(Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
+        public ActionResult ApprovedRegistration()
+        {
+            try
+            {
+                DashboardViewModel model = new DashboardViewModel();
+                var rowsToShow = Backbone.GetApprovedRegistration(db, System.Web.Security.Roles.GetRolesForUser(User.Identity.Name), Properties.Settings.Default.StoreRegistrationWorkFlowId);
+                model.StoreApproval = rowsToShow.OrderByDescending(x => x.ModifiedDate).ToList();
+                model.documentPath = Properties.Settings.Default.DocumentPath;
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
+        public ActionResult RejectedRegistration()
+        {
+            try
+            {
+                DashboardViewModel model = new DashboardViewModel();
+                var rowsToShow = Backbone.GetRejectedRegistration(db, System.Web.Security.Roles.GetRolesForUser(User.Identity.Name), Properties.Settings.Default.StoreRegistrationWorkFlowId);
+                model.StoreApproval = rowsToShow.OrderByDescending(x => x.ModifiedDate).ToList();
+                model.documentPath = Properties.Settings.Default.DocumentPath;
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
+        public ActionResult PendingRegistration()
+        {
+            try
+            {
+                DashboardViewModel model = new DashboardViewModel();
+                var rowsToShow = Backbone.GetPendingRegistration(db, System.Web.Security.Roles.GetRolesForUser(User.Identity.Name), Properties.Settings.Default.StoreRegistrationWorkFlowId);
+                model.StoreApproval = rowsToShow.OrderByDescending(x => x.ModifiedDate).ToList();
+                model.documentPath = Properties.Settings.Default.DocumentPath;
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
+        public ActionResult OwnedByRegistration()
+        {
+            try
+            {
+                DashboardViewModel model = new DashboardViewModel();
+                var rowsToShow = Backbone.GetOwnStoreRegistration(db, System.Web.Security.Roles.GetRolesForUser(User.Identity.Name), Properties.Settings.Default.StoreRegistrationWorkFlowId);
+                model.StoreApproval = rowsToShow.OrderByDescending(x => x.ModifiedDate).ToList();
+                model.documentPath = Properties.Settings.Default.DocumentPath;
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
+
+        public ActionResult RegistrationDetails(Guid Id)
+        {
+            try
+            {
+                DashboardViewModel model = new DashboardViewModel();
+                var store = Backbone.GetStore(db, Id);
+                if (store == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                }
+                model.store = store;
+                model.addressList = Backbone.GetStorAddress(db, Id);
+                model.approvalForm = new ApprovalForm();
+                model.approvalForm.Id = Id;
+                model.contactInfoList = Backbone.GetStoreContactInfo(db, model.store.ProcessInstaceId);
+                model.StoreProductCategory = model.store.ProductCategory.ToList();
+                model.store.OwnedBy = User.Identity.Name;
+               this.db.SaveChanges();
+               Project.DAL.WorkflowSteps currentStep = model.store.WorkflowSteps.FirstOrDefault();
+
+                model.WorkflowStepActions = Backbone.GetWorkflowStepActionForStoreRegistration(db, Id);
+                model.OtherWorkflowSteps = Backbone.GetOtherStepsForWorkflowRegistration(db, Id);
+                model.documentPath = Properties.Settings.Default.DocumentPath;
+                model.ActionLogs = model.store.StoreAction.ToList();
+                return View(model);
+            }
+            catch(Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult RegistrationDetails(DashboardViewModel model)
+        {
+            try
+            {
+                
+                var store = Backbone.GetStore(db, model.approvalForm.Id);
+                if (store == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                }
+               // model.approvalForm = new ApprovalForm();
+                model.store = store;               
+                model.addressList = Backbone.GetStorAddress(db, store.ProcessInstaceId);
+                model.contactInfoList = Backbone.GetStoreContactInfo(db, store.ProcessInstaceId);
+                model.StoreProductCategory = model.store.ProductCategory.ToList();
+               
+                Project.DAL.WorkflowSteps currentStep = model.store.WorkflowSteps.FirstOrDefault();
+
+                model.WorkflowStepActions = Backbone.GetWorkflowStepActionForStoreRegistration(db, store.ProcessInstaceId);
+                model.OtherWorkflowSteps = Backbone.GetOtherStepsForWorkflowRegistration(db, store.ProcessInstaceId);
+                
+                model.documentPath = Properties.Settings.Default.DocumentPath;
+                model.ActionLogs = model.store.StoreAction.ToList();
+
+                if (ModelState.IsValid)
+                {
+                    var GetUser = db.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
+
+                    var GetUserDetails = GetUser.UserDetail.FirstOrDefault();
+                    if (GetUserDetails != null)
+                    {
+                        KeyValuePair<bool, string> result = Backbone.ApplyActionStoreApplication(db, model.approvalForm);
+
+                        TempData["message"] = result.Value;
+                        if (!result.Key)
+                            TempData["messageType"] = "alert-danger";
+
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                     
+                        TempData["messageType"] = "alert-danger";
+                        TempData["message"] = "You cannot make approval for this application because your contact information has not been updated. Please contact the system administrator.";
+                        return RedirectToAction("Index");
+                    }
+
+
+                }
+             
+                TempData["message"] = "Cannot apply action. Please make sure you enter all fields";
+                return RedirectToAction("Index");
+               
+            }
+            catch(Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
+        public ActionResult RegistrationStatus(Guid Id)
+        {
+            try
+            {
+                DashboardViewModel model = new DashboardViewModel();
+                var store = Backbone.GetStore(db, Id);
+                if (store == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                }
+                model.store = store;
+                model.addressList = Backbone.GetStorAddress(db, Id);
+                model.approvalForm = new ApprovalForm();
+                model.approvalForm.Id = Id;
+                model.contactInfoList = Backbone.GetStoreContactInfo(db, model.store.ProcessInstaceId);
+                model.StoreProductCategory = model.store.ProductCategory.ToList();
+                model.store.OwnedBy = User.Identity.Name;
+               
+                model.documentPath = Properties.Settings.Default.DocumentPath;
+                model.ActionLogs = model.store.StoreAction.ToList();
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
+
+
+       
+        #endregion
 
     }
 }

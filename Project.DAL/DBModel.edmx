@@ -368,6 +368,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RegistrationNo" Type="varchar" MaxLength="50" />
           <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="Description" Type="varchar(max)" Nullable="false" />
           <Property Name="ProcessInstaceId" Type="uniqueidentifier" Nullable="false" />
@@ -382,6 +383,17 @@
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="SubmissionDate" Type="datetime2" Precision="7" />
+        </EntityType>
+        <EntityType Name="StoreAction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StoreId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Reason" Type="varchar(max)" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
         </EntityType>
         <EntityType Name="StoreAddressBook">
           <Key>
@@ -832,6 +844,18 @@
             </Principal>
             <Dependent Role="Store">
               <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreAction_Store">
+          <End Role="Store" Type="Self.Store" Multiplicity="1" />
+          <End Role="StoreAction" Type="Self.StoreAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreAction">
+              <PropertyRef Name="StoreId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1302,6 +1326,7 @@
           <EntitySet Name="SizeType" EntityType="Self.SizeType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Store" EntityType="Self.Store" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StoreAction" EntityType="Self.StoreAction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreAddressBook" EntityType="Self.StoreAddressBook" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreContactInfo" EntityType="Self.StoreContactInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreInProduct" EntityType="Self.StoreInProduct" Schema="dbo" store:Type="Tables" />
@@ -1407,6 +1432,10 @@
           <AssociationSet Name="FK_Store_Country" Association="Self.FK_Store_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="Store" EntitySet="Store" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreAction_Store" Association="Self.FK_StoreAction_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="StoreAction" EntitySet="StoreAction" />
           </AssociationSet>
           <AssociationSet Name="FK_StoreAddressBook_AddressBook" Association="Self.FK_StoreAddressBook_AddressBook">
             <End Role="AddressBook" EntitySet="AddressBook" />
@@ -1588,6 +1617,7 @@
           <EntitySet Name="SizeType" EntityType="PROModel.SizeType" />
           <EntitySet Name="State" EntityType="PROModel.State" />
           <EntitySet Name="Store" EntityType="PROModel.Store" />
+          <EntitySet Name="StoreAction" EntityType="PROModel.StoreAction" />
           <EntitySet Name="StoreProduct" EntityType="PROModel.StoreProduct" />
           <EntitySet Name="TempUser" EntityType="PROModel.TempUser" />
           <EntitySet Name="UserDetail" EntityType="PROModel.UserDetail" />
@@ -1691,6 +1721,10 @@
           <AssociationSet Name="FK_Size_SizeType" Association="PROModel.FK_Size_SizeType">
             <End Role="SizeType" EntitySet="SizeType" />
             <End Role="Size" EntitySet="Size" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreAction_Store" Association="PROModel.FK_StoreAction_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="StoreAction" EntitySet="StoreAction" />
           </AssociationSet>
           <AssociationSet Name="FK_TempUser_Store" Association="PROModel.FK_TempUser_Store">
             <End Role="Store" EntitySet="Store" />
@@ -2156,6 +2190,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RegistrationNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ProcessInstaceId" Type="Guid" Nullable="false" />
@@ -2171,6 +2206,7 @@
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <Property Name="SubmissionDate" Type="DateTime" Precision="7" />
           <NavigationProperty Name="Country" Relationship="PROModel.FK_Store_Country" FromRole="Store" ToRole="Country" />
+          <NavigationProperty Name="StoreAction" Relationship="PROModel.FK_StoreAction_Store" FromRole="Store" ToRole="StoreAction" />
           <NavigationProperty Name="TempUser" Relationship="PROModel.FK_TempUser_Store" FromRole="Store" ToRole="TempUser" />
           <NavigationProperty Name="AddressBook" Relationship="PROModel.StoreAddressBook" FromRole="Store" ToRole="AddressBook" />
           <NavigationProperty Name="ContactInfo" Relationship="PROModel.StoreContactInfo" FromRole="Store" ToRole="ContactInfo" />
@@ -2181,6 +2217,18 @@
           <NavigationProperty Name="Roles" Relationship="PROModel.StoreRole" FromRole="Store" ToRole="Roles" />
           <NavigationProperty Name="Users" Relationship="PROModel.StoreUser" FromRole="Store" ToRole="Users" />
           <NavigationProperty Name="WorkflowSteps" Relationship="PROModel.StoreWorkflowSteps" FromRole="Store" ToRole="WorkflowSteps" />
+        </EntityType>
+        <EntityType Name="StoreAction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StoreId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Reason" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Store" Relationship="PROModel.FK_StoreAction_Store" FromRole="StoreAction" ToRole="Store" />
         </EntityType>
         <EntityType Name="StoreProduct">
           <Key>
@@ -2601,6 +2649,18 @@
             </Principal>
             <Dependent Role="Size">
               <PropertyRef Name="SizeTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreAction_Store">
+          <End Type="PROModel.Store" Role="Store" Multiplicity="1" />
+          <End Type="PROModel.StoreAction" Role="StoreAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreAction">
+              <PropertyRef Name="StoreId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3110,6 +3170,19 @@
                 <ScalarProperty Name="ProcessInstaceId" ColumnName="ProcessInstaceId" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RegistrationNo" ColumnName="RegistrationNo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StoreAction">
+            <EntityTypeMapping TypeName="PROModel.StoreAction">
+              <MappingFragment StoreEntitySet="StoreAction">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -1,6 +1,6 @@
 ﻿@model Project.Areas.Admin.Models.DashboardViewModel
 @{
-    ViewBag.Title = "Dashboard for";
+    ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewBag.IsGreetings = "true";
 }
@@ -19,9 +19,9 @@
         <div class="statbox widget box box-shadow">
             <div class="widget-content">
                 <div class="visual cyan"><i class="icon-file-text"></i></div>
-                <div class="title">Store Registration</div>
-                <div class="value">5</div>
-                @*<a class="more" href="@Url.Action("GrantStoreRole", "Membership", new { area="SecurityGuard", StoreId=Model.store.Id})">Manage <i class="pull-right icon-angle-right"></i></a>*@
+                <div class="title">New Registration</div>
+                <div class="value">@Model.TotalNewRegistration</div>
+                <a class="more" href="@Url.Action("RegistrationList", "Dashboard", new { area="Admin"})">View <i class="pull-right icon-angle-right"></i></a>
 
             </div>
         </div>
@@ -31,9 +31,9 @@
         <div class="statbox widget box box-shadow">
             <div class="widget-content">
                 <div class="visual cyan"><i class="icon-file-text"></i></div>
-                <div class="title">Accounts Management</div>
-                <div class="value">4</div>
-                @*<a class="more" href="@Url.Action("UserAccountList", "Organisation", new { area="Admin", Id=Model.store.Id})">Manage <i class="pull-right icon-angle-right"></i></a>*@
+                <div class="title">Approved Registration</div>
+                <div class="value">@Model.TotalApproved</div>
+                <a class="more" href="@Url.Action("ApprovedRegistration", "Dashboard", new { area="Admin"})">View <i class="pull-right icon-angle-right"></i></a>
 
             </div>
         </div>
@@ -47,9 +47,9 @@
         <div class="statbox widget box box-shadow">
             <div class="widget-content">
                 <div class="visual yellow"><i class="icon-building"></i></div>
-                <div class="title">Contact Person</div>
-                <div class="value">4</div>
-                @*<a class="more" href="@Url.Action("ContactInfoList", "Organisations", new { area= "Admin", Id=Model.store.Id })">View More <i class="pull-right icon-angle-right"></i></a>*@
+                <div class="title">Rejected Registration</div>
+                <div class="value">@Model.TotalRejected</div>
+                <a class="more" href="@Url.Action("RejectedRegistration", "Dashboard", new { area= "Admin" })">View<i class="pull-right icon-angle-right"></i></a>
 
             </div>
         </div>
@@ -59,10 +59,10 @@
             <div class="widget-content">
                 <div class="visual red"><i class="icon-building"></i></div>
                 <div class="title">
-                    Organisation Address
+                   Ownedby Registration
                 </div>
-                <div class="value">4</div>
-                @*<a class="more" href="@Url.Action("AddressList", "Organisations", new { area="Admin", Id=Model.store.Id})">View More <i class="pull-right icon-angle-right"></i></a>*@
+                <div class="value">@Model.OwnedBy</div>
+                <a class="more" href="@Url.Action("OwnedByRegistration", "Dashboard", new { area="Admin"})">View <i class="pull-right icon-angle-right"></i></a>
 
             </div>
         </div>

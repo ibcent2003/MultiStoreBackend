@@ -19,7 +19,7 @@ namespace Project.Controllers
     public class StoreRegistrationController : Controller
     {
         Backbone services = new Backbone();
-        private PROEntities db = new PROEntities();
+        public PROEntities db = new PROEntities();
         private ProcessUtility util = new ProcessUtility();
 
         private IMembershipService membershipService;
@@ -1155,20 +1155,16 @@ namespace Project.Controllers
 
                 var GetTempUser = model.store.TempUser.FirstOrDefault();
                 if (GetTempUser != null)
-                {
-                   // model.ProductSubCategoryId = SubCategoryId;
+                {                   
                     model.tempUser = GetTempUser;
-                    model.TempUseradded = true;                   
-                    //var getSubcategory = model.store.ProductSubCategory.Where(x => x.Id == SubCategoryId).FirstOrDefault();
-                    //model.storesubCate = getSubcategory;
+                    model.TempUseradded = true;                                      
                     return View(model);
                 }
                 else
                 {
-                  //  model.ProductSubCategoryId = SubCategoryId;
-                    model.TempUseradded = false;
-                    //var getSubcategory = model.store.ProductSubCategory.Where(x => x.Id == SubCategoryId).FirstOrDefault();
-                    //model.storesubCate = getSubcategory;
+                    var user = model.store.Users.FirstOrDefault();
+                    model.userDetail = user.UserDetail.FirstOrDefault();
+                    model.TempUseradded = false;                  
                     return View(model);
                 }
                 
@@ -1342,7 +1338,20 @@ namespace Project.Controllers
                 model.addressList = Backbone.GetStorAddress(db, Id);
                 model.contactInfoList = Backbone.GetStoreContactInfo(db, model.store.ProcessInstaceId);
                 model.StoreProductCategory = model.store.ProductCategory.ToList();
-                model.tempUser = model.store.TempUser.FirstOrDefault();
+                var GetTempUser = model.store.TempUser.FirstOrDefault();
+                if (GetTempUser != null)
+                {
+                    model.tempUser = GetTempUser;
+                    model.TempUseradded = true;
+                
+                }
+                else
+                {
+                    var user = model.store.Users.FirstOrDefault();
+                    model.userDetail = user.UserDetail.FirstOrDefault();
+                    model.TempUseradded = false;
+                  
+                }
                 return View(model);
             }
             catch(Exception ex)
@@ -1413,7 +1422,10 @@ namespace Project.Controllers
                 var GetWorkFlowId = db.WorkflowSteps.Where(x => x.WorkflowId == model.store.WorkFlowId && x.Priority == 1).FirstOrDefault();
 
                 membershipService.CreateUser(tempUser.Username, tempUser.Password, tempUser.EmailAddres, null, null, true, out createStatus);
-
+                if(model.store.Status == "Registration Verification")
+                {
+                  
+                }
                 var user = db.Users.Where(x => x.UserName == tempUser.Username).FirstOrDefault();
                 if (user == null)
                 {
@@ -1433,8 +1445,10 @@ namespace Project.Controllers
                     model.store.WorkflowSteps.Remove(workflowStep1);
                     this.db.SaveChanges();
                 }
+                CodeGenerator CodeGen = new CodeGenerator();
                 model.store.OwnedBy = str1;
                 model.store.Status = "Registration Verification";
+                model.store.RegistrationNo = CodeGen.PadZeroes(10, CodeGen.GetNextID("StoreRegId"));
                 model.store.ModifiedBy = user.UserName;
                 model.store.ModifiedDate = DateTime.Now;
                 model.store.SubmissionDate = new DateTime?(DateTime.Now);
@@ -1445,8 +1459,8 @@ namespace Project.Controllers
                 this.db.SaveChanges();
 
                 Alert alert = (from x in this.db.Alert where x.Id == 4 select x).FirstOrDefault<Alert>();
-                this.services.SendEmailNotificationToUser(alert.SubjectEmail, alert.Email.Replace("%Store_Name%", model.store.Name).Replace("%Year%", DateTime.Now.Year.ToString()), model.store.ContactInfo.FirstOrDefault<ContactInfo>().EmailAddress, Settings.Default.EmailReplyTo, alert.Id);
-                services.SendSMSNotificationToUser(alert.SubjectSms, alert.Sms.Replace("%Store_Name%", model.store.Name), model.store.ContactInfo.FirstOrDefault().MobileNo, alert.SubjectSms, alert.Id);
+                Backbone.SendEmailNotificationToUser(db,alert.SubjectEmail, alert.Email.Replace("%Store_Name%", model.store.Name).Replace("%Year%", DateTime.Now.Year.ToString()), model.store.ContactInfo.FirstOrDefault<ContactInfo>().EmailAddress, Settings.Default.EmailReplyTo, alert.Id);
+                Backbone.SendSMSNotificationToUser(db,alert.SubjectSms, alert.Sms.Replace("%Store_Name%", model.store.Name), model.store.ContactInfo.FirstOrDefault().MobileNo, alert.SubjectSms, alert.Id);
 
                 #region send message to approval admin
                 var poolUser = new List<Users>();
@@ -1461,10 +1475,10 @@ namespace Project.Controllers
                     {
                         if (GetUserInformation.MobileNumber != null)
                         {
-                            services.SendSMSNotificationToAdmin(GetDirectorMsg.SubjectSms, GetDirectorMsg.Sms.Replace("%First_Name%", GetUserInformation.FirstName), GetUserInformation.MobileNumber, GetDirectorMsg.SubjectSms, GetDirectorMsg.Id);
+                            services.SendSMSNotificationToAdmin(db,GetDirectorMsg.SubjectSms, GetDirectorMsg.Sms.Replace("%First_Name%", GetUserInformation.FirstName), GetUserInformation.MobileNumber, GetDirectorMsg.SubjectSms, GetDirectorMsg.Id);
                         }
                     }
-                    services.SendEmailNotificationToAdmin(GetDirectorMsg.Title, GetDirectorMsg.Email.Replace("%First_Name%", u.UserName).Replace("%Store_Name%", model.store.Name).Replace("%Country%", model.store.Country.Name), GetUserInformation.EmailAddres, Settings.Default.EmailReplyTo, GetDirectorMsg.Id);
+                    services.SendEmailNotificationToAdmin(db,GetDirectorMsg.Title, GetDirectorMsg.Email.Replace("%First_Name%", u.UserName).Replace("%Store_Name%", model.store.Name).Replace("%Country%", model.store.Country.Name), GetUserInformation.EmailAddres, Settings.Default.EmailReplyTo, GetDirectorMsg.Id);
                 }
                 #endregion                
                 return RedirectToAction("Feedback", "StoreRegistration", new { Id = model.store.ProcessInstaceId, area = "" });
@@ -1474,9 +1488,125 @@ namespace Project.Controllers
                 Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
                 TempData["message"] = Settings.Default.GenericExceptionMessage;
                 TempData["messageType"] = "danger";
-                return RedirectToAction("Error404", "Home", new { area = "" });
+                return RedirectToAction("StoreInformation");
             }
         }
+
+
+        public ActionResult SubmitedRejected(Guid Id)
+        {
+            try
+            {
+                if (Id == null)
+                {
+                    Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("No Process Instance Id sent to submit registration action: Store Registration Controller"));
+                    TempData["MessageType"] = "danger";
+                    TempData["Message"] = "There is a problem with you application. Please try again or contact the system administrator";
+                    return RedirectToAction("StoreInformation");
+                }
+
+                StoreRegistrationViewModel model = new StoreRegistrationViewModel();
+                model.store = Backbone.GetStore(db, Id);
+                if (model.store == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("StoreInformation");
+                }
+                var tempUser = model.store.Users.FirstOrDefault();
+                if (tempUser == null)
+                {
+                    //throw expection
+                    #region show error
+                    Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Temp User table in db is null"));
+                    TempData["MessageType"] = "danger";
+                    TempData["Message"] = "There is a problem with you application. Please try again or contact the system administrator";
+                    return RedirectToAction("StoreInformation");
+                    #endregion
+                }
+               // MembershipCreateStatus createStatus;
+                var Contact = model.store.ContactInfo.FirstOrDefault();
+                if (Contact == null)
+                {
+                    //throw expection
+                    #region show error
+                    Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Cannot find store contact during final submission. The Object model.store.ContactInfo.FirstOrDefault()"));
+                    TempData["MessageType"] = "danger";
+                    TempData["Message"] = "There is a problem with you application. Please try again or contact the system administrator";
+                    return RedirectToAction("StoreInformation");
+                    #endregion
+                }
+
+                var GetRoleAdmin = db.Roles.Where(x => x.RoleName == "Store Admin").FirstOrDefault();
+                if (GetRoleAdmin == null)
+                {
+                    //throw expection                   
+                    #region show error
+                    Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Cannot find role name store admin"));
+                    TempData["MessageType"] = "danger";
+                    TempData["Message"] = "There is a problem with you application. Please try again or contact the system administrator";
+                    return RedirectToAction("StoreInformation");
+                    #endregion
+                }
+
+                var GetWorkFlowId = db.WorkflowSteps.Where(x => x.WorkflowId == model.store.WorkFlowId && x.Priority == 1).FirstOrDefault();
+
+              
+              
+                string str = (from r in this.db.Roles where r.RoleName == GetWorkFlowId.RoleName select r.RoleName).FirstOrDefault<string>();
+                string str1 = str;
+                WorkflowSteps workflowStep1 = model.store.WorkflowSteps.FirstOrDefault<WorkflowSteps>();
+                if (workflowStep1 != null)
+                {
+                    model.store.WorkflowSteps.Remove(workflowStep1);
+                    this.db.SaveChanges();
+                }
+                var getStore = db.Store.Where(x => x.Id == model.store.Id).FirstOrDefault();
+              
+                model.store.OwnedBy = str1;
+                model.store.Status = "Registration Verification";
+              
+                model.store.ModifiedBy = tempUser.UserName;
+                model.store.ModifiedDate = DateTime.Now;
+                model.store.SubmissionDate = new DateTime?(DateTime.Now);
+                model.store.WorkflowSteps.Add(GetWorkFlowId);               
+               // getStore.Users.Add(tempUser);
+                this.db.SaveChanges();
+
+                Alert alert = (from x in this.db.Alert where x.Id == 4 select x).FirstOrDefault<Alert>();
+                Backbone.SendEmailNotificationToUser(db, alert.SubjectEmail, alert.Email.Replace("%Store_Name%", model.store.Name).Replace("%Year%", DateTime.Now.Year.ToString()), model.store.ContactInfo.FirstOrDefault<ContactInfo>().EmailAddress, Settings.Default.EmailReplyTo, alert.Id);
+                Backbone.SendSMSNotificationToUser(db, alert.SubjectSms, alert.Sms.Replace("%Store_Name%", model.store.Name), model.store.ContactInfo.FirstOrDefault().MobileNo, alert.SubjectSms, alert.Id);
+
+                #region send message to approval admin
+                var poolUser = new List<Users>();
+                var rl = db.Roles.SingleOrDefault(x => x.RoleName == str1);
+
+                var GetUser = rl.Users.ToList();
+                var GetDirectorMsg = db.Alert.Where(x => x.Id == 5).FirstOrDefault();
+                foreach (var u in GetUser)
+                {
+                    var GetUserInformation = db.UserDetail.Where(x => x.UserId == u.UserId).FirstOrDefault();
+                    if (GetUserInformation != null)
+                    {
+                        if (GetUserInformation.MobileNumber != null)
+                        {
+                            services.SendSMSNotificationToAdmin(db, GetDirectorMsg.SubjectSms, GetDirectorMsg.Sms.Replace("%First_Name%", GetUserInformation.FirstName), GetUserInformation.MobileNumber, GetDirectorMsg.SubjectSms, GetDirectorMsg.Id);
+                        }
+                    }
+                    services.SendEmailNotificationToAdmin(db, GetDirectorMsg.Title, GetDirectorMsg.Email.Replace("%First_Name%", u.UserName).Replace("%Store_Name%", model.store.Name).Replace("%Country%", model.store.Country.Name), GetUserInformation.EmailAddres, Settings.Default.EmailReplyTo, GetDirectorMsg.Id);
+                }
+                #endregion                
+                return RedirectToAction("Feedback", "StoreRegistration", new { Id = model.store.ProcessInstaceId, area = "" });
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("StoreInformation");
+            }
+        }
+
 
         [HttpGet]
         [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")]

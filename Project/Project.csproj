@@ -1462,6 +1462,13 @@
     <Content Include="Areas\Setup\Views\ProductManagement\ProductSizeList.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\PendingApproval.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\RegistrationList.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\RegistrationDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\ApprovedRegistration.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\RejectedRegistration.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\PendingRegistration.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\RegistrationStatus.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\OwnedByRegistration.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="MvcInstaller\ajax-loader.gif" />
     <Content Include="MvcInstaller\jquery-1.6.1.min.js" />

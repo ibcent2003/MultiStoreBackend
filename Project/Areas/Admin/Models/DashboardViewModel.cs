@@ -3,6 +3,7 @@ using Project.DAL;
 using Project.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -11,7 +12,23 @@ namespace Project.Areas.Admin.Models
 {
     public class DashboardViewModel
     {
-        public int TotalStore { get; set; }
+
+
+        #region Approval
+
+        public IList<Store> StoreApproval { get; set; }
+        public ApprovalForm approvalForm { get; set; }
+        public List<SelectListItem> WorkflowStepActions { get; set; }
+        public List<SelectListItem> OtherWorkflowSteps { get; set; }
+        public List<StoreAction> ActionLogs { get; set; }
+
+        #endregion
+
+        public int TotalNewRegistration { get; set; }
+        public int TotalApproved { get; set;}
+        public int TotalRejected { get; set; }
+        public int TotalPending { get; set; }
+        public int OwnedBy { get; set; }
 
         public int StateId { get; set; }
         public Guid RoleId { get; set; }
@@ -27,6 +44,7 @@ namespace Project.Areas.Admin.Models
         public List<AddressBook> addressList { get; set; }
         public Guid UserId { get; set; }
         public Store store { get; set; }
+        public StoreAction storeAction { get; set; }
 
         public int TototalRole { get; set; }
         public int TotalUser { get; set; }
@@ -68,5 +86,29 @@ namespace Project.Areas.Admin.Models
         public ProductSubCategory storesubCate { get; set; }
         public bool HasAllChildCategory { get; set; }
 
+    }
+    public class ApprovalForm
+    {
+        
+        public Guid Id { get; set; }
+
+
+        [Required(ErrorMessage = "Select an action to perform on the application")]
+        [Display(Name = "Action")]
+        public int ActionId { get; set; }
+
+        [Display(Name = "Select Step")]
+        public int? NextStep { get; set; }
+
+        [Required(ErrorMessage = "Please enter reason for Accepting/Rejecting")]
+        [Display(Name = "Reason")]
+        public string Reason { get; set; }
+        
+
+        //newly added property
+        public string OwnedBy { get; set; }
+        public string Status { get; set; }
+        public string ModifiedBy { get; set; }
+     
     }
 }

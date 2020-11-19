@@ -18,7 +18,7 @@ namespace Project.Models
         public string logos { get; set; }
        
         public Store store { get; set; }
-
+        public UserDetail userDetail { get; set; }
         public TempUser tempUser { get; set; }
 
        

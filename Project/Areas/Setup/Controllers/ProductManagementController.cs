@@ -1012,7 +1012,7 @@ namespace Project.Areas.Setup.Controllers
         {
             try
             {
-                var storeDetail = storeDetails();
+                var storeDetail = Backbone.GetStore(db, Id);
                 if (!Roles.IsUserInRole("Administrator"))
                 {
                     if (storeDetail == null)
@@ -1250,7 +1250,7 @@ namespace Project.Areas.Setup.Controllers
         {
             try
             {
-                var storeDetail = storeDetails();
+                var storeDetail = db.Store.Where(x=>x.ProcessInstaceId==Id).FirstOrDefault();
                 if (!Roles.IsUserInRole("Administrator"))
                 {
                     if (storeDetail == null)
@@ -1323,7 +1323,8 @@ namespace Project.Areas.Setup.Controllers
             try
             {
 
-                var storeDetail = storeDetails();
+                var storeDetail = model.store;
+                
                 if (!Roles.IsUserInRole("Administrator"))
                 {
                     if (storeDetail == null)
@@ -1333,8 +1334,8 @@ namespace Project.Areas.Setup.Controllers
                         return RedirectToAction("Index", "Store", new { area = "Setup" });
                     }
                 }
-                model.store = storeDetail;
-                if (model.store == null)
+                //model.store = storeDetail;
+                if (storeDetail == null)
                 {
                     Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Store Object is empty. Unlikely error."));
                     TempData["message"] = Settings.Default.GenericExceptionMessage;
@@ -1342,7 +1343,7 @@ namespace Project.Areas.Setup.Controllers
                     return RedirectToAction("Index", "Store", new { area = "Setup" });
                 }
 
-                var product = storeDetail.StoreProduct.Where(x => x.Id == model.product.Id).FirstOrDefault();
+                var product = db.StoreProduct.Where(x => x.Id == model.product.Id).FirstOrDefault();
                 if (product == null)
                 {
                     TempData["message"] = Settings.Default.GenericExceptionMessage;
@@ -1407,7 +1408,7 @@ namespace Project.Areas.Setup.Controllers
         {
             try
             {
-                var storeDetail = storeDetails();
+                var storeDetail = model.store;
                 if (!Roles.IsUserInRole("Administrator"))
                 {
                     if (storeDetail == null)
@@ -1417,7 +1418,7 @@ namespace Project.Areas.Setup.Controllers
                         return RedirectToAction("Index", "Store", new { area = "Setup" });
                     }
                 }
-                model.store = storeDetail;
+               // model.store = storeDetail;
                 if (model.store == null)
                 {
                     Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Store Object is empty. Unlikely error."));
@@ -1426,7 +1427,7 @@ namespace Project.Areas.Setup.Controllers
                     return RedirectToAction("Index", "Store", new { area = "Setup" });
                 }
 
-                var product = storeDetail.StoreProduct.Where(x => x.Id == model.product.Id).FirstOrDefault();
+                var product = db.StoreProduct.Where(x => x.Id == model.product.Id).FirstOrDefault();
                 if (product == null)
                 {
                     TempData["message"] = Settings.Default.GenericExceptionMessage;
