@@ -1,7 +1,7 @@
 ﻿@model Project.Areas.Setup.Models.StoreManagementViewModel
 @using Project.HtmlHelpers
 @{
-    ViewBag.Title = "Edit Store";
+    ViewBag.Title = "Eidt Collection Photo";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewBag.IsGreetings = "true";
 }
@@ -10,7 +10,7 @@
 
         <ul class="breadcrumb" id="breadcrumbs">
             <li> <i class="icon-home"></i> <a href="@Url.Action("Index", "Dashboard", new { area="Admin"})">Dashboard</a> </li>
-            <li class="current"> <a title="" href="javascript: return void(0)"></a>Edit Store </li>
+            <li class="current"> <a title="" href="javascript: return void(0)"></a>Edit Collection Photo </li>
         </ul>
     </div>
 }
@@ -23,51 +23,53 @@
             <div class="widget-header">
                 <h4>
                     <i class="icon-reorder"></i>
-                    New Store
+                    Edit Collection
                 </h4>
             </div>
             <div class="widget-content">
-                @using (Html.BeginForm("EditStore", "Store", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal row-border" }))
+                @using (Html.BeginForm("EditCollection", "Store", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal row-border" }))
                 {
                     @Html.AntiForgeryToken()
-                    @Html.HiddenFor(x => x.storeform.Id)
+                    @Html.HiddenFor(x => x.storeCollectionForm.Id)
+                    @Html.HiddenFor(x => x.store.ProcessInstaceId)
+                    @Html.HiddenFor(x => x.storeCollectionForm.StoreId)
 
 
 
                     <div class="form-group">
-                        @Html.Label("Name", new { @class = "col-md-2 control-label" })
+                        @Html.Label("Collection", new { @class = "col-md-2 control-label" })
                         <div class="col-md-6">
-                            @Html.TextBoxFor(m => m.storeform.Name, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.storeform.Name)
+                            @Html.TextBoxFor(m => m.storeCollectionForm.CollectionName, new { @class = "form-control", @readonly = true })
+
                         </div>
                     </div>
 
                     <div class="form-group">
-                        @Html.Label("Exisiting Logo", new { @class = "col-md-2 control-label" })
+                        @Html.Label("Exisiting Collection", new { @class = "col-md-2 control-label" })
                         <div class="col-md-6">
                             <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + Model.documentValue })" height="60" width="190" />
                         </div>
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(m => m.storeform.Logo, new { @class = "col-md-2 control-label" })
+                        @Html.LabelFor(m => m.storeCollectionForm.CollectionPhoto, new { @class = "col-md-2 control-label" })
                         <div class="col-md-3">
-                            @Html.TextBoxFor(x => Model.storeform.Logo, new { type = "file" })
-                            @Html.ValidationMessageFor(m => m.storeform.Logo)
+                            @Html.TextBoxFor(x => Model.storeCollectionForm.CollectionPhoto, new { type = "file" })
+
                         </div>
                     </div>
 
                     <div class="form-group">
                         @Html.Label("Is Deleted?", new { @class = "col-md-2 control-label" })
                         <div class="col-md-6">
-                            @Html.CheckBoxFor(m => m.storeform.IsDeleted)
+                            @Html.CheckBoxFor(m => m.storeCollectionForm.IsDeleted)
                         </div>
                     </div>
 
                     <div class="form-actions">
-                        
 
-                        <a href="@Url.Action("StoreDashboard", "Dashboard", new {Id=Model.store.ProcessInstaceId, area = "Admin" })" class="btn btn-warning">Back</a>
+
+                        <a href="@Url.Action("CollectionList", "Store", new {Id=Model.store.ProcessInstaceId, area = "Setup" })" class="btn btn-xs btn-warning">Back</a>
 
                         <input type="submit" class="btn btn-xs btn-success pull-right" value="Save" />
                     </div>

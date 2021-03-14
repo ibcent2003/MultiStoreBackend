@@ -64,6 +64,9 @@ namespace Project.Areas.Setup.Models
         [Display(Name = "Sub Category")]
         public string Name { get; set; }
 
+        [Display(Name = "Sample Photo")]
+        public HttpPostedFileBase SampleImage { get; set; }
+
         public bool IsDeleted { get; set; }
 
     }

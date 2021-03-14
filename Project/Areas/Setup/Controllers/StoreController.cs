@@ -254,7 +254,6 @@ namespace Project.Areas.Setup.Controllers
             }
         }
 
-
         [Authorize]
         public ActionResult DocumentsUploadedPath(string path)
         {
@@ -290,6 +289,404 @@ namespace Project.Areas.Setup.Controllers
             }
         }
 
+        public ActionResult SliderList(Guid Id)
+        {
+            try
+            {
+                StoreManagementViewModel model = new StoreManagementViewModel();
+                model.StoreSliderList = Backbone.GetStoreSlider(db, Id);
+                model.documentPath = Properties.Settings.Default.SliderPath;
+                var GetStore = db.Store.Where(x => x.ProcessInstaceId == Id).FirstOrDefault();
+                model.store = GetStore;
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
+        public ActionResult NewSlider(Guid Id)
+        {
+            try
+            {
+                StoreManagementViewModel model = new StoreManagementViewModel();
+                var GetStore = db.Store.Where(x => x.ProcessInstaceId == Id).FirstOrDefault();
+                model.store = GetStore;
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult NewSlider(StoreManagementViewModel model)
+        {
+            try
+            {
+                var GetStore = db.Store.Where(x => x.ProcessInstaceId == model.store.ProcessInstaceId).FirstOrDefault();
+
+                if (model.StoreSliderform.SliderPhoto == null)
+                {
+                    TempData["message"] = "ERROR: Please use the browse button to select photo from your computer.";
+                    TempData["messageType"] = "danger";
+                    return View(model);
+                }
+
+                if (ModelState.IsValid)
+                {
+                    string url = Properties.Settings.Default.SliderPath;
+                    System.IO.Directory.CreateDirectory(url);
+
+                    #region upload logo
+
+                    int max_upload = 5242880;
+
+                    //   string Passportpath = Server.MapPath(this.filepath);
+                    List<DocumentInfo> uploadedPassport = new List<DocumentInfo>();
+
+                    CodeGenerator CodePassport = new CodeGenerator();
+                    string EncKey1 = util.MD5Hash(DateTime.Now.Ticks.ToString());
+                    List<DocumentFormat> Passporttypes = db.DocumentType.FirstOrDefault(x => x.Id == 1).DocumentFormat.ToList();
+
+                    List<string> supportedPassport = new List<string>();
+                    foreach (var item in Passporttypes)
+                    {
+                        supportedPassport.Add(item.Extension);
+                    }
+                    var filePassport = System.IO.Path.GetExtension(model.StoreSliderform.SliderPhoto.FileName);
+                    if (!supportedPassport.Contains(filePassport))
+                    {
+                        TempData["messageType"] = "alert-danger";
+                        TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPassport) + " are supported for logo";
+                        model.documentPath = Properties.Settings.Default.SliderPath;
+                        return View(model);
+
+                    }
+                    else if (model.StoreSliderform.SliderPhoto.ContentLength > max_upload)
+                    {
+                        TempData["messageType"] = "alert-danger";
+                        TempData["message"] = "The logo uploaded is larger than the 5MB upload limit";
+                        model.documentPath = Properties.Settings.Default.SliderPath;
+                        return View(model);
+                    }
+
+                    //store passport
+                    int pp = 0;
+                    string pName;
+                    pName = EncKey1 + pp.ToString() + System.IO.Path.GetExtension(model.StoreSliderform.SliderPhoto.FileName);
+                    model.StoreSliderform.SliderPhoto.SaveAs(url + pName);
+
+                    #endregion
+
+                    StoreSlider addnew = new StoreSlider()
+                    {
+                        CaptionOne = model.StoreSliderform.CaptionOne,
+                        CaptionTwo = model.StoreSliderform.CaptionTwo,
+                        ButtonText = model.StoreSliderform.ButtonText,
+                        Description = model.StoreSliderform.Description,
+                        SliderPhoto = pName,
+                        ModifiedBy = User.Identity.Name,
+                        ModifiedDate = DateTime.Now,
+                        IsDeleted = false,
+                        StoreId = GetStore.Id,                        
+                    };
+                    db.StoreSlider.AddObject(addnew);
+                    db.SaveChanges();
+                    TempData["message"] = "The Slider has been added successfully.";
+                    return RedirectToAction("SliderList", "Store", new { area = "Setup", Id=model.store.ProcessInstaceId });
+
+                }
+                TempData["message"] = "ERROR: Please use the browse button to select photo from your computer.";
+                TempData["messageType"] = "danger";
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
+        public ActionResult EditSlider(Guid Id, int SliderId)
+        {
+            try
+            {
+                StoreManagementViewModel model = new StoreManagementViewModel();
+                var GetStore = db.Store.Where(x => x.ProcessInstaceId == Id).FirstOrDefault();
+                if (GetStore == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                }
+                var getSlider = db.StoreSlider.Where(x => x.Id == SliderId && x.StoreId == GetStore.Id).FirstOrDefault();
+                model.StoreSliderform = new  StoreSliderForm();
+                model.StoreSliderform.CaptionOne = getSlider.CaptionOne;
+                model.StoreSliderform.CaptionTwo = getSlider.CaptionTwo;
+                model.StoreSliderform.ButtonText = getSlider.ButtonText;
+                model.StoreSliderform.Description = getSlider.Description;
+                model.StoreSliderform.Id = getSlider.Id;
+                model.documentValue = getSlider.SliderPhoto;
+                model.StoreSliderform.StoreId = GetStore.Id;
+                model.documentPath = Properties.Settings.Default.SliderPath;
+                model.store = GetStore;
+
+                return View(model);
+            }
+            catch(Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+           
+        }
+
+        [HttpPost]
+        public ActionResult EditSlider(StoreManagementViewModel model)
+        {
+            try
+            {
+                var GetStore = db.Store.Where(x => x.Id == model.StoreSliderform.StoreId).FirstOrDefault();
+                if (GetStore == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                }
+
+                string url = Properties.Settings.Default.SliderPath;
+                System.IO.Directory.CreateDirectory(url);
+                var getSlider = db.StoreSlider.Where(x => x.Id == model.StoreSliderform.Id && x.StoreId == GetStore.Id).FirstOrDefault();
+                if (model.StoreSliderform.SliderPhoto != null && model.StoreSliderform.SliderPhoto.ContentLength > 0)
+                {
+
+                    #region upload logo
+
+                    int max_upload = 5242880;
+
+                    List<DocumentInfo> uploadedPassport = new List<DocumentInfo>();
+                    CodeGenerator CodePassport = new CodeGenerator();
+                    string EncKey1 = util.MD5Hash(DateTime.Now.Ticks.ToString());
+                    List<DocumentFormat> Passporttypes = db.DocumentType.FirstOrDefault(x => x.Id == 1).DocumentFormat.ToList();
+
+                    List<string> supportedPassport = new List<string>();
+                    foreach (var item in Passporttypes)
+                    {
+                        supportedPassport.Add(item.Extension);
+                    }
+                    var filePassport = System.IO.Path.GetExtension(model.StoreSliderform.SliderPhoto.FileName);
+                    if (!supportedPassport.Contains(filePassport))
+                    {
+                        TempData["messageType"] = "danger";
+                        TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPassport) + " are supported for Slider photo";
+                        model.documentPath = Properties.Settings.Default.SliderPath;
+                        return View(model);
+                    }
+                    else if (model.StoreSliderform.SliderPhoto.ContentLength > max_upload)
+                    {
+                        TempData["messageType"] = "danger";
+                        TempData["message"] = "The logo uploaded is larger than the 5MB upload limit";
+                        model.documentPath = Properties.Settings.Default.SliderPath;
+                        return View(model);
+                    }
+
+                    
+                    //delete passport
+                    if (getSlider.SliderPhoto != null)
+                    {
+                        System.IO.FileInfo fi = new System.IO.FileInfo(url + getSlider.SliderPhoto);
+                        fi.Delete();
+                    }
+                    //store logo
+                    int pp = 0;
+                    string pName;
+                    pName = EncKey1 + pp.ToString() + System.IO.Path.GetExtension(model.StoreSliderform.SliderPhoto.FileName);
+                    model.StoreSliderform.SliderPhoto.SaveAs(url + pName);
+
+                    #endregion
+
+                    getSlider.SliderPhoto = pName;
+                }
+                getSlider.CaptionOne = model.StoreSliderform.CaptionOne;
+                getSlider.CaptionTwo = model.StoreSliderform.CaptionTwo;
+                getSlider.ButtonText = model.StoreSliderform.ButtonText;
+                getSlider.Description = model.StoreSliderform.Description;
+
+                getSlider.ModifiedBy = User.Identity.Name;
+                getSlider.ModifiedDate = DateTime.Now;
+                getSlider.IsDeleted = model.StoreSliderform.IsDeleted;
+                db.SaveChanges();
+                TempData["message"] = "The Slider has been updated successfully.";
+                return RedirectToAction("SliderList", "Store", new { Id = GetStore.ProcessInstaceId, area = "Setup" });
+            }
+            catch(Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
+
+        public ActionResult CollectionList(Guid Id)
+        {
+            try
+            {
+                StoreManagementViewModel model = new StoreManagementViewModel();
+                model.ImageCollectionsList = Backbone.GetImageCollection(db, Id);
+                model.documentPath = Properties.Settings.Default.CollectionPath;
+                var GetStore = db.Store.Where(x => x.ProcessInstaceId == Id).FirstOrDefault();
+                model.store = GetStore;
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
+        public ActionResult EditCollection(Guid Id, int CollectionId)
+        {
+            try
+            {
+                StoreManagementViewModel model = new StoreManagementViewModel();
+                var GetStore = db.Store.Where(x => x.ProcessInstaceId == Id).FirstOrDefault();
+                if (GetStore == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                }
+                var getCollection = db.StoreImageCollection.Where(x => x.Id == CollectionId && x.StoreId == GetStore.Id).FirstOrDefault();
+                model.storeCollectionForm = new  StoreCollectionForm();
+                model.storeCollectionForm.CollectionName = getCollection.ImageCollection.Name;
+               
+                model.storeCollectionForm.Id = getCollection.Id;
+                model.documentValue = getCollection.CollectionPath;
+                model.storeCollectionForm.StoreId = GetStore.Id;
+                model.documentPath = Properties.Settings.Default.CollectionPath;
+                model.store = GetStore;
+
+                return View(model);
+            }
+            catch(Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditCollection(StoreManagementViewModel model)
+        {
+try
+            {
+                var GetStore = db.Store.Where(x => x.Id == model.storeCollectionForm.StoreId).FirstOrDefault();
+                if (GetStore == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                }
+                if (ModelState.IsValid)
+                {
+                    string url = Properties.Settings.Default.CollectionPath;
+                    System.IO.Directory.CreateDirectory(url);
+                    var getCollection = db.StoreImageCollection.Where(x => x.Id == model.storeCollectionForm.Id && x.StoreId == GetStore.Id).FirstOrDefault();
+                    if (model.storeCollectionForm.CollectionPhoto != null && model.storeCollectionForm.CollectionPhoto.ContentLength > 0)
+                    {
+
+                        #region upload logo
+
+                        int max_upload = 5242880;
+
+                        List<DocumentInfo> uploadedPassport = new List<DocumentInfo>();
+                        CodeGenerator CodePassport = new CodeGenerator();
+                        string EncKey1 = util.MD5Hash(DateTime.Now.Ticks.ToString());
+                        List<DocumentFormat> Passporttypes = db.DocumentType.FirstOrDefault(x => x.Id == 1).DocumentFormat.ToList();
+
+                        List<string> supportedPassport = new List<string>();
+                        foreach (var item in Passporttypes)
+                        {
+                            supportedPassport.Add(item.Extension);
+                        }
+                        var filePassport = System.IO.Path.GetExtension(model.storeCollectionForm.CollectionPhoto.FileName);
+                        if (!supportedPassport.Contains(filePassport))
+                        {
+                            TempData["messageType"] = "danger";
+                            TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPassport) + " are supported for Slider photo";
+                            model.documentPath = Properties.Settings.Default.CollectionPath;
+                            return View(model);
+                        }
+                        else if (model.storeCollectionForm.CollectionPhoto.ContentLength > max_upload)
+                        {
+                            TempData["messageType"] = "danger";
+                            TempData["message"] = "The logo uploaded is larger than the 5MB upload limit";
+                            model.documentPath = Properties.Settings.Default.CollectionPath;
+                            return View(model);
+                        }
+
+
+                        //delete passport
+                        if (getCollection.IsUpdated == true)
+                        {
+                            System.IO.FileInfo fi = new System.IO.FileInfo(url + getCollection.CollectionPath);
+                            fi.Delete();
+                          
+                        
+                        }
+                        //store logo
+                        int pp = 0;
+                        string pName;
+                        pName = EncKey1 + pp.ToString() + System.IO.Path.GetExtension(model.storeCollectionForm.CollectionPhoto.FileName);
+                        model.storeCollectionForm.CollectionPhoto.SaveAs(url + pName);
+
+                        #endregion
+
+                        getCollection.CollectionPath = pName;
+                        getCollection.IsUpdated = true;
+                        getCollection.ModifiedBy = User.Identity.Name;
+                        getCollection.ModifiedDate = DateTime.Now;
+                        getCollection.IsDeleted = model.storeCollectionForm.IsDeleted;
+                        db.SaveChanges();
+                        TempData["message"] = "The Collection has been updated successfully.";
+                        return RedirectToAction("CollectionList", "Store", new { Id = GetStore.ProcessInstaceId, area = "Setup" });
+                    }
+                   
+
+                   
+                }
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return View(model);
+            }
+            catch(Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
 
     }
 }

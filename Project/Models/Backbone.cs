@@ -27,6 +27,22 @@ namespace Project.Models
 
         }
 
+        public static List<StoreSlider> GetStoreSlider(PROEntities db, Guid Id)
+        {
+            var store = db.Store.Where(x => x.ProcessInstaceId == Id).FirstOrDefault();
+            var GetSlider = store.StoreSlider.ToList();
+            return GetSlider;
+
+        }
+
+        public static List<StoreImageCollection> GetImageCollection(PROEntities db, Guid Id)
+        {
+            var store = db.Store.Where(x => x.ProcessInstaceId == Id).FirstOrDefault();
+            var GetCollection = store.StoreImageCollection.ToList();
+            return GetCollection;
+
+        }
+
         public static Users StoreUser (PROEntities db, Guid UserId)
         {
             var getUser = db.Users.Where(x => x.UserId == UserId).FirstOrDefault();

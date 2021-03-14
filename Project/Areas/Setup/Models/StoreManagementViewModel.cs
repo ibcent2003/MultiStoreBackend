@@ -15,6 +15,10 @@ namespace Project.Areas.Setup.Models
         public StoreForm storeform { get; set; }
 
         public Store store { get; set; }
+        public List<StoreSlider> StoreSliderList { get; set; }
+        public List<StoreImageCollection> ImageCollectionsList { get; set; }
+        public StoreSliderForm StoreSliderform { get; set; }
+        public StoreCollectionForm storeCollectionForm { get; set; }
     }
 
 
@@ -43,6 +47,56 @@ namespace Project.Areas.Setup.Models
         [Required(ErrorMessage = "Please select a currency")]
         [Display(Name = "Accepted Currency")]
         public int CountryId { get; set; }
+
+    }
+
+    public class StoreSliderForm
+    {
+        public int Id { get; set; }
+
+        [Required(ErrorMessage = "Please enter your Caption One")]
+        [Display(Name = "Caption One")]
+        public string CaptionOne { get; set; }
+
+        [Required(ErrorMessage = "Please enter your Caption Two")]
+        [Display(Name = "Caption Two")]
+        public string CaptionTwo { get; set; }
+
+        [Required(ErrorMessage = "Please enter your Description")]
+        [Display(Name = "Description")]
+        public string Description { get; set; }
+
+        [Display(Name = "Slider Photo")]
+        public HttpPostedFileBase SliderPhoto { get; set; }
+
+        [Required(ErrorMessage = "Please enter your Button Text")]
+        [Display(Name = "Button Text")]
+        public string ButtonText { get; set; }     
+
+        public bool IsDeleted { get; set; }
+        public int StoreId { get; set; }
+
+
+
+
+    }
+
+
+    public class StoreCollectionForm
+    {
+        public int Id { get; set; }
+
+        public string CollectionName { get; set; }
+
+        [Required(ErrorMessage = "Please the photo collection")]
+        [Display(Name = "Collection Photo")]
+        public HttpPostedFileBase CollectionPhoto { get; set; }     
+
+        public bool IsDeleted { get; set; }
+        public int StoreId { get; set; }
+
+
+
 
     }
 }

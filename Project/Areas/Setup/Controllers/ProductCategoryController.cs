@@ -428,6 +428,7 @@ namespace Project.Areas.Setup.Controllers
                 model.ProductSubCategorylist = getcategory.ProductSubCategory.ToList();
                 model.ProductSubCategoryform = new ProductSubCategoryForm();
                 model.ProductSubCategoryform.ProductCategoryId = Id;
+                model.documentPath = Properties.Settings.Default.DocumentPath;
                 return View(model);
             }
             catch (Exception ex)
@@ -479,12 +480,59 @@ namespace Project.Areas.Setup.Controllers
                         TempData["message"] = "The Sub Category " + model.ProductSubCategoryform.Name + " already exist for "+model.productcategory.Name+". Please enter another name";
                         return RedirectToAction("SubCategoryList", "ProductCategory", new {Id=model.ProductSubCategoryform.ProductCategoryId, area = "Setup" });
                     }
+
+                    string url = Properties.Settings.Default.DocumentPath;
+                    System.IO.Directory.CreateDirectory(url);
+
+                    #region upload logo
+
+                    int max_upload = 5242880;
+
+                    //   string Passportpath = Server.MapPath(this.filepath);
+                    List<DocumentInfo> uploadedPassport = new List<DocumentInfo>();
+
+                    CodeGenerator CodePassport = new CodeGenerator();
+                    string EncKey1 = util.MD5Hash(DateTime.Now.Ticks.ToString());
+                    List<DocumentFormat> Passporttypes = db.DocumentType.FirstOrDefault(x => x.Id == 1).DocumentFormat.ToList();
+
+                    List<string> supportedPassport = new List<string>();
+                    foreach (var item in Passporttypes)
+                    {
+                        supportedPassport.Add(item.Extension);
+                    }
+                    var filePassport = System.IO.Path.GetExtension(model.ProductSubCategoryform.SampleImage.FileName);
+                    if (!supportedPassport.Contains(filePassport))
+                    {
+                        TempData["messageType"] = "alert-danger";
+                        TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPassport) + " are supported for Product Photo sample";
+                        model.documentPath = Properties.Settings.Default.DocumentPath;
+                        return View(model);
+
+                    }
+                    else if (model.ProductSubCategoryform.SampleImage.ContentLength > max_upload)
+                    {
+                        TempData["messageType"] = "alert-danger";
+                        TempData["message"] = "The logo uploaded is larger than the 5MB upload limit";
+                        model.documentPath = Properties.Settings.Default.DocumentPath;
+                        return View(model);
+                    }
+
+                    //store passport
+                    int pp = 0;
+                    string pName;
+                    pName = EncKey1 + pp.ToString() + System.IO.Path.GetExtension(model.ProductSubCategoryform.SampleImage.FileName);
+                    model.ProductSubCategoryform.SampleImage.SaveAs(url + pName);
+
+                    #endregion
+
+
                     ProductSubCategory add = new ProductSubCategory
                     {
                         ProductCategoryId = model.ProductSubCategoryform.ProductCategoryId,
                         Name = model.ProductSubCategoryform.Name,
                         IsDeleted = model.ProductSubCategoryform.IsDeleted,
                         ModifiedBy = User.Identity.Name,
+                        SampleImage = pName,
                         ModifiedDate = DateTime.Now
                     };
                     db.ProductSubCategory.AddObject(add);
@@ -522,6 +570,59 @@ namespace Project.Areas.Setup.Controllers
                     var validate = getcategory.ProductSubCategory.Where(x => x.Id == model.ProductSubCategoryform.Id && x.ProductCategoryId == model.ProductSubCategoryform.ProductCategoryId).FirstOrDefault();
                     if(validate != null)
                     {
+
+                        string url = Properties.Settings.Default.DocumentPath;
+                        System.IO.Directory.CreateDirectory(url);
+
+                        if (model.ProductSubCategoryform.SampleImage != null && model.ProductSubCategoryform.SampleImage.ContentLength > 0)
+                        {
+                            //delete passport
+                            if (validate.SampleImage != null)
+                            {
+                                System.IO.FileInfo fi = new System.IO.FileInfo(url + validate.SampleImage);
+                                fi.Delete();
+                            }
+                            #region upload logo
+
+                            int max_upload = 5242880;
+
+                            List<DocumentInfo> uploadedPassport = new List<DocumentInfo>();
+                            CodeGenerator CodePassport = new CodeGenerator();
+                            string EncKey1 = util.MD5Hash(DateTime.Now.Ticks.ToString());
+                            List<DocumentFormat> Passporttypes = db.DocumentType.FirstOrDefault(x => x.Id == 1).DocumentFormat.ToList();
+
+                            List<string> supportedPassport = new List<string>();
+                            foreach (var item in Passporttypes)
+                            {
+                                supportedPassport.Add(item.Extension);
+                            }
+                            var filePassport = System.IO.Path.GetExtension(model.ProductSubCategoryform.SampleImage.FileName);
+                            if (!supportedPassport.Contains(filePassport))
+                            {
+                                TempData["messageType"] = "alert-danger";
+                                TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPassport) + " are supported for Product Photo sample";
+                                model.documentPath = Properties.Settings.Default.DocumentPath;
+                                return View(model);
+
+                            }
+                            else if (model.ProductSubCategoryform.SampleImage.ContentLength > max_upload)
+                            {
+                                TempData["messageType"] = "alert-danger";
+                                TempData["message"] = "The Sample Photo uploaded is larger than the 5MB upload limit";
+                                model.documentPath = Properties.Settings.Default.DocumentPath;
+                                return View(model);
+                            }
+
+                            //store passport
+                            int pp = 0;
+                            string pName;
+                            pName = EncKey1 + pp.ToString() + System.IO.Path.GetExtension(model.ProductSubCategoryform.SampleImage.FileName);
+                            model.ProductSubCategoryform.SampleImage.SaveAs(url + pName);
+
+                            #endregion
+                            validate.SampleImage = pName;
+                        }
+
                         validate.Name = model.ProductSubCategoryform.Name;
                         validate.IsDeleted = model.ProductSubCategoryform.IsDeleted;
                         validate.ModifiedBy = User.Identity.Name;

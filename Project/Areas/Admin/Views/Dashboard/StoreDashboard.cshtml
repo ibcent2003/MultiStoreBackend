@@ -15,7 +15,8 @@
     </div>
 }
 <div class="widget-header">
-    <a href="@Url.Action("EditStore", "Store", new { area="Setup", Id=Model.store.Id})" class="btn btn-danger btn-xs">Store Profile</a> 
+    <a href="@Url.Action("EditStore", "Store", new { area="Setup", Id=Model.store.Id})" class="btn btn-danger btn-xs">Store Profile</a> <a href="@Url.Action("SliderList", "Store", new { area="Setup", Id=Model.store.ProcessInstaceId})" class="btn btn-success btn-xs">Store Slider</a>
+    <a href="@Url.Action("CollectionList", "Store", new { area="Setup", Id=Model.store.ProcessInstaceId})" class="btn btn-warning btn-xs">Store Images Collections</a>
 </div>
 <br />
 

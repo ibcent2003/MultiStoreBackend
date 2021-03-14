@@ -32,5 +32,11 @@
     <Setting Name="StoreRegistrationWorkFlowId" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">1</Value>
     </Setting>
+    <Setting Name="SliderPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\FortressDocuments\Slider\</Value>
+    </Setting>
+    <Setting Name="CollectionPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\FortressDocuments\ImageCollections\</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

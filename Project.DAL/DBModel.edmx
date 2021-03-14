@@ -170,6 +170,16 @@
           <Property Name="DocumentTypeId" Type="int" Nullable="false" />
           <Property Name="DocumentTypeFormatId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="ImageCollection">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="LGA">
           <Key>
             <PropertyRef Name="Id" />
@@ -277,6 +287,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProductCategoryId" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="SampleImage" Type="varchar" MaxLength="100" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
@@ -411,6 +422,19 @@
           <Property Name="StoreId" Type="int" Nullable="false" />
           <Property Name="ContactInfoId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="StoreImageCollection">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StoreId" Type="int" Nullable="false" />
+          <Property Name="ImageCollectionId" Type="int" Nullable="false" />
+          <Property Name="CollectionPath" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="IsUpdated" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="StoreInProduct">
           <Key>
             <PropertyRef Name="StoreId" />
@@ -476,6 +500,21 @@
           </Key>
           <Property Name="StoreId" Type="int" Nullable="false" />
           <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StoreSlider">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StoreId" Type="int" Nullable="false" />
+          <Property Name="SliderPhoto" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CaptionOne" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CaptionTwo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ButtonText" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="StoreUser">
           <Key>
@@ -907,6 +946,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StoreImageCollection_ImageCollection">
+          <End Role="ImageCollection" Type="Self.ImageCollection" Multiplicity="1" />
+          <End Role="StoreImageCollection" Type="Self.StoreImageCollection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImageCollection">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreImageCollection">
+              <PropertyRef Name="ImageCollectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreImageCollection_Store">
+          <End Role="Store" Type="Self.Store" Multiplicity="1" />
+          <End Role="StoreImageCollection" Type="Self.StoreImageCollection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreImageCollection">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_StoreInProduct_Store">
           <End Role="Store" Type="Self.Store" Multiplicity="1" />
           <End Role="StoreInProduct" Type="Self.StoreInProduct" Multiplicity="*" />
@@ -1071,6 +1134,18 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="StoreRole">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreSlider_Store">
+          <End Role="Store" Type="Self.Store" Multiplicity="1" />
+          <End Role="StoreSlider" Type="Self.StoreSlider" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreSlider">
               <PropertyRef Name="StoreId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1307,6 +1382,7 @@
           <EntitySet Name="DocumentInfo" EntityType="Self.DocumentInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentType" EntityType="Self.DocumentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentTypeFormat" EntityType="Self.DocumentTypeFormat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ImageCollection" EntityType="Self.ImageCollection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LGA" EntityType="Self.LGA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Memberships" EntityType="Self.Memberships" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductBrand" EntityType="Self.ProductBrand" Schema="dbo" store:Type="Tables" />
@@ -1329,12 +1405,14 @@
           <EntitySet Name="StoreAction" EntityType="Self.StoreAction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreAddressBook" EntityType="Self.StoreAddressBook" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreContactInfo" EntityType="Self.StoreContactInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StoreImageCollection" EntityType="Self.StoreImageCollection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreInProduct" EntityType="Self.StoreInProduct" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreProduct" EntityType="Self.StoreProduct" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreProductCategory" EntityType="Self.StoreProductCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreProductChildCategory" EntityType="Self.StoreProductChildCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreProductSubCategory" EntityType="Self.StoreProductSubCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreRole" EntityType="Self.StoreRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StoreSlider" EntityType="Self.StoreSlider" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreUser" EntityType="Self.StoreUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreWorkflowSteps" EntityType="Self.StoreWorkflowSteps" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TempUser" EntityType="Self.TempUser" Schema="dbo" store:Type="Tables" />
@@ -1453,6 +1531,14 @@
             <End Role="Store" EntitySet="Store" />
             <End Role="StoreContactInfo" EntitySet="StoreContactInfo" />
           </AssociationSet>
+          <AssociationSet Name="FK_StoreImageCollection_ImageCollection" Association="Self.FK_StoreImageCollection_ImageCollection">
+            <End Role="ImageCollection" EntitySet="ImageCollection" />
+            <End Role="StoreImageCollection" EntitySet="StoreImageCollection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreImageCollection_Store" Association="Self.FK_StoreImageCollection_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="StoreImageCollection" EntitySet="StoreImageCollection" />
+          </AssociationSet>
           <AssociationSet Name="FK_StoreInProduct_Store" Association="Self.FK_StoreInProduct_Store">
             <End Role="Store" EntitySet="Store" />
             <End Role="StoreInProduct" EntitySet="StoreInProduct" />
@@ -1508,6 +1594,10 @@
           <AssociationSet Name="FK_StoreRole_Store" Association="Self.FK_StoreRole_Store">
             <End Role="Store" EntitySet="Store" />
             <End Role="StoreRole" EntitySet="StoreRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreSlider_Store" Association="Self.FK_StoreSlider_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="StoreSlider" EntitySet="StoreSlider" />
           </AssociationSet>
           <AssociationSet Name="FK_StoreUser_Store" Association="Self.FK_StoreUser_Store">
             <End Role="Store" EntitySet="Store" />
@@ -1601,6 +1691,7 @@
           <EntitySet Name="DocumentFormat" EntityType="PROModel.DocumentFormat" />
           <EntitySet Name="DocumentInfo" EntityType="PROModel.DocumentInfo" />
           <EntitySet Name="DocumentType" EntityType="PROModel.DocumentType" />
+          <EntitySet Name="ImageCollection" EntityType="PROModel.ImageCollection" />
           <EntitySet Name="LGA" EntityType="PROModel.LGA" />
           <EntitySet Name="Memberships" EntityType="PROModel.Memberships" />
           <EntitySet Name="ProductBrand" EntityType="PROModel.ProductBrand" />
@@ -1618,7 +1709,9 @@
           <EntitySet Name="State" EntityType="PROModel.State" />
           <EntitySet Name="Store" EntityType="PROModel.Store" />
           <EntitySet Name="StoreAction" EntityType="PROModel.StoreAction" />
+          <EntitySet Name="StoreImageCollection" EntityType="PROModel.StoreImageCollection" />
           <EntitySet Name="StoreProduct" EntityType="PROModel.StoreProduct" />
+          <EntitySet Name="StoreSlider" EntityType="PROModel.StoreSlider" />
           <EntitySet Name="TempUser" EntityType="PROModel.TempUser" />
           <EntitySet Name="UserDetail" EntityType="PROModel.UserDetail" />
           <EntitySet Name="Users" EntityType="PROModel.Users" />
@@ -1682,6 +1775,10 @@
             <End Role="DocumentType" EntitySet="DocumentType" />
             <End Role="DocumentInfo" EntitySet="DocumentInfo" />
           </AssociationSet>
+          <AssociationSet Name="FK_StoreImageCollection_ImageCollection" Association="PROModel.FK_StoreImageCollection_ImageCollection">
+            <End Role="ImageCollection" EntitySet="ImageCollection" />
+            <End Role="StoreImageCollection" EntitySet="StoreImageCollection" />
+          </AssociationSet>
           <AssociationSet Name="FK_LGA_State" Association="PROModel.FK_LGA_State">
             <End Role="State" EntitySet="State" />
             <End Role="LGA" EntitySet="LGA" />
@@ -1725,6 +1822,14 @@
           <AssociationSet Name="FK_StoreAction_Store" Association="PROModel.FK_StoreAction_Store">
             <End Role="Store" EntitySet="Store" />
             <End Role="StoreAction" EntitySet="StoreAction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreImageCollection_Store" Association="PROModel.FK_StoreImageCollection_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="StoreImageCollection" EntitySet="StoreImageCollection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreSlider_Store" Association="PROModel.FK_StoreSlider_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="StoreSlider" EntitySet="StoreSlider" />
           </AssociationSet>
           <AssociationSet Name="FK_TempUser_Store" Association="PROModel.FK_TempUser_Store">
             <End Role="Store" EntitySet="Store" />
@@ -1987,6 +2092,17 @@
           <NavigationProperty Name="DocumentInfo" Relationship="PROModel.FK_DocumentInfo_DocumentType" FromRole="DocumentType" ToRole="DocumentInfo" />
           <NavigationProperty Name="DocumentFormat" Relationship="PROModel.DocumentTypeFormat" FromRole="DocumentType" ToRole="DocumentFormat" />
         </EntityType>
+        <EntityType Name="ImageCollection">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="StoreImageCollection" Relationship="PROModel.FK_StoreImageCollection_ImageCollection" FromRole="ImageCollection" ToRole="StoreImageCollection" />
+        </EntityType>
         <EntityType Name="LGA">
           <Key>
             <PropertyRef Name="Id" />
@@ -2085,6 +2201,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ProductCategoryId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="SampleImage" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
@@ -2207,6 +2324,8 @@
           <Property Name="SubmissionDate" Type="DateTime" Precision="7" />
           <NavigationProperty Name="Country" Relationship="PROModel.FK_Store_Country" FromRole="Store" ToRole="Country" />
           <NavigationProperty Name="StoreAction" Relationship="PROModel.FK_StoreAction_Store" FromRole="Store" ToRole="StoreAction" />
+          <NavigationProperty Name="StoreImageCollection" Relationship="PROModel.FK_StoreImageCollection_Store" FromRole="Store" ToRole="StoreImageCollection" />
+          <NavigationProperty Name="StoreSlider" Relationship="PROModel.FK_StoreSlider_Store" FromRole="Store" ToRole="StoreSlider" />
           <NavigationProperty Name="TempUser" Relationship="PROModel.FK_TempUser_Store" FromRole="Store" ToRole="TempUser" />
           <NavigationProperty Name="AddressBook" Relationship="PROModel.StoreAddressBook" FromRole="Store" ToRole="AddressBook" />
           <NavigationProperty Name="ContactInfo" Relationship="PROModel.StoreContactInfo" FromRole="Store" ToRole="ContactInfo" />
@@ -2229,6 +2348,21 @@
           <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
           <NavigationProperty Name="Store" Relationship="PROModel.FK_StoreAction_Store" FromRole="StoreAction" ToRole="Store" />
+        </EntityType>
+        <EntityType Name="StoreImageCollection">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StoreId" Type="Int32" Nullable="false" />
+          <Property Name="ImageCollectionId" Type="Int32" Nullable="false" />
+          <Property Name="CollectionPath" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="IsUpdated" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ImageCollection" Relationship="PROModel.FK_StoreImageCollection_ImageCollection" FromRole="StoreImageCollection" ToRole="ImageCollection" />
+          <NavigationProperty Name="Store" Relationship="PROModel.FK_StoreImageCollection_Store" FromRole="StoreImageCollection" ToRole="Store" />
         </EntityType>
         <EntityType Name="StoreProduct">
           <Key>
@@ -2262,6 +2396,22 @@
           <NavigationProperty Name="ProductColor" Relationship="PROModel.ProductInColor" FromRole="StoreProduct" ToRole="ProductColor" />
           <NavigationProperty Name="Size" Relationship="PROModel.ProductSize" FromRole="StoreProduct" ToRole="Size" />
           <NavigationProperty Name="Store" Relationship="PROModel.StoreInProduct" FromRole="StoreProduct" ToRole="Store" />
+        </EntityType>
+        <EntityType Name="StoreSlider">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StoreId" Type="Int32" Nullable="false" />
+          <Property Name="SliderPhoto" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CaptionOne" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CaptionTwo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ButtonText" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Store" Relationship="PROModel.FK_StoreSlider_Store" FromRole="StoreSlider" ToRole="Store" />
         </EntityType>
         <EntityType Name="TempUser">
           <Key>
@@ -2532,6 +2682,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StoreImageCollection_ImageCollection">
+          <End Type="PROModel.ImageCollection" Role="ImageCollection" Multiplicity="1" />
+          <End Type="PROModel.StoreImageCollection" Role="StoreImageCollection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImageCollection">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreImageCollection">
+              <PropertyRef Name="ImageCollectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_LGA_State">
           <End Type="PROModel.State" Role="State" Multiplicity="1" />
           <End Type="PROModel.LGA" Role="LGA" Multiplicity="*" />
@@ -2660,6 +2822,30 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="StoreAction">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreImageCollection_Store">
+          <End Type="PROModel.Store" Role="Store" Multiplicity="1" />
+          <End Type="PROModel.StoreImageCollection" Role="StoreImageCollection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreImageCollection">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreSlider_Store">
+          <End Type="PROModel.Store" Role="Store" Multiplicity="1" />
+          <End Type="PROModel.StoreSlider" Role="StoreSlider" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreSlider">
               <PropertyRef Name="StoreId" />
             </Dependent>
           </ReferentialConstraint>
@@ -2969,6 +3155,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ImageCollection">
+            <EntityTypeMapping TypeName="PROModel.ImageCollection">
+              <MappingFragment StoreEntitySet="ImageCollection">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="LGA">
             <EntityTypeMapping TypeName="PROModel.LGA">
               <MappingFragment StoreEntitySet="LGA">
@@ -3058,6 +3255,7 @@
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="SampleImage" ColumnName="SampleImage" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -3187,6 +3385,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="StoreImageCollection">
+            <EntityTypeMapping TypeName="PROModel.StoreImageCollection">
+              <MappingFragment StoreEntitySet="StoreImageCollection">
+                <ScalarProperty Name="IsUpdated" ColumnName="IsUpdated" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CollectionPath" ColumnName="CollectionPath" />
+                <ScalarProperty Name="ImageCollectionId" ColumnName="ImageCollectionId" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="StoreProduct">
             <EntityTypeMapping TypeName="PROModel.StoreProduct">
               <MappingFragment StoreEntitySet="StoreProduct">
@@ -3210,6 +3422,22 @@
                 <ScalarProperty Name="DiscountPrice" ColumnName="DiscountPrice" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StoreSlider">
+            <EntityTypeMapping TypeName="PROModel.StoreSlider">
+              <MappingFragment StoreEntitySet="StoreSlider">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ButtonText" ColumnName="ButtonText" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CaptionTwo" ColumnName="CaptionTwo" />
+                <ScalarProperty Name="CaptionOne" ColumnName="CaptionOne" />
+                <ScalarProperty Name="SliderPhoto" ColumnName="SliderPhoto" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

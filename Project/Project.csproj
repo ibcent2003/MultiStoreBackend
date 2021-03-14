@@ -237,11 +237,11 @@
     <Compile Include="Areas\Setup\Models\StoreManagementViewModel.cs" />
     <Compile Include="Areas\Setup\Models\WorkflowViewModel.cs" />
     <Compile Include="Areas\Setup\SetupAreaRegistration.cs" />
-    <Compile Include="Filters\Controllers\AccountController.cs" />
-    <Compile Include="Filters\Controllers\BaseController.cs" />
-    <Compile Include="Filters\Controllers\StoreRegistrationController.cs" />
-    <Compile Include="Filters\Controllers\HomeController.cs" />
-    <Compile Include="Filters\Controllers\SGAccountController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\StoreRegistrationController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SGAccountController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1469,6 +1469,11 @@
     <Content Include="Areas\Admin\Views\Dashboard\PendingRegistration.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\RegistrationStatus.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\OwnedByRegistration.cshtml" />
+    <Content Include="Areas\Setup\Views\Store\SliderList.cshtml" />
+    <Content Include="Areas\Setup\Views\Store\NewSlider.cshtml" />
+    <Content Include="Areas\Setup\Views\Store\EditSlider.cshtml" />
+    <Content Include="Areas\Setup\Views\Store\CollectionList.cshtml" />
+    <Content Include="Areas\Setup\Views\Store\EditCollection.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="MvcInstaller\ajax-loader.gif" />
     <Content Include="MvcInstaller\jquery-1.6.1.min.js" />
