@@ -97,7 +97,7 @@
                                             @Html.LabelFor(model => model.storeform.Logo, new { @class = "" })
                                         </div>
                                         <div class="form-group">
-                                            <div class="input-icon">                                                
+                                            <div class="input-icon">
                                                 @Html.TextBoxFor(x => Model.storeform.Logo, new { type = "file", @class = "form-control" })
                                                 @*@Html.ValidationMessageFor(model => model.CompanyRegFrom.RegistrationNumber, null, new { @style = "color:red" })*@
                                             </div>
@@ -108,9 +108,9 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="input-icon">
-                                               
+
                                             </div>
-                                        </div> 
+                                        </div>
 
                                         <div class="editor-label">
                                             @Html.Label("Accepted Currency", new { @class = "required" })
@@ -119,19 +119,22 @@
                                             <div class="input-icon">
                                                 @Html.DropDownListFor(m => Model.storeform.CountryId, new SelectList(Model.CountryList, "Value", "Text"), new { @class = "form-control" })
                                             </div>
-                                        </div> 
-                                        
-                                        
-                                        
-                                       
+                                        </div>
 
-</div>
+                                        <div class="editor-label">
+                                            @Html.Label("Store Themes", new { @class = "required" })
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-icon">
+                                                @Html.DropDownListFor(m => Model.storeform.ThemesId, new SelectList(Model.ThemesList, "Value", "Text"), new { @class = "form-control" })
+                                            </div>
+                                        </div>
+
+
+                                    </div>
 
                                 </div>
 
-
-                            
-                           
                         </div>
                         
                     </div>

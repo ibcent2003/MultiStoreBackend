@@ -214,12 +214,47 @@
           <Property Name="FailedPasswordAnswerAttemptWindowsStart" Type="datetime" Nullable="false" />
           <Property Name="Comment" Type="nvarchar" MaxLength="256" />
         </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StoreId" Type="int" Nullable="false" />
+          <Property Name="MenuTypeId" Type="int" Nullable="false" />
+          <Property Name="HeaderType" Type="varchar" MaxLength="50" />
+          <Property Name="Content" Type="varchar(max)" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MenuType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaymentMethod">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LogoPath" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="ProductBrand">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="BrandPath" Type="varchar" MaxLength="50" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
@@ -364,6 +399,20 @@
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="SliderTemplate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SliderPhoto" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CaptionOne" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CaptionTwo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ButtonText" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="State">
           <Key>
             <PropertyRef Name="Id" />
@@ -383,6 +432,7 @@
           <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="Description" Type="varchar(max)" Nullable="false" />
           <Property Name="ProcessInstaceId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ThemesId" Type="int" />
           <Property Name="URL" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="Logo" Type="varchar" MaxLength="100" />
           <Property Name="OwnProcurement" Type="bit" Nullable="false" />
@@ -443,6 +493,14 @@
           <Property Name="StoreId" Type="int" Nullable="false" />
           <Property Name="ProductId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="StorePaymentMethod">
+          <Key>
+            <PropertyRef Name="StoreId" />
+            <PropertyRef Name="PaymentMethodId" />
+          </Key>
+          <Property Name="StoreId" Type="int" Nullable="false" />
+          <Property Name="PaymentMethodId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="StoreProduct">
           <Key>
             <PropertyRef Name="Id" />
@@ -458,6 +516,7 @@
           <Property Name="Photo2" Type="varchar" MaxLength="500" />
           <Property Name="Photo3" Type="varchar" MaxLength="500" />
           <Property Name="BrandId" Type="int" Nullable="false" />
+          <Property Name="IsNew" Type="bit" Nullable="false" />
           <Property Name="HasColor" Type="bit" Nullable="false" />
           <Property Name="HasSize" Type="bit" Nullable="false" />
           <Property Name="HasSales" Type="bit" Nullable="false" />
@@ -541,6 +600,28 @@
           <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="StoreId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Testimonial">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StoreId" Type="int" Nullable="false" />
+          <Property Name="ClientName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Message" Type="varchar(max)" Nullable="false" />
+          <Property Name="SentDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Themes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ColorName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="UserDetail">
           <Key>
@@ -754,6 +835,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Menu_MenuType">
+          <End Role="MenuType" Type="Self.MenuType" Multiplicity="1" />
+          <End Role="Menu" Type="Self.Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MenuType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Menu">
+              <PropertyRef Name="MenuTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Menu_Store">
+          <End Role="Store" Type="Self.Store" Multiplicity="1" />
+          <End Role="Menu" Type="Self.Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Menu">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ProductCategoryBrand_ProductBrand">
           <End Role="ProductBrand" Type="Self.ProductBrand" Multiplicity="1" />
           <End Role="ProductCategoryBrand" Type="Self.ProductCategoryBrand" Multiplicity="*" />
@@ -886,6 +991,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Store_Themes">
+          <End Role="Themes" Type="Self.Themes" Multiplicity="0..1" />
+          <End Role="Store" Type="Self.Store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Themes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Store">
+              <PropertyRef Name="ThemesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_StoreAction_Store">
           <End Role="Store" Type="Self.Store" Multiplicity="1" />
           <End Role="StoreAction" Type="Self.StoreAction" Multiplicity="*" />
@@ -991,6 +1108,30 @@
             </Principal>
             <Dependent Role="StoreInProduct">
               <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StorePaymentMethod_PaymentMethod">
+          <End Role="PaymentMethod" Type="Self.PaymentMethod" Multiplicity="1" />
+          <End Role="StorePaymentMethod" Type="Self.StorePaymentMethod" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentMethod">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StorePaymentMethod">
+              <PropertyRef Name="PaymentMethodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StorePaymentMethod_Store">
+          <End Role="Store" Type="Self.Store" Multiplicity="1" />
+          <End Role="StorePaymentMethod" Type="Self.StorePaymentMethod" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StorePaymentMethod">
+              <PropertyRef Name="StoreId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1210,6 +1351,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Testimonial_Store">
+          <End Role="Store" Type="Self.Store" Multiplicity="1" />
+          <End Role="Testimonial" Type="Self.Testimonial" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Testimonial">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserDetail_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="*" />
@@ -1385,6 +1538,9 @@
           <EntitySet Name="ImageCollection" EntityType="Self.ImageCollection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LGA" EntityType="Self.LGA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Memberships" EntityType="Self.Memberships" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MenuType" EntityType="Self.MenuType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentMethod" EntityType="Self.PaymentMethod" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductBrand" EntityType="Self.ProductBrand" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductCategory" EntityType="Self.ProductCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductCategoryBrand" EntityType="Self.ProductCategoryBrand" Schema="dbo" store:Type="Tables" />
@@ -1400,6 +1556,7 @@
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Size" EntityType="Self.Size" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SizeType" EntityType="Self.SizeType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SliderTemplate" EntityType="Self.SliderTemplate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Store" EntityType="Self.Store" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreAction" EntityType="Self.StoreAction" Schema="dbo" store:Type="Tables" />
@@ -1407,6 +1564,7 @@
           <EntitySet Name="StoreContactInfo" EntityType="Self.StoreContactInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreImageCollection" EntityType="Self.StoreImageCollection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreInProduct" EntityType="Self.StoreInProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StorePaymentMethod" EntityType="Self.StorePaymentMethod" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreProduct" EntityType="Self.StoreProduct" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreProductCategory" EntityType="Self.StoreProductCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreProductChildCategory" EntityType="Self.StoreProductChildCategory" Schema="dbo" store:Type="Tables" />
@@ -1416,6 +1574,8 @@
           <EntitySet Name="StoreUser" EntityType="Self.StoreUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreWorkflowSteps" EntityType="Self.StoreWorkflowSteps" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TempUser" EntityType="Self.TempUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Testimonial" EntityType="Self.Testimonial" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Themes" EntityType="Self.Themes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserDetail" EntityType="Self.UserDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UsersInRoles" EntityType="Self.UsersInRoles" Schema="dbo" store:Type="Tables" />
@@ -1467,6 +1627,14 @@
             <End Role="State" EntitySet="State" />
             <End Role="LGA" EntitySet="LGA" />
           </AssociationSet>
+          <AssociationSet Name="FK_Menu_MenuType" Association="Self.FK_Menu_MenuType">
+            <End Role="MenuType" EntitySet="MenuType" />
+            <End Role="Menu" EntitySet="Menu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Menu_Store" Association="Self.FK_Menu_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="Menu" EntitySet="Menu" />
+          </AssociationSet>
           <AssociationSet Name="FK_ProductCategoryBrand_ProductBrand" Association="Self.FK_ProductCategoryBrand_ProductBrand">
             <End Role="ProductBrand" EntitySet="ProductBrand" />
             <End Role="ProductCategoryBrand" EntitySet="ProductCategoryBrand" />
@@ -1511,6 +1679,10 @@
             <End Role="Country" EntitySet="Country" />
             <End Role="Store" EntitySet="Store" />
           </AssociationSet>
+          <AssociationSet Name="FK_Store_Themes" Association="Self.FK_Store_Themes">
+            <End Role="Themes" EntitySet="Themes" />
+            <End Role="Store" EntitySet="Store" />
+          </AssociationSet>
           <AssociationSet Name="FK_StoreAction_Store" Association="Self.FK_StoreAction_Store">
             <End Role="Store" EntitySet="Store" />
             <End Role="StoreAction" EntitySet="StoreAction" />
@@ -1546,6 +1718,14 @@
           <AssociationSet Name="FK_StoreInProduct_StoreProduct" Association="Self.FK_StoreInProduct_StoreProduct">
             <End Role="StoreProduct" EntitySet="StoreProduct" />
             <End Role="StoreInProduct" EntitySet="StoreInProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StorePaymentMethod_PaymentMethod" Association="Self.FK_StorePaymentMethod_PaymentMethod">
+            <End Role="PaymentMethod" EntitySet="PaymentMethod" />
+            <End Role="StorePaymentMethod" EntitySet="StorePaymentMethod" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StorePaymentMethod_Store" Association="Self.FK_StorePaymentMethod_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="StorePaymentMethod" EntitySet="StorePaymentMethod" />
           </AssociationSet>
           <AssociationSet Name="FK_StoreProduct_ProductBrand" Association="Self.FK_StoreProduct_ProductBrand">
             <End Role="ProductBrand" EntitySet="ProductBrand" />
@@ -1618,6 +1798,10 @@
           <AssociationSet Name="FK_TempUser_Store" Association="Self.FK_TempUser_Store">
             <End Role="Store" EntitySet="Store" />
             <End Role="TempUser" EntitySet="TempUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Testimonial_Store" Association="Self.FK_Testimonial_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="Testimonial" EntitySet="Testimonial" />
           </AssociationSet>
           <AssociationSet Name="FK_UserDetail_Users" Association="Self.FK_UserDetail_Users">
             <End Role="Users" EntitySet="Users" />
@@ -1694,6 +1878,8 @@
           <EntitySet Name="ImageCollection" EntityType="PROModel.ImageCollection" />
           <EntitySet Name="LGA" EntityType="PROModel.LGA" />
           <EntitySet Name="Memberships" EntityType="PROModel.Memberships" />
+          <EntitySet Name="Menu" EntityType="PROModel.Menu" />
+          <EntitySet Name="MenuType" EntityType="PROModel.MenuType" />
           <EntitySet Name="ProductBrand" EntityType="PROModel.ProductBrand" />
           <EntitySet Name="ProductCategory" EntityType="PROModel.ProductCategory" />
           <EntitySet Name="ProductChildCategory" EntityType="PROModel.ProductChildCategory" />
@@ -1713,6 +1899,7 @@
           <EntitySet Name="StoreProduct" EntityType="PROModel.StoreProduct" />
           <EntitySet Name="StoreSlider" EntityType="PROModel.StoreSlider" />
           <EntitySet Name="TempUser" EntityType="PROModel.TempUser" />
+          <EntitySet Name="Testimonial" EntityType="PROModel.Testimonial" />
           <EntitySet Name="UserDetail" EntityType="PROModel.UserDetail" />
           <EntitySet Name="Users" EntityType="PROModel.Users" />
           <EntitySet Name="Workflow" EntityType="PROModel.Workflow" />
@@ -1787,6 +1974,14 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Memberships" EntitySet="Memberships" />
           </AssociationSet>
+          <AssociationSet Name="FK_Menu_MenuType" Association="PROModel.FK_Menu_MenuType">
+            <End Role="MenuType" EntitySet="MenuType" />
+            <End Role="Menu" EntitySet="Menu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Menu_Store" Association="PROModel.FK_Menu_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="Menu" EntitySet="Menu" />
+          </AssociationSet>
           <AssociationSet Name="FK_StoreProduct_ProductBrand" Association="PROModel.FK_StoreProduct_ProductBrand">
             <End Role="ProductBrand" EntitySet="ProductBrand" />
             <End Role="StoreProduct" EntitySet="StoreProduct" />
@@ -1834,6 +2029,10 @@
           <AssociationSet Name="FK_TempUser_Store" Association="PROModel.FK_TempUser_Store">
             <End Role="Store" EntitySet="Store" />
             <End Role="TempUser" EntitySet="TempUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Testimonial_Store" Association="PROModel.FK_Testimonial_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="Testimonial" EntitySet="Testimonial" />
           </AssociationSet>
           <AssociationSet Name="FK_UserDetail_Users" Association="PROModel.FK_UserDetail_Users">
             <End Role="Users" EntitySet="Users" />
@@ -1911,6 +2110,17 @@
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <EntitySet Name="PaymentMethod" EntityType="PROModel.PaymentMethod" />
+          <AssociationSet Name="StorePaymentMethod" Association="PROModel.StorePaymentMethod">
+            <End Role="PaymentMethod" EntitySet="PaymentMethod" />
+            <End Role="Store" EntitySet="Store" />
+          </AssociationSet>
+          <EntitySet Name="Themes" EntityType="PROModel.Themes" />
+          <AssociationSet Name="FK_Store_Themes" Association="PROModel.FK_Store_Themes">
+            <End Role="Themes" EntitySet="Themes" />
+            <End Role="Store" EntitySet="Store" />
+          </AssociationSet>
+          <EntitySet Name="SliderTemplate" EntityType="PROModel.SliderTemplate" />
         </EntityContainer>
         <EntityType Name="AddressBook">
           <Key>
@@ -2141,12 +2351,39 @@
           <NavigationProperty Name="Applications" Relationship="PROModel.MembershipApplication" FromRole="Memberships" ToRole="Applications" />
           <NavigationProperty Name="Users" Relationship="PROModel.MembershipUser" FromRole="Memberships" ToRole="Users" />
         </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StoreId" Type="Int32" Nullable="false" />
+          <Property Name="MenuTypeId" Type="Int32" Nullable="false" />
+          <Property Name="Content" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="MenuType" Relationship="PROModel.FK_Menu_MenuType" FromRole="Menu" ToRole="MenuType" />
+          <NavigationProperty Name="Store" Relationship="PROModel.FK_Menu_Store" FromRole="Menu" ToRole="Store" />
+          <Property Name="HeaderType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="MenuType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Menu" Relationship="PROModel.FK_Menu_MenuType" FromRole="MenuType" ToRole="Menu" />
+        </EntityType>
         <EntityType Name="ProductBrand">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BrandPath" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
@@ -2323,10 +2560,12 @@
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <Property Name="SubmissionDate" Type="DateTime" Precision="7" />
           <NavigationProperty Name="Country" Relationship="PROModel.FK_Store_Country" FromRole="Store" ToRole="Country" />
+          <NavigationProperty Name="Menu" Relationship="PROModel.FK_Menu_Store" FromRole="Store" ToRole="Menu" />
           <NavigationProperty Name="StoreAction" Relationship="PROModel.FK_StoreAction_Store" FromRole="Store" ToRole="StoreAction" />
           <NavigationProperty Name="StoreImageCollection" Relationship="PROModel.FK_StoreImageCollection_Store" FromRole="Store" ToRole="StoreImageCollection" />
           <NavigationProperty Name="StoreSlider" Relationship="PROModel.FK_StoreSlider_Store" FromRole="Store" ToRole="StoreSlider" />
           <NavigationProperty Name="TempUser" Relationship="PROModel.FK_TempUser_Store" FromRole="Store" ToRole="TempUser" />
+          <NavigationProperty Name="Testimonial" Relationship="PROModel.FK_Testimonial_Store" FromRole="Store" ToRole="Testimonial" />
           <NavigationProperty Name="AddressBook" Relationship="PROModel.StoreAddressBook" FromRole="Store" ToRole="AddressBook" />
           <NavigationProperty Name="ContactInfo" Relationship="PROModel.StoreContactInfo" FromRole="Store" ToRole="ContactInfo" />
           <NavigationProperty Name="StoreProduct" Relationship="PROModel.StoreInProduct" FromRole="Store" ToRole="StoreProduct" />
@@ -2336,6 +2575,9 @@
           <NavigationProperty Name="Roles" Relationship="PROModel.StoreRole" FromRole="Store" ToRole="Roles" />
           <NavigationProperty Name="Users" Relationship="PROModel.StoreUser" FromRole="Store" ToRole="Users" />
           <NavigationProperty Name="WorkflowSteps" Relationship="PROModel.StoreWorkflowSteps" FromRole="Store" ToRole="WorkflowSteps" />
+          <NavigationProperty Name="PaymentMethod" Relationship="PROModel.StorePaymentMethod" FromRole="Store" ToRole="PaymentMethod" />
+          <Property Name="ThemesId" Type="Int32" />
+          <NavigationProperty Name="Themes" Relationship="PROModel.FK_Store_Themes" FromRole="Store" ToRole="Themes" />
         </EntityType>
         <EntityType Name="StoreAction">
           <Key>
@@ -2379,6 +2621,7 @@
           <Property Name="Photo2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="Photo3" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="BrandId" Type="Int32" Nullable="false" />
+          <Property Name="IsNew" Type="Boolean" Nullable="false" />
           <Property Name="HasColor" Type="Boolean" Nullable="false" />
           <Property Name="HasSize" Type="Boolean" Nullable="false" />
           <Property Name="HasSales" Type="Boolean" Nullable="false" />
@@ -2423,6 +2666,18 @@
           <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="StoreId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Store" Relationship="PROModel.FK_TempUser_Store" FromRole="TempUser" ToRole="Store" />
+        </EntityType>
+        <EntityType Name="Testimonial">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StoreId" Type="Int32" Nullable="false" />
+          <Property Name="ClientName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Message" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SentDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Store" Relationship="PROModel.FK_Testimonial_Store" FromRole="Testimonial" ToRole="Store" />
         </EntityType>
         <EntityType Name="UserDetail">
           <Key>
@@ -2718,6 +2973,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Menu_MenuType">
+          <End Type="PROModel.MenuType" Role="MenuType" Multiplicity="1" />
+          <End Type="PROModel.Menu" Role="Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MenuType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Menu">
+              <PropertyRef Name="MenuTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Menu_Store">
+          <End Type="PROModel.Store" Role="Store" Multiplicity="1" />
+          <End Type="PROModel.Menu" Role="Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Menu">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_StoreProduct_ProductBrand">
           <End Type="PROModel.ProductBrand" Role="ProductBrand" Multiplicity="1" />
           <End Type="PROModel.StoreProduct" Role="StoreProduct" Multiplicity="*" />
@@ -2862,6 +3141,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Testimonial_Store">
+          <End Type="PROModel.Store" Role="Store" Multiplicity="1" />
+          <End Type="PROModel.Testimonial" Role="Testimonial" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Testimonial">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserDetail_Users">
           <End Type="PROModel.Users" Role="Users" Multiplicity="1" />
           <End Type="PROModel.UserDetail" Role="UserDetail" Multiplicity="*" />
@@ -2978,6 +3269,60 @@
           <End Type="PROModel.Roles" Role="Roles" Multiplicity="*" />
           <End Type="PROModel.Users" Role="Users" Multiplicity="*" />
         </Association>
+        <EntityType Name="PaymentMethod">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LogoPath" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Store" Relationship="PROModel.StorePaymentMethod" FromRole="PaymentMethod" ToRole="Store" />
+        </EntityType>
+        <Association Name="StorePaymentMethod">
+          <End Type="PROModel.PaymentMethod" Role="PaymentMethod" Multiplicity="*" />
+          <End Type="PROModel.Store" Role="Store" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Themes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ColorName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Store" Relationship="PROModel.FK_Store_Themes" FromRole="Themes" ToRole="Store" />
+        </EntityType>
+        <Association Name="FK_Store_Themes">
+          <End Type="PROModel.Themes" Role="Themes" Multiplicity="0..1" />
+          <End Type="PROModel.Store" Role="Store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Themes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Store">
+              <PropertyRef Name="ThemesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SliderTemplate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SliderPhoto" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CaptionOne" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CaptionTwo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ButtonText" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3202,12 +3547,38 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Menu">
+            <EntityTypeMapping TypeName="PROModel.Menu">
+              <MappingFragment StoreEntitySet="Menu">
+                <ScalarProperty Name="HeaderType" ColumnName="HeaderType" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="MenuTypeId" ColumnName="MenuTypeId" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MenuType">
+            <EntityTypeMapping TypeName="PROModel.MenuType">
+              <MappingFragment StoreEntitySet="MenuType">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ProductBrand">
             <EntityTypeMapping TypeName="PROModel.ProductBrand">
               <MappingFragment StoreEntitySet="ProductBrand">
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="BrandPath" ColumnName="BrandPath" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -3354,6 +3725,7 @@
           <EntitySetMapping Name="Store">
             <EntityTypeMapping TypeName="PROModel.Store">
               <MappingFragment StoreEntitySet="Store">
+                <ScalarProperty Name="ThemesId" ColumnName="ThemesId" />
                 <ScalarProperty Name="SubmissionDate" ColumnName="SubmissionDate" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
@@ -3412,6 +3784,7 @@
                 <ScalarProperty Name="HasSales" ColumnName="HasSales" />
                 <ScalarProperty Name="HasSize" ColumnName="HasSize" />
                 <ScalarProperty Name="HasColor" ColumnName="HasColor" />
+                <ScalarProperty Name="IsNew" ColumnName="IsNew" />
                 <ScalarProperty Name="BrandId" ColumnName="BrandId" />
                 <ScalarProperty Name="Photo3" ColumnName="Photo3" />
                 <ScalarProperty Name="Photo2" ColumnName="Photo2" />
@@ -3449,6 +3822,18 @@
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="EmailAddres" ColumnName="EmailAddres" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Testimonial">
+            <EntityTypeMapping TypeName="PROModel.Testimonial">
+              <MappingFragment StoreEntitySet="Testimonial">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="SentDate" ColumnName="SentDate" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -3644,6 +4029,53 @@
               <ScalarProperty Name="RoleId" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="PaymentMethod">
+            <EntityTypeMapping TypeName="PROModel.PaymentMethod">
+              <MappingFragment StoreEntitySet="PaymentMethod">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="LogoPath" ColumnName="LogoPath" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="StorePaymentMethod" TypeName="PROModel.StorePaymentMethod" StoreEntitySet="StorePaymentMethod">
+            <EndProperty Name="Store">
+              <ScalarProperty Name="Id" ColumnName="StoreId" />
+            </EndProperty>
+            <EndProperty Name="PaymentMethod">
+              <ScalarProperty Name="Id" ColumnName="PaymentMethodId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Themes">
+            <EntityTypeMapping TypeName="PROModel.Themes">
+              <MappingFragment StoreEntitySet="Themes">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ColorName" ColumnName="ColorName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SliderTemplate">
+            <EntityTypeMapping TypeName="PROModel.SliderTemplate">
+              <MappingFragment StoreEntitySet="SliderTemplate">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ButtonText" ColumnName="ButtonText" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CaptionTwo" ColumnName="CaptionTwo" />
+                <ScalarProperty Name="CaptionOne" ColumnName="CaptionOne" />
+                <ScalarProperty Name="SliderPhoto" ColumnName="SliderPhoto" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

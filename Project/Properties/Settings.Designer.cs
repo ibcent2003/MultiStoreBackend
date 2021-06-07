@@ -131,5 +131,14 @@ namespace Project.Properties {
                 return ((string)(this["CollectionPath"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\FortressDocuments\\PaymentLogo\\")]
+        public string PaymentLogo {
+            get {
+                return ((string)(this["PaymentLogo"]));
+            }
+        }
     }
 }

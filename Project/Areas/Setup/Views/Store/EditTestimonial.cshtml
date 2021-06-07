@@ -1,0 +1,130 @@
+﻿@model Project.Areas.Setup.Models.StoreManagementViewModel
+@{
+    ViewBag.Title = "Edit Testimonial";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.IsGreetings = "true";
+}
+@section Scripts{
+    @Scripts.Render("~/Content/Backend/vendors/tinymce/tinymce.min.js")
+    <script>
+        tinymce.init({
+            selector: "textarea",
+            mode : "exact",
+            elements: "newsform_NewsContent",
+            theme: "modern",
+
+
+
+
+            plugins: [
+                "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                "searchreplace wordcount visualblocks visualchars code fullscreen",
+                "insertdatetime media nonbreaking save table contextmenu directionality",
+                "emoticons template paste textcolor "
+            ],
+            toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+            toolbar2: "print preview media | forecolor backcolor emoticons",
+            image_advtab: true,
+            templates: [
+                { title: 'Test template 1', content: 'Test 1' },
+                { title: 'Test template 2', content: 'Test 2' }
+            ]
+        });
+
+        "use strict";
+        $(document).ready(function () {
+            $(".datepicker").datepicker({
+                defaultDate: +7,
+                showOtherMonths: true,
+                autoSize: true,
+                appendText: '<span class="help-block">(yyyy-mm-dd)</span>',
+                dateFormat: "yy-mm-dd"
+            });
+        });
+    </script>
+}
+@section Crumbs{
+    <div class="crumbs">
+
+        <ul class="breadcrumb" id="breadcrumbs">
+            <li><i class="icon-home"></i><a href="@Url.Action("Index", "Home", new { area = "Admin" })">Dashboard</a> </li>
+            <li><i class="current"></i><a href="javascript: return void(0)">Edit Testimonial</a> </li>
+
+
+        </ul>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="widget box">
+            <div class="widget-header">
+                <h4>
+                    <i class="icon-reorder"></i>
+                   Edit Testimonial Entry
+                </h4>
+            </div>
+            <div class="widget-content">
+                @using (Html.BeginForm("EditTestimonial", "Store", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal row-border" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    @Html.HiddenFor(x => x.store.ProcessInstaceId)
+                    @Html.HiddenFor(x => x.Testimonialform.Id)
+                    @Html.HiddenFor(x => x.Testimonialform.StoreId)
+
+                    <div class="form-group">
+                        @Html.Label("Full Name", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.Testimonialform.ClientName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Testimonialform.ClientName)
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        @Html.Label("Message", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextAreaFor(m => m.Testimonialform.Message, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Testimonialform.Message)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Is Deleted?", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.CheckBoxFor(m => m.Testimonialform.IsDeleted)
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+
+                        <a href="@Url.Action("TestimonialList", "Store", new { area = "Setup", Id = Model.store.ProcessInstaceId })" class="btn btn-xs btn-success">Back</a>
+                        <input type="submit" class="btn btn-warning pull-right" value="Save" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

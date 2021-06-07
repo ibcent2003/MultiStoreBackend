@@ -32,9 +32,7 @@ namespace Project.Controllers
         {
             this.membershipService = new MembershipService(Membership.Provider);
             this.authenticationService = new AuthenticationService(membershipService, new FormsAuthenticationService());
-            this.formsAuthenticationService = new FormsAuthenticationService();
-
-           // workflowId = swdb.ApprovalWorkFlow.Where(x => x.ProcessCode == processCode).Select(x => x.Id).FirstOrDefault();
+            this.formsAuthenticationService = new FormsAuthenticationService();         
         }
 
 
@@ -62,7 +60,9 @@ namespace Project.Controllers
             try
             {
                 StoreRegistrationViewModel model = new StoreRegistrationViewModel();
+                
                 model.CountryList = db.Country.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                 return View(model);
             }
             catch(Exception ex)
@@ -93,6 +93,7 @@ namespace Project.Controllers
                         if (Approval != null)
                         {
                             model.CountryList = db.Country.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                            model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                             TempData["MessageType"] = "danger";
                             TempData["Message"] = "You have already submitted your registration. Please login to proceed or contact the systm administrator";
                             return View(model);
@@ -117,6 +118,7 @@ namespace Project.Controllers
                                 var filePassport = System.IO.Path.GetExtension(model.storeform.Logo.FileName);
                                 if (!supportedPassport.Contains(filePassport))
                                 {
+                                model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                                 model.CountryList = db.Country.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                                 TempData["messageType"] = "danger";
                                     TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPassport) + " are supported for logo";
@@ -125,6 +127,7 @@ namespace Project.Controllers
                                 }
                                 else if (model.storeform.Logo.ContentLength > max_upload)
                                 {
+                                model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                                 model.CountryList = db.Country.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                                 TempData["messageType"] = "danger";
                                     TempData["message"] = "The logo uploaded is larger than the 5MB upload limit";
@@ -150,11 +153,11 @@ namespace Project.Controllers
 
                                 checkStore.Logo = pName;
                             }
-
                           
                             checkStore.Name = model.storeform.Name;
                             checkStore.OwnProcurement = model.storeform.OwnProcurement;
                             checkStore.CountryId = model.storeform.CountryId;
+                            checkStore.ThemesId = model.storeform.ThemesId;
                             checkStore.URL = model.storeform.Name.Replace(" ", string.Empty);
                             checkStore.ModifiedBy =model.storeform.Name;
                             checkStore.ModifiedDate = DateTime.Now;
@@ -162,10 +165,11 @@ namespace Project.Controllers
                             db.SaveChanges();
                             TempData["message"] = "<b>" + model.storeform.Name + "</b> Information been successfully.";
                             return RedirectToAction("NewAddress", "StoreRegistration", new { Id = checkStore.ProcessInstaceId, area = "" });
-                    }
+                         }
                         else
                         {
-                            #region If Store information is new entry
+                         #region If Store information is new entry
+
                             if (model.storeform.Logo != null && model.storeform.Logo.ContentLength > 0)
                             {
                                 #region upload logo
@@ -185,19 +189,21 @@ namespace Project.Controllers
                                 var filePassport = System.IO.Path.GetExtension(model.storeform.Logo.FileName);
                                 if (!supportedPassport.Contains(filePassport))
                                 {
-                                    model.CountryList = db.Country.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
-                                    TempData["messageType"] = "danger";
+                                model.CountryList = db.Country.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                                model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                                TempData["messageType"] = "danger";
                                     TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPassport) + " are supported for logo";
                                     model.documentPath = Properties.Settings.Default.DocumentPath;
                                     return View(model);
                                 }
                                 else if (model.storeform.Logo.ContentLength > max_upload)
                                 {
-                                    model.CountryList = db.Country.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
-                                    TempData["messageType"] = "danger";
-                                    TempData["message"] = "The logo uploaded is larger than the 5MB upload limit";
-                                    model.documentPath = Properties.Settings.Default.DocumentPath;
-                                    return View(model);
+                                model.CountryList = db.Country.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                                model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                                TempData["messageType"] = "danger";
+                                TempData["message"] = "The logo uploaded is larger than the 5MB upload limit";
+                                model.documentPath = Properties.Settings.Default.DocumentPath;
+                                return View(model);
                                 }
 
 
@@ -213,12 +219,12 @@ namespace Project.Controllers
 
                                 model.logos = pName;
                             }                         
-
-                            Store addnew = new Store()
+                            Store addnew = new Store()    
                             {
                                 Name = model.storeform.Name,
                                 Logo = model.logos,
-                                CountryId = model.storeform.CountryId,                                
+                                CountryId = model.storeform.CountryId,   
+                                ThemesId = model.storeform.ThemesId,
                                 OwnProcurement = model.storeform.OwnProcurement,
                                 ModifiedBy = model.storeform.Name,
                                 ModifiedDate = DateTime.Now,
@@ -232,13 +238,68 @@ namespace Project.Controllers
                             };
                             db.Store.AddObject(addnew);
                             db.SaveChanges();
-                            TempData["message"] = "<b>" + model.storeform.Name + "</b> Information been successfully.";
-                            return RedirectToAction("NewAddress", "StoreRegistration", new { Id = addnew.ProcessInstaceId, area = "" });
+
                         #endregion
+
+                         #region populate image collection table                        
+                        var GetImageCollection = db.ImageCollection.Where(x=>x.IsDeleted==false).ToList();
+                         foreach(var img in GetImageCollection)
+                        {
+                            StoreImageCollection newImage = new StoreImageCollection
+                            {
+                                StoreId = addnew.Id,
+                                ImageCollectionId = img.Id,
+                                CollectionPath = img.Name,
+                                ModifiedBy = model.storeform.Name,
+                                ModifiedDate = DateTime.Now,
+                                IsDeleted = false,
+                                IsUpdated = false
+
+                            };
+                            db.StoreImageCollection.AddObject(newImage);
+                            db.SaveChanges();
+                        }
+                        #endregion
+
+                         #region populate menu items table
+
+                        var getMenu = db.MenuType.Where(x => x.IsDeleted == false).ToList();
+                        foreach(var menu in getMenu)
+                        {
+                            Menu newmenu = new Menu
+                            {
+                                StoreId = addnew.Id,
+                                MenuTypeId = menu.Id,
+                                HeaderType = menu.Name,
+                                Content = menu.Name + " Information goes here.",
+                                ModifiedBy = model.storeform.Name,
+                                ModifiedDate = DateTime.Now,
+                                IsDeleted = false,
+                            };
+                            db.Menu.AddObject(newmenu);
+                            db.SaveChanges();
+                        }
+                        #endregion
+
+                        #region populate payment method
+
+                        var getPayment = db.PaymentMethod.Where(x => x.IsDeleted == false).ToList();
+                       // var store = Backbone.GetStore(db, addnew.ProcessInstaceId);
+                        foreach (var pay in getPayment)
+                        {
+                           addnew.PaymentMethod.Add(pay);
+                           db.SaveChanges();
+                        }
+                        #endregion
+
+                        TempData["message"] = "<b>" + model.storeform.Name + "</b> Information been successfully.";
+                        return RedirectToAction("NewAddress", "StoreRegistration", new { Id = addnew.ProcessInstaceId, area = "" });
+                       
                     }
 
                    }
                 model.CountryList = db.Country.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                 return View(model);
             }
             catch (Exception ex)
@@ -281,6 +342,7 @@ namespace Project.Controllers
                 StoreRegistrationViewModel model = new StoreRegistrationViewModel();
                 var GetStore = db.Store.Where(x => x.ProcessInstaceId == Id).FirstOrDefault();
                 model.CountryList = db.Country.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                 if (GetStore == null)
                 {
                     TempData["message"] = Settings.Default.GenericExceptionMessage;
@@ -292,6 +354,7 @@ namespace Project.Controllers
                 model.storeform.Name = GetStore.Name;
                 model.storeform.Id = GetStore.Id;
                 model.storeform.CountryId = GetStore.CountryId;
+                model.storeform.ThemesId = int.Parse(GetStore.ThemesId.ToString());
                 model.logos = GetStore.Logo;
                 model.storeform.OwnProcurement = GetStore.OwnProcurement;
                 model.documentPath = Properties.Settings.Default.DocumentPath;
@@ -347,6 +410,7 @@ namespace Project.Controllers
                         model.store = GetStore;
                         model.logos = GetStore.Logo;
                         model.CountryList = db.Country.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                        model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                         TempData["messageType"] = "danger";
                         TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPassport) + " are supported for logo";
                         model.documentPath = Properties.Settings.Default.DocumentPath;
@@ -357,6 +421,7 @@ namespace Project.Controllers
                         model.store = GetStore;
                         model.logos = GetStore.Logo;
                         model.CountryList = db.Country.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                        model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                         TempData["messageType"] = "danger";
                         TempData["message"] = "The logo uploaded is larger than the 5MB upload limit";
                         model.documentPath = Properties.Settings.Default.DocumentPath;
@@ -388,6 +453,7 @@ namespace Project.Controllers
                 GetStore.ModifiedBy = model.storeform.Name;
                 GetStore.OwnProcurement = model.storeform.OwnProcurement;
                 GetStore.CountryId = model.storeform.CountryId;
+                GetStore.ThemesId = model.storeform.ThemesId;
                 GetStore.ModifiedDate = DateTime.Now;
                 GetStore.IsDeleted = model.storeform.IsDeleted;
                 GetStore.Description = model.storeform.Description;
@@ -1163,8 +1229,11 @@ namespace Project.Controllers
                 else
                 {
                     var user = model.store.Users.FirstOrDefault();
-                    model.userDetail = user.UserDetail.FirstOrDefault();
-                    model.TempUseradded = false;                  
+                    if(user != null)
+                    {
+                        model.LoginDetails = db.Memberships.Where(x=>x.UserId==user.UserId).FirstOrDefault();
+                        model.TempUseradded = false;
+                    }                                     
                     return View(model);
                 }
                 
@@ -1348,9 +1417,11 @@ namespace Project.Controllers
                 else
                 {
                     var user = model.store.Users.FirstOrDefault();
-                    model.userDetail = user.UserDetail.FirstOrDefault();
-                    model.TempUseradded = false;
-                  
+                    if (user != null)
+                    {
+                        model.LoginDetails = db.Memberships.Where(x => x.UserId == user.UserId).FirstOrDefault();
+                        model.TempUseradded = false;
+                    }
                 }
                 return View(model);
             }
@@ -1437,6 +1508,7 @@ namespace Project.Controllers
                     return RedirectToAction("StoreInformation");
                     #endregion
                 }
+
                 string str = (from r in this.db.Roles where r.RoleName == GetWorkFlowId.RoleName  select r.RoleName).FirstOrDefault<string>();
                 string str1 = str;
                 WorkflowSteps workflowStep1 = model.store.WorkflowSteps.FirstOrDefault<WorkflowSteps>();
@@ -1457,7 +1529,28 @@ namespace Project.Controllers
                 user.Roles.Add(GetRoleAdmin);
                 model.store.Users.Add(user);
                 this.db.SaveChanges();
-
+                           
+                #region Generate slider
+                var getSlider = db.SliderTemplate.ToList();
+                foreach(var s in getSlider)
+                {
+                    StoreSlider addnew = new StoreSlider()
+                    {
+                        CaptionOne = s.CaptionOne,
+                        CaptionTwo = s.CaptionTwo,
+                        ButtonText = s.ButtonText,
+                        Description = s.Description,
+                        SliderPhoto = s.SliderPhoto,
+                        ModifiedBy = model.store.Name,
+                        ModifiedDate = DateTime.Now,
+                        IsDeleted = false,
+                        StoreId = model.store.Id,
+                    };
+                    db.StoreSlider.AddObject(addnew);
+                    db.SaveChanges();
+                }
+                    #endregion
+               
                 Alert alert = (from x in this.db.Alert where x.Id == 4 select x).FirstOrDefault<Alert>();
                 Backbone.SendEmailNotificationToUser(db,alert.SubjectEmail, alert.Email.Replace("%Store_Name%", model.store.Name).Replace("%Year%", DateTime.Now.Year.ToString()), model.store.ContactInfo.FirstOrDefault<ContactInfo>().EmailAddress, Settings.Default.EmailReplyTo, alert.Id);
                 Backbone.SendSMSNotificationToUser(db,alert.SubjectSms, alert.Sms.Replace("%Store_Name%", model.store.Name), model.store.ContactInfo.FirstOrDefault().MobileNo, alert.SubjectSms, alert.Id);
@@ -1481,6 +1574,7 @@ namespace Project.Controllers
                     services.SendEmailNotificationToAdmin(db,GetDirectorMsg.Title, GetDirectorMsg.Email.Replace("%First_Name%", u.UserName).Replace("%Store_Name%", model.store.Name).Replace("%Country%", model.store.Country.Name), GetUserInformation.EmailAddres, Settings.Default.EmailReplyTo, GetDirectorMsg.Id);
                 }
                 #endregion                
+
                 return RedirectToAction("Feedback", "StoreRegistration", new { Id = model.store.ProcessInstaceId, area = "" });
             }
             catch(Exception ex)

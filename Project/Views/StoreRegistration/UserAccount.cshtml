@@ -159,13 +159,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if (Model.userDetail != null)
+                                        @if (Model.LoginDetails != null)
                                         {
                                             <tr style="font-size: 12px;">
 
-                                                <td>@Model.userDetail.Users.UserName</td>
+                                                <td>@Model.LoginDetails.Users.UserName</td>
                                                 <td><span>***************</span> <span style="color:red">(Password is hidden for security purpose.)</span></td>
-                                                <td>@Model.userDetail.EmailAddres</td>
+                                                <td>@Model.LoginDetails.Email</td>
                                                 <td>
                                                    
                                                 </td>

@@ -16,7 +16,9 @@
 }
 <div class="widget-header">
     <a href="@Url.Action("EditStore", "Store", new { area="Setup", Id=Model.store.Id})" class="btn btn-danger btn-xs">Store Profile</a> <a href="@Url.Action("SliderList", "Store", new { area="Setup", Id=Model.store.ProcessInstaceId})" class="btn btn-success btn-xs">Store Slider</a>
-    <a href="@Url.Action("CollectionList", "Store", new { area="Setup", Id=Model.store.ProcessInstaceId})" class="btn btn-warning btn-xs">Store Images Collections</a>
+    <a href="@Url.Action("CollectionList", "Store", new { area="Setup", Id=Model.store.ProcessInstaceId})" class="btn btn-warning btn-xs">Store Images Collections</a> <a href="@Url.Action("TestimonialList", "Store", new { area="Setup", Id=Model.store.ProcessInstaceId})" class="btn btn-warning btn-xs">Testimonials</a>
+    <a href="@Url.Action("MenuList", "Store", new { area="Setup", Id=Model.store.ProcessInstaceId})" class="btn btn-primary btn-xs">Menu Items</a>
+    <a href="@Url.Action("StorePaymentMethod", "Store", new { area="Setup", Id=Model.store.ProcessInstaceId})" class="btn btn-primary btn-xs">Payment Method</a>
 </div>
 <br />
 
@@ -45,7 +47,7 @@
                 <div class="visual red">
                     <div class="statbox-sparkline">30,20,15,30,22,25,26,30,27</div>
                 </div>
-                <div class="title">oUR customers</div>
+                <div class="title">Our customers</div>
                 <div class="value">0</div>
                 <a class="more" href="@Url.Action("StoreCategory", "Dashboard", new { area="Admin", Id=Model.store.ProcessInstaceId})">Manage <i class="pull-right icon-angle-right"></i></a>
 

@@ -1,0 +1,149 @@
+﻿@model Project.Areas.Setup.Models.PaymentMethodViewModel
+@using Project.HtmlHelpers
+@{
+    ViewBag.Title = "Payment Method List";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.IsGreetings = "true";
+}
+@section Crumbs{
+    <div class="crumbs">
+
+        <ul class="breadcrumb" id="breadcrumbs">
+            <li> <i class="icon-home"></i> <a href="@Url.Action("Index", "Dashboard", new { area="Admin"})">Dashboard</a> </li>
+            <li class="current"> <a title="" href="javascript: return void(0)"></a>Payment Method List </li>
+        </ul>
+    </div>
+}
+
+<link href="~/Content/Backend/DataTable/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="~/Content/Backend/DataTable/css/buttons.dataTables.min.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-md-12">
+        <div class="widget-header">
+            <h4></h4>
+        </div>
+        <div class="widget-content">
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-md-12">
+                 
+                    <a class = "btn btn-xs btn-warning"  href="@Url.Action("Index", "Dashboard", new { area="Admin"})">Back</a>
+                    @Html.ActionLink("New Payment Method", "NewPaymentLogo", null, new { @class = "btn btn-xs btn-success" })
+                </div>
+
+            </div>
+
+            <table class="table table-striped table-bordered table-hover" id="coverNone">
+                <thead>
+                    <tr>
+                        <th>
+                            S/N
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Logo
+                        </th>
+                        <th>
+                            Modified By
+                        </th>
+                        <th>
+                            Modified Date
+                        </th>
+                        <th>
+                            Is Deleted
+                        </th>
+
+
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.paymentMethods.Count != 0)
+                    {
+
+                        int i = 0;
+                        foreach (var item in Model.paymentMethods)
+                        {
+                            ++i;
+                            <tr>
+                                <td>
+                                    @i
+
+                                </td>
+                                <td>
+                                    @item.Name
+                                </td>
+                                <td>
+                                    <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + item.LogoPath })" height="32" width="51" />
+                                </td>
+
+                                <td>
+                                    @item.ModifiedBy
+                                </td>
+                                <td>
+                                    @item.ModifiedDate
+                                </td>
+
+
+                                <td>
+                                    @if (item.IsDeleted == true)
+                                    {
+                                        <span class="label label-info">Yes</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="label label-warning">No</span>
+                                    }
+
+                                </td>
+
+                                <td>
+                                    <a class="btn btn-xs btn-success" href="@Url.Action("EditPaymentLogo", "PaymentMethod", new { area="Setup", Id = item.Id})">Edit</a>
+                                </td>
+                            </tr>
+
+                        }
+
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="99">No Records Found!...</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<script src="~/Content/Backend/DataTable/js/jquery.dataTables.min.js"></script>
+<script src="~/Content/Backend/DataTable/js/dataTables.buttons.min.js"></script>
+<script src="~/Content/Backend/DataTable/js/buttons.flash.min.js"></script>
+<script src="~/Content/Backend/DataTable/js/buttons.html5.min.js"></script>
+<script src="~/Content/Backend/DataTable/js/buttons.print.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#coverNone').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'excel', 'pdf'
+            ]
+        });
+
+    });
+
+    function DeleteConfirm() {
+        if (confirm("Are you sure want to remove this member?"))
+            return true;
+        else
+            return false;
+    }
+
+
+</script>

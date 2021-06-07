@@ -19,6 +19,7 @@ namespace Project.Models
        
         public Store store { get; set; }
         public UserDetail userDetail { get; set; }
+        public Memberships LoginDetails { get; set; }
         public TempUser tempUser { get; set; }
 
        
@@ -33,6 +34,7 @@ namespace Project.Models
         public List<AddressBook> addressList { get; set; }
 
         public List<SelectListItem> CountryList { get; set; }
+        public List<SelectListItem> ThemesList { get; set; }
 
 
         //list items

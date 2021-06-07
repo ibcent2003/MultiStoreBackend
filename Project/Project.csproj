@@ -218,6 +218,8 @@
     <Compile Include="Areas\SecurityGuard\Models\UserViewModel.cs" />
     <Compile Include="Areas\SecurityGuard\SecurityGuardAreaRegistration.cs" />
     <Compile Include="Areas\Setup\Controllers\AlertManagementController.cs" />
+    <Compile Include="Areas\Setup\Controllers\MenuTypeController.cs" />
+    <Compile Include="Areas\Setup\Controllers\PaymentMethodController.cs" />
     <Compile Include="Areas\Setup\Controllers\ProductManagementController.cs" />
     <Compile Include="Areas\Setup\Controllers\SizeManagementController.cs" />
     <Compile Include="Areas\Setup\Controllers\ProductColorController.cs" />
@@ -228,6 +230,8 @@
     <Compile Include="Areas\Setup\Controllers\WorkFlowController.cs" />
     <Compile Include="Areas\Setup\Models\AlertViewModel.cs" />
     <Compile Include="Areas\Setup\Models\DocumentTypeViewModel.cs" />
+    <Compile Include="Areas\Setup\Models\MenuTypeViewModel.cs" />
+    <Compile Include="Areas\Setup\Models\PaymentMethodViewModel.cs" />
     <Compile Include="Areas\Setup\Models\ProductBrandViewModel.cs" />
     <Compile Include="Areas\Setup\Models\ProductCategoryModel.cs" />
     <Compile Include="Areas\Setup\Models\ProductChildModel.cs" />
@@ -1474,6 +1478,18 @@
     <Content Include="Areas\Setup\Views\Store\EditSlider.cshtml" />
     <Content Include="Areas\Setup\Views\Store\CollectionList.cshtml" />
     <Content Include="Areas\Setup\Views\Store\EditCollection.cshtml" />
+    <Content Include="Areas\Setup\Views\MenuType\Index.cshtml" />
+    <Content Include="Areas\Setup\Views\MenuType\NewMenuType.cshtml" />
+    <Content Include="Areas\Setup\Views\MenuType\EditMenuType.cshtml" />
+    <Content Include="Areas\Setup\Views\Store\TestimonialList.cshtml" />
+    <Content Include="Areas\Setup\Views\Store\NewTestimonial.cshtml" />
+    <Content Include="Areas\Setup\Views\Store\EditTestimonial.cshtml" />
+    <Content Include="Areas\Setup\Views\Store\MenuList.cshtml" />
+    <Content Include="Areas\Setup\Views\Store\EditMenu.cshtml" />
+    <Content Include="Areas\Setup\Views\PaymentMethod\Index.cshtml" />
+    <Content Include="Areas\Setup\Views\PaymentMethod\NewPaymentLogo.cshtml" />
+    <Content Include="Areas\Setup\Views\PaymentMethod\EditPaymentLogo.cshtml" />
+    <Content Include="Areas\Setup\Views\Store\StorePaymentMethod.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="MvcInstaller\ajax-loader.gif" />
     <Content Include="MvcInstaller\jquery-1.6.1.min.js" />
