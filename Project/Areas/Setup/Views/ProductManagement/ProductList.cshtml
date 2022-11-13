@@ -42,9 +42,9 @@
                             <th>
                                  Price
                             </th>
-                            @*<th>
-                                Acutal Price
-                            </th>*@
+                            <th>
+                                Weight(In kg)
+                            </th>
                             <th>
                                 Qty
                             </th>
@@ -83,9 +83,9 @@
                                     <td>
                                         <span class="label label-danger"> <strong>₦@String.Format("{0:n0}", item.DiscountPrice)</strong></span>
                                     </td>
-                                    @*<td>
-                                        <span class="label label-success"> <strong>₦@String.Format("{0:n0}", item.AcutalPrice)</strong></span>
-                                    </td>*@
+                                    <td>
+                                        <span class="label label-success"> <strong>@item.Weight</strong></span>
+                                    </td>
 
                                     <td>
                                         <span class="label label-info"> <strong>@item.Quantity</strong></span>

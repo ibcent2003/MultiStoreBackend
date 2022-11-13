@@ -97,8 +97,6 @@ namespace Project.Areas.Setup.Controllers
             }
         }
 
-
-
         public ActionResult EditSize(int Id)
         {
             try
@@ -128,7 +126,6 @@ namespace Project.Areas.Setup.Controllers
                 return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
             }
         }
-
 
         [HttpPost]
         public ActionResult EditSize(SizeManagementViewModel model)
@@ -207,7 +204,6 @@ namespace Project.Areas.Setup.Controllers
                 return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
             }
         }
-
 
         [HttpPost]
         public ActionResult EditSizeType(SizeManagementViewModel model)

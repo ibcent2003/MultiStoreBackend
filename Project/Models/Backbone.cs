@@ -27,11 +27,107 @@ namespace Project.Models
 
         }
 
+        //public static List<ProductOrder> GetStoreRegisteredCustomers(PROEntities db, int Id)
+        //{
+        //    var store = db.ProductOrder.Where(x => x.StoreId == Id).Select(x=>x.UserId).Distinct().ToList();
+        //    return store;
+
+        //}
+
+        public static StoreProduct GetProduct(PROEntities db, int Id, int PId)
+        {
+            var store = db.Store.Where(x => x.Id == Id).FirstOrDefault();
+            var product = store.StoreProduct.Where(x => x.Id == PId).FirstOrDefault();
+            return product;
+
+        }
+
+        public static List<StoreProduct> GetReoderProductLevel(PROEntities db, int Id)
+        {
+            var store = db.Store.Where(x => x.Id == Id).FirstOrDefault();
+            var product = store.StoreProduct.Where(x => x.ReorderLevel >= x.Quantity).ToList();
+            return product;
+
+        }
+
+        public static List<ProductOrder> GetStoreRecentOrder(PROEntities db, int Id)
+        {
+            var store = db.Store.Where(x => x.Id == Id).FirstOrDefault();
+            var GetOrder = store.ProductOrder.Where(x => x.ConfirmBy == null && x.CancelledOrder!= true && x.OrderStatus != "Payment Cancelled").OrderByDescending(x=>x.OrderDate).Take(10).ToList();
+            return GetOrder;
+
+        }
+        public static List<ProductOrder> GetStoreNewOrder(PROEntities db, int Id)
+        {
+            var store = db.Store.Where(x => x.Id == Id).FirstOrDefault();
+            var GetOrder = store.ProductOrder.Where(x=>x.OrderStatus=="Order Placed").ToList();
+            return GetOrder;
+
+        }
+        public static List<ProductOrder> GetStoreOverallOrder(PROEntities db, int Id)
+        {
+            var store = db.Store.Where(x => x.Id == Id).FirstOrDefault();
+            var GetOrder = store.ProductOrder.ToList();
+            return GetOrder;
+
+        }
+        public static List<ProductOrder> GetStoreConfirmOrder(PROEntities db, int Id)
+        {
+            var store = db.Store.Where(x => x.Id == Id).FirstOrDefault();
+            var GetOrder = store.ProductOrder.Where(x => x.OrderStatus == "Confirmed").ToList();
+            return GetOrder;
+        }
+        public static List<ProductOrder> GetStoreConfirmPayment(PROEntities db, int Id)
+        {
+            var store = db.Store.Where(x => x.Id == Id).FirstOrDefault();
+            var GetOrder = store.ProductOrder.Where(x => x.OrderStatus == "Paid").ToList();
+            return GetOrder;
+        }
+
+        public static List<ProductOrder> GetStoreCancelledOrder(PROEntities db, int Id)
+        {
+            var store = db.Store.Where(x => x.Id == Id).FirstOrDefault();
+            var GetOrder = store.ProductOrder.Where(x => x.OrderStatus == "Cancelled").ToList();
+            return GetOrder;
+
+        }
+
+        public static List<ProductOrder> GetStoreCancelledPayment(PROEntities db, int Id)
+        {
+            var store = db.Store.Where(x => x.Id == Id).FirstOrDefault();
+            var GetOrder = store.ProductOrder.Where(x => x.OrderStatus == "Payment Cancelled").ToList();
+            return GetOrder;
+
+        }
+
+        public static List<ProductOrder> GetStoreNewOrderList(PROEntities db, string OrderNo)
+        {
+           // var store = db.Store.Where(x => x.Id == Id).FirstOrDefault();
+            var GetOrder = db.ProductOrder.Where(x => x.OrderNo == OrderNo).ToList();
+            return GetOrder;
+
+        }
+
         public static List<StoreSlider> GetStoreSlider(PROEntities db, Guid Id)
         {
             var store = db.Store.Where(x => x.ProcessInstaceId == Id).FirstOrDefault();
             var GetSlider = store.StoreSlider.ToList();
             return GetSlider;
+
+        }
+
+        public static ProductOrder GetOrder(PROEntities db, string OrderNo, int cId)
+        {
+            var order = db.ProductOrder.Where(x => x.OrderNo == OrderNo && x.CartId==cId).FirstOrDefault();
+            return order;
+
+        }
+
+        public static List<CartItem> GetCartItems(PROEntities db, Guid Id, int CartId)
+        {
+            var store = db.Store.Where(x => x.ProcessInstaceId == Id).FirstOrDefault();
+            var Getitems= db.CartItem.Where(x=>x.CartId==CartId).ToList();
+            return Getitems;
 
         }
 
@@ -508,10 +604,6 @@ namespace Project.Models
         }
 
         #endregion
-
-
-
-
 
     }
 }

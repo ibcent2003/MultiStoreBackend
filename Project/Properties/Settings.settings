@@ -41,5 +41,8 @@
     <Setting Name="PaymentLogo" Type="System.String" Scope="Application">
       <Value Profile="(Default)">C:\FortressDocuments\PaymentLogo\</Value>
     </Setting>
+    <Setting Name="Keephere" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">G:\HostingSpaces\raukzdup\backend.fortressenterprise.com.ng\wwwroot\Content\Backend\FortressDocuments\ImageCollections\</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

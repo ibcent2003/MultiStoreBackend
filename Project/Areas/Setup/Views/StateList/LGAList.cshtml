@@ -1,0 +1,84 @@
+﻿@model Project.Areas.Setup.Models.StateViewModel
+@using Project.HtmlHelpers
+@{
+    ViewBag.Title = "LGA Management";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.IsGreetings = "true";}
+
+@section Crumbs{
+    <div class="crumbs">
+
+        <ul class="breadcrumb" id="breadcrumbs">
+            <li> <i class="icon-home"></i> <a href="@Url.Action("Index", "Dashboard", new { area="Admin"})">Dashboard</a> </li>
+            <li class="current"> <a title="" href="javascript: return void(0)">LGA Management</a> </li>
+        </ul>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="widget-header">
+            <a class="btn btn-xs btn-warning" href="@Url.Action("Index", "StateList", new { area="Setup"})">Back</a>  <a class="btn btn-xs btn-success" href="@Url.Action("NewLga", "StateList", new { Id=Model.state.Id,area="Setup"})">New LGA</a>
+        </div>
+        <br />
+        <div class="widget-content">
+            <table class="table table-striped table-bordered table-hover table-checkable datatable dataTable">
+                <thead>
+                    <tr style="font-size: 12px;">
+                        <th>S/N</th>
+                        <th>Name</th>
+                       
+                        <th>Modified By</th>
+                        <th>Modified Date</th>
+
+                        <th>Action</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.lgas.Count != 0)
+                    {
+                        int i = 0;
+                        foreach (var item in Model.lgas)
+                        {
+                            ++i;
+                            <tr style="font-size: 12px;">
+                                <td>
+                                    @i
+                                </td>
+                                <td>@item.Name</td>                                                                
+                                <td>@item.ModifiedBy</td>
+                                <td>@item.ModifiedDate.ToShortDateString()</td>
+                                <td>
+                                    <a class="btn btn-xs btn-danger" href="@Url.Action("Edit", "StateList", new { area="Setup", Id = item.Id})">Edit</a>
+                                </td>
+
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="8">No Records Found!...</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/Content/Backend/plugins/datatables/jquery.dataTables.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/datatables/tabletools/TableTools.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/datatables/colvis/ColVis.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/datatables/DT_bootstrap.js")
+    <script>
+        "use strict";
+
+    </script>
+}
+
+

@@ -76,6 +76,33 @@
           <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="256" />
         </EntityType>
+        <EntityType Name="Cart">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" />
+          <Property Name="ShoppingId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="CheckedOut" Type="bit" Nullable="false" />
+          <Property Name="DeliveryFee" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="PaymentMethodId" Type="int" />
+        </EntityType>
+        <EntityType Name="CartItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CartId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="DeliveryFee" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="StateTransitFee" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="TotalDeliveryFee" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Weight" Type="int" Nullable="false" />
+          <Property Name="IsSaved" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="ContactInfo">
           <Key>
             <PropertyRef Name="Id" />
@@ -98,6 +125,29 @@
           <Property Name="CurrencyCode" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ModifiedDate" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustomerAddress">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="CustomerAddressBookId" />
+          </Key>
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CustomerAddressBookId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustomerAddressBook">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsDefault" Type="bit" Nullable="false" />
+          <Property Name="Street" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LgaId" Type="int" Nullable="false" />
+          <Property Name="MobileNo" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModfiedDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="DataGenerator">
@@ -233,6 +283,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PageName" Type="varchar" MaxLength="50" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
@@ -307,6 +358,48 @@
           <Property Name="ProductId" Type="int" Nullable="false" />
           <Property Name="ColorId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="ProductOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderNo" Type="varchar" MaxLength="50" />
+          <Property Name="OrderDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="DeliveryDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="AddressBookId" Type="int" Nullable="false" />
+          <Property Name="CartId" Type="int" Nullable="false" />
+          <Property Name="PaymentTypeId" Type="int" Nullable="false" />
+          <Property Name="IsDelivered" Type="bit" Nullable="false" />
+          <Property Name="CancelledOrder" Type="bit" Nullable="false" />
+          <Property Name="HasPaid" Type="bit" Nullable="false" />
+          <Property Name="ConfirmOrder" Type="bit" Nullable="false" />
+          <Property Name="ConfirmBy" Type="varchar" MaxLength="50" />
+          <Property Name="OrderStatus" Type="varchar" MaxLength="50" />
+          <Property Name="ConfirmDate" Type="datetime2" Precision="7" />
+          <Property Name="StoreId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductReview">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="CartId" Type="int" Nullable="false" />
+          <Property Name="FullName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Review" Type="varchar(max)" Nullable="false" />
+          <Property Name="ReviewDate" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductSaved">
+          <Key>
+            <PropertyRef Name="CartId" />
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="CartId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="ProductSize">
           <Key>
             <PropertyRef Name="ProductId" />
@@ -378,6 +471,17 @@
           <Property Name="RoleName" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="256" />
         </EntityType>
+        <EntityType Name="ShippingCost">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Fees" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Size">
           <Key>
             <PropertyRef Name="Id" />
@@ -422,6 +526,8 @@
           <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="CountryId" Type="int" />
+          <Property Name="Fees" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="StateTransit" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Store">
           <Key>
@@ -472,6 +578,18 @@
           <Property Name="StoreId" Type="int" Nullable="false" />
           <Property Name="ContactInfoId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="StoreContactUs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Subject" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Message" Type="varchar(max)" Nullable="false" />
+          <Property Name="SentDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="StoreId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="StoreImageCollection">
           <Key>
             <PropertyRef Name="Id" />
@@ -521,6 +639,8 @@
           <Property Name="HasSize" Type="bit" Nullable="false" />
           <Property Name="HasSales" Type="bit" Nullable="false" />
           <Property Name="NoOfView" Type="int" Nullable="false" />
+          <Property Name="Weight" Type="int" Nullable="false" />
+          <Property Name="ShippingCostId" Type="int" Nullable="false" />
           <Property Name="ProductCategoryId" Type="int" Nullable="false" />
           <Property Name="ProductSubCategoryId" Type="int" Nullable="false" />
           <Property Name="ProductChildCategoryId" Type="int" Nullable="false" />
@@ -654,6 +774,19 @@
           <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
+        <EntityType Name="Verification">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar(max)" Nullable="false" />
+          <Property Name="EmailVarification" Type="bit" />
+          <Property Name="ActivationCode" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OTP" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Workflow">
           <Key>
             <PropertyRef Name="Id" />
@@ -760,6 +893,78 @@
             </Principal>
             <Dependent Role="AlertNotification">
               <PropertyRef Name="AlertTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cart_PaymentMethod">
+          <End Role="PaymentMethod" Type="Self.PaymentMethod" Multiplicity="0..1" />
+          <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentMethod">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Cart">
+              <PropertyRef Name="PaymentMethodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItem_Cart">
+          <End Role="Cart" Type="Self.Cart" Multiplicity="1" />
+          <End Role="CartItem" Type="Self.CartItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cart">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CartItem">
+              <PropertyRef Name="CartId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItem_StoreProduct">
+          <End Role="StoreProduct" Type="Self.StoreProduct" Multiplicity="1" />
+          <End Role="CartItem" Type="Self.CartItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StoreProduct">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CartItem">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerAddress_CustomerAddressBook">
+          <End Role="CustomerAddressBook" Type="Self.CustomerAddressBook" Multiplicity="1" />
+          <End Role="CustomerAddress" Type="Self.CustomerAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerAddressBook">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerAddress">
+              <PropertyRef Name="CustomerAddressBookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerAddress_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="CustomerAddress" Type="Self.CustomerAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="CustomerAddress">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerAddressBook_LGA">
+          <End Role="LGA" Type="Self.LGA" Multiplicity="1" />
+          <End Role="CustomerAddressBook" Type="Self.CustomerAddressBook" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LGA">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerAddressBook">
+              <PropertyRef Name="LgaId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -919,6 +1124,114 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ProductOrder_Cart">
+          <End Role="Cart" Type="Self.Cart" Multiplicity="1" />
+          <End Role="ProductOrder" Type="Self.ProductOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cart">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductOrder">
+              <PropertyRef Name="CartId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductOrder_CustomerAddressBook">
+          <End Role="CustomerAddressBook" Type="Self.CustomerAddressBook" Multiplicity="1" />
+          <End Role="ProductOrder" Type="Self.ProductOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerAddressBook">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductOrder">
+              <PropertyRef Name="AddressBookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductOrder_PaymentMethod">
+          <End Role="PaymentMethod" Type="Self.PaymentMethod" Multiplicity="1" />
+          <End Role="ProductOrder" Type="Self.ProductOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentMethod">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductOrder">
+              <PropertyRef Name="PaymentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductOrder_Store">
+          <End Role="Store" Type="Self.Store" Multiplicity="1" />
+          <End Role="ProductOrder" Type="Self.ProductOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductOrder">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductOrder_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="ProductOrder" Type="Self.ProductOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ProductOrder">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductReview_Cart">
+          <End Role="Cart" Type="Self.Cart" Multiplicity="1" />
+          <End Role="ProductReview" Type="Self.ProductReview" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cart">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductReview">
+              <PropertyRef Name="CartId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductReview_StoreProduct">
+          <End Role="StoreProduct" Type="Self.StoreProduct" Multiplicity="1" />
+          <End Role="ProductReview" Type="Self.ProductReview" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StoreProduct">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductReview">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductSaved_Cart">
+          <End Role="Cart" Type="Self.Cart" Multiplicity="1" />
+          <End Role="ProductSaved" Type="Self.ProductSaved" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cart">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductSaved">
+              <PropertyRef Name="CartId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductSaved_StoreProduct">
+          <End Role="StoreProduct" Type="Self.StoreProduct" Multiplicity="1" />
+          <End Role="ProductSaved" Type="Self.ProductSaved" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StoreProduct">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductSaved">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ProductSize_Size">
           <End Role="Size" Type="Self.Size" Multiplicity="1" />
           <End Role="ProductSize" Type="Self.ProductSize" Multiplicity="*" />
@@ -1063,6 +1376,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StoreContactUs_Store">
+          <End Role="Store" Type="Self.Store" Multiplicity="1" />
+          <End Role="StoreContactUs" Type="Self.StoreContactUs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreContactUs">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_StoreImageCollection_ImageCollection">
           <End Role="ImageCollection" Type="Self.ImageCollection" Multiplicity="1" />
           <End Role="StoreImageCollection" Type="Self.StoreImageCollection" Multiplicity="*" />
@@ -1180,6 +1505,18 @@
             </Principal>
             <Dependent Role="StoreProduct">
               <PropertyRef Name="ProductSubCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreProduct_ShippingCost">
+          <End Role="ShippingCost" Type="Self.ShippingCost" Multiplicity="1" />
+          <End Role="StoreProduct" Type="Self.StoreProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShippingCost">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreProduct">
+              <PropertyRef Name="ShippingCostId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1526,8 +1863,12 @@
           <EntitySet Name="AlertNotification" EntityType="Self.AlertNotification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AlertType" EntityType="Self.AlertType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Applications" EntityType="Self.Applications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cart" EntityType="Self.Cart" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CartItem" EntityType="Self.CartItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContactInfo" EntityType="Self.ContactInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerAddress" EntityType="Self.CustomerAddress" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerAddressBook" EntityType="Self.CustomerAddressBook" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DataGenerator" EntityType="Self.DataGenerator" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="District" EntityType="Self.District" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentCategory" EntityType="Self.DocumentCategory" Schema="dbo" store:Type="Tables" />
@@ -1547,6 +1888,9 @@
           <EntitySet Name="ProductChildCategory" EntityType="Self.ProductChildCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductColor" EntityType="Self.ProductColor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductInColor" EntityType="Self.ProductInColor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductOrder" EntityType="Self.ProductOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductReview" EntityType="Self.ProductReview" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductSaved" EntityType="Self.ProductSaved" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductSize" EntityType="Self.ProductSize" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductSubCategory" EntityType="Self.ProductSubCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Profiles" EntityType="Self.Profiles" Schema="dbo" store:Type="Tables" />
@@ -1554,6 +1898,7 @@
           <EntitySet Name="Resource" EntityType="Self.Resource" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ResourcesInRole" EntityType="Self.ResourcesInRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShippingCost" EntityType="Self.ShippingCost" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Size" EntityType="Self.Size" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SizeType" EntityType="Self.SizeType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SliderTemplate" EntityType="Self.SliderTemplate" Schema="dbo" store:Type="Tables" />
@@ -1562,6 +1907,7 @@
           <EntitySet Name="StoreAction" EntityType="Self.StoreAction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreAddressBook" EntityType="Self.StoreAddressBook" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreContactInfo" EntityType="Self.StoreContactInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StoreContactUs" EntityType="Self.StoreContactUs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreImageCollection" EntityType="Self.StoreImageCollection" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StoreInProduct" EntityType="Self.StoreInProduct" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StorePaymentMethod" EntityType="Self.StorePaymentMethod" Schema="dbo" store:Type="Tables" />
@@ -1579,6 +1925,7 @@
           <EntitySet Name="UserDetail" EntityType="Self.UserDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UsersInRoles" EntityType="Self.UsersInRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Verification" EntityType="Self.Verification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Workflow" EntityType="Self.Workflow" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkFlowActions" EntityType="Self.WorkFlowActions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkflowStepActions" EntityType="Self.WorkflowStepActions" Schema="dbo" store:Type="Tables" />
@@ -1602,6 +1949,30 @@
           <AssociationSet Name="FK_AlertNotification_AlertType" Association="Self.FK_AlertNotification_AlertType">
             <End Role="AlertType" EntitySet="AlertType" />
             <End Role="AlertNotification" EntitySet="AlertNotification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cart_PaymentMethod" Association="Self.FK_Cart_PaymentMethod">
+            <End Role="PaymentMethod" EntitySet="PaymentMethod" />
+            <End Role="Cart" EntitySet="Cart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItem_Cart" Association="Self.FK_CartItem_Cart">
+            <End Role="Cart" EntitySet="Cart" />
+            <End Role="CartItem" EntitySet="CartItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItem_StoreProduct" Association="Self.FK_CartItem_StoreProduct">
+            <End Role="StoreProduct" EntitySet="StoreProduct" />
+            <End Role="CartItem" EntitySet="CartItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerAddress_CustomerAddressBook" Association="Self.FK_CustomerAddress_CustomerAddressBook">
+            <End Role="CustomerAddressBook" EntitySet="CustomerAddressBook" />
+            <End Role="CustomerAddress" EntitySet="CustomerAddress" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerAddress_Users" Association="Self.FK_CustomerAddress_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="CustomerAddress" EntitySet="CustomerAddress" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerAddressBook_LGA" Association="Self.FK_CustomerAddressBook_LGA">
+            <End Role="LGA" EntitySet="LGA" />
+            <End Role="CustomerAddressBook" EntitySet="CustomerAddressBook" />
           </AssociationSet>
           <AssociationSet Name="FK_District_Region" Association="Self.FK_District_Region">
             <End Role="Region" EntitySet="Region" />
@@ -1655,6 +2026,42 @@
             <End Role="StoreProduct" EntitySet="StoreProduct" />
             <End Role="ProductInColor" EntitySet="ProductInColor" />
           </AssociationSet>
+          <AssociationSet Name="FK_ProductOrder_Cart" Association="Self.FK_ProductOrder_Cart">
+            <End Role="Cart" EntitySet="Cart" />
+            <End Role="ProductOrder" EntitySet="ProductOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductOrder_CustomerAddressBook" Association="Self.FK_ProductOrder_CustomerAddressBook">
+            <End Role="CustomerAddressBook" EntitySet="CustomerAddressBook" />
+            <End Role="ProductOrder" EntitySet="ProductOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductOrder_PaymentMethod" Association="Self.FK_ProductOrder_PaymentMethod">
+            <End Role="PaymentMethod" EntitySet="PaymentMethod" />
+            <End Role="ProductOrder" EntitySet="ProductOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductOrder_Store" Association="Self.FK_ProductOrder_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="ProductOrder" EntitySet="ProductOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductOrder_Users" Association="Self.FK_ProductOrder_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ProductOrder" EntitySet="ProductOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductReview_Cart" Association="Self.FK_ProductReview_Cart">
+            <End Role="Cart" EntitySet="Cart" />
+            <End Role="ProductReview" EntitySet="ProductReview" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductReview_StoreProduct" Association="Self.FK_ProductReview_StoreProduct">
+            <End Role="StoreProduct" EntitySet="StoreProduct" />
+            <End Role="ProductReview" EntitySet="ProductReview" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductSaved_Cart" Association="Self.FK_ProductSaved_Cart">
+            <End Role="Cart" EntitySet="Cart" />
+            <End Role="ProductSaved" EntitySet="ProductSaved" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductSaved_StoreProduct" Association="Self.FK_ProductSaved_StoreProduct">
+            <End Role="StoreProduct" EntitySet="StoreProduct" />
+            <End Role="ProductSaved" EntitySet="ProductSaved" />
+          </AssociationSet>
           <AssociationSet Name="FK_ProductSize_Size" Association="Self.FK_ProductSize_Size">
             <End Role="Size" EntitySet="Size" />
             <End Role="ProductSize" EntitySet="ProductSize" />
@@ -1703,6 +2110,10 @@
             <End Role="Store" EntitySet="Store" />
             <End Role="StoreContactInfo" EntitySet="StoreContactInfo" />
           </AssociationSet>
+          <AssociationSet Name="FK_StoreContactUs_Store" Association="Self.FK_StoreContactUs_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="StoreContactUs" EntitySet="StoreContactUs" />
+          </AssociationSet>
           <AssociationSet Name="FK_StoreImageCollection_ImageCollection" Association="Self.FK_StoreImageCollection_ImageCollection">
             <End Role="ImageCollection" EntitySet="ImageCollection" />
             <End Role="StoreImageCollection" EntitySet="StoreImageCollection" />
@@ -1741,6 +2152,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_StoreProduct_ProductSubCategory" Association="Self.FK_StoreProduct_ProductSubCategory">
             <End Role="ProductSubCategory" EntitySet="ProductSubCategory" />
+            <End Role="StoreProduct" EntitySet="StoreProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreProduct_ShippingCost" Association="Self.FK_StoreProduct_ShippingCost">
+            <End Role="ShippingCost" EntitySet="ShippingCost" />
             <End Role="StoreProduct" EntitySet="StoreProduct" />
           </AssociationSet>
           <AssociationSet Name="FK_StoreProductCategory_ProductCategory" Association="Self.FK_StoreProductCategory_ProductCategory">
@@ -1867,8 +2282,11 @@
           <EntitySet Name="AlertNotification" EntityType="PROModel.AlertNotification" />
           <EntitySet Name="AlertType" EntityType="PROModel.AlertType" />
           <EntitySet Name="Applications" EntityType="PROModel.Applications" />
+          <EntitySet Name="Cart" EntityType="PROModel.Cart" />
+          <EntitySet Name="CartItem" EntityType="PROModel.CartItem" />
           <EntitySet Name="ContactInfo" EntityType="PROModel.ContactInfo" />
           <EntitySet Name="Country" EntityType="PROModel.Country" />
+          <EntitySet Name="CustomerAddressBook" EntityType="PROModel.CustomerAddressBook" />
           <EntitySet Name="DataGenerator" EntityType="PROModel.DataGenerator" />
           <EntitySet Name="District" EntityType="PROModel.District" />
           <EntitySet Name="DocumentCategory" EntityType="PROModel.DocumentCategory" />
@@ -1880,28 +2298,36 @@
           <EntitySet Name="Memberships" EntityType="PROModel.Memberships" />
           <EntitySet Name="Menu" EntityType="PROModel.Menu" />
           <EntitySet Name="MenuType" EntityType="PROModel.MenuType" />
+          <EntitySet Name="PaymentMethod" EntityType="PROModel.PaymentMethod" />
           <EntitySet Name="ProductBrand" EntityType="PROModel.ProductBrand" />
           <EntitySet Name="ProductCategory" EntityType="PROModel.ProductCategory" />
           <EntitySet Name="ProductChildCategory" EntityType="PROModel.ProductChildCategory" />
           <EntitySet Name="ProductColor" EntityType="PROModel.ProductColor" />
+          <EntitySet Name="ProductOrder" EntityType="PROModel.ProductOrder" />
+          <EntitySet Name="ProductReview" EntityType="PROModel.ProductReview" />
           <EntitySet Name="ProductSubCategory" EntityType="PROModel.ProductSubCategory" />
           <EntitySet Name="Profiles" EntityType="PROModel.Profiles" />
           <EntitySet Name="Region" EntityType="PROModel.Region" />
           <EntitySet Name="Resource" EntityType="PROModel.Resource" />
           <EntitySet Name="ResourcesInRole" EntityType="PROModel.ResourcesInRole" />
           <EntitySet Name="Roles" EntityType="PROModel.Roles" />
+          <EntitySet Name="ShippingCost" EntityType="PROModel.ShippingCost" />
           <EntitySet Name="Size" EntityType="PROModel.Size" />
           <EntitySet Name="SizeType" EntityType="PROModel.SizeType" />
+          <EntitySet Name="SliderTemplate" EntityType="PROModel.SliderTemplate" />
           <EntitySet Name="State" EntityType="PROModel.State" />
           <EntitySet Name="Store" EntityType="PROModel.Store" />
           <EntitySet Name="StoreAction" EntityType="PROModel.StoreAction" />
+          <EntitySet Name="StoreContactUs" EntityType="PROModel.StoreContactUs" />
           <EntitySet Name="StoreImageCollection" EntityType="PROModel.StoreImageCollection" />
           <EntitySet Name="StoreProduct" EntityType="PROModel.StoreProduct" />
           <EntitySet Name="StoreSlider" EntityType="PROModel.StoreSlider" />
           <EntitySet Name="TempUser" EntityType="PROModel.TempUser" />
           <EntitySet Name="Testimonial" EntityType="PROModel.Testimonial" />
+          <EntitySet Name="Themes" EntityType="PROModel.Themes" />
           <EntitySet Name="UserDetail" EntityType="PROModel.UserDetail" />
           <EntitySet Name="Users" EntityType="PROModel.Users" />
+          <EntitySet Name="Verification" EntityType="PROModel.Verification" />
           <EntitySet Name="Workflow" EntityType="PROModel.Workflow" />
           <EntitySet Name="WorkFlowActions" EntityType="PROModel.WorkFlowActions" />
           <EntitySet Name="WorkflowStepActions" EntityType="PROModel.WorkflowStepActions" />
@@ -1942,6 +2368,26 @@
             <End Role="Applications" EntitySet="Applications" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <AssociationSet Name="FK_Cart_PaymentMethod" Association="PROModel.FK_Cart_PaymentMethod">
+            <End Role="PaymentMethod" EntitySet="PaymentMethod" />
+            <End Role="Cart" EntitySet="Cart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItem_Cart" Association="PROModel.FK_CartItem_Cart">
+            <End Role="Cart" EntitySet="Cart" />
+            <End Role="CartItem" EntitySet="CartItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductOrder_Cart" Association="PROModel.FK_ProductOrder_Cart">
+            <End Role="Cart" EntitySet="Cart" />
+            <End Role="ProductOrder" EntitySet="ProductOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductReview_Cart" Association="PROModel.FK_ProductReview_Cart">
+            <End Role="Cart" EntitySet="Cart" />
+            <End Role="ProductReview" EntitySet="ProductReview" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CartItem_StoreProduct" Association="PROModel.FK_CartItem_StoreProduct">
+            <End Role="StoreProduct" EntitySet="StoreProduct" />
+            <End Role="CartItem" EntitySet="CartItem" />
+          </AssociationSet>
           <AssociationSet Name="FK_State_Country" Association="PROModel.FK_State_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="State" EntitySet="State" />
@@ -1949,6 +2395,14 @@
           <AssociationSet Name="FK_Store_Country" Association="PROModel.FK_Store_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="Store" EntitySet="Store" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerAddressBook_LGA" Association="PROModel.FK_CustomerAddressBook_LGA">
+            <End Role="LGA" EntitySet="LGA" />
+            <End Role="CustomerAddressBook" EntitySet="CustomerAddressBook" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductOrder_CustomerAddressBook" Association="PROModel.FK_ProductOrder_CustomerAddressBook">
+            <End Role="CustomerAddressBook" EntitySet="CustomerAddressBook" />
+            <End Role="ProductOrder" EntitySet="ProductOrder" />
           </AssociationSet>
           <AssociationSet Name="FK_District_Region" Association="PROModel.FK_District_Region">
             <End Role="Region" EntitySet="Region" />
@@ -1982,6 +2436,10 @@
             <End Role="Store" EntitySet="Store" />
             <End Role="Menu" EntitySet="Menu" />
           </AssociationSet>
+          <AssociationSet Name="FK_ProductOrder_PaymentMethod" Association="PROModel.FK_ProductOrder_PaymentMethod">
+            <End Role="PaymentMethod" EntitySet="PaymentMethod" />
+            <End Role="ProductOrder" EntitySet="ProductOrder" />
+          </AssociationSet>
           <AssociationSet Name="FK_StoreProduct_ProductBrand" Association="PROModel.FK_StoreProduct_ProductBrand">
             <End Role="ProductBrand" EntitySet="ProductBrand" />
             <End Role="StoreProduct" EntitySet="StoreProduct" />
@@ -2002,6 +2460,18 @@
             <End Role="ProductChildCategory" EntitySet="ProductChildCategory" />
             <End Role="StoreProduct" EntitySet="StoreProduct" />
           </AssociationSet>
+          <AssociationSet Name="FK_ProductOrder_Store" Association="PROModel.FK_ProductOrder_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="ProductOrder" EntitySet="ProductOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductOrder_Users" Association="PROModel.FK_ProductOrder_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ProductOrder" EntitySet="ProductOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductReview_StoreProduct" Association="PROModel.FK_ProductReview_StoreProduct">
+            <End Role="StoreProduct" EntitySet="StoreProduct" />
+            <End Role="ProductReview" EntitySet="ProductReview" />
+          </AssociationSet>
           <AssociationSet Name="FK_StoreProduct_ProductSubCategory" Association="PROModel.FK_StoreProduct_ProductSubCategory">
             <End Role="ProductSubCategory" EntitySet="ProductSubCategory" />
             <End Role="StoreProduct" EntitySet="StoreProduct" />
@@ -2010,13 +2480,25 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Profiles" EntitySet="Profiles" />
           </AssociationSet>
+          <AssociationSet Name="FK_StoreProduct_ShippingCost" Association="PROModel.FK_StoreProduct_ShippingCost">
+            <End Role="ShippingCost" EntitySet="ShippingCost" />
+            <End Role="StoreProduct" EntitySet="StoreProduct" />
+          </AssociationSet>
           <AssociationSet Name="FK_Size_SizeType" Association="PROModel.FK_Size_SizeType">
             <End Role="SizeType" EntitySet="SizeType" />
             <End Role="Size" EntitySet="Size" />
           </AssociationSet>
+          <AssociationSet Name="FK_Store_Themes" Association="PROModel.FK_Store_Themes">
+            <End Role="Themes" EntitySet="Themes" />
+            <End Role="Store" EntitySet="Store" />
+          </AssociationSet>
           <AssociationSet Name="FK_StoreAction_Store" Association="PROModel.FK_StoreAction_Store">
             <End Role="Store" EntitySet="Store" />
             <End Role="StoreAction" EntitySet="StoreAction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreContactUs_Store" Association="PROModel.FK_StoreContactUs_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="StoreContactUs" EntitySet="StoreContactUs" />
           </AssociationSet>
           <AssociationSet Name="FK_StoreImageCollection_Store" Association="PROModel.FK_StoreImageCollection_Store">
             <End Role="Store" EntitySet="Store" />
@@ -2054,6 +2536,10 @@
             <End Role="WorkflowSteps" EntitySet="WorkflowSteps" />
             <End Role="WorkflowStepActions" EntitySet="WorkflowStepActions" />
           </AssociationSet>
+          <AssociationSet Name="CustomerAddress" Association="PROModel.CustomerAddress">
+            <End Role="CustomerAddressBook" EntitySet="CustomerAddressBook" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
           <AssociationSet Name="DocumentTypeFormat" Association="PROModel.DocumentTypeFormat">
             <End Role="DocumentFormat" EntitySet="DocumentFormat" />
             <End Role="DocumentType" EntitySet="DocumentType" />
@@ -2064,6 +2550,10 @@
           </AssociationSet>
           <AssociationSet Name="ProductInColor" Association="PROModel.ProductInColor">
             <End Role="ProductColor" EntitySet="ProductColor" />
+            <End Role="StoreProduct" EntitySet="StoreProduct" />
+          </AssociationSet>
+          <AssociationSet Name="ProductSaved" Association="PROModel.ProductSaved">
+            <End Role="Cart" EntitySet="Cart" />
             <End Role="StoreProduct" EntitySet="StoreProduct" />
           </AssociationSet>
           <AssociationSet Name="ProductSize" Association="PROModel.ProductSize">
@@ -2081,6 +2571,10 @@
           <AssociationSet Name="StoreInProduct" Association="PROModel.StoreInProduct">
             <End Role="Store" EntitySet="Store" />
             <End Role="StoreProduct" EntitySet="StoreProduct" />
+          </AssociationSet>
+          <AssociationSet Name="StorePaymentMethod" Association="PROModel.StorePaymentMethod">
+            <End Role="PaymentMethod" EntitySet="PaymentMethod" />
+            <End Role="Store" EntitySet="Store" />
           </AssociationSet>
           <AssociationSet Name="StoreProductCategory" Association="PROModel.StoreProductCategory">
             <End Role="ProductCategory" EntitySet="ProductCategory" />
@@ -2110,17 +2604,6 @@
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
-          <EntitySet Name="PaymentMethod" EntityType="PROModel.PaymentMethod" />
-          <AssociationSet Name="StorePaymentMethod" Association="PROModel.StorePaymentMethod">
-            <End Role="PaymentMethod" EntitySet="PaymentMethod" />
-            <End Role="Store" EntitySet="Store" />
-          </AssociationSet>
-          <EntitySet Name="Themes" EntityType="PROModel.Themes" />
-          <AssociationSet Name="FK_Store_Themes" Association="PROModel.FK_Store_Themes">
-            <End Role="Themes" EntitySet="Themes" />
-            <End Role="Store" EntitySet="Store" />
-          </AssociationSet>
-          <EntitySet Name="SliderTemplate" EntityType="PROModel.SliderTemplate" />
         </EntityContainer>
         <EntityType Name="AddressBook">
           <Key>
@@ -2205,6 +2688,40 @@
           <NavigationProperty Name="Roles" Relationship="PROModel.RoleApplication" FromRole="Applications" ToRole="Roles" />
           <NavigationProperty Name="Users" Relationship="PROModel.UserApplication" FromRole="Applications" ToRole="Users" />
         </EntityType>
+        <EntityType Name="Cart">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Guid" />
+          <Property Name="ShoppingId" Type="Guid" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CheckedOut" Type="Boolean" Nullable="false" />
+          <Property Name="DeliveryFee" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="PaymentMethodId" Type="Int32" />
+          <NavigationProperty Name="PaymentMethod" Relationship="PROModel.FK_Cart_PaymentMethod" FromRole="Cart" ToRole="PaymentMethod" />
+          <NavigationProperty Name="CartItem" Relationship="PROModel.FK_CartItem_Cart" FromRole="Cart" ToRole="CartItem" />
+          <NavigationProperty Name="ProductOrder" Relationship="PROModel.FK_ProductOrder_Cart" FromRole="Cart" ToRole="ProductOrder" />
+          <NavigationProperty Name="ProductReview" Relationship="PROModel.FK_ProductReview_Cart" FromRole="Cart" ToRole="ProductReview" />
+          <NavigationProperty Name="StoreProduct" Relationship="PROModel.ProductSaved" FromRole="Cart" ToRole="StoreProduct" />
+        </EntityType>
+        <EntityType Name="CartItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CartId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="DeliveryFee" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="StateTransitFee" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="TotalDeliveryFee" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Weight" Type="Int32" Nullable="false" />
+          <Property Name="IsSaved" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Cart" Relationship="PROModel.FK_CartItem_Cart" FromRole="CartItem" ToRole="Cart" />
+          <NavigationProperty Name="StoreProduct" Relationship="PROModel.FK_CartItem_StoreProduct" FromRole="CartItem" ToRole="StoreProduct" />
+        </EntityType>
         <EntityType Name="ContactInfo">
           <Key>
             <PropertyRef Name="Id" />
@@ -2231,6 +2748,24 @@
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="State" Relationship="PROModel.FK_State_Country" FromRole="Country" ToRole="State" />
           <NavigationProperty Name="Store" Relationship="PROModel.FK_Store_Country" FromRole="Country" ToRole="Store" />
+        </EntityType>
+        <EntityType Name="CustomerAddressBook">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsDefault" Type="Boolean" Nullable="false" />
+          <Property Name="Street" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LgaId" Type="Int32" Nullable="false" />
+          <Property Name="MobileNo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EmailAddress" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModfiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="LGA" Relationship="PROModel.FK_CustomerAddressBook_LGA" FromRole="CustomerAddressBook" ToRole="LGA" />
+          <NavigationProperty Name="ProductOrder" Relationship="PROModel.FK_ProductOrder_CustomerAddressBook" FromRole="CustomerAddressBook" ToRole="ProductOrder" />
+          <NavigationProperty Name="Users" Relationship="PROModel.CustomerAddress" FromRole="CustomerAddressBook" ToRole="Users" />
         </EntityType>
         <EntityType Name="DataGenerator">
           <Key>
@@ -2323,6 +2858,7 @@
           <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
           <NavigationProperty Name="AddressBook" Relationship="PROModel.FK_AddressBook_LGA" FromRole="LGA" ToRole="AddressBook" />
+          <NavigationProperty Name="CustomerAddressBook" Relationship="PROModel.FK_CustomerAddressBook_LGA" FromRole="LGA" ToRole="CustomerAddressBook" />
           <NavigationProperty Name="State" Relationship="PROModel.FK_LGA_State" FromRole="LGA" ToRole="State" />
         </EntityType>
         <EntityType Name="Memberships">
@@ -2358,13 +2894,13 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="StoreId" Type="Int32" Nullable="false" />
           <Property Name="MenuTypeId" Type="Int32" Nullable="false" />
+          <Property Name="HeaderType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Content" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="MenuType" Relationship="PROModel.FK_Menu_MenuType" FromRole="Menu" ToRole="MenuType" />
           <NavigationProperty Name="Store" Relationship="PROModel.FK_Menu_Store" FromRole="Menu" ToRole="Store" />
-          <Property Name="HeaderType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="MenuType">
           <Key>
@@ -2372,10 +2908,25 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PageName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Menu" Relationship="PROModel.FK_Menu_MenuType" FromRole="MenuType" ToRole="Menu" />
+        </EntityType>
+        <EntityType Name="PaymentMethod">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LogoPath" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Cart" Relationship="PROModel.FK_Cart_PaymentMethod" FromRole="PaymentMethod" ToRole="Cart" />
+          <NavigationProperty Name="ProductOrder" Relationship="PROModel.FK_ProductOrder_PaymentMethod" FromRole="PaymentMethod" ToRole="ProductOrder" />
+          <NavigationProperty Name="Store" Relationship="PROModel.StorePaymentMethod" FromRole="PaymentMethod" ToRole="Store" />
         </EntityType>
         <EntityType Name="ProductBrand">
           <Key>
@@ -2430,6 +2981,47 @@
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="StoreProduct" Relationship="PROModel.ProductInColor" FromRole="ProductColor" ToRole="StoreProduct" />
+        </EntityType>
+        <EntityType Name="ProductOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="DeliveryDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="AddressBookId" Type="Int32" Nullable="false" />
+          <Property Name="CartId" Type="Int32" Nullable="false" />
+          <Property Name="PaymentTypeId" Type="Int32" Nullable="false" />
+          <Property Name="IsDelivered" Type="Boolean" Nullable="false" />
+          <Property Name="CancelledOrder" Type="Boolean" Nullable="false" />
+          <Property Name="HasPaid" Type="Boolean" Nullable="false" />
+          <Property Name="ConfirmOrder" Type="Boolean" Nullable="false" />
+          <Property Name="ConfirmBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OrderStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ConfirmDate" Type="DateTime" Precision="7" />
+          <Property Name="StoreId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Cart" Relationship="PROModel.FK_ProductOrder_Cart" FromRole="ProductOrder" ToRole="Cart" />
+          <NavigationProperty Name="CustomerAddressBook" Relationship="PROModel.FK_ProductOrder_CustomerAddressBook" FromRole="ProductOrder" ToRole="CustomerAddressBook" />
+          <NavigationProperty Name="PaymentMethod" Relationship="PROModel.FK_ProductOrder_PaymentMethod" FromRole="ProductOrder" ToRole="PaymentMethod" />
+          <NavigationProperty Name="Store" Relationship="PROModel.FK_ProductOrder_Store" FromRole="ProductOrder" ToRole="Store" />
+          <NavigationProperty Name="Users" Relationship="PROModel.FK_ProductOrder_Users" FromRole="ProductOrder" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="ProductReview">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="CartId" Type="Int32" Nullable="false" />
+          <Property Name="FullName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Review" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ReviewDate" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Cart" Relationship="PROModel.FK_ProductReview_Cart" FromRole="ProductReview" ToRole="Cart" />
+          <NavigationProperty Name="StoreProduct" Relationship="PROModel.FK_ProductReview_StoreProduct" FromRole="ProductReview" ToRole="StoreProduct" />
         </EntityType>
         <EntityType Name="ProductSubCategory">
           <Key>
@@ -2503,6 +3095,18 @@
           <NavigationProperty Name="Store" Relationship="PROModel.StoreRole" FromRole="Roles" ToRole="Store" />
           <NavigationProperty Name="Users" Relationship="PROModel.UsersInRoles" FromRole="Roles" ToRole="Users" />
         </EntityType>
+        <EntityType Name="ShippingCost">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Fees" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="StoreProduct" Relationship="PROModel.FK_StoreProduct_ShippingCost" FromRole="ShippingCost" ToRole="StoreProduct" />
+        </EntityType>
         <EntityType Name="Size">
           <Key>
             <PropertyRef Name="Id" />
@@ -2527,6 +3131,20 @@
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Size" Relationship="PROModel.FK_Size_SizeType" FromRole="SizeType" ToRole="Size" />
         </EntityType>
+        <EntityType Name="SliderTemplate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SliderPhoto" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CaptionOne" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CaptionTwo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ButtonText" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
         <EntityType Name="State">
           <Key>
             <PropertyRef Name="Id" />
@@ -2536,6 +3154,8 @@
           <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="CountryId" Type="Int32" />
+          <Property Name="Fees" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="StateTransit" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Country" Relationship="PROModel.FK_State_Country" FromRole="State" ToRole="Country" />
           <NavigationProperty Name="LGA" Relationship="PROModel.FK_LGA_State" FromRole="State" ToRole="LGA" />
         </EntityType>
@@ -2548,6 +3168,7 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ProcessInstaceId" Type="Guid" Nullable="false" />
+          <Property Name="ThemesId" Type="Int32" />
           <Property Name="URL" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="Logo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="OwnProcurement" Type="Boolean" Nullable="false" />
@@ -2561,7 +3182,10 @@
           <Property Name="SubmissionDate" Type="DateTime" Precision="7" />
           <NavigationProperty Name="Country" Relationship="PROModel.FK_Store_Country" FromRole="Store" ToRole="Country" />
           <NavigationProperty Name="Menu" Relationship="PROModel.FK_Menu_Store" FromRole="Store" ToRole="Menu" />
+          <NavigationProperty Name="ProductOrder" Relationship="PROModel.FK_ProductOrder_Store" FromRole="Store" ToRole="ProductOrder" />
+          <NavigationProperty Name="Themes" Relationship="PROModel.FK_Store_Themes" FromRole="Store" ToRole="Themes" />
           <NavigationProperty Name="StoreAction" Relationship="PROModel.FK_StoreAction_Store" FromRole="Store" ToRole="StoreAction" />
+          <NavigationProperty Name="StoreContactUs" Relationship="PROModel.FK_StoreContactUs_Store" FromRole="Store" ToRole="StoreContactUs" />
           <NavigationProperty Name="StoreImageCollection" Relationship="PROModel.FK_StoreImageCollection_Store" FromRole="Store" ToRole="StoreImageCollection" />
           <NavigationProperty Name="StoreSlider" Relationship="PROModel.FK_StoreSlider_Store" FromRole="Store" ToRole="StoreSlider" />
           <NavigationProperty Name="TempUser" Relationship="PROModel.FK_TempUser_Store" FromRole="Store" ToRole="TempUser" />
@@ -2569,15 +3193,13 @@
           <NavigationProperty Name="AddressBook" Relationship="PROModel.StoreAddressBook" FromRole="Store" ToRole="AddressBook" />
           <NavigationProperty Name="ContactInfo" Relationship="PROModel.StoreContactInfo" FromRole="Store" ToRole="ContactInfo" />
           <NavigationProperty Name="StoreProduct" Relationship="PROModel.StoreInProduct" FromRole="Store" ToRole="StoreProduct" />
+          <NavigationProperty Name="PaymentMethod" Relationship="PROModel.StorePaymentMethod" FromRole="Store" ToRole="PaymentMethod" />
           <NavigationProperty Name="ProductCategory" Relationship="PROModel.StoreProductCategory" FromRole="Store" ToRole="ProductCategory" />
           <NavigationProperty Name="ProductChildCategory" Relationship="PROModel.StoreProductChildCategory" FromRole="Store" ToRole="ProductChildCategory" />
           <NavigationProperty Name="ProductSubCategory" Relationship="PROModel.StoreProductSubCategory" FromRole="Store" ToRole="ProductSubCategory" />
           <NavigationProperty Name="Roles" Relationship="PROModel.StoreRole" FromRole="Store" ToRole="Roles" />
           <NavigationProperty Name="Users" Relationship="PROModel.StoreUser" FromRole="Store" ToRole="Users" />
           <NavigationProperty Name="WorkflowSteps" Relationship="PROModel.StoreWorkflowSteps" FromRole="Store" ToRole="WorkflowSteps" />
-          <NavigationProperty Name="PaymentMethod" Relationship="PROModel.StorePaymentMethod" FromRole="Store" ToRole="PaymentMethod" />
-          <Property Name="ThemesId" Type="Int32" />
-          <NavigationProperty Name="Themes" Relationship="PROModel.FK_Store_Themes" FromRole="Store" ToRole="Themes" />
         </EntityType>
         <EntityType Name="StoreAction">
           <Key>
@@ -2590,6 +3212,19 @@
           <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
           <NavigationProperty Name="Store" Relationship="PROModel.FK_StoreAction_Store" FromRole="StoreAction" ToRole="Store" />
+        </EntityType>
+        <EntityType Name="StoreContactUs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EmailAddress" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Subject" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Message" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SentDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="StoreId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Store" Relationship="PROModel.FK_StoreContactUs_Store" FromRole="StoreContactUs" ToRole="Store" />
         </EntityType>
         <EntityType Name="StoreImageCollection">
           <Key>
@@ -2626,17 +3261,23 @@
           <Property Name="HasSize" Type="Boolean" Nullable="false" />
           <Property Name="HasSales" Type="Boolean" Nullable="false" />
           <Property Name="NoOfView" Type="Int32" Nullable="false" />
+          <Property Name="Weight" Type="Int32" Nullable="false" />
+          <Property Name="ShippingCostId" Type="Int32" Nullable="false" />
           <Property Name="ProductCategoryId" Type="Int32" Nullable="false" />
           <Property Name="ProductSubCategoryId" Type="Int32" Nullable="false" />
           <Property Name="ProductChildCategoryId" Type="Int32" Nullable="false" />
           <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CartItem" Relationship="PROModel.FK_CartItem_StoreProduct" FromRole="StoreProduct" ToRole="CartItem" />
           <NavigationProperty Name="ProductBrand" Relationship="PROModel.FK_StoreProduct_ProductBrand" FromRole="StoreProduct" ToRole="ProductBrand" />
           <NavigationProperty Name="ProductCategory" Relationship="PROModel.FK_StoreProduct_ProductCategory" FromRole="StoreProduct" ToRole="ProductCategory" />
           <NavigationProperty Name="ProductChildCategory" Relationship="PROModel.FK_StoreProduct_ProductChildCategory" FromRole="StoreProduct" ToRole="ProductChildCategory" />
+          <NavigationProperty Name="ProductReview" Relationship="PROModel.FK_ProductReview_StoreProduct" FromRole="StoreProduct" ToRole="ProductReview" />
           <NavigationProperty Name="ProductSubCategory" Relationship="PROModel.FK_StoreProduct_ProductSubCategory" FromRole="StoreProduct" ToRole="ProductSubCategory" />
+          <NavigationProperty Name="ShippingCost" Relationship="PROModel.FK_StoreProduct_ShippingCost" FromRole="StoreProduct" ToRole="ShippingCost" />
           <NavigationProperty Name="ProductColor" Relationship="PROModel.ProductInColor" FromRole="StoreProduct" ToRole="ProductColor" />
+          <NavigationProperty Name="Cart" Relationship="PROModel.ProductSaved" FromRole="StoreProduct" ToRole="Cart" />
           <NavigationProperty Name="Size" Relationship="PROModel.ProductSize" FromRole="StoreProduct" ToRole="Size" />
           <NavigationProperty Name="Store" Relationship="PROModel.StoreInProduct" FromRole="StoreProduct" ToRole="Store" />
         </EntityType>
@@ -2679,6 +3320,18 @@
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Store" Relationship="PROModel.FK_Testimonial_Store" FromRole="Testimonial" ToRole="Store" />
         </EntityType>
+        <EntityType Name="Themes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ColorName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Store" Relationship="PROModel.FK_Store_Themes" FromRole="Themes" ToRole="Store" />
+        </EntityType>
         <EntityType Name="UserDetail">
           <Key>
             <PropertyRef Name="Id" />
@@ -2704,10 +3357,25 @@
           <Property Name="LastActivityDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Applications" Relationship="PROModel.UserApplication" FromRole="Users" ToRole="Applications" />
           <NavigationProperty Name="Memberships" Relationship="PROModel.MembershipUser" FromRole="Users" ToRole="Memberships" />
+          <NavigationProperty Name="ProductOrder" Relationship="PROModel.FK_ProductOrder_Users" FromRole="Users" ToRole="ProductOrder" />
           <NavigationProperty Name="Profiles" Relationship="PROModel.UserProfile" FromRole="Users" ToRole="Profiles" />
           <NavigationProperty Name="UserDetail" Relationship="PROModel.FK_UserDetail_Users" FromRole="Users" ToRole="UserDetail" />
+          <NavigationProperty Name="CustomerAddressBook" Relationship="PROModel.CustomerAddress" FromRole="Users" ToRole="CustomerAddressBook" />
           <NavigationProperty Name="Store" Relationship="PROModel.StoreUser" FromRole="Users" ToRole="Store" />
           <NavigationProperty Name="Roles" Relationship="PROModel.UsersInRoles" FromRole="Users" ToRole="Roles" />
+        </EntityType>
+        <EntityType Name="Verification">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="EmailVarification" Type="Boolean" />
+          <Property Name="ActivationCode" Type="Guid" Nullable="false" />
+          <Property Name="OTP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Workflow">
           <Key>
@@ -2877,6 +3545,66 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Cart_PaymentMethod">
+          <End Type="PROModel.PaymentMethod" Role="PaymentMethod" Multiplicity="0..1" />
+          <End Type="PROModel.Cart" Role="Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentMethod">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Cart">
+              <PropertyRef Name="PaymentMethodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItem_Cart">
+          <End Type="PROModel.Cart" Role="Cart" Multiplicity="1" />
+          <End Type="PROModel.CartItem" Role="CartItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cart">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CartItem">
+              <PropertyRef Name="CartId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductOrder_Cart">
+          <End Type="PROModel.Cart" Role="Cart" Multiplicity="1" />
+          <End Type="PROModel.ProductOrder" Role="ProductOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cart">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductOrder">
+              <PropertyRef Name="CartId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductReview_Cart">
+          <End Type="PROModel.Cart" Role="Cart" Multiplicity="1" />
+          <End Type="PROModel.ProductReview" Role="ProductReview" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cart">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductReview">
+              <PropertyRef Name="CartId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CartItem_StoreProduct">
+          <End Type="PROModel.StoreProduct" Role="StoreProduct" Multiplicity="1" />
+          <End Type="PROModel.CartItem" Role="CartItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StoreProduct">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CartItem">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_State_Country">
           <End Type="PROModel.Country" Role="Country" Multiplicity="0..1" />
           <End Type="PROModel.State" Role="State" Multiplicity="*" />
@@ -2898,6 +3626,30 @@
             </Principal>
             <Dependent Role="Store">
               <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerAddressBook_LGA">
+          <End Type="PROModel.LGA" Role="LGA" Multiplicity="1" />
+          <End Type="PROModel.CustomerAddressBook" Role="CustomerAddressBook" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LGA">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CustomerAddressBook">
+              <PropertyRef Name="LgaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductOrder_CustomerAddressBook">
+          <End Type="PROModel.CustomerAddressBook" Role="CustomerAddressBook" Multiplicity="1" />
+          <End Type="PROModel.ProductOrder" Role="ProductOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerAddressBook">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductOrder">
+              <PropertyRef Name="AddressBookId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2997,6 +3749,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ProductOrder_PaymentMethod">
+          <End Type="PROModel.PaymentMethod" Role="PaymentMethod" Multiplicity="1" />
+          <End Type="PROModel.ProductOrder" Role="ProductOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentMethod">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductOrder">
+              <PropertyRef Name="PaymentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_StoreProduct_ProductBrand">
           <End Type="PROModel.ProductBrand" Role="ProductBrand" Multiplicity="1" />
           <End Type="PROModel.StoreProduct" Role="StoreProduct" Multiplicity="*" />
@@ -3057,6 +3821,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ProductOrder_Store">
+          <End Type="PROModel.Store" Role="Store" Multiplicity="1" />
+          <End Type="PROModel.ProductOrder" Role="ProductOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductOrder">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductOrder_Users">
+          <End Type="PROModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="PROModel.ProductOrder" Role="ProductOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ProductOrder">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductReview_StoreProduct">
+          <End Type="PROModel.StoreProduct" Role="StoreProduct" Multiplicity="1" />
+          <End Type="PROModel.ProductReview" Role="ProductReview" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StoreProduct">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductReview">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_StoreProduct_ProductSubCategory">
           <End Type="PROModel.ProductSubCategory" Role="ProductSubCategory" Multiplicity="1" />
           <End Type="PROModel.StoreProduct" Role="StoreProduct" Multiplicity="*" />
@@ -3081,6 +3881,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StoreProduct_ShippingCost">
+          <End Type="PROModel.ShippingCost" Role="ShippingCost" Multiplicity="1" />
+          <End Type="PROModel.StoreProduct" Role="StoreProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShippingCost">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreProduct">
+              <PropertyRef Name="ShippingCostId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Size_SizeType">
           <End Type="PROModel.SizeType" Role="SizeType" Multiplicity="1" />
           <End Type="PROModel.Size" Role="Size" Multiplicity="*" />
@@ -3093,6 +3905,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Store_Themes">
+          <End Type="PROModel.Themes" Role="Themes" Multiplicity="0..1" />
+          <End Type="PROModel.Store" Role="Store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Themes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Store">
+              <PropertyRef Name="ThemesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_StoreAction_Store">
           <End Type="PROModel.Store" Role="Store" Multiplicity="1" />
           <End Type="PROModel.StoreAction" Role="StoreAction" Multiplicity="*" />
@@ -3101,6 +3925,18 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="StoreAction">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreContactUs_Store">
+          <End Type="PROModel.Store" Role="Store" Multiplicity="1" />
+          <End Type="PROModel.StoreContactUs" Role="StoreContactUs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StoreContactUs">
               <PropertyRef Name="StoreId" />
             </Dependent>
           </ReferentialConstraint>
@@ -3213,6 +4049,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="CustomerAddress">
+          <End Type="PROModel.CustomerAddressBook" Role="CustomerAddressBook" Multiplicity="*" />
+          <End Type="PROModel.Users" Role="Users" Multiplicity="*" />
+        </Association>
         <Association Name="DocumentTypeFormat">
           <End Type="PROModel.DocumentFormat" Role="DocumentFormat" Multiplicity="*" />
           <End Type="PROModel.DocumentType" Role="DocumentType" Multiplicity="*" />
@@ -3224,6 +4064,10 @@
         <Association Name="ProductInColor">
           <End Type="PROModel.ProductColor" Role="ProductColor" Multiplicity="*" />
           <End Type="PROModel.StoreProduct" Role="StoreProduct" Multiplicity="0..1" />
+        </Association>
+        <Association Name="ProductSaved">
+          <End Type="PROModel.Cart" Role="Cart" Multiplicity="*" />
+          <End Type="PROModel.StoreProduct" Role="StoreProduct" Multiplicity="*" />
         </Association>
         <Association Name="ProductSize">
           <End Type="PROModel.Size" Role="Size" Multiplicity="*" />
@@ -3240,6 +4084,10 @@
         <Association Name="StoreInProduct">
           <End Type="PROModel.Store" Role="Store" Multiplicity="*" />
           <End Type="PROModel.StoreProduct" Role="StoreProduct" Multiplicity="*" />
+        </Association>
+        <Association Name="StorePaymentMethod">
+          <End Type="PROModel.PaymentMethod" Role="PaymentMethod" Multiplicity="*" />
+          <End Type="PROModel.Store" Role="Store" Multiplicity="*" />
         </Association>
         <Association Name="StoreProductCategory">
           <End Type="PROModel.ProductCategory" Role="ProductCategory" Multiplicity="*" />
@@ -3269,60 +4117,6 @@
           <End Type="PROModel.Roles" Role="Roles" Multiplicity="*" />
           <End Type="PROModel.Users" Role="Users" Multiplicity="*" />
         </Association>
-        <EntityType Name="PaymentMethod">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="LogoPath" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Store" Relationship="PROModel.StorePaymentMethod" FromRole="PaymentMethod" ToRole="Store" />
-        </EntityType>
-        <Association Name="StorePaymentMethod">
-          <End Type="PROModel.PaymentMethod" Role="PaymentMethod" Multiplicity="*" />
-          <End Type="PROModel.Store" Role="Store" Multiplicity="*" />
-        </Association>
-        <EntityType Name="Themes">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ColorName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Store" Relationship="PROModel.FK_Store_Themes" FromRole="Themes" ToRole="Store" />
-        </EntityType>
-        <Association Name="FK_Store_Themes">
-          <End Type="PROModel.Themes" Role="Themes" Multiplicity="0..1" />
-          <End Type="PROModel.Store" Role="Store" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Themes">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Store">
-              <PropertyRef Name="ThemesId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="SliderTemplate">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SliderPhoto" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CaptionOne" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CaptionTwo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="ButtonText" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3406,6 +4200,35 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Cart">
+            <EntityTypeMapping TypeName="PROModel.Cart">
+              <MappingFragment StoreEntitySet="Cart">
+                <ScalarProperty Name="PaymentMethodId" ColumnName="PaymentMethodId" />
+                <ScalarProperty Name="DeliveryFee" ColumnName="DeliveryFee" />
+                <ScalarProperty Name="CheckedOut" ColumnName="CheckedOut" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ShoppingId" ColumnName="ShoppingId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CartItem">
+            <EntityTypeMapping TypeName="PROModel.CartItem">
+              <MappingFragment StoreEntitySet="CartItem">
+                <ScalarProperty Name="IsSaved" ColumnName="IsSaved" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="TotalDeliveryFee" ColumnName="TotalDeliveryFee" />
+                <ScalarProperty Name="StateTransitFee" ColumnName="StateTransitFee" />
+                <ScalarProperty Name="DeliveryFee" ColumnName="DeliveryFee" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="CartId" ColumnName="CartId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ContactInfo">
             <EntityTypeMapping TypeName="PROModel.ContactInfo">
               <MappingFragment StoreEntitySet="ContactInfo">
@@ -3428,6 +4251,22 @@
                 <ScalarProperty Name="CurrencyCode" ColumnName="CurrencyCode" />
                 <ScalarProperty Name="CurrencyName" ColumnName="CurrencyName" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerAddressBook">
+            <EntityTypeMapping TypeName="PROModel.CustomerAddressBook">
+              <MappingFragment StoreEntitySet="CustomerAddressBook">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModfiedDate" ColumnName="ModfiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="LgaId" ColumnName="LgaId" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -3550,11 +4389,11 @@
           <EntitySetMapping Name="Menu">
             <EntityTypeMapping TypeName="PROModel.Menu">
               <MappingFragment StoreEntitySet="Menu">
-                <ScalarProperty Name="HeaderType" ColumnName="HeaderType" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="HeaderType" ColumnName="HeaderType" />
                 <ScalarProperty Name="MenuTypeId" ColumnName="MenuTypeId" />
                 <ScalarProperty Name="StoreId" ColumnName="StoreId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -3567,6 +4406,19 @@
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="PageName" ColumnName="PageName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentMethod">
+            <EntityTypeMapping TypeName="PROModel.PaymentMethod">
+              <MappingFragment StoreEntitySet="PaymentMethod">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="LogoPath" ColumnName="LogoPath" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -3616,6 +4468,42 @@
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductOrder">
+            <EntityTypeMapping TypeName="PROModel.ProductOrder">
+              <MappingFragment StoreEntitySet="ProductOrder">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="ConfirmDate" ColumnName="ConfirmDate" />
+                <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
+                <ScalarProperty Name="ConfirmBy" ColumnName="ConfirmBy" />
+                <ScalarProperty Name="ConfirmOrder" ColumnName="ConfirmOrder" />
+                <ScalarProperty Name="HasPaid" ColumnName="HasPaid" />
+                <ScalarProperty Name="CancelledOrder" ColumnName="CancelledOrder" />
+                <ScalarProperty Name="IsDelivered" ColumnName="IsDelivered" />
+                <ScalarProperty Name="PaymentTypeId" ColumnName="PaymentTypeId" />
+                <ScalarProperty Name="CartId" ColumnName="CartId" />
+                <ScalarProperty Name="AddressBookId" ColumnName="AddressBookId" />
+                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="OrderNo" ColumnName="OrderNo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductReview">
+            <EntityTypeMapping TypeName="PROModel.ProductReview">
+              <MappingFragment StoreEntitySet="ProductReview">
+                <ScalarProperty Name="ReviewDate" ColumnName="ReviewDate" />
+                <ScalarProperty Name="Review" ColumnName="Review" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="CartId" ColumnName="CartId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -3688,6 +4576,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ShippingCost">
+            <EntityTypeMapping TypeName="PROModel.ShippingCost">
+              <MappingFragment StoreEntitySet="ShippingCost">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="Fees" ColumnName="Fees" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Size">
             <EntityTypeMapping TypeName="PROModel.Size">
               <MappingFragment StoreEntitySet="Size">
@@ -3711,9 +4611,26 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="SliderTemplate">
+            <EntityTypeMapping TypeName="PROModel.SliderTemplate">
+              <MappingFragment StoreEntitySet="SliderTemplate">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ButtonText" ColumnName="ButtonText" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CaptionTwo" ColumnName="CaptionTwo" />
+                <ScalarProperty Name="CaptionOne" ColumnName="CaptionOne" />
+                <ScalarProperty Name="SliderPhoto" ColumnName="SliderPhoto" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="State">
             <EntityTypeMapping TypeName="PROModel.State">
               <MappingFragment StoreEntitySet="State">
+                <ScalarProperty Name="StateTransit" ColumnName="StateTransit" />
+                <ScalarProperty Name="Fees" ColumnName="Fees" />
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
@@ -3725,7 +4642,6 @@
           <EntitySetMapping Name="Store">
             <EntityTypeMapping TypeName="PROModel.Store">
               <MappingFragment StoreEntitySet="Store">
-                <ScalarProperty Name="ThemesId" ColumnName="ThemesId" />
                 <ScalarProperty Name="SubmissionDate" ColumnName="SubmissionDate" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
@@ -3737,6 +4653,7 @@
                 <ScalarProperty Name="OwnProcurement" ColumnName="OwnProcurement" />
                 <ScalarProperty Name="Logo" ColumnName="Logo" />
                 <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="ThemesId" ColumnName="ThemesId" />
                 <ScalarProperty Name="ProcessInstaceId" ColumnName="ProcessInstaceId" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3753,6 +4670,19 @@
                 <ScalarProperty Name="Reason" ColumnName="Reason" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StoreContactUs">
+            <EntityTypeMapping TypeName="PROModel.StoreContactUs">
+              <MappingFragment StoreEntitySet="StoreContactUs">
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="SentDate" ColumnName="SentDate" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -3780,6 +4710,8 @@
                 <ScalarProperty Name="ProductChildCategoryId" ColumnName="ProductChildCategoryId" />
                 <ScalarProperty Name="ProductSubCategoryId" ColumnName="ProductSubCategoryId" />
                 <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />
+                <ScalarProperty Name="ShippingCostId" ColumnName="ShippingCostId" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
                 <ScalarProperty Name="NoOfView" ColumnName="NoOfView" />
                 <ScalarProperty Name="HasSales" ColumnName="HasSales" />
                 <ScalarProperty Name="HasSize" ColumnName="HasSize" />
@@ -3838,6 +4770,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Themes">
+            <EntityTypeMapping TypeName="PROModel.Themes">
+              <MappingFragment StoreEntitySet="Themes">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ColorName" ColumnName="ColorName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="UserDetail">
             <EntityTypeMapping TypeName="PROModel.UserDetail">
               <MappingFragment StoreEntitySet="UserDetail">
@@ -3860,6 +4804,20 @@
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Verification">
+            <EntityTypeMapping TypeName="PROModel.Verification">
+              <MappingFragment StoreEntitySet="Verification">
+                <ScalarProperty Name="OTP" ColumnName="OTP" />
+                <ScalarProperty Name="ActivationCode" ColumnName="ActivationCode" />
+                <ScalarProperty Name="EmailVarification" ColumnName="EmailVarification" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3916,6 +4874,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="CustomerAddress" TypeName="PROModel.CustomerAddress" StoreEntitySet="CustomerAddress">
+            <EndProperty Name="Users">
+              <ScalarProperty Name="UserId" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="CustomerAddressBook">
+              <ScalarProperty Name="Id" ColumnName="CustomerAddressBookId" />
+            </EndProperty>
+          </AssociationSetMapping>
           <AssociationSetMapping Name="DocumentTypeFormat" TypeName="PROModel.DocumentTypeFormat" StoreEntitySet="DocumentTypeFormat">
             <EndProperty Name="DocumentType">
               <ScalarProperty Name="Id" ColumnName="DocumentTypeId" />
@@ -3940,6 +4906,14 @@
               <ScalarProperty Name="Id" ColumnName="ColorId" />
             </EndProperty>
             <Condition ColumnName="ProductId" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ProductSaved" TypeName="PROModel.ProductSaved" StoreEntitySet="ProductSaved">
+            <EndProperty Name="StoreProduct">
+              <ScalarProperty Name="Id" ColumnName="ProductId" />
+            </EndProperty>
+            <EndProperty Name="Cart">
+              <ScalarProperty Name="Id" ColumnName="CartId" />
+            </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="ProductSize" TypeName="PROModel.ProductSize" StoreEntitySet="ProductSize">
             <EndProperty Name="StoreProduct">
@@ -3971,6 +4945,14 @@
             </EndProperty>
             <EndProperty Name="Store">
               <ScalarProperty Name="Id" ColumnName="StoreId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="StorePaymentMethod" TypeName="PROModel.StorePaymentMethod" StoreEntitySet="StorePaymentMethod">
+            <EndProperty Name="Store">
+              <ScalarProperty Name="Id" ColumnName="StoreId" />
+            </EndProperty>
+            <EndProperty Name="PaymentMethod">
+              <ScalarProperty Name="Id" ColumnName="PaymentMethodId" />
             </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="StoreProductCategory" TypeName="PROModel.StoreProductCategory" StoreEntitySet="StoreProductCategory">
@@ -4029,53 +5011,6 @@
               <ScalarProperty Name="RoleId" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="PaymentMethod">
-            <EntityTypeMapping TypeName="PROModel.PaymentMethod">
-              <MappingFragment StoreEntitySet="PaymentMethod">
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="LogoPath" ColumnName="LogoPath" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <AssociationSetMapping Name="StorePaymentMethod" TypeName="PROModel.StorePaymentMethod" StoreEntitySet="StorePaymentMethod">
-            <EndProperty Name="Store">
-              <ScalarProperty Name="Id" ColumnName="StoreId" />
-            </EndProperty>
-            <EndProperty Name="PaymentMethod">
-              <ScalarProperty Name="Id" ColumnName="PaymentMethodId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <EntitySetMapping Name="Themes">
-            <EntityTypeMapping TypeName="PROModel.Themes">
-              <MappingFragment StoreEntitySet="Themes">
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ColorName" ColumnName="ColorName" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SliderTemplate">
-            <EntityTypeMapping TypeName="PROModel.SliderTemplate">
-              <MappingFragment StoreEntitySet="SliderTemplate">
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
-                <ScalarProperty Name="ButtonText" ColumnName="ButtonText" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="CaptionTwo" ColumnName="CaptionTwo" />
-                <ScalarProperty Name="CaptionOne" ColumnName="CaptionOne" />
-                <ScalarProperty Name="SliderPhoto" ColumnName="SliderPhoto" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

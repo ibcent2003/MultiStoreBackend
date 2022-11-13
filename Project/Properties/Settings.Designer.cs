@@ -140,5 +140,15 @@ namespace Project.Properties {
                 return ((string)(this["PaymentLogo"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("G:\\HostingSpaces\\raukzdup\\backend.fortressenterprise.com.ng\\wwwroot\\Content\\Backe" +
+            "nd\\FortressDocuments\\ImageCollections\\")]
+        public string Keephere {
+            get {
+                return ((string)(this["Keephere"]));
+            }
+        }
     }
 }

@@ -143,7 +143,8 @@ namespace Project.Areas.Setup.Controllers
                 model.Productform.CategoryId = CategoryId;
                 model.BrandList = (from s in cate.ProductBrand where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                 model.SubcategoryList = (from s in model.store.ProductSubCategory where s.IsDeleted == false && s.ProductCategoryId== CategoryId select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
-                model.ChildcategoryList = (from s in model.store.ProductChildCategory where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();              
+                model.ChildcategoryList = (from s in model.store.ProductChildCategory where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
+                model.PackageTyeList = (from s in db.ShippingCost where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                 model.category = cate;
                 return View(model);
             }
@@ -216,6 +217,7 @@ namespace Project.Areas.Setup.Controllers
                         model.BrandList = (from s in cate1.ProductBrand where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                         model.SubcategoryList = (from s in model.store.ProductSubCategory where s.IsDeleted == false && s.ProductCategoryId == model.Productform.CategoryId select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                         model.ChildcategoryList = (from s in model.store.ProductChildCategory where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
+                        model.PackageTyeList = (from s in db.ShippingCost where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                         model.category = cate1;
                        return View(model);
                     }
@@ -228,6 +230,7 @@ namespace Project.Areas.Setup.Controllers
                         model.BrandList = (from s in cate1.ProductBrand where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                         model.SubcategoryList = (from s in model.store.ProductSubCategory where s.IsDeleted == false && s.ProductCategoryId == model.Productform.CategoryId select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                         model.ChildcategoryList = (from s in model.store.ProductChildCategory where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
+                        model.PackageTyeList = (from s in db.ShippingCost where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                         model.category = cate1;
 
                         TempData["messageType"] = "danger";
@@ -260,6 +263,7 @@ namespace Project.Areas.Setup.Controllers
                         model.BrandList = (from s in cate1.ProductBrand where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                         model.SubcategoryList = (from s in model.store.ProductSubCategory where s.IsDeleted == false && s.ProductCategoryId == model.Productform.CategoryId select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                         model.ChildcategoryList = (from s in model.store.ProductChildCategory where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
+                        model.PackageTyeList = (from s in db.ShippingCost where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                         model.category = cate1;
 
                         TempData["messageType"] = "danger";
@@ -275,6 +279,7 @@ namespace Project.Areas.Setup.Controllers
                         model.BrandList = (from s in cate1.ProductBrand where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                         model.SubcategoryList = (from s in model.store.ProductSubCategory where s.IsDeleted == false && s.ProductCategoryId == model.Productform.CategoryId select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                         model.ChildcategoryList = (from s in model.store.ProductChildCategory where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
+                        model.PackageTyeList = (from s in db.ShippingCost where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                         model.category = cate1;
 
                         TempData["messageType"] = "danger";
@@ -317,6 +322,7 @@ namespace Project.Areas.Setup.Controllers
                             model.SubcategoryList = (from s in model.store.ProductSubCategory where s.IsDeleted == false && s.ProductCategoryId == model.Productform.CategoryId select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                             model.ChildcategoryList = (from s in model.store.ProductChildCategory where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                             model.category = cate1;
+                            model.PackageTyeList = (from s in db.ShippingCost where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
 
                             TempData["messageType"] = "danger";
                             TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPhoto2) + " are supported for Photo 2";
@@ -330,6 +336,7 @@ namespace Project.Areas.Setup.Controllers
                             model.SubcategoryList = (from s in model.store.ProductSubCategory where s.IsDeleted == false && s.ProductCategoryId == model.Productform.CategoryId select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                             model.ChildcategoryList = (from s in model.store.ProductChildCategory where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                             model.category = cate1;
+                            model.PackageTyeList = (from s in db.ShippingCost where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
 
                             TempData["messageType"] = "danger";
                             TempData["message"] = "The Photo 2 uploaded is larger than the 5MB upload limit";
@@ -373,6 +380,7 @@ namespace Project.Areas.Setup.Controllers
                             model.SubcategoryList = (from s in model.store.ProductSubCategory where s.IsDeleted == false && s.ProductCategoryId == model.Productform.CategoryId select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                             model.ChildcategoryList = (from s in model.store.ProductChildCategory where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                             model.category = cate1;
+                            model.PackageTyeList = (from s in db.ShippingCost where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
 
                             TempData["messageType"] = "danger";
                             TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPhoto3) + " are supported for Photo 3";
@@ -386,6 +394,7 @@ namespace Project.Areas.Setup.Controllers
                             model.SubcategoryList = (from s in model.store.ProductSubCategory where s.IsDeleted == false && s.ProductCategoryId == model.Productform.CategoryId select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                             model.ChildcategoryList = (from s in model.store.ProductChildCategory where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                             model.category = cate1;
+                            model.PackageTyeList = (from s in db.ShippingCost where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
 
                             TempData["messageType"] = "danger";
                             TempData["message"] = "The Photo 3 uploaded is larger than the 5MB upload limit";
@@ -406,6 +415,8 @@ namespace Project.Areas.Setup.Controllers
                     StoreProduct add = new StoreProduct
                     {
                         Name = model.Productform.Name,
+                        Weight = model.Productform.Weight,
+                        ShippingCostId= model.Productform.ShippingCostId,
                         BrandId = model.Productform.BrandId,
                         DiscountPrice = model.Productform.DiscountPrice,
                         AcutalPrice = model.Productform.AcutalPrice,
@@ -476,7 +487,10 @@ namespace Project.Areas.Setup.Controllers
                 var product = model.store.StoreProduct.Where(x => x.Id == PId).FirstOrDefault();
                 var cate = model.store.ProductCategory.Where(x => x.Id == product.ProductCategoryId).FirstOrDefault();
                 model.Productform = new ProductForm();
+                model.Productform.Id = product.Id;
                 model.Productform.Name = product.Name;
+                model.Productform.Weight = product.Weight;
+                model.Productform.ShippingCostId = product.ShippingCostId;
                 model.Productform.BrandId = product.BrandId;
                 model.Productform.DiscountPrice = product.DiscountPrice;
                 model.Productform.AcutalPrice = product.AcutalPrice;
@@ -505,7 +519,7 @@ namespace Project.Areas.Setup.Controllers
                 model.SubcategoryList = (from s in model.store.ProductSubCategory where s.IsDeleted == false && s.ProductCategoryId == product.ProductCategoryId select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                 model.ChildcategoryList = (from s in model.store.ProductChildCategory where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                 model.documentPath = Properties.Settings.Default.ProductImagePath;
-
+                model.PackageTyeList = (from s in db.ShippingCost where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                 return View(model);
             }
             catch(Exception ex)
@@ -535,7 +549,7 @@ namespace Project.Areas.Setup.Controllers
                         return RedirectToAction("Index", "Store", new { area = "Setup" });
                     }
                 }
-                model.store = storeDetail;
+                model.store = Backbone.GetStore(db, model.store.ProcessInstaceId);//storeDetail;
                 if (model.store == null)
                 {
                     TempData["message"] = Settings.Default.GenericExceptionMessage;
@@ -543,7 +557,7 @@ namespace Project.Areas.Setup.Controllers
                     return RedirectToAction("Index", "Store", new { area = "Setup" });
                 }
 
-                var product = storeDetail.StoreProduct.Where(x => x.Id == model.Productform.Id).FirstOrDefault();
+                var product = model.store.StoreProduct.Where(x => x.Id == model.Productform.Id).FirstOrDefault();
                 if(product == null)
                 {
                     TempData["message"] = Settings.Default.GenericExceptionMessage;
@@ -563,6 +577,7 @@ namespace Project.Areas.Setup.Controllers
                     model.SubcategoryList = (from s in model.store.ProductSubCategory where s.IsDeleted == false && s.ProductCategoryId == model.Productform.CategoryId select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                     model.ChildcategoryList = (from s in model.store.ProductChildCategory where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                     model.category = cate;
+                    model.PackageTyeList = (from s in db.ShippingCost where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                     string url = Properties.Settings.Default.ProductImagePath;
                     System.IO.Directory.CreateDirectory(url);
                
@@ -777,6 +792,8 @@ namespace Project.Areas.Setup.Controllers
                         #endregion
                     }
                     product.Name = model.Productform.Name;
+                    product.Weight = model.Productform.Weight;
+                    product.ShippingCostId = model.Productform.ShippingCostId;
                     product.BrandId = model.Productform.BrandId;
                     product.DiscountPrice = model.Productform.DiscountPrice;
                     product.AcutalPrice = model.Productform.AcutalPrice;
@@ -801,6 +818,7 @@ namespace Project.Areas.Setup.Controllers
                 model.BrandList = (from s in cate.ProductBrand where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                 model.SubcategoryList = (from s in model.store.ProductSubCategory where s.IsDeleted == false && s.ProductCategoryId == model.Productform.CategoryId select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                 model.ChildcategoryList = (from s in model.store.ProductChildCategory where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
+                model.PackageTyeList = (from s in db.ShippingCost where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                 model.category = cate;
                 model.p1 = product.Photo1;
                 if (product.Photo2 != null)

@@ -345,8 +345,8 @@ namespace Project.Areas.SecurityGuard.Controllers
                         GetUserDetail.MobileNumber = model.userForm.MobileNumber;
                         GetUserDetail.ModifiedBy = User.Identity.Name;
                         GetUserDetail.ModifiedDate = DateTime.Now;
-                        //db.UserDetail.Attach(GetUserDetail);
-                        //db.Entry(GetUserDetail).State = EntityState.Modified;                      
+                        db.UserDetail.Attach(GetUserDetail);
+                       // db.Entry(GetUserDetail).State = EntityState.Modified;                      
                     }
                     else
                     {

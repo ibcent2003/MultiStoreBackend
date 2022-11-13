@@ -21,6 +21,7 @@ namespace Project.Areas.Setup.Models
 
         //Dropdown list
         public List<IntegerSelectListItem> BrandList { get; set; }
+        public List<IntegerSelectListItem> PackageTyeList { get; set; }
         public List<IntegerSelectListItem> SubcategoryList { get; set; }
         
         public List<IntegerSelectListItem> ChildcategoryList { get; set; }
@@ -78,6 +79,14 @@ namespace Project.Areas.Setup.Models
         [Display(Name = "Product Name")]
         [Required(ErrorMessage = "Please enter The Product Name")]
         public string Name { get; set; }
+
+        [Display(Name = "Package Type")]
+        [Required(ErrorMessage = "Please select the package Type")]
+        public int ShippingCostId { get; set; }
+
+        [Display(Name = "Weight(In KG)")]
+        [Required(ErrorMessage = "Please enter The Product Weight")]
+        public int Weight { get; set; }
 
         [Display(Name = "Product Description")]
         [Required(ErrorMessage = "Please enter The Product Description")]

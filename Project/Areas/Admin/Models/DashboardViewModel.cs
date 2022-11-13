@@ -24,17 +24,33 @@ namespace Project.Areas.Admin.Models
 
         #endregion
 
+        public List<StoreProduct> storeProducts { get; set; }
         public int TotalNewRegistration { get; set; }
         public int TotalApproved { get; set;}
         public int TotalRejected { get; set; }
         public int TotalPending { get; set; }
         public int OwnedBy { get; set; }
 
+       // public int TotalNewOrder { get; set; }
+        public int TotalConfirmOrder { get; set; }
+        public int TotalConfirmPayment { get; set; }
+        public int TotalCancelledOrder { get; set; }
+        public int TotalCancelledPayment { get; set; }
+        public string orderType { get; set; }
+        public int OverallOrder { get; set; }
+        public List<Guid> TotalCustomers { get; set; }
+        public List<Guid> storeuser { get; set; }
+
         public int StateId { get; set; }
         public Guid RoleId { get; set; }
         public List<SelectListItem> RolesList { get; set; }
         public List<Roles> storeRoles { get; set; }
-
+        public List<ProductOrder> OrderList { get; set; }
+        public List<ProductOrder> RecentOrder { get; set; }
+        public ProductOrder Order { get; set; }
+        public List<CartItem> cartItemList { get; set; }
+        public ProductOrder productOrder { get; set; }
+        public List<UserDetail> userDetails { get; set; }
         public List<Roles> storeUserRoles { get; set; }
 
         public string documentPath { get; set; }
@@ -45,7 +61,7 @@ namespace Project.Areas.Admin.Models
         public Guid UserId { get; set; }
         public Store store { get; set; }
         public StoreAction storeAction { get; set; }
-
+        public int TotalNewOrder { get; set; }
         public int TototalRole { get; set; }
         public int TotalUser { get; set; }
         public int TotalContactinfo { get; set; }
@@ -85,6 +101,8 @@ namespace Project.Areas.Admin.Models
 
         public ProductSubCategory storesubCate { get; set; }
         public bool HasAllChildCategory { get; set; }
+
+        public CustomerAddressBook DeliveryAddress { get; set; }
 
     }
     public class ApprovalForm

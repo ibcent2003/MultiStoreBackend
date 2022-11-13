@@ -23,17 +23,33 @@
                <h4><i class="icon-reorder"></i>You are adding a product for under @Model.category.Name.ToUpper() Category :</h4> <h4 style="color:red">  Please note fileds with red * is required. </h4> 
             </div>
             <div class="widget-content">
-                @using (Html.BeginForm("NewProduct", "ProductManagement", new {Id=Model.store.ProcessInstaceId, CategoryId=Model.Productform.CategoryId }, FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal row-border" }))
+                @using (Html.BeginForm("NewProduct", "ProductManagement", new { Id = Model.store.ProcessInstaceId, CategoryId = Model.Productform.CategoryId }, FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal row-border" }))
                 {
                     @Html.HiddenFor(x => x.store.ProcessInstaceId)
-                    @Html.HiddenFor(x=>x.Productform.CategoryId)
-                    @Html.AntiForgeryToken()  
-                    @Html.ValidationSummary()                 
+                    @Html.HiddenFor(x => x.Productform.CategoryId)
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary()
                     <div class="form-group">
                         @Html.Label("Product Name", new { @class = "col-md-2 control-label required" })
                         <div class="col-md-6">
                             @Html.TextBoxFor(m => m.Productform.Name, new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.Productform.Name, null, new { @style = "color:red" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Package Type", new { @class = "col-md-2 control-label required" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(m => m.Productform.ShippingCostId, new SelectList(Model.PackageTyeList, "Value", "Text"), new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Productform.ShippingCostId, null, new { @style = "color:red" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Weight(In kg)", new { @class = "col-md-2 control-label required" })
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(m => m.Productform.Weight, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Productform.Weight, null, new { @style = "color:red" })
                         </div>
                     </div>
 
@@ -95,7 +111,7 @@
 
                     <div class="form-group">
                         @Html.Label("Photo 1", new { @class = "col-md-2 control-label required" })
-                        <div class="col-md-6">                           
+                        <div class="col-md-6">
                             @Html.TextBoxFor(x => Model.Productform.Photo1, new { type = "file", @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.Productform.Photo1, null, new { @style = "color:red" })
                         </div>
@@ -120,8 +136,8 @@
                     <div class="form-group">
                         @Html.Label("Has Color", new { @class = "col-md-2 control-label" })
                         <div class="col-md-1">
-                            @Html.CheckBoxFor(x => Model.Productform.HasColor, new {@class = "form-control" })
-                            
+                            @Html.CheckBoxFor(x => Model.Productform.HasColor, new { @class = "form-control" })
+
                         </div>
                     </div>
 

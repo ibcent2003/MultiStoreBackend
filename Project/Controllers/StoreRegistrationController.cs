@@ -60,8 +60,8 @@ namespace Project.Controllers
             try
             {
                 StoreRegistrationViewModel model = new StoreRegistrationViewModel();
-                
-                model.CountryList = db.Country.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+
+                model.CountryList = db.Country.Where(x => x.IsDeleted == false && x.Id == 1).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                 model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                 return View(model);
             }
@@ -92,7 +92,7 @@ namespace Project.Controllers
                         var Approval = checkStore.WorkflowSteps.FirstOrDefault();
                         if (Approval != null)
                         {
-                            model.CountryList = db.Country.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                            model.CountryList = db.Country.Where(x => x.IsDeleted == false && x.Id==1).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                             model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                             TempData["MessageType"] = "danger";
                             TempData["Message"] = "You have already submitted your registration. Please login to proceed or contact the systm administrator";
@@ -119,7 +119,7 @@ namespace Project.Controllers
                                 if (!supportedPassport.Contains(filePassport))
                                 {
                                 model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
-                                model.CountryList = db.Country.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                                model.CountryList = db.Country.Where(x => x.IsDeleted == false && x.Id == 1).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                                 TempData["messageType"] = "danger";
                                     TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPassport) + " are supported for logo";
                                     model.documentPath = Properties.Settings.Default.DocumentPath;
@@ -128,7 +128,7 @@ namespace Project.Controllers
                                 else if (model.storeform.Logo.ContentLength > max_upload)
                                 {
                                 model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
-                                model.CountryList = db.Country.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                                model.CountryList = db.Country.Where(x => x.IsDeleted == false && x.Id == 1).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                                 TempData["messageType"] = "danger";
                                     TempData["message"] = "The logo uploaded is larger than the 5MB upload limit";
                                     model.documentPath = Properties.Settings.Default.DocumentPath;
@@ -189,7 +189,7 @@ namespace Project.Controllers
                                 var filePassport = System.IO.Path.GetExtension(model.storeform.Logo.FileName);
                                 if (!supportedPassport.Contains(filePassport))
                                 {
-                                model.CountryList = db.Country.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                                model.CountryList = db.Country.Where(x => x.IsDeleted == false && x.Id == 1).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                                 model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                                 TempData["messageType"] = "danger";
                                     TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPassport) + " are supported for logo";
@@ -198,7 +198,7 @@ namespace Project.Controllers
                                 }
                                 else if (model.storeform.Logo.ContentLength > max_upload)
                                 {
-                                model.CountryList = db.Country.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                                model.CountryList = db.Country.Where(x => x.IsDeleted == false && x.Id == 1).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                                 model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                                 TempData["messageType"] = "danger";
                                 TempData["message"] = "The logo uploaded is larger than the 5MB upload limit";
@@ -298,7 +298,7 @@ namespace Project.Controllers
                     }
 
                    }
-                model.CountryList = db.Country.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                model.CountryList = db.Country.Where(x => x.IsDeleted == false && x.Id == 1).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                 model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                 return View(model);
             }
@@ -341,7 +341,7 @@ namespace Project.Controllers
             {
                 StoreRegistrationViewModel model = new StoreRegistrationViewModel();
                 var GetStore = db.Store.Where(x => x.ProcessInstaceId == Id).FirstOrDefault();
-                model.CountryList = db.Country.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                model.CountryList = db.Country.Where(x => x.IsDeleted == false && x.Id == 1).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                 model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                 if (GetStore == null)
                 {
@@ -409,7 +409,7 @@ namespace Project.Controllers
                     {
                         model.store = GetStore;
                         model.logos = GetStore.Logo;
-                        model.CountryList = db.Country.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                        model.CountryList = db.Country.Where(x => x.IsDeleted == false && x.Id == 1).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                         model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                         TempData["messageType"] = "danger";
                         TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPassport) + " are supported for logo";

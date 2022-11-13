@@ -16,6 +16,7 @@ namespace Project.Areas.Setup.Models
         public List<Store> storelist { get; set; }
         public StoreForm storeform { get; set; }
         public List<Testimonial> TestimonialList { get; set; }
+        public List<IntegerSelectListItem> ThemeList { get; set; }
 
         public TestimonialForm Testimonialform { get; set; }
 
@@ -41,6 +42,10 @@ namespace Project.Areas.Setup.Models
         [Required(ErrorMessage = "Please enter your Store name")]
         [Display(Name = "Store Name")]
         public string Name { get; set; }
+
+        [Required(ErrorMessage = "Enter preferable Domain Name")]
+        [Display(Name = "Preferable Domain")]
+        public string URL { get; set; }
 
         [Required(ErrorMessage = "Please enter your Store Profile")]
         [Display(Name = "Store Profile")]

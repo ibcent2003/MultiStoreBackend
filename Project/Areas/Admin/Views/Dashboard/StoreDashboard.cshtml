@@ -1,6 +1,6 @@
 ﻿@model Project.Areas.Admin.Models.DashboardViewModel
 @{
-    ViewBag.Title = "Dashboard for "+ Model.store.Name;
+    ViewBag.Title = "Dashboard for " + Model.store.Name;
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewBag.IsGreetings = "true";
 }
@@ -26,19 +26,19 @@
 
 <div class="row row-bg">
     <div class="col-sm-6 col-md-3 hidden-xs">
-             
-            <div class="statbox widget box box-shadow">
-                <div class="widget-content">
-                    <div class="visual cyan">
-                        <div class="statbox-sparkline">30,20,15,30,22,25,26,30,27</div>
-                    </div>
-                    <div class="title">NEW ORDERS</div>
-                    <div class="value">0</div>
-                    <a class="more" href="@Url.Action("StoreRoles", "Dashboard", new { area="Admin", Id=Model.store.ProcessInstaceId})">View <i class="pull-right icon-angle-right"></i></a>
-                </div>
-            </div>
 
-     
+        <div class="statbox widget box box-shadow">
+            <div class="widget-content">
+                <div class="visual cyan">
+                    <div class="statbox-sparkline">30,20,15,30,22,25,26,30,27</div>
+                </div>
+                <div class="title">TOTAL ORDERS</div>
+                <div class="value">@Model.OverallOrder</div>
+                <a class="more" href="@Url.Action("OrderList", "Dashboard", new { area="Admin", Id=Model.store.ProcessInstaceId})">View <i class="pull-right icon-angle-right"></i></a>
+            </div>
+        </div>
+
+
     </div>
 
     <div class="col-sm-6 col-md-3 hidden-xs">
@@ -48,8 +48,8 @@
                     <div class="statbox-sparkline">30,20,15,30,22,25,26,30,27</div>
                 </div>
                 <div class="title">Our customers</div>
-                <div class="value">0</div>
-                <a class="more" href="@Url.Action("StoreCategory", "Dashboard", new { area="Admin", Id=Model.store.ProcessInstaceId})">Manage <i class="pull-right icon-angle-right"></i></a>
+                <div class="value">@Model.TotalCustomers.Count()</div>
+                <a class="more" href="@Url.Action("StoreCustomers", "Dashboard", new { area="Admin", Id=Model.store.ProcessInstaceId})">Manage <i class="pull-right icon-angle-right"></i></a>
 
             </div>
         </div>
@@ -73,18 +73,18 @@
         </div>
     </div>
     <div class="col-sm-6 col-md-3 hidden-xs">
-        
-            <div class="statbox widget box box-shadow">
-                <div class="widget-content">
-                    <div class="visual green">
-                        <div class="statbox-sparkline">30,20,15,30,22,25,26,30,27</div>
-                    </div>
-                    <div class="title">SALES REPORTS</div>
-                    <div class="value">0</div>
-                    <a class="more" href="@Url.Action("StoreRoles", "Dashboard", new { area="Admin", Id=Model.store.ProcessInstaceId})">View <i class="pull-right icon-angle-right"></i></a>
+
+        <div class="statbox widget box box-shadow">
+            <div class="widget-content">
+                <div class="visual green">
+                    <div class="statbox-sparkline">30,20,15,30,22,25,26,30,27</div>
                 </div>
+                <div class="title">SALES REPORTS</div>
+                <div class="value">0</div>
+                <a class="more" href="@Url.Action("StoreRoles", "Dashboard", new { area="Admin", Id=Model.store.ProcessInstaceId})">View <i class="pull-right icon-angle-right"></i></a>
             </div>
-        
+        </div>
+
     </div>
 
 
@@ -135,7 +135,7 @@
             <div class="widget-content">
                 <div class="visual red"><i class="icon-building"></i></div>
                 <div class="title">
-                    Organisation Address
+                    Store Address
                 </div>
                 <div class="value">@Model.TotalAddress</div>
                 <a class="more" href="@Url.Action("AddressList", "Dashboard", new { area="Admin", Id=Model.store.ProcessInstaceId})">View More <i class="pull-right icon-angle-right"></i></a>
@@ -149,31 +149,254 @@
 
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <div class="widget box">
             <div class="widget-header">
-                <h4><i class="icon-reorder"></i>Sine/ Cosine</h4>
+                <h4><i class="icon-reorder"></i>Reorder Product(s) </h4>
                 <div class="toolbar no-padding">
                     <div class="btn-group"><span class="btn btn-xs widget-collapse"><i class="icon-angle-down"></i></span></div>
                 </div>
             </div>
             <div class="widget-content">
-               
+                <div class="widget-content">
+                    <table class="table table-striped table-bordered table-hover table-checkable datatable dataTable">
+                        <thead>
+                            <tr>
+
+                                <th>SN</th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Price
+                                </th>
+                                <th>
+                                    Weight(In kg)
+                                </th>
+                                <th>
+                                    Qty
+                                </th>
+                                <th>
+                                    Reorder Lev.
+                                </th>
+
+                                <th>
+                                    Photo
+                                </th>
+                                <th>
+                                    Deleted?
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @if (Model.storeProducts.Count != 0)
+                            {
+
+                                int i = 0;
+                                foreach (var item in Model.storeProducts)
+                                {
+                                    ++i;
+                                    <tr>
+                                        <td>
+                                            @i
+                                        </td>
+                                        <td>
+                                            @item.Name
+                                        </td>
+                                        <td>
+                                            <span class="label label-danger"> <strong>₦@String.Format("{0:n0}", item.DiscountPrice)</strong></span>
+                                        </td>
+                                        <td>
+                                            <span class="label label-success"> <strong>@item.Weight</strong></span>
+                                        </td>
+
+                                        <td>
+                                            <span class="label label-info"> <strong>@item.Quantity</strong></span>
+                                        </td>
+
+                                        <td>
+                                            <span class="label label-success"> <strong>@item.ReorderLevel</strong></span>
+                                        </td>
+                                        <td>
+                                            <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + item.Photo1 })" height="50" width="50" style="border:solid" />
+                                        </td>
+                                        <td>
+                                            @if (item.IsDeleted == true)
+                                            {
+                                                <span class="label label-success"> <strong>Yes</strong></span>
+                                            }
+                                            else
+                                            {
+                                                <span class="label label-danger"> <strong>No</strong></span>
+                                            }
+                                        </td>
+                                        <td>
+
+                                            <div class="dropdown">
+                                                <span class="btn dropdown-toggle btn-xs btn-danger" type="button" id="dropdownMenu1" data-toggle="dropdown">Action<i class="icon-angle-down"></i></span>
+                                                <ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="dropdownMenu1">
+                                                    
+                                                    <li role="presentation"><a data-toggle="modal" title="Product Information" href="#@item.Id"><i class="icon-eye-open"></i></a></li>
+                                                    <li role="presentation"><a data-toggle="modal" title="Re-Order Product" href="@Url.Action("ReorderProduct", "ProductManagement", new { area="Setup", Id=Model.store.ProcessInstaceId,PId=item.Id})"><i class="icon-folder-open"></i></a></li>
+
+                                                </ul>
+                                                
+                                            </div>
+                                            <div class="row">
+
+
+
+
+                                                <div class="modal fade" id="@item.Id">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                                <h4 class="modal-title">Product Information</h4>
+
+                                                            </div>
+                                                            <div class="modal-body">
+
+                                                                <table class="my-acct">
+                                                                    <tr>
+                                                                        <td>Product Name: </td>
+                                                                        <td>@item.Name</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Discount Price: </td>
+                                                                        <td>
+                                                                            ₦
+                                                                            @String.Format("{0:n0}", item.DiscountPrice)
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Acutal Price: </td>
+                                                                        <td>₦@String.Format("{0:n0}", item.AcutalPrice)</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Quantity: </td>
+                                                                        <td>@item.Quantity</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Reorder Level: </td>
+                                                                        <td>@item.ReorderLevel</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Product Category: </td>
+                                                                        <td>@item.ProductCategory.Name</td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <td>Sub Category: </td>
+                                                                        <td>@item.ProductSubCategory.Name</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Child Category: </td>
+                                                                        <td>@item.ProductChildCategory.Name</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Brand: </td>
+                                                                        <td>@item.ProductBrand.Name</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Customers View: </td>
+                                                                        <td>@item.NoOfView</td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <td>Photo:</td>
+                                                                        <td>
+                                                                            <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + item.Photo1 })" height="100" width="100" style="border:solid" />
+                                                                            @if (item.Photo2 != null)
+                                                                            {
+                                                                                <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + item.Photo2 })" height="100" width="100" style="border:solid" />
+                                                                            }
+
+                                                                            @if (item.Photo3 != null)
+                                                                            {
+                                                                                <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + item.Photo3 })" height="100" width="100" style="border:solid" />
+                                                                            }
+
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <td>Description:</td>
+                                                                        <td>
+                                                                            @Html.Raw(item.Description)
+                                                                        </td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <td>Modified By:</td>
+                                                                        <td>
+                                                                            @item.ModifiedBy
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Modified Date:</td>
+                                                                        <td>
+                                                                            @item.ModifiedDate
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Is Deleted:</td>
+                                                                        <td>
+                                                                            @if (item.IsDeleted == true)
+                                                                            {
+                                                                                <span class="label label-success"> <strong>Yes</strong></span>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <span class="label label-danger"> <strong>No</strong></span>
+                                                                            }
+                                                                        </td>
+                                                                    </tr>
+
+
+                                                                </table>
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </td>
+
+                                    </tr>
+
+                                }
+
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="widget box">
-            <div class="widget-header">
-                <h4><i class="icon-reorder"></i>Sine/ Cosine</h4>
-                <div class="toolbar no-padding">
-                    <div class="btn-group"><span class="btn btn-xs widget-collapse"><i class="icon-angle-down"></i></span></div>
-                </div>
-            </div>
-            <div class="widget-content">
 
-            </div>
-        </div>
-    </div>   
 </div>
 @Html.HiddenFor(x => x.store.Id)
+
+@section Scripts{
+    @Scripts.Render("~/Content/Backend/plugins/datatables/jquery.dataTables.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/datatables/tabletools/TableTools.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/datatables/colvis/ColVis.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/datatables/DT_bootstrap.js")
+    <script>
+        "use strict";
+
+    </script>
+}

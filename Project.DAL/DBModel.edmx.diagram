@@ -5,51 +5,62 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="c78484f9840e4d6598415a10416c8607" Name="Diagram1">
-        <EntityTypeShape EntityType="PROModel.AddressBook" Width="1.5" PointX="3" PointY="34.875" />
-        <EntityTypeShape EntityType="PROModel.AddressType" Width="1.5" PointX="0.75" PointY="35.5" />
-        <EntityTypeShape EntityType="PROModel.Alert" Width="1.5" PointX="13.5" PointY="34.375" />
-        <EntityTypeShape EntityType="PROModel.AlertNotification" Width="1.5" PointX="5" PointY="5" />
-        <EntityTypeShape EntityType="PROModel.AlertType" Width="1.5" PointX="2.75" PointY="5.75" />
-        <EntityTypeShape EntityType="PROModel.Applications" Width="1.5" PointX="0.75" PointY="23.375" />
-        <EntityTypeShape EntityType="PROModel.ContactInfo" Width="1.5" PointX="3" PointY="14.5" />
-        <EntityTypeShape EntityType="PROModel.Country" Width="1.5" PointX="3" PointY="18" />
+        <EntityTypeShape EntityType="PROModel.AddressBook" Width="1.5" PointX="3" PointY="22.375" />
+        <EntityTypeShape EntityType="PROModel.AddressType" Width="1.5" PointX="0.75" PointY="24.625" />
+        <EntityTypeShape EntityType="PROModel.Alert" Width="1.5" PointX="13.5" PointY="19.25" />
+        <EntityTypeShape EntityType="PROModel.AlertNotification" Width="1.5" PointX="6" PointY="5" />
+        <EntityTypeShape EntityType="PROModel.AlertType" Width="1.5" PointX="3.75" PointY="5.75" />
+        <EntityTypeShape EntityType="PROModel.Applications" Width="1.5" PointX="0.75" PointY="29.375" />
+        <EntityTypeShape EntityType="PROModel.Cart" Width="1.5" PointX="11.25" PointY="50.875" />
+        <EntityTypeShape EntityType="PROModel.CartItem" Width="1.5" PointX="18.75" PointY="34.5" />
+        <EntityTypeShape EntityType="PROModel.ContactInfo" Width="1.5" PointX="3" PointY="42.5" />
+        <EntityTypeShape EntityType="PROModel.Country" Width="1.5" PointX="1.5" PointY="11.75" />
+        <EntityTypeShape EntityType="PROModel.CustomerAddressBook" Width="1.5" PointX="5.25" PointY="15.375" />
         <EntityTypeShape EntityType="PROModel.DataGenerator" Width="1.5" PointX="7.75" PointY="0.75" />
-        <EntityTypeShape EntityType="PROModel.District" Width="1.5" PointX="0.75" PointY="32.75" />
-        <EntityTypeShape EntityType="PROModel.DocumentCategory" Width="1.5" PointX="0.75" PointY="1.375" />
-        <EntityTypeShape EntityType="PROModel.DocumentFormat" Width="1.5" PointX="0.75" PointY="5.25" />
+        <EntityTypeShape EntityType="PROModel.District" Width="1.5" PointX="0.75" PointY="21.875" />
+        <EntityTypeShape EntityType="PROModel.DocumentCategory" Width="1.5" PointX="0.75" PointY="5.375" />
+        <EntityTypeShape EntityType="PROModel.DocumentFormat" Width="1.5" PointX="0.75" PointY="1.25" />
         <EntityTypeShape EntityType="PROModel.DocumentInfo" Width="1.5" PointX="5.25" PointY="1" />
         <EntityTypeShape EntityType="PROModel.DocumentType" Width="1.5" PointX="3" PointY="1.125" />
-        <EntityTypeShape EntityType="PROModel.ImageCollection" Width="1.5" PointX="8.25" PointY="27.125" />
-        <EntityTypeShape EntityType="PROModel.LGA" Width="1.5" PointX="0.75" PointY="42.375" />
-        <EntityTypeShape EntityType="PROModel.Memberships" Width="1.5" PointX="3" PointY="21.875" />
-        <EntityTypeShape EntityType="PROModel.Menu" Width="1.5" PointX="10.5" PointY="32.875" />
-        <EntityTypeShape EntityType="PROModel.MenuType" Width="1.5" PointX="8.25" PointY="40.125" />
-        <EntityTypeShape EntityType="PROModel.ProductBrand" Width="1.5" PointX="0.75" PointY="53.75" />
-        <EntityTypeShape EntityType="PROModel.ProductCategory" Width="1.5" PointX="3" PointY="53.375" />
-        <EntityTypeShape EntityType="PROModel.ProductChildCategory" Width="1.5" PointX="3" PointY="49.75" />
-        <EntityTypeShape EntityType="PROModel.ProductColor" Width="1.5" PointX="11.25" PointY="39.875" />
-        <EntityTypeShape EntityType="PROModel.ProductSubCategory" Width="1.5" PointX="0.75" PointY="49.5" />
-        <EntityTypeShape EntityType="PROModel.Profiles" Width="1.5" PointX="15.75" PointY="25.25" />
-        <EntityTypeShape EntityType="PROModel.Region" Width="1.5" PointX="1.5" PointY="39.875" />
-        <EntityTypeShape EntityType="PROModel.Resource" Width="1.5" PointX="7.75" PointY="3.75" />
-        <EntityTypeShape EntityType="PROModel.ResourcesInRole" Width="1.5" PointX="7.75" PointY="7.75" />
-        <EntityTypeShape EntityType="PROModel.Roles" Width="1.5" PointX="3" PointY="29.125" />
-        <EntityTypeShape EntityType="PROModel.Size" Width="1.5" PointX="11.25" PointY="36.5" />
-        <EntityTypeShape EntityType="PROModel.SizeType" Width="1.5" PointX="9" PointY="36.75" />
-        <EntityTypeShape EntityType="PROModel.State" Width="1.5" PointX="1.5" PointY="46.375" />
-        <EntityTypeShape EntityType="PROModel.Store" Width="1.5" PointX="5.25" PointY="26.625" />
-        <EntityTypeShape EntityType="PROModel.StoreAction" Width="1.5" PointX="7.5" PointY="30.75" />
-        <EntityTypeShape EntityType="PROModel.StoreImageCollection" Width="1.5" PointX="10.5" PointY="28.75" />
-        <EntityTypeShape EntityType="PROModel.StoreProduct" Width="1.5" PointX="13.5" PointY="27" />
-        <EntityTypeShape EntityType="PROModel.StoreSlider" Width="1.5" PointX="7.5" PointY="55" />
-        <EntityTypeShape EntityType="PROModel.TempUser" Width="1.5" PointX="7.5" PointY="24.125" />
-        <EntityTypeShape EntityType="PROModel.Testimonial" Width="1.5" PointX="7.5" PointY="58.875" />
-        <EntityTypeShape EntityType="PROModel.UserDetail" Width="1.5" PointX="15.75" PointY="21.75" />
-        <EntityTypeShape EntityType="PROModel.Users" Width="1.5" PointX="13.5" PointY="23" />
-        <EntityTypeShape EntityType="PROModel.Workflow" Width="1.5" PointX="8.25" PointY="19.625" />
-        <EntityTypeShape EntityType="PROModel.WorkFlowActions" Width="1.5" PointX="13.5" PointY="18.875" />
-        <EntityTypeShape EntityType="PROModel.WorkflowStepActions" Width="1.5" PointX="15.75" PointY="28.875" />
-        <EntityTypeShape EntityType="PROModel.WorkflowSteps" Width="1.5" PointX="10.5" PointY="24.625" />
+        <EntityTypeShape EntityType="PROModel.ImageCollection" Width="1.5" PointX="8.25" PointY="42.125" />
+        <EntityTypeShape EntityType="PROModel.LGA" Width="1.5" PointX="3" PointY="15.875" />
+        <EntityTypeShape EntityType="PROModel.Memberships" Width="1.5" PointX="3" PointY="27.875" />
+        <EntityTypeShape EntityType="PROModel.Menu" Width="1.5" PointX="10.5" PointY="30.75" />
+        <EntityTypeShape EntityType="PROModel.MenuType" Width="1.5" PointX="8.25" PointY="35" />
+        <EntityTypeShape EntityType="PROModel.PaymentMethod" Width="1.5" PointX="3" PointY="45.75" />
+        <EntityTypeShape EntityType="PROModel.ProductBrand" Width="1.5" PointX="0.75" PointY="49.5" />
+        <EntityTypeShape EntityType="PROModel.ProductCategory" Width="1.5" PointX="3" PointY="49.25" />
+        <EntityTypeShape EntityType="PROModel.ProductChildCategory" Width="1.5" PointX="3" PointY="38.75" />
+        <EntityTypeShape EntityType="PROModel.ProductColor" Width="1.5" PointX="11.25" PointY="48" />
+        <EntityTypeShape EntityType="PROModel.ProductOrder" Width="1.5" PointX="10.5" PointY="38.5" />
+        <EntityTypeShape EntityType="PROModel.ProductReview" Width="1.5" PointX="15.75" PointY="34.875" />
+        <EntityTypeShape EntityType="PROModel.ProductSubCategory" Width="1.5" PointX="0.75" PointY="38.625" />
+        <EntityTypeShape EntityType="PROModel.Profiles" Width="1.5" PointX="9.75" PointY="26" />
+        <EntityTypeShape EntityType="PROModel.Region" Width="1.5" PointX="1.5" PointY="9" />
+        <EntityTypeShape EntityType="PROModel.Resource" Width="1.5" PointX="8.75" PointY="3.75" />
+        <EntityTypeShape EntityType="PROModel.ResourcesInRole" Width="1.5" PointX="8.75" PointY="7.75" />
+        <EntityTypeShape EntityType="PROModel.Roles" Width="1.5" PointX="3" PointY="35" />
+        <EntityTypeShape EntityType="PROModel.ShippingCost" Width="1.5" PointX="11.25" PointY="44.875" />
+        <EntityTypeShape EntityType="PROModel.Size" Width="1.5" PointX="11.25" PointY="55" />
+        <EntityTypeShape EntityType="PROModel.SizeType" Width="1.5" PointX="9" PointY="55.125" />
+        <EntityTypeShape EntityType="PROModel.SliderTemplate" Width="1.5" PointX="3.75" PointY="9.75" />
+        <EntityTypeShape EntityType="PROModel.State" Width="1.5" PointX="0.75" PointY="15.75" />
+        <EntityTypeShape EntityType="PROModel.Store" Width="1.5" PointX="5.25" PointY="32.125" />
+        <EntityTypeShape EntityType="PROModel.StoreAction" Width="1.5" PointX="7.5" PointY="74" />
+        <EntityTypeShape EntityType="PROModel.StoreContactUs" Width="1.5" PointX="7.5" PointY="38.75" />
+        <EntityTypeShape EntityType="PROModel.StoreImageCollection" Width="1.5" PointX="10.5" PointY="34.75" />
+        <EntityTypeShape EntityType="PROModel.StoreProduct" Width="1.5" PointX="13.5" PointY="32.375" />
+        <EntityTypeShape EntityType="PROModel.StoreSlider" Width="1.5" PointX="7.5" PointY="70.125" />
+        <EntityTypeShape EntityType="PROModel.TempUser" Width="1.5" PointX="7.5" PointY="32.125" />
+        <EntityTypeShape EntityType="PROModel.Testimonial" Width="1.5" PointX="7.5" PointY="63.125" />
+        <EntityTypeShape EntityType="PROModel.Themes" Width="1.5" PointX="3" PointY="53.125" />
+        <EntityTypeShape EntityType="PROModel.UserDetail" Width="1.5" PointX="9.75" PointY="21.875" />
+        <EntityTypeShape EntityType="PROModel.Users" Width="1.5" PointX="7.5" PointY="27" />
+        <EntityTypeShape EntityType="PROModel.Verification" Width="1.5" PointX="5.75" PointY="9.75" />
+        <EntityTypeShape EntityType="PROModel.Workflow" Width="1.5" PointX="11.25" PointY="17.625" />
+        <EntityTypeShape EntityType="PROModel.WorkFlowActions" Width="1.5" PointX="13.5" PointY="23.75" />
+        <EntityTypeShape EntityType="PROModel.WorkflowStepActions" Width="1.5" PointX="15.75" PointY="27.875" />
+        <EntityTypeShape EntityType="PROModel.WorkflowSteps" Width="1.5" PointX="13.5" PointY="27.625" />
         <AssociationConnector Association="PROModel.FK_AddressBook_AddressType" />
         <AssociationConnector Association="PROModel.FK_AddressBook_District" />
         <AssociationConnector Association="PROModel.FK_AddressBook_LGA" />
@@ -59,8 +70,15 @@
         <AssociationConnector Association="PROModel.MembershipApplication" />
         <AssociationConnector Association="PROModel.RoleApplication" />
         <AssociationConnector Association="PROModel.UserApplication" />
+        <AssociationConnector Association="PROModel.FK_Cart_PaymentMethod" />
+        <AssociationConnector Association="PROModel.FK_CartItem_Cart" />
+        <AssociationConnector Association="PROModel.FK_ProductOrder_Cart" />
+        <AssociationConnector Association="PROModel.FK_ProductReview_Cart" />
+        <AssociationConnector Association="PROModel.FK_CartItem_StoreProduct" />
         <AssociationConnector Association="PROModel.FK_State_Country" />
         <AssociationConnector Association="PROModel.FK_Store_Country" />
+        <AssociationConnector Association="PROModel.FK_CustomerAddressBook_LGA" />
+        <AssociationConnector Association="PROModel.FK_ProductOrder_CustomerAddressBook" />
         <AssociationConnector Association="PROModel.FK_District_Region" />
         <AssociationConnector Association="PROModel.FK_DocumentType_DocumentCategory" />
         <AssociationConnector Association="PROModel.FK_DocumentInfo_DocumentType" />
@@ -69,15 +87,22 @@
         <AssociationConnector Association="PROModel.MembershipUser" />
         <AssociationConnector Association="PROModel.FK_Menu_MenuType" />
         <AssociationConnector Association="PROModel.FK_Menu_Store" />
+        <AssociationConnector Association="PROModel.FK_ProductOrder_PaymentMethod" />
         <AssociationConnector Association="PROModel.FK_StoreProduct_ProductBrand" />
         <AssociationConnector Association="PROModel.FK_ProductSubCategory_ProductCategory" />
         <AssociationConnector Association="PROModel.FK_StoreProduct_ProductCategory" />
         <AssociationConnector Association="PROModel.FK_ProductChildCategory_ProductSubCategory" />
         <AssociationConnector Association="PROModel.FK_StoreProduct_ProductChildCategory" />
+        <AssociationConnector Association="PROModel.FK_ProductOrder_Store" />
+        <AssociationConnector Association="PROModel.FK_ProductOrder_Users" />
+        <AssociationConnector Association="PROModel.FK_ProductReview_StoreProduct" />
         <AssociationConnector Association="PROModel.FK_StoreProduct_ProductSubCategory" />
         <AssociationConnector Association="PROModel.UserProfile" />
+        <AssociationConnector Association="PROModel.FK_StoreProduct_ShippingCost" />
         <AssociationConnector Association="PROModel.FK_Size_SizeType" />
+        <AssociationConnector Association="PROModel.FK_Store_Themes" />
         <AssociationConnector Association="PROModel.FK_StoreAction_Store" />
+        <AssociationConnector Association="PROModel.FK_StoreContactUs_Store" />
         <AssociationConnector Association="PROModel.FK_StoreImageCollection_Store" />
         <AssociationConnector Association="PROModel.FK_StoreSlider_Store" />
         <AssociationConnector Association="PROModel.FK_TempUser_Store" />
@@ -87,13 +112,16 @@
         <AssociationConnector Association="PROModel.FK_WorkflowSteps_Workflow" />
         <AssociationConnector Association="PROModel.FK_WorkflowStepActions_WorkFlowActions" />
         <AssociationConnector Association="PROModel.FK_WorkflowStepActions_WorkflowSteps" />
+        <AssociationConnector Association="PROModel.CustomerAddress" />
         <AssociationConnector Association="PROModel.DocumentTypeFormat" />
         <AssociationConnector Association="PROModel.ProductCategoryBrand" />
         <AssociationConnector Association="PROModel.ProductInColor" />
+        <AssociationConnector Association="PROModel.ProductSaved" />
         <AssociationConnector Association="PROModel.ProductSize" />
         <AssociationConnector Association="PROModel.StoreAddressBook" />
         <AssociationConnector Association="PROModel.StoreContactInfo" />
         <AssociationConnector Association="PROModel.StoreInProduct" />
+        <AssociationConnector Association="PROModel.StorePaymentMethod" />
         <AssociationConnector Association="PROModel.StoreProductCategory" />
         <AssociationConnector Association="PROModel.StoreProductChildCategory" />
         <AssociationConnector Association="PROModel.StoreProductSubCategory" />
@@ -101,11 +129,6 @@
         <AssociationConnector Association="PROModel.StoreUser" />
         <AssociationConnector Association="PROModel.StoreWorkflowSteps" />
         <AssociationConnector Association="PROModel.UsersInRoles" />
-        <EntityTypeShape EntityType="PROModel.PaymentMethod" Width="1.5" PointX="0.75" PointY="9" />
-        <AssociationConnector Association="PROModel.StorePaymentMethod" />
-        <EntityTypeShape EntityType="PROModel.Themes" Width="1.5" PointX="3.375" PointY="10" />
-        <AssociationConnector Association="PROModel.FK_Store_Themes" />
-        <EntityTypeShape EntityType="PROModel.SliderTemplate" Width="1.5" PointX="10.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
