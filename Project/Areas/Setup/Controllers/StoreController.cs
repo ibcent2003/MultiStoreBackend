@@ -157,7 +157,9 @@ namespace Project.Areas.Setup.Controllers
                 model.storeform.Id = GetStore.Id;
                 model.documentValue = GetStore.Logo;
                 model.documentPath = Properties.Settings.Default.DocumentPath;
+                model.storeform.ThemesId = int.Parse(GetStore.ThemesId.ToString());
                 model.store = GetStore;
+                model.ThemeList = (from s in db.Themes where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                 return View(model);
             }
             catch(Exception ex)
@@ -209,6 +211,7 @@ namespace Project.Areas.Setup.Controllers
                         TempData["messageType"] = "danger";
                         TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPassport) + " are supported for logo";
                         model.documentPath = Properties.Settings.Default.DocumentPath;
+                        model.ThemeList = (from s in db.Themes where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                         return View(model);
                     }
                     else if (model.storeform.Logo.ContentLength > max_upload)
@@ -216,6 +219,7 @@ namespace Project.Areas.Setup.Controllers
                         TempData["messageType"] = "danger";
                         TempData["message"] = "The logo uploaded is larger than the 5MB upload limit";
                         model.documentPath = Properties.Settings.Default.DocumentPath;
+                        model.ThemeList = (from s in db.Themes where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
                         return View(model);
                     }
                    
@@ -240,6 +244,7 @@ namespace Project.Areas.Setup.Controllers
                 GetStore.URL = model.storeform.Name.Replace(" ", string.Empty);
                 GetStore.ModifiedBy = User.Identity.Name;
                 GetStore.ModifiedDate = DateTime.Now;
+                GetStore.ThemesId = model.storeform.ThemesId;
                 GetStore.IsDeleted = model.storeform.IsDeleted;
                 db.SaveChanges();
                 TempData["message"] = "The Store " + model.storeform.Name + " has been updated successfully.";

@@ -69,7 +69,7 @@
                                 </td>
 
                                 <td>
-                                    @Html.ActionLink(item.UserName, "Update", "Membership", new { userName = item.UserName }, null)
+                                    @item.UserName
                                 </td>
                                 <td>
                                     @if (item.Memberships.IsApproved)

@@ -53,6 +53,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PROModel", "FK_StoreProduct_ProductChildCategory", "ProductChildCategory", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.ProductChildCategory), "StoreProduct", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.StoreProduct), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "FK_ProductOrder_Store", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.Store), "ProductOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.ProductOrder), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "FK_ProductOrder_Users", "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.Users), "ProductOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.ProductOrder), true)]
+[assembly: EdmRelationshipAttribute("PROModel", "FK_Transaction_ProductOrder", "ProductOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.ProductOrder), "Transaction", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Transaction), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "FK_ProductReview_StoreProduct", "StoreProduct", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.StoreProduct), "ProductReview", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.ProductReview), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "FK_StoreProduct_ProductSubCategory", "ProductSubCategory", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.ProductSubCategory), "StoreProduct", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.StoreProduct), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "UserProfile", "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.Users), "Profiles", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Project.DAL.Profiles), true)]
@@ -925,6 +926,22 @@ namespace Project.DAL
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
+        public ObjectSet<Transaction> Transaction
+        {
+            get
+            {
+                if ((_Transaction == null))
+                {
+                    _Transaction = base.CreateObjectSet<Transaction>("Transaction");
+                }
+                return _Transaction;
+            }
+        }
+        private ObjectSet<Transaction> _Transaction;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
         public ObjectSet<UserDetail> UserDetail
         {
             get
@@ -1033,6 +1050,22 @@ namespace Project.DAL
             }
         }
         private ObjectSet<WorkflowSteps> _WorkflowSteps;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<ProductSizeView> ProductSizeView
+        {
+            get
+            {
+                if ((_ProductSizeView == null))
+                {
+                    _ProductSizeView = base.CreateObjectSet<ProductSizeView>("ProductSizeView");
+                }
+                return _ProductSizeView;
+            }
+        }
+        private ObjectSet<ProductSizeView> _ProductSizeView;
 
         #endregion
 
@@ -1431,6 +1464,14 @@ namespace Project.DAL
         }
     
         /// <summary>
+        /// Deprecated Method for adding a new object to the Transaction EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToTransaction(Transaction transaction)
+        {
+            base.AddObject("Transaction", transaction);
+        }
+    
+        /// <summary>
         /// Deprecated Method for adding a new object to the UserDetail EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToUserDetail(UserDetail userDetail)
@@ -1484,6 +1525,14 @@ namespace Project.DAL
         public void AddToWorkflowSteps(WorkflowSteps workflowSteps)
         {
             base.AddObject("WorkflowSteps", workflowSteps);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the ProductSizeView EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToProductSizeView(ProductSizeView productSizeView)
+        {
+            base.AddObject("ProductSizeView", productSizeView);
         }
 
         #endregion
@@ -3457,9 +3506,10 @@ namespace Project.DAL
         /// <param name="deliveryFee">Initial value of the DeliveryFee property.</param>
         /// <param name="stateTransitFee">Initial value of the StateTransitFee property.</param>
         /// <param name="totalDeliveryFee">Initial value of the TotalDeliveryFee property.</param>
+        /// <param name="totalPrice">Initial value of the TotalPrice property.</param>
         /// <param name="weight">Initial value of the Weight property.</param>
         /// <param name="isSaved">Initial value of the IsSaved property.</param>
-        public static CartItem CreateCartItem(global::System.Int32 id, global::System.Int32 cartId, global::System.Int32 productId, global::System.Int32 quantity, global::System.Decimal price, global::System.Decimal deliveryFee, global::System.Decimal stateTransitFee, global::System.Decimal totalDeliveryFee, global::System.Int32 weight, global::System.Boolean isSaved)
+        public static CartItem CreateCartItem(global::System.Int32 id, global::System.Int32 cartId, global::System.Int32 productId, global::System.Int32 quantity, global::System.Decimal price, global::System.Decimal deliveryFee, global::System.Decimal stateTransitFee, global::System.Decimal totalDeliveryFee, global::System.Decimal totalPrice, global::System.Int32 weight, global::System.Boolean isSaved)
         {
             CartItem cartItem = new CartItem();
             cartItem.Id = id;
@@ -3470,6 +3520,7 @@ namespace Project.DAL
             cartItem.DeliveryFee = deliveryFee;
             cartItem.StateTransitFee = stateTransitFee;
             cartItem.TotalDeliveryFee = totalDeliveryFee;
+            cartItem.TotalPrice = totalPrice;
             cartItem.Weight = weight;
             cartItem.IsSaved = isSaved;
             return cartItem;
@@ -3673,6 +3724,30 @@ namespace Project.DAL
         private global::System.Decimal _TotalDeliveryFee;
         partial void OnTotalDeliveryFeeChanging(global::System.Decimal value);
         partial void OnTotalDeliveryFeeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal TotalPrice
+        {
+            get
+            {
+                return _TotalPrice;
+            }
+            set
+            {
+                OnTotalPriceChanging(value);
+                ReportPropertyChanging("TotalPrice");
+                _TotalPrice = StructuralObject.SetValidValue(value, "TotalPrice");
+                ReportPropertyChanged("TotalPrice");
+                OnTotalPriceChanged();
+            }
+        }
+        private global::System.Decimal _TotalPrice;
+        partial void OnTotalPriceChanging(global::System.Decimal value);
+        partial void OnTotalPriceChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -9427,6 +9502,28 @@ namespace Project.DAL
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "FK_Transaction_ProductOrder", "Transaction")]
+        public EntityCollection<Transaction> Transaction
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Transaction>("PROModel.FK_Transaction_ProductOrder", "Transaction");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Transaction>("PROModel.FK_Transaction_ProductOrder", "Transaction", value);
+                }
+            }
+        }
 
         #endregion
 
@@ -9693,6 +9790,149 @@ namespace Project.DAL
                 }
             }
         }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PROModel", Name="ProductSizeView")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class ProductSizeView : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new ProductSizeView object.
+        /// </summary>
+        /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="storeId">Initial value of the StoreId property.</param>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="productId">Initial value of the ProductId property.</param>
+        public static ProductSizeView CreateProductSizeView(global::System.String name, global::System.Int32 storeId, global::System.Int32 id, global::System.Int32 productId)
+        {
+            ProductSizeView productSizeView = new ProductSizeView();
+            productSizeView.Name = name;
+            productSizeView.StoreId = storeId;
+            productSizeView.Id = id;
+            productSizeView.ProductId = productId;
+            return productSizeView;
+        }
+
+        #endregion
+
+        #region Simple Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                if (_Name != value)
+                {
+                    OnNameChanging(value);
+                    ReportPropertyChanging("Name");
+                    _Name = StructuralObject.SetValidValue(value, false, "Name");
+                    ReportPropertyChanged("Name");
+                    OnNameChanged();
+                }
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 StoreId
+        {
+            get
+            {
+                return _StoreId;
+            }
+            set
+            {
+                if (_StoreId != value)
+                {
+                    OnStoreIdChanging(value);
+                    ReportPropertyChanging("StoreId");
+                    _StoreId = StructuralObject.SetValidValue(value, "StoreId");
+                    ReportPropertyChanged("StoreId");
+                    OnStoreIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _StoreId;
+        partial void OnStoreIdChanging(global::System.Int32 value);
+        partial void OnStoreIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ProductId
+        {
+            get
+            {
+                return _ProductId;
+            }
+            set
+            {
+                if (_ProductId != value)
+                {
+                    OnProductIdChanging(value);
+                    ReportPropertyChanging("ProductId");
+                    _ProductId = StructuralObject.SetValidValue(value, "ProductId");
+                    ReportPropertyChanged("ProductId");
+                    OnProductIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ProductId;
+        partial void OnProductIdChanging(global::System.Int32 value);
+        partial void OnProductIdChanged();
 
         #endregion
 
@@ -15815,6 +16055,286 @@ namespace Project.DAL
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Store>("PROModel.FK_Store_Themes", "Store", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PROModel", Name="Transaction")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Transaction : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Transaction object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="productOrderId">Initial value of the ProductOrderId property.</param>
+        /// <param name="amount">Initial value of the Amount property.</param>
+        /// <param name="transactionNo">Initial value of the TransactionNo property.</param>
+        /// <param name="createdBy">Initial value of the CreatedBy property.</param>
+        /// <param name="createdDate">Initial value of the CreatedDate property.</param>
+        /// <param name="status">Initial value of the Status property.</param>
+        /// <param name="description">Initial value of the Description property.</param>
+        public static Transaction CreateTransaction(global::System.Int32 id, global::System.Int32 productOrderId, global::System.Decimal amount, global::System.String transactionNo, global::System.String createdBy, global::System.DateTime createdDate, global::System.Boolean status, global::System.String description)
+        {
+            Transaction transaction = new Transaction();
+            transaction.Id = id;
+            transaction.ProductOrderId = productOrderId;
+            transaction.Amount = amount;
+            transaction.TransactionNo = transactionNo;
+            transaction.CreatedBy = createdBy;
+            transaction.CreatedDate = createdDate;
+            transaction.Status = status;
+            transaction.Description = description;
+            return transaction;
+        }
+
+        #endregion
+
+        #region Simple Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ProductOrderId
+        {
+            get
+            {
+                return _ProductOrderId;
+            }
+            set
+            {
+                OnProductOrderIdChanging(value);
+                ReportPropertyChanging("ProductOrderId");
+                _ProductOrderId = StructuralObject.SetValidValue(value, "ProductOrderId");
+                ReportPropertyChanged("ProductOrderId");
+                OnProductOrderIdChanged();
+            }
+        }
+        private global::System.Int32 _ProductOrderId;
+        partial void OnProductOrderIdChanging(global::System.Int32 value);
+        partial void OnProductOrderIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal Amount
+        {
+            get
+            {
+                return _Amount;
+            }
+            set
+            {
+                OnAmountChanging(value);
+                ReportPropertyChanging("Amount");
+                _Amount = StructuralObject.SetValidValue(value, "Amount");
+                ReportPropertyChanged("Amount");
+                OnAmountChanged();
+            }
+        }
+        private global::System.Decimal _Amount;
+        partial void OnAmountChanging(global::System.Decimal value);
+        partial void OnAmountChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String TransactionNo
+        {
+            get
+            {
+                return _TransactionNo;
+            }
+            set
+            {
+                OnTransactionNoChanging(value);
+                ReportPropertyChanging("TransactionNo");
+                _TransactionNo = StructuralObject.SetValidValue(value, false, "TransactionNo");
+                ReportPropertyChanged("TransactionNo");
+                OnTransactionNoChanged();
+            }
+        }
+        private global::System.String _TransactionNo;
+        partial void OnTransactionNoChanging(global::System.String value);
+        partial void OnTransactionNoChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String CreatedBy
+        {
+            get
+            {
+                return _CreatedBy;
+            }
+            set
+            {
+                OnCreatedByChanging(value);
+                ReportPropertyChanging("CreatedBy");
+                _CreatedBy = StructuralObject.SetValidValue(value, false, "CreatedBy");
+                ReportPropertyChanged("CreatedBy");
+                OnCreatedByChanged();
+            }
+        }
+        private global::System.String _CreatedBy;
+        partial void OnCreatedByChanging(global::System.String value);
+        partial void OnCreatedByChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime CreatedDate
+        {
+            get
+            {
+                return _CreatedDate;
+            }
+            set
+            {
+                OnCreatedDateChanging(value);
+                ReportPropertyChanging("CreatedDate");
+                _CreatedDate = StructuralObject.SetValidValue(value, "CreatedDate");
+                ReportPropertyChanged("CreatedDate");
+                OnCreatedDateChanged();
+            }
+        }
+        private global::System.DateTime _CreatedDate;
+        partial void OnCreatedDateChanging(global::System.DateTime value);
+        partial void OnCreatedDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean Status
+        {
+            get
+            {
+                return _Status;
+            }
+            set
+            {
+                OnStatusChanging(value);
+                ReportPropertyChanging("Status");
+                _Status = StructuralObject.SetValidValue(value, "Status");
+                ReportPropertyChanged("Status");
+                OnStatusChanged();
+            }
+        }
+        private global::System.Boolean _Status;
+        partial void OnStatusChanging(global::System.Boolean value);
+        partial void OnStatusChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Description
+        {
+            get
+            {
+                return _Description;
+            }
+            set
+            {
+                OnDescriptionChanging(value);
+                ReportPropertyChanging("Description");
+                _Description = StructuralObject.SetValidValue(value, false, "Description");
+                ReportPropertyChanged("Description");
+                OnDescriptionChanged();
+            }
+        }
+        private global::System.String _Description;
+        partial void OnDescriptionChanging(global::System.String value);
+        partial void OnDescriptionChanged();
+
+        #endregion
+
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "FK_Transaction_ProductOrder", "ProductOrder")]
+        public ProductOrder ProductOrder
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ProductOrder>("PROModel.FK_Transaction_ProductOrder", "ProductOrder").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ProductOrder>("PROModel.FK_Transaction_ProductOrder", "ProductOrder").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<ProductOrder> ProductOrderReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ProductOrder>("PROModel.FK_Transaction_ProductOrder", "ProductOrder");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<ProductOrder>("PROModel.FK_Transaction_ProductOrder", "ProductOrder", value);
                 }
             }
         }

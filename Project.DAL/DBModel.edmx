@@ -100,6 +100,7 @@
           <Property Name="DeliveryFee" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="StateTransitFee" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="TotalDeliveryFee" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="Weight" Type="int" Nullable="false" />
           <Property Name="IsSaved" Type="bit" Nullable="false" />
         </EntityType>
@@ -743,6 +744,19 @@
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="ProductOrderId" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="TransactionNo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="UserDetail">
           <Key>
             <PropertyRef Name="Id" />
@@ -835,6 +849,20 @@
           <Property Name="Priority" Type="int" Nullable="false" />
           <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'FORTRESS.dbo.ProductSizeView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ProductSizeView">
+          <Key>
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="StoreId" />
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="StoreId" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_AddressBook_AddressType">
           <End Role="AddressType" Type="Self.AddressType" Multiplicity="1" />
@@ -1700,6 +1728,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Transaction_ProductOrder">
+          <End Role="ProductOrder" Type="Self.ProductOrder" Multiplicity="1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductOrder">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="ProductOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserDetail_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="UserDetail" Type="Self.UserDetail" Multiplicity="*" />
@@ -1922,6 +1962,7 @@
           <EntitySet Name="TempUser" EntityType="Self.TempUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Testimonial" EntityType="Self.Testimonial" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Themes" EntityType="Self.Themes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transaction" EntityType="Self.Transaction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserDetail" EntityType="Self.UserDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UsersInRoles" EntityType="Self.UsersInRoles" Schema="dbo" store:Type="Tables" />
@@ -1930,6 +1971,14 @@
           <EntitySet Name="WorkFlowActions" EntityType="Self.WorkFlowActions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkflowStepActions" EntityType="Self.WorkflowStepActions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkflowSteps" EntityType="Self.WorkflowSteps" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductSizeView" EntityType="Self.ProductSizeView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[ProductSizeView].[Name] AS [Name], 
+[ProductSizeView].[StoreId] AS [StoreId], 
+[ProductSizeView].[Id] AS [Id], 
+[ProductSizeView].[ProductId] AS [ProductId]
+FROM [dbo].[ProductSizeView] AS [ProductSizeView]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_AddressBook_AddressType" Association="Self.FK_AddressBook_AddressType">
             <End Role="AddressType" EntitySet="AddressType" />
             <End Role="AddressBook" EntitySet="AddressBook" />
@@ -2218,6 +2267,10 @@
             <End Role="Store" EntitySet="Store" />
             <End Role="Testimonial" EntitySet="Testimonial" />
           </AssociationSet>
+          <AssociationSet Name="FK_Transaction_ProductOrder" Association="Self.FK_Transaction_ProductOrder">
+            <End Role="ProductOrder" EntitySet="ProductOrder" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
           <AssociationSet Name="FK_UserDetail_Users" Association="Self.FK_UserDetail_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="UserDetail" EntitySet="UserDetail" />
@@ -2325,6 +2378,7 @@
           <EntitySet Name="TempUser" EntityType="PROModel.TempUser" />
           <EntitySet Name="Testimonial" EntityType="PROModel.Testimonial" />
           <EntitySet Name="Themes" EntityType="PROModel.Themes" />
+          <EntitySet Name="Transaction" EntityType="PROModel.Transaction" />
           <EntitySet Name="UserDetail" EntityType="PROModel.UserDetail" />
           <EntitySet Name="Users" EntityType="PROModel.Users" />
           <EntitySet Name="Verification" EntityType="PROModel.Verification" />
@@ -2332,6 +2386,7 @@
           <EntitySet Name="WorkFlowActions" EntityType="PROModel.WorkFlowActions" />
           <EntitySet Name="WorkflowStepActions" EntityType="PROModel.WorkflowStepActions" />
           <EntitySet Name="WorkflowSteps" EntityType="PROModel.WorkflowSteps" />
+          <EntitySet Name="ProductSizeView" EntityType="PROModel.ProductSizeView" />
           <AssociationSet Name="FK_AddressBook_AddressType" Association="PROModel.FK_AddressBook_AddressType">
             <End Role="AddressType" EntitySet="AddressType" />
             <End Role="AddressBook" EntitySet="AddressBook" />
@@ -2467,6 +2522,10 @@
           <AssociationSet Name="FK_ProductOrder_Users" Association="PROModel.FK_ProductOrder_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="ProductOrder" EntitySet="ProductOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_ProductOrder" Association="PROModel.FK_Transaction_ProductOrder">
+            <End Role="ProductOrder" EntitySet="ProductOrder" />
+            <End Role="Transaction" EntitySet="Transaction" />
           </AssociationSet>
           <AssociationSet Name="FK_ProductReview_StoreProduct" Association="PROModel.FK_ProductReview_StoreProduct">
             <End Role="StoreProduct" EntitySet="StoreProduct" />
@@ -2717,6 +2776,7 @@
           <Property Name="DeliveryFee" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <Property Name="StateTransitFee" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <Property Name="TotalDeliveryFee" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="TotalPrice" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <Property Name="Weight" Type="Int32" Nullable="false" />
           <Property Name="IsSaved" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Cart" Relationship="PROModel.FK_CartItem_Cart" FromRole="CartItem" ToRole="Cart" />
@@ -3009,6 +3069,7 @@
           <NavigationProperty Name="PaymentMethod" Relationship="PROModel.FK_ProductOrder_PaymentMethod" FromRole="ProductOrder" ToRole="PaymentMethod" />
           <NavigationProperty Name="Store" Relationship="PROModel.FK_ProductOrder_Store" FromRole="ProductOrder" ToRole="Store" />
           <NavigationProperty Name="Users" Relationship="PROModel.FK_ProductOrder_Users" FromRole="ProductOrder" ToRole="Users" />
+          <NavigationProperty Name="Transaction" Relationship="PROModel.FK_Transaction_ProductOrder" FromRole="ProductOrder" ToRole="Transaction" />
         </EntityType>
         <EntityType Name="ProductReview">
           <Key>
@@ -3332,6 +3393,20 @@
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Store" Relationship="PROModel.FK_Store_Themes" FromRole="Themes" ToRole="Store" />
         </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="ProductOrderId" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="TransactionNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ProductOrder" Relationship="PROModel.FK_Transaction_ProductOrder" FromRole="Transaction" ToRole="ProductOrder" />
+        </EntityType>
         <EntityType Name="UserDetail">
           <Key>
             <PropertyRef Name="Id" />
@@ -3436,6 +3511,18 @@
           <NavigationProperty Name="Workflow" Relationship="PROModel.FK_WorkflowSteps_Workflow" FromRole="WorkflowSteps" ToRole="Workflow" />
           <NavigationProperty Name="WorkflowStepActions" Relationship="PROModel.FK_WorkflowStepActions_WorkflowSteps" FromRole="WorkflowSteps" ToRole="WorkflowStepActions" />
           <NavigationProperty Name="Store" Relationship="PROModel.StoreWorkflowSteps" FromRole="WorkflowSteps" ToRole="Store" />
+        </EntityType>
+        <EntityType Name="ProductSizeView">
+          <Key>
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="StoreId" />
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StoreId" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_AddressBook_AddressType">
           <End Type="PROModel.AddressType" Role="AddressType" Multiplicity="1" />
@@ -3845,6 +3932,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Transaction_ProductOrder">
+          <End Type="PROModel.ProductOrder" Role="ProductOrder" Multiplicity="1" />
+          <End Type="PROModel.Transaction" Role="Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductOrder">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="ProductOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ProductReview_StoreProduct">
           <End Type="PROModel.StoreProduct" Role="StoreProduct" Multiplicity="1" />
           <End Type="PROModel.ProductReview" Role="ProductReview" Multiplicity="*" />
@@ -4218,6 +4317,7 @@
               <MappingFragment StoreEntitySet="CartItem">
                 <ScalarProperty Name="IsSaved" ColumnName="IsSaved" />
                 <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
                 <ScalarProperty Name="TotalDeliveryFee" ColumnName="TotalDeliveryFee" />
                 <ScalarProperty Name="StateTransitFee" ColumnName="StateTransitFee" />
                 <ScalarProperty Name="DeliveryFee" ColumnName="DeliveryFee" />
@@ -4782,6 +4882,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Transaction">
+            <EntityTypeMapping TypeName="PROModel.Transaction">
+              <MappingFragment StoreEntitySet="Transaction">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="TransactionNo" ColumnName="TransactionNo" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="ProductOrderId" ColumnName="ProductOrderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="UserDetail">
             <EntityTypeMapping TypeName="PROModel.UserDetail">
               <MappingFragment StoreEntitySet="UserDetail">
@@ -4871,6 +4985,16 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="WorkflowId" ColumnName="WorkflowId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductSizeView">
+            <EntityTypeMapping TypeName="PROModel.ProductSizeView">
+              <MappingFragment StoreEntitySet="ProductSizeView">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

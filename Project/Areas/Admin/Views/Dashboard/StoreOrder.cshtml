@@ -43,9 +43,7 @@
                                 Order No.
                             </th>
                            
-                            <th>
-                               Item Price
-                            </th>
+                            
 
                             <th>
                                 No of Items
@@ -89,20 +87,26 @@
                                         @item.OrderNo
                                     </td>
 
+                                   
                                     <td>
-                                        ₦@String.Format("{0:n0}", getcartitem.Select(x => x.Price).Sum())
-                                    </td>
-                                    <td>
-                                        @getcartitem.Select(x => x.Quantity).Count()
+                                        
+                                        @getcartitem.Select(x => x.Quantity).Sum()
                                     </td>
 
                                     <td>
                                         ₦@String.Format("{0:n0}", getcartitem.Select(x => x.TotalDeliveryFee).Sum())
+
                                     </td>
 
 
                                     <td>
-                                        ₦@String.Format("{0:n0}", getcartitem.Select(x => x.Price).Sum() + getcartitem.Select(x => x.TotalDeliveryFee).Sum())
+                                        @{
+                                            decimal totalP = getcartitem.Select(x => x.TotalPrice).Sum();
+                                            decimal totalD = getcartitem.Select(x => x.TotalDeliveryFee).Sum();
+                                            decimal overall_total = totalP + totalD;
+
+                                        }
+                                        ₦@String.Format("{0:n0}", overall_total)
                                     </td>
 
 

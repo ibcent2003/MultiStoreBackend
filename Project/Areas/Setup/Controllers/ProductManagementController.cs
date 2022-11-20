@@ -196,10 +196,10 @@ namespace Project.Areas.Setup.Controllers
                     }
                 }
 
-                model.store = storeDetail;
+                model.store = Backbone.GetStore(db, model.store.ProcessInstaceId);
                 if (model.store == null)
                 {
-                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["message"] = "Store object is empty";
                     TempData["messageType"] = "danger";
                     return RedirectToAction("Index", "Store", new { area = "Setup" });
                 }
@@ -207,7 +207,7 @@ namespace Project.Areas.Setup.Controllers
                 {
                     //check for duplicate
                     
-                    var validate = db.StoreProduct.Where(x => x.Name == model.Productform.Name).ToList();
+                    var validate = model.store.StoreProduct.Where(x => x.Name == model.Productform.Name).ToList();
                     if (validate.Any())
                     {
                         TempData["message"] = "The Name " + model.Productform.Name + " already exist. Please enter different name";
@@ -434,7 +434,10 @@ namespace Project.Areas.Setup.Controllers
                         Description = model.Productform.Description,
                         ModifiedBy = User.Identity.Name,
                         ModifiedDate = DateTime.Now,
-                        IsDeleted = model.Productform.IsDeleted
+                        IsDeleted = model.Productform.IsDeleted,
+                        NoOfView = 0,
+                        IsNew = model.Productform.HasSales
+                        
                     };
                     db.StoreProduct.AddObject(add);
                     model.store.StoreProduct.Add(add);
@@ -486,6 +489,7 @@ namespace Project.Areas.Setup.Controllers
                 }
                 var product = model.store.StoreProduct.Where(x => x.Id == PId).FirstOrDefault();
                 var cate = model.store.ProductCategory.Where(x => x.Id == product.ProductCategoryId).FirstOrDefault();
+                
                 model.Productform = new ProductForm();
                 model.Productform.Id = product.Id;
                 model.Productform.Name = product.Name;
@@ -530,7 +534,6 @@ namespace Project.Areas.Setup.Controllers
                 return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
             }
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -843,7 +846,6 @@ namespace Project.Areas.Setup.Controllers
             }
         }
 
-
         [Authorize]
         public ActionResult DocumentsUploadedPath(string path)
         {
@@ -878,7 +880,6 @@ namespace Project.Areas.Setup.Controllers
                 return null;
             }
         }
-
 
         public ActionResult ReorderProduct(Guid Id, int PId)
         {
@@ -933,7 +934,6 @@ namespace Project.Areas.Setup.Controllers
             }
         }
 
-
         [HttpPost]
         public ActionResult ReorderProduct(ProductManagementViewModel model)
         {
@@ -949,7 +949,8 @@ namespace Project.Areas.Setup.Controllers
                         return RedirectToAction("Index", "Store", new { area = "Setup" });
                     }
                 }
-                model.store = storeDetail;
+                //model.store = storeDetail;
+                model.store = Backbone.GetStore(db, model.store.ProcessInstaceId);
                 if (model.store == null)
                 {
                     Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Store Object is empty. Unlikely error."));
@@ -1041,7 +1042,8 @@ namespace Project.Areas.Setup.Controllers
                     }
                 }
                 ProductManagementViewModel model = new ProductManagementViewModel();
-                model.store = storeDetail;
+                //model.store = storeDetail;
+                model.store = Backbone.GetStore(db, Id);
                 if (model.store == null)
                 {
                     Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Store Object is empty. Unlikely error."));
@@ -1090,7 +1092,6 @@ namespace Project.Areas.Setup.Controllers
             }
         }
 
-
         [HttpPost]
         public ActionResult Grant(ProductManagementViewModel model)
         {
@@ -1107,7 +1108,7 @@ namespace Project.Areas.Setup.Controllers
                         return RedirectToAction("Index", "Store", new { area = "Setup" });
                     }
                 }
-                model.store = storeDetail;
+                model.store = Backbone.GetStore(db, model.store.ProcessInstaceId);
                 if (model.store == null)
                 {
                     Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Store Object is empty. Unlikely error."));
@@ -1116,7 +1117,7 @@ namespace Project.Areas.Setup.Controllers
                     return RedirectToAction("Index", "Store", new { area = "Setup" });
                 }
 
-                var product = storeDetail.StoreProduct.Where(x => x.Id == model.product.Id).FirstOrDefault();
+                var product = model.store.StoreProduct.Where(x => x.Id == model.product.Id).FirstOrDefault();
                 if (product == null)
                 {
                     TempData["message"] = Settings.Default.GenericExceptionMessage;
@@ -1190,7 +1191,8 @@ namespace Project.Areas.Setup.Controllers
                         return RedirectToAction("Index", "Store", new { area = "Setup" });
                     }
                 }
-                model.store = storeDetail;
+                //model.store = storeDetail;
+                model.store = Backbone.GetStore(db, model.store.ProcessInstaceId);
                 if (model.store == null)
                 {
                     Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Store Object is empty. Unlikely error."));
@@ -1263,7 +1265,6 @@ namespace Project.Areas.Setup.Controllers
             }
         }
 
-
         public ActionResult ProductSizeList(Guid Id, int PId, int SizeTypeId=0)
         {
             try
@@ -1279,7 +1280,8 @@ namespace Project.Areas.Setup.Controllers
                     }
                 }
                 ProductManagementViewModel model = new ProductManagementViewModel();
-                model.store = storeDetail;
+                // model.store = storeDetail;
+                model.store = Backbone.GetStore(db, Id);
                 if (model.store == null)
                 {
                     Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Store Object is empty. Unlikely error."));
@@ -1333,7 +1335,6 @@ namespace Project.Areas.Setup.Controllers
                 return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
             }
         }
-
 
         [HttpPost]
         public ActionResult GrantSize(ProductManagementViewModel model)
@@ -1436,7 +1437,8 @@ namespace Project.Areas.Setup.Controllers
                         return RedirectToAction("Index", "Store", new { area = "Setup" });
                     }
                 }
-               // model.store = storeDetail;
+                // model.store = storeDetail;
+                model.store = Backbone.GetStore(db, model.store.ProcessInstaceId);
                 if (model.store == null)
                 {
                     Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Store Object is empty. Unlikely error."));
@@ -1508,9 +1510,5 @@ namespace Project.Areas.Setup.Controllers
                 return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
             }
         }
-
-
-
-
     }
 }

@@ -23,6 +23,7 @@ namespace Project.Areas.Admin.Controllers
         Backbone services = new Backbone();
         private PROEntities db = new PROEntities();
         private IMembershipService membershipService;
+        CodeGenerator CodeGen = new CodeGenerator();
         // GET: /Admin/Dashboard/
 
         public DashboardController()
@@ -410,7 +411,7 @@ namespace Project.Areas.Admin.Controllers
                     {
                         Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Unauthorised Access"));
                         TempData["message"] = "Unauthorised Access";
-                        return RedirectToAction("Index", "Store", new { area = "Setup" });
+                        return RedirectToAction("StoreDashboard", "Dashboard", new { Id = Id, area = "Admin" });
                     }
                 }
                 model.store = Backbone.GetStore(db, Id);
@@ -419,7 +420,7 @@ namespace Project.Areas.Admin.Controllers
 
                     TempData["message"] = Settings.Default.GenericExceptionMessage;
                     TempData["messageType"] = "danger";
-                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                    return RedirectToAction("StoreDashboard", "Dashboard", new { Id = Id, area = "Admin" });
                 }
                 var getOrder = db.ProductOrder.Where(x => x.OrderNo == OrderNo).FirstOrDefault();
                 if (getOrder == null)
@@ -427,7 +428,7 @@ namespace Project.Areas.Admin.Controllers
                     Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("cant find order no in Product Order table"));
                     TempData["message"] = "Order No cannot be found";
                     TempData["messageType"] = "danger";
-                    return RedirectToAction("Index", "Dashboard", new { area = "Setup" });
+                    return RedirectToAction("StoreDashboard", "Dashboard", new { Id = Id, area = "Admin" });
                 }
                 var getUser = getOrder.Users.CustomerAddressBook.Where(x => x.IsDefault == true).FirstOrDefault();
                 getOrder.ConfirmOrder = true;
@@ -471,7 +472,7 @@ namespace Project.Areas.Admin.Controllers
                 Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
                 TempData["message"] = Settings.Default.GenericExceptionMessage;
                 TempData["messageType"] = "danger";
-                return RedirectToAction("Index", "Store", new { area = "Setup" });
+                return RedirectToAction("StoreDashboard", "Dashboard", new { Id = Id, area = "Admin" });
             }
         }
         public ActionResult CancelOrder(Guid Id, string OrderNo, int cId, string type)
@@ -486,7 +487,7 @@ namespace Project.Areas.Admin.Controllers
                     {
                         Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Unauthorised Access"));
                         TempData["message"] = "Unauthorised Access";
-                        return RedirectToAction("Index", "Store", new { area = "Setup" });
+                        return RedirectToAction("StoreDashboard", "Dashboard", new { Id = Id, area = "Admin" });
                     }
                 }
                 model.store = Backbone.GetStore(db, Id);
@@ -495,7 +496,7 @@ namespace Project.Areas.Admin.Controllers
 
                     TempData["message"] = Settings.Default.GenericExceptionMessage;
                     TempData["messageType"] = "danger";
-                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                    return RedirectToAction("StoreDashboard", "Dashboard", new { Id = Id, area = "Admin" });
                 }
                 var getOrder = db.ProductOrder.Where(x => x.OrderNo == OrderNo).FirstOrDefault();
                 if (getOrder == null)
@@ -503,7 +504,7 @@ namespace Project.Areas.Admin.Controllers
                     Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("cant find order no in Product Order table"));
                     TempData["message"] = "Order No cannot be found";
                     TempData["messageType"] = "danger";
-                    return RedirectToAction("Index", "Dashboard", new { area = "Setup" });
+                    return RedirectToAction("StoreDashboard", "Dashboard", new { Id = Id, area = "Admin" });
                 }
                 var getUser = getOrder.Users.CustomerAddressBook.Where(x => x.IsDefault == true).FirstOrDefault();
                 getOrder.CancelledOrder = true;
@@ -542,7 +543,7 @@ namespace Project.Areas.Admin.Controllers
                 Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
                 TempData["message"] = Settings.Default.GenericExceptionMessage;
                 TempData["messageType"] = "danger";
-                return RedirectToAction("Index", "Store", new { area = "Setup" });
+                return RedirectToAction("StoreDashboard", "Dashboard", new { Id = Id, area = "Admin" });
             }
         }
         public ActionResult ConfirmPayment(Guid Id, string OrderNo, int cId, string type)
@@ -557,7 +558,7 @@ namespace Project.Areas.Admin.Controllers
                     {
                         Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Unauthorised Access"));
                         TempData["message"] = "Unauthorised Access";
-                        return RedirectToAction("Index", "Store", new { area = "Setup" });
+                        return RedirectToAction("StoreDashboard", "Dashboard", new { Id = Id, area = "Admin" });
                     }
                 }
                 model.store = Backbone.GetStore(db, Id);
@@ -594,15 +595,25 @@ namespace Project.Areas.Admin.Controllers
                     int qtyRemain = old_qty - bought_qty;
                     product.Quantity = qtyRemain;
                     db.SaveChanges();
-                }
+                }                
+                Transaction transaction = new Transaction
+                {
+                    ProductOrderId = getOrder.Id,
+                    Amount = getCartitem.Select(x => x.TotalPrice).Sum() + getCartitem.Select(x=>x.TotalDeliveryFee).Sum(), 
+                    TransactionNo = CodeGen.PadZeroes(10, CodeGen.GetNextID("OrderNo")),
+                    CreatedBy = User.Identity.Name,
+                    CreatedDate = DateTime.Now,
+                    Status = true,
+                    Description = "Payment Success"
+                    
+                };
+                db.Transaction.AddObject(transaction);
                 db.SaveChanges();
-
                 #region send notification to customer
                 Alert alert = (from x in this.db.Alert where x.Id == 1007 select x).FirstOrDefault<Alert>();
                 Backbone.SendEmailNotificationToUser(db, alert.SubjectEmail, alert.Email.Replace("%UserName%", getOrder.CustomerAddressBook.FullName), getOrder.CustomerAddressBook.EmailAddress, Settings.Default.EmailReplyTo, alert.Id);
                 Backbone.SendSMSNotificationToUser(db, alert.SubjectSms, alert.Sms.Replace("%UserName%", getOrder.CustomerAddressBook.FullName).Replace("%OrderNo%", getOrder.OrderNo), getOrder.CustomerAddressBook.MobileNo, alert.SubjectSms, alert.Id);
                 #endregion
-
                 if (type == "newOrder")
                 {
                     model.OrderList = Backbone.GetStoreNewOrder(db, model.store.Id);
@@ -624,7 +635,7 @@ namespace Project.Areas.Admin.Controllers
                     model.orderType = "Confirmed Payment";
                 }
 
-                TempData["message"] = "The Order " + OrderNo + " has been confirm successfully. You can confirm the payment upon receiver";
+                TempData["message"] = "Payment for " + OrderNo + " has been confirm successfully.";
                 return RedirectToAction("StoreOrder", "Dashboard", new { area = "Admin", Id = Id, type = type });
             }
             catch (Exception ex)
