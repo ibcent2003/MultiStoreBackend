@@ -41,7 +41,7 @@
 
 
                     <div class="form-group">
-                        @Html.Label("Menu Type Name", new { @class = "col-md-2 control-label required" })
+                        @Html.Label("Package Type", new { @class = "col-md-2 control-label required" })
                         <div class="col-md-6">
                             @Html.TextBoxFor(m => m.shippingCostForm.Name, new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.shippingCostForm.Name, null, new { @style = "color:red" })

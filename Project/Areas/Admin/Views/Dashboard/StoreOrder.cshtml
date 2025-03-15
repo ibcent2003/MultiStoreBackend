@@ -172,6 +172,13 @@
 
                                         }
 
+                                        else if (Model.orderType == "Delivered")
+                                        {
+                                            var order_type = "Delivered";
+                                            @Html.ActionLink("View Order", "ViewOrder", new { Id = Model.store.ProcessInstaceId, OrderNo = item.OrderNo, cId = item.CartId, type = "Delivered" }, new { @class = "btn btn-xs btn-success" })
+
+                                        }
+
 
 
 

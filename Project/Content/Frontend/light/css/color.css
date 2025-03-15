@@ -31,7 +31,7 @@
 .timeliner li:hover .timeline-heading h4.subheading,
 .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus, .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
 .sitemap li a:hover {
-    color: #143856;
+    color: #FFA500;
 }
 
 
@@ -52,7 +52,7 @@
 .btn-default,
 .section-title h1:before,
 .section-title h2:before,
-.special-feature .mask-top h4:before ,
+.special-feature .mask-top h4:before,
 .s-feature-box,
 .s-feature-box:hover .mask-bottom,
 .progress-bar,
@@ -70,12 +70,11 @@ h2.count-number:before,
 .bar,
 .pagination > .active > span,
 .pagination > .active > span:hover,
-.blog.timeliner>li:hover .timeline-image,
-.blog.timeliner>li:hover .timeline-icon,
+.blog.timeliner > li:hover .timeline-image,
+.blog.timeliner > li:hover .timeline-icon,
 div.count-number:before,
-.static-color-icons span
-{
-	background-color: #143856;
+.static-color-icons span {
+	background-color: #FFA500;
 }
 
 
@@ -94,28 +93,28 @@ div.count-number:before,
 .pagination > .active > span:hover,
 .blog.timeliner  >li:hover .timeline-panel
 {
-	border-color: #143856;
+	border-color: #FFA500;
 }
 
 .bottom-arrow:before{
-	border-top-color: #143856;
+	border-top-color: #FFA500;
 }
 .rightGrip, 
 .leftGrip{
-	border-bottom: 10px solid #143856 !important;
+	border-bottom: 10px solid #FFA500 !important;
 }
 
 .blog.timeliner >li:hover  .timeline-panel:before{
-  border-left-color: #143856;
+  border-left-color: #FFA500;
   
 }
 .blog.timeliner  >li.timeline-inverted:hover .timeline-panel:before{
-  border-right-color: #143856;
+  border-right-color: #FFA500;
   border-left-color: #ffffff;
 }
 .right.blog.timeliner  >li.timeline-inverted:hover .timeline-panel:before,
 .right.blog.timeliner >li:hover  .timeline-panel:before{
-	border-right-color: #143856;
+	border-right-color: #FFA500;
 	border-left-color: #ffffff;
 }
 	
@@ -125,7 +124,7 @@ div.count-number:before,
 @media (max-width: 767px) { 
 	.blog.timeliner  >li.timeline-inverted:hover .timeline-panel:before,
 	.blog.timeliner >li:hover  .timeline-panel:before{
-		border-right-color: #143856;
+		border-right-color: #FFA500;
 		border-left-color: #ffffff;
 	}
 }
@@ -144,13 +143,13 @@ div.count-number:before,
 /* Content Select In Browser */
 
 ::-moz-selection {
-    background: #143856;
+    background: #FFA500;
     color: #000000;
     text-shadow: none;
 }
 
 ::selection {
-    background: #143856;
+    background: #FFA500;
     color: #a4003a;
     text-shadow: none;
 }

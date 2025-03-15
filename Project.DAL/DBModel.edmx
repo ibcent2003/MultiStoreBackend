@@ -76,6 +76,17 @@
           <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="256" />
         </EntityType>
+        <EntityType Name="Bank">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ShortName" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Cart">
           <Key>
             <PropertyRef Name="Id" />
@@ -103,6 +114,8 @@
           <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="Weight" Type="int" Nullable="false" />
           <Property Name="IsSaved" Type="bit" Nullable="false" />
+          <Property Name="ColorId" Type="int" />
+          <Property Name="SizeId" Type="int" />
         </EntityType>
         <EntityType Name="ContactInfo">
           <Key>
@@ -230,6 +243,7 @@
           <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="ImageSize" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="LGA">
           <Key>
@@ -517,6 +531,7 @@
           <Property Name="ModifiedBy" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="SliderSize" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="State">
           <Key>
@@ -541,6 +556,11 @@
           <Property Name="ProcessInstaceId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ThemesId" Type="int" />
           <Property Name="URL" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="URL2" Type="varchar" MaxLength="200" />
+          <Property Name="URL3" Type="varchar" MaxLength="200" />
+          <Property Name="BankId" Type="int" Nullable="false" />
+          <Property Name="AccountName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="AccountNumber" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="Logo" Type="varchar" MaxLength="100" />
           <Property Name="OwnProcurement" Type="bit" Nullable="false" />
           <Property Name="WorkFlowId" Type="int" Nullable="false" />
@@ -748,7 +768,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProductOrderId" Type="int" Nullable="false" />
           <Property Name="Amount" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="TransactionNo" Type="varchar" MaxLength="50" Nullable="false" />
@@ -851,7 +871,7 @@
           <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'FORTRESS.dbo.ProductSizeView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'mall.dbo.ProductSizeView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ProductSizeView">
           <Key>
             <PropertyRef Name="Name" />
@@ -1317,6 +1337,18 @@ warning 6002: The table/view 'FORTRESS.dbo.ProductSizeView' does not have a prim
             </Principal>
             <Dependent Role="State">
               <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Store_Bank">
+          <End Role="Bank" Type="Self.Bank" Multiplicity="1" />
+          <End Role="Store" Type="Self.Store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bank">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Store">
+              <PropertyRef Name="BankId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1903,6 +1935,7 @@ warning 6002: The table/view 'FORTRESS.dbo.ProductSizeView' does not have a prim
           <EntitySet Name="AlertNotification" EntityType="Self.AlertNotification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AlertType" EntityType="Self.AlertType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Applications" EntityType="Self.Applications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bank" EntityType="Self.Bank" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cart" EntityType="Self.Cart" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CartItem" EntityType="Self.CartItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ContactInfo" EntityType="Self.ContactInfo" Schema="dbo" store:Type="Tables" />
@@ -2131,6 +2164,10 @@ FROM [dbo].[ProductSizeView] AS [ProductSizeView]</DefiningQuery>
             <End Role="Country" EntitySet="Country" />
             <End Role="State" EntitySet="State" />
           </AssociationSet>
+          <AssociationSet Name="FK_Store_Bank" Association="Self.FK_Store_Bank">
+            <End Role="Bank" EntitySet="Bank" />
+            <End Role="Store" EntitySet="Store" />
+          </AssociationSet>
           <AssociationSet Name="FK_Store_Country" Association="Self.FK_Store_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="Store" EntitySet="Store" />
@@ -2335,6 +2372,7 @@ FROM [dbo].[ProductSizeView] AS [ProductSizeView]</DefiningQuery>
           <EntitySet Name="AlertNotification" EntityType="PROModel.AlertNotification" />
           <EntitySet Name="AlertType" EntityType="PROModel.AlertType" />
           <EntitySet Name="Applications" EntityType="PROModel.Applications" />
+          <EntitySet Name="Bank" EntityType="PROModel.Bank" />
           <EntitySet Name="Cart" EntityType="PROModel.Cart" />
           <EntitySet Name="CartItem" EntityType="PROModel.CartItem" />
           <EntitySet Name="ContactInfo" EntityType="PROModel.ContactInfo" />
@@ -2422,6 +2460,10 @@ FROM [dbo].[ProductSizeView] AS [ProductSizeView]</DefiningQuery>
           <AssociationSet Name="UserApplication" Association="PROModel.UserApplication">
             <End Role="Applications" EntitySet="Applications" />
             <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Store_Bank" Association="PROModel.FK_Store_Bank">
+            <End Role="Bank" EntitySet="Bank" />
+            <End Role="Store" EntitySet="Store" />
           </AssociationSet>
           <AssociationSet Name="FK_Cart_PaymentMethod" Association="PROModel.FK_Cart_PaymentMethod">
             <End Role="PaymentMethod" EntitySet="PaymentMethod" />
@@ -2747,6 +2789,18 @@ FROM [dbo].[ProductSizeView] AS [ProductSizeView]</DefiningQuery>
           <NavigationProperty Name="Roles" Relationship="PROModel.RoleApplication" FromRole="Applications" ToRole="Roles" />
           <NavigationProperty Name="Users" Relationship="PROModel.UserApplication" FromRole="Applications" ToRole="Users" />
         </EntityType>
+        <EntityType Name="Bank">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ShortName" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Store" Relationship="PROModel.FK_Store_Bank" FromRole="Bank" ToRole="Store" />
+        </EntityType>
         <EntityType Name="Cart">
           <Key>
             <PropertyRef Name="Id" />
@@ -2779,6 +2833,8 @@ FROM [dbo].[ProductSizeView] AS [ProductSizeView]</DefiningQuery>
           <Property Name="TotalPrice" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <Property Name="Weight" Type="Int32" Nullable="false" />
           <Property Name="IsSaved" Type="Boolean" Nullable="false" />
+          <Property Name="ColorId" Type="Int32" />
+          <Property Name="SizeId" Type="Int32" />
           <NavigationProperty Name="Cart" Relationship="PROModel.FK_CartItem_Cart" FromRole="CartItem" ToRole="Cart" />
           <NavigationProperty Name="StoreProduct" Relationship="PROModel.FK_CartItem_StoreProduct" FromRole="CartItem" ToRole="StoreProduct" />
         </EntityType>
@@ -2906,6 +2962,7 @@ FROM [dbo].[ProductSizeView] AS [ProductSizeView]</DefiningQuery>
           <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="ImageSize" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="StoreImageCollection" Relationship="PROModel.FK_StoreImageCollection_ImageCollection" FromRole="ImageCollection" ToRole="StoreImageCollection" />
         </EntityType>
         <EntityType Name="LGA">
@@ -3205,6 +3262,7 @@ FROM [dbo].[ProductSizeView] AS [ProductSizeView]</DefiningQuery>
           <Property Name="ModifiedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="SliderSize" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="State">
           <Key>
@@ -3231,6 +3289,11 @@ FROM [dbo].[ProductSizeView] AS [ProductSizeView]</DefiningQuery>
           <Property Name="ProcessInstaceId" Type="Guid" Nullable="false" />
           <Property Name="ThemesId" Type="Int32" />
           <Property Name="URL" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="URL2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="URL3" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="BankId" Type="Int32" Nullable="false" />
+          <Property Name="AccountName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AccountNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Logo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="OwnProcurement" Type="Boolean" Nullable="false" />
           <Property Name="WorkFlowId" Type="Int32" Nullable="false" />
@@ -3241,6 +3304,7 @@ FROM [dbo].[ProductSizeView] AS [ProductSizeView]</DefiningQuery>
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <Property Name="SubmissionDate" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="Bank" Relationship="PROModel.FK_Store_Bank" FromRole="Store" ToRole="Bank" />
           <NavigationProperty Name="Country" Relationship="PROModel.FK_Store_Country" FromRole="Store" ToRole="Country" />
           <NavigationProperty Name="Menu" Relationship="PROModel.FK_Menu_Store" FromRole="Store" ToRole="Menu" />
           <NavigationProperty Name="ProductOrder" Relationship="PROModel.FK_ProductOrder_Store" FromRole="Store" ToRole="ProductOrder" />
@@ -3397,7 +3461,7 @@ FROM [dbo].[ProductSizeView] AS [ProductSizeView]</DefiningQuery>
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ProductOrderId" Type="Int32" Nullable="false" />
           <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <Property Name="TransactionNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -3629,6 +3693,18 @@ FROM [dbo].[ProductSizeView] AS [ProductSizeView]</DefiningQuery>
             </Principal>
             <Dependent Role="Users">
               <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Store_Bank">
+          <End Type="PROModel.Bank" Role="Bank" Multiplicity="1" />
+          <End Type="PROModel.Store" Role="Store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bank">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Store">
+              <PropertyRef Name="BankId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4299,6 +4375,18 @@ FROM [dbo].[ProductSizeView] AS [ProductSizeView]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Bank">
+            <EntityTypeMapping TypeName="PROModel.Bank">
+              <MappingFragment StoreEntitySet="Bank">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Cart">
             <EntityTypeMapping TypeName="PROModel.Cart">
               <MappingFragment StoreEntitySet="Cart">
@@ -4315,6 +4403,8 @@ FROM [dbo].[ProductSizeView] AS [ProductSizeView]</DefiningQuery>
           <EntitySetMapping Name="CartItem">
             <EntityTypeMapping TypeName="PROModel.CartItem">
               <MappingFragment StoreEntitySet="CartItem">
+                <ScalarProperty Name="SizeId" ColumnName="SizeId" />
+                <ScalarProperty Name="ColorId" ColumnName="ColorId" />
                 <ScalarProperty Name="IsSaved" ColumnName="IsSaved" />
                 <ScalarProperty Name="Weight" ColumnName="Weight" />
                 <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
@@ -4442,6 +4532,7 @@ FROM [dbo].[ProductSizeView] AS [ProductSizeView]</DefiningQuery>
           <EntitySetMapping Name="ImageCollection">
             <EntityTypeMapping TypeName="PROModel.ImageCollection">
               <MappingFragment StoreEntitySet="ImageCollection">
+                <ScalarProperty Name="ImageSize" ColumnName="ImageSize" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
@@ -4714,6 +4805,7 @@ FROM [dbo].[ProductSizeView] AS [ProductSizeView]</DefiningQuery>
           <EntitySetMapping Name="SliderTemplate">
             <EntityTypeMapping TypeName="PROModel.SliderTemplate">
               <MappingFragment StoreEntitySet="SliderTemplate">
+                <ScalarProperty Name="SliderSize" ColumnName="SliderSize" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
@@ -4752,6 +4844,11 @@ FROM [dbo].[ProductSizeView] AS [ProductSizeView]</DefiningQuery>
                 <ScalarProperty Name="WorkFlowId" ColumnName="WorkFlowId" />
                 <ScalarProperty Name="OwnProcurement" ColumnName="OwnProcurement" />
                 <ScalarProperty Name="Logo" ColumnName="Logo" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+                <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+                <ScalarProperty Name="BankId" ColumnName="BankId" />
+                <ScalarProperty Name="URL3" ColumnName="URL3" />
+                <ScalarProperty Name="URL2" ColumnName="URL2" />
                 <ScalarProperty Name="URL" ColumnName="URL" />
                 <ScalarProperty Name="ThemesId" ColumnName="ThemesId" />
                 <ScalarProperty Name="ProcessInstaceId" ColumnName="ProcessInstaceId" />

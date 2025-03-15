@@ -9,7 +9,7 @@
     }
 </style>
 <div class="page-header page-title-left mini">
-    <div class="image-bg content-in" data-background="@Url.Content("~/Content/Frontend/light/img/sections/slider/backmenu.jpg")" data-stellar-background-ratio="0.5" style="background-image: @Url.Content("~/Content/Frontend/light/img/sections/slider/backmenu.jpg"); background-position: 50% 0%;"></div>
+    <div class="image-bg content-in" data-background="@Url.Content("~/Content/Frontend/light/img/sections/slider/inner.jpg")" data-stellar-background-ratio="0.5" style="background-image: @Url.Content("~/Content/Frontend/light/img/sections/slider/backmenu.jpg"); background-position: 50% 0%;"></div>
     <div class="container">
         <div class="col-md-12">
             <h1 class="title" style="color:white">Store Information</h1>
@@ -70,8 +70,8 @@
                     </ul>
                 </div>
 
-                <div class="panel panel-primary" id="tabbed_widget_panel">
-                    <div class="panel-heading" style="background-color: #143856;border-color: #143856;">
+                <div class="panel panel-warning" id="tabbed_widget_panel">
+                    <div class="panel-heading" style="background-color: #FFA500;border-color: #FFA500;">
                         Store Information
                     </div>
                     @using (Html.BeginForm("EditStoreInformation", "StoreRegistration", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal row-border" }))
@@ -111,7 +111,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <div class="input-icon">
-                                                    <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + Model.store.Logo })" height="60" width="190" />
+                                                    <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + Model.store.Logo })" style="height:60px; width:190px" />
 
                                                 </div>
                                             </div>
@@ -146,6 +146,66 @@
                                         </div>
 
                                         <div class="editor-label">
+                                            @Html.Label("Bank", new { @class = "required" })
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-icon">
+                                                @Html.DropDownListFor(m => Model.storeform.BankId, new SelectList(Model.BankList, "Value", "Text"), new { @class = "form-control" })
+                                            </div>
+                                        </div>
+
+                                        <div class="editor-label">
+                                            @Html.LabelFor(model => model.storeform.AccountName, new { @class = "required" })
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-icon">
+                                                @Html.TextBoxFor(model => model.storeform.AccountName, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.storeform.AccountName, null, new { @style = "color:red" })
+                                            </div>
+                                        </div>
+
+                                        <div class="editor-label">
+                                            @Html.LabelFor(model => model.storeform.AccountNumber, new { @class = "required" })
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-icon">
+                                                @Html.TextBoxFor(model => model.storeform.AccountNumber, new { @class = "form-control", maxlength = 10, @placeholder = "eg. 1234567890" })
+                                                @Html.ValidationMessageFor(model => model.storeform.AccountNumber, null, new { @style = "color:red" })
+                                            </div>
+                                        </div>
+
+                                        <div class="editor-label">
+                                            @Html.LabelFor(model => model.storeform.URL, new { @class = "required" })
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-icon">
+                                                @Html.TextBoxFor(model => model.storeform.URL, new { @class = "form-control", @placeholder = "eg. www.ibshoescollections.com" })
+                                                @Html.ValidationMessageFor(model => model.storeform.URL, null, new { @style = "color:red" })
+                                            </div>
+                                        </div>
+
+                                        <div class="editor-label">
+                                            @Html.LabelFor(model => model.storeform.URL2, new { @class = "required" })
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-icon">
+                                                @Html.TextBoxFor(model => model.storeform.URL2, new { @class = "form-control", @placeholder = "eg. www.ib-shoescollections.com" })
+                                                @Html.ValidationMessageFor(model => model.storeform.URL2, null, new { @style = "color:red" })
+                                            </div>
+                                        </div>
+
+                                        <div class="editor-label">
+                                            @Html.LabelFor(model => model.storeform.URL3, new { @class = "required" })
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-icon">
+                                                @Html.TextBoxFor(model => model.storeform.URL3, new { @class = "form-control", @placeholder = "eg. www.ibshoes.com" })
+                                                @Html.ValidationMessageFor(model => model.storeform.URL3, null, new { @style = "color:red" })
+                                            </div>
+                                        </div>
+
+
+                                        <div class="editor-label">
                                             @Html.Label("Store Theme", new { @class = "required" })
                                         </div>
                                         <div class="form-group">
@@ -171,11 +231,11 @@
 
                         <div class="panel-footer">
                             <div class="row">
-                                <div style="text-align: left;" class="col-md-6">                                    
-                                    <a class="btn btn-xs btn-default" style="color:white" href="@Url.Action("ViewStoreInformation", "storeRegistration", new { area="", Id = Model.store.ProcessInstaceId})">Back</a>
+                                <div  class="col-md-6">                                    
+                                    <a class="btn btn-xs btn-default" style="color:white;float:left" href="@Url.Action("ViewStoreInformation", "storeRegistration", new { area="", Id = Model.store.ProcessInstaceId})">Back</a>
                                 </div>
-                                <div style="text-align: right;" class="col-md-6">
-                                    <input type="submit" value="Next" class="btn btn-sm btn-default" style="color:white">
+                                <div  class="col-md-6">
+                                    <input type="submit" value="Next" class="btn btn-sm btn-default" style="color:white;float:right">
                                 </div>
                             </div>
                         </div>

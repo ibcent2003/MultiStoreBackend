@@ -19,6 +19,8 @@
     <a href="@Url.Action("StoreDashboard", "Dashboard", new { area="Admin", Id=Model.store.ProcessInstaceId})" class="btn btn-success btn-xs">Back</a>
     <a href="@Url.Action("StoreOrder", "Dashboard", new { area="Admin", Id=Model.store.ProcessInstaceId, type="cancelledPayment"})" class="btn btn-danger btn-xs">@Model.TotalCancelledPayment Payment Cancelled</a>
 
+    <a href="@Url.Action("StoreOrder", "Dashboard", new { area="Admin", Id=Model.store.ProcessInstaceId, type="Delivered"})" class="btn btn-info btn-xs">@Model.TotalDelivered Orders Delivered</a>
+
 </div>
 <br />
 

@@ -9,7 +9,7 @@
     }
 </style>
 <div class="page-header page-title-left mini">
-    <div class="image-bg content-in" data-background="@Url.Content("~/Content/Frontend/light/img/sections/slider/backmenu.jpg")" data-stellar-background-ratio="0.5" style="background-image: @Url.Content("~/Content/Frontend/light/img/sections/slider/backmenu.jpg"); background-position: 50% 0%;"></div>
+    <div class="image-bg content-in" data-background="@Url.Content("~/Content/Frontend/light/img/sections/slider/inner.jpg")" data-stellar-background-ratio="0.5" style="background-image: @Url.Content("~/Content/Frontend/light/img/sections/slider/backmenu.jpg"); background-position: 50% 0%;"></div>
     <div class="container">
         <div class="col-md-12">
             <h1 class="title" style="color:white">Store Information</h1>
@@ -58,8 +58,8 @@
                     </ul>
                 </div>
 
-                <div class="panel panel-primary" id="tabbed_widget_panel">
-                    <div class="panel-heading" style="background-color: #143856;border-color: #143856;">
+                <div class="panel panel-warning" id="tabbed_widget_panel">
+                    <div class="panel-heading" style="background-color: #FFA500;border-color: #FFA500;">
                         Store Information
                     </div>
 @using (Html.BeginForm("StoreInformation", "StoreRegistration", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal row-border" }))
@@ -81,21 +81,6 @@
                                                 @Html.ValidationMessageFor(model => model.storeform.Name, null, new { @style = "color:red" })
                                             </div>
                                         </div>
-
-                                        <div class="editor-label">
-                                            @Html.LabelFor(model => model.storeform.URL, new { @class = "required" })
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-icon">
-
-                                               
-
-                                                @Html.TextBoxFor(model => model.storeform.URL, new { @class = "form-control", @placeholder = "eg. www.ibshoescollections.com" })
-                                                @Html.ValidationMessageFor(model => model.storeform.URL, null, new { @style = "color:red" })
-                                            </div>
-                                        </div>
-
-                                        
 
                                         <div class="editor-label">
                                             @Html.LabelFor(model => model.storeform.Description, new { @class = "required" })
@@ -123,7 +108,6 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="input-icon">
-
                                             </div>
                                         </div>
 
@@ -137,6 +121,35 @@
                                         </div>
 
                                         <div class="editor-label">
+                                            @Html.Label("Bank", new { @class = "required" })
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-icon">
+                                                @Html.DropDownListFor(m => Model.storeform.BankId, new SelectList(Model.BankList, "Value", "Text"), new { @class = "form-control" })
+                                            </div>
+                                        </div>
+
+                                        <div class="editor-label">
+                                            @Html.LabelFor(model => model.storeform.AccountName, new { @class = "required" })
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-icon">
+                                                @Html.TextBoxFor(model => model.storeform.AccountName, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.storeform.AccountName, null, new { @style = "color:red" })
+                                            </div>
+                                        </div>
+
+                                        <div class="editor-label">
+                                            @Html.LabelFor(model => model.storeform.AccountNumber, new { @class = "required" })
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-icon">
+                                                @Html.TextBoxFor(model => model.storeform.AccountNumber, new { @class = "form-control", maxlength = 10, @placeholder = "eg. 1234567890" })
+                                                @Html.ValidationMessageFor(model => model.storeform.AccountNumber, null, new { @style = "color:red" })
+                                            </div>
+                                        </div>
+
+                                        <div class="editor-label">
                                             @Html.Label("Store Theme", new { @class = "required" })
                                         </div>
                                         <div class="form-group">
@@ -145,6 +158,35 @@
                                             </div>
                                         </div>
 
+                                        <div class="editor-label">
+                                            @Html.LabelFor(model => model.storeform.URL, new { @class = "required" })
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-icon">
+                                                @Html.TextBoxFor(model => model.storeform.URL, new { @class = "form-control", @placeholder = "eg. www.ibshoescollections.com" })
+                                                @Html.ValidationMessageFor(model => model.storeform.URL, null, new { @style = "color:red" })
+                                            </div>
+                                        </div>
+
+                                        <div class="editor-label">
+                                            @Html.LabelFor(model => model.storeform.URL2, new { @class = "required" })
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-icon">
+                                                @Html.TextBoxFor(model => model.storeform.URL2, new { @class = "form-control", @placeholder = "eg. www.ib-shoescollections.com" })
+                                                @Html.ValidationMessageFor(model => model.storeform.URL2, null, new { @style = "color:red" })
+                                            </div>
+                                        </div>
+
+                                        <div class="editor-label">
+                                            @Html.LabelFor(model => model.storeform.URL3, new { @class = "required" })
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-icon">
+                                                @Html.TextBoxFor(model => model.storeform.URL3, new { @class = "form-control", @placeholder = "eg. www.ibshoes.com" })
+                                                @Html.ValidationMessageFor(model => model.storeform.URL3, null, new { @style = "color:red" })
+                                            </div>
+                                        </div>
 
                                     </div>
 

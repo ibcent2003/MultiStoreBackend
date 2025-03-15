@@ -26,11 +26,11 @@ namespace Project.Areas.Setup.Models
         [Required(ErrorMessage = "Please enter State Name")]
         public string Name { get; set; }
 
-        [Display(Name = "State Name")]
+        [Display(Name = "Delivery Fee")]
         [Required(ErrorMessage = "Please enter Delivery Fees")]
         public decimal Fee { get; set; }
 
-        [Display(Name = "Size Type")]
+        [Display(Name = "No of Transit")]
         [Required(ErrorMessage = "Please enter transit")]
         public int StateTransit { get; set; }
 

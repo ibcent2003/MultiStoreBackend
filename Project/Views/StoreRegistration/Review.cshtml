@@ -9,7 +9,7 @@
     }
 </style>
 <div class="page-header page-title-left mini">
-    <div class="image-bg content-in" data-background="@Url.Content("~/Content/Frontend/light/img/sections/slider/backmenu.jpg")" data-stellar-background-ratio="0.5" style="background-image: @Url.Content("~/Content/Frontend/light/img/sections/slider/backmenu.jpg"); background-position: 50% 0%;"></div>
+    <div class="image-bg content-in" data-background="@Url.Content("~/Content/Frontend/light/img/sections/slider/inner.jpg")" data-stellar-background-ratio="0.5" style="background-image: @Url.Content("~/Content/Frontend/light/img/sections/slider/backmenu.jpg"); background-position: 50% 0%;"></div>
     <div class="container">
         <div class="col-md-12">
             <h1 class="title" style="color:white">Registration Review</h1>
@@ -43,26 +43,26 @@
                 <div id="tabbed_widget" class="tabbable" style="display:;">
                     <ul class="nav nav-tabs" style="margin: 0 0 20px 0;">
                         <li class="disabled disabledTab">
-                            <a href="#">Guidelines</a>
+                            <a href="#">Guide</a>
                         </li>
                         <li class="disabled disabledTab">
-                            <a href="#">Step 1: Store Information</a>
+                            <a href="#">Step1: Store Info</a>
                         </li>
                         <li class="disabled disabledTab">
-                            <a href="#">Step 2: Store Address</a>
+                            <a href="#">Step2: Address</a>
                         </li>
                         <li class="disabled disabledTab">
-                            <a href="#">Step 3: Contact Person</a>
+                            <a href="#">Step3: Contact Person</a>
                         </li>
 
                         <li class="disabled disabledTab">
-                            <a href="#">Step 4: Product Category</a>
+                            <a href="#">Step4: Product Category</a>
                         </li>
                         <li class="disabled disabledTab">
-                            <a href="#">Step 5: Account Info</a>
-                        </li>
+                            <a href="#">Step5: Account</a>
+                        </li>                        
                         <li class="active">
-                            <a href="#">Step 6:Review</a>
+                            <a href="#">Step6: Review</a>
                         </li>
                         <li class="disabled disabledTab">
                             <a href="#">Feedback</a>
@@ -70,8 +70,8 @@
                     </ul>
                 </div>
 
-                <div class="panel panel-primary" id="tabbed_widget_panel">
-                    <div class="panel-heading" style="background-color: #143856;border-color: #143856;">
+                <div class="panel panel-warning" id="tabbed_widget_panel">
+                    <div class="panel-heading" style="background-color: #FFA500;border-color: #FFA500;">
                        Review
                     </div>
 
@@ -82,15 +82,16 @@
                                 <div class="col-sm-12 col-md-12">
 
                                     @Html.HiddenFor(x => x.store.ProcessInstaceId)
-                                    
+
 
                                     @Html.AntiForgeryToken()
-                                  
+
                                     <div class="widget">
                                         <div class="widget-title">
                                             <h3 class="title"><i class="icon-mobile9"></i>Store Information</h3>
                                         </div>
-                                        <table class="table table-striped table-bordered table-hover" id="coverNone">
+
+                                        <table class="table table-striped table-bordered table-hover">
                                             <thead>
                                                 <tr>
                                                     <th>
@@ -102,18 +103,16 @@
                                                     <th>
                                                         Logo
                                                     </th>
-                                                    <th>
-                                                        Modified By
-                                                    </th>
-                                                    <th>
-                                                        Modified Date
-                                                    </th>
+
                                                     <th>
                                                         Accepted Currency
                                                     </th>
+                                                    <th>
+                                                        Store Theme
+                                                    </th>
 
 
-                                                    
+
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -133,16 +132,9 @@
                                                         }
                                                         else
                                                         {
-                                                            <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + Model.store.Logo })" height="60" width="190" />
+                                                            <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + Model.store.Logo })" style="height:80px;width:190px" />
                                                         }
 
-                                                    </td>
-
-                                                    <td>
-                                                        @Model.store.ModifiedBy
-                                                    </td>
-                                                    <td>
-                                                        @Model.store.ModifiedDate
                                                     </td>
 
 
@@ -158,19 +150,170 @@
 
 
                                                     </td>
-                                                   
-                                               </tr>
+
+                                                    <td>
+                                                        @Model.store.Themes.Name
+                                                    </td>
+
+                                                </tr>
                                             </tbody>
                                         </table>
 
 
                                     </div>
 
-                                   
+                                    <div class="widget">
+                                        <div class="widget-title">
+                                            <h3 class="title"><i class="icon-mobile9"></i>Bank Information</h3>
+                                        </div>
+
+                                        <table class="table table-striped table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        S/N
+                                                    </th>
+                                                    <th>
+                                                        Bank Name
+                                                    </th>
+                                                    <th>
+                                                        Account Name
+                                                    </th>
+
+                                                    <th>
+                                                        Account Number
+                                                    </th>
+
+
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr>
+                                                    <td>
+                                                        1
+
+                                                    </td>
+                                                    <td>
+                                                        @Model.store.Bank.Name
+                                                    </td>
+                                                    <td>
+
+                                                        @Model.store.AccountName
+                                                    </td>
+
+
+                                                    <td>
+                                                        @Model.store.AccountNumber
+
+
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+
+                                    <div class="widget">
+                                        <div class="widget-title">
+                                            <h3 class="title"><i class="icon-mobile9"></i>Preferable Domain Name</h3>
+                                        </div>
+
+                                        <table class="table table-striped table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+
+                                                    <th>
+                                                        First Choice
+                                                    </th>
+                                                    <th>
+                                                        Second Choice
+                                                    </th>
+
+                                                    <th>
+                                                        Third Choice
+                                                    </th>
+
+
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr>
+
+                                                    <td>
+                                                        @Model.store.URL
+                                                    </td>
+                                                    <td>
+
+                                                        @Model.store.URL2
+                                                    </td>
+
+
+                                                    <td>
+                                                        @Model.store.URL3
+
+
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+
+                                    <div class="widget">
+                                        <div class="widget-title">
+                                            <h3 class="title"><i class="icon-mobile9"></i>Logistics Information</h3>
+                                        </div>
+
+                                        <table class="table table-striped table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                                                                                                                         
+                                                    <th>
+                                                        Your Option
+                                                    </th>
+
+
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr>
+                                                    
+                                                    <td>
+                                                        @if (Model.store.OwnProcurement == true)
+                                                        {
+                                                        <span>Handle logistics by Rocktea </span>
+
+                                                        }
+                                                        else
+                                                        {
+                                                    <span>Handle logistics by @Model.store.Name </span>
+
+                                                        }
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+
+
                                     <div class="widget">
                                         <div class="widget-title">
                                             <h3 class="title"><i class="icon-mobile9"></i>Store Address</h3>
-                                        </div>                                      
+                                        </div>
                                         <table class="table table-striped table-bordered table-hover">
                                             <thead>
                                                 <tr style="font-size: 12px;">
@@ -179,18 +322,19 @@
                                                     <th>Street</th>
                                                     @if (Model.store.CountryId == 1)
                                                     {
-                                                        <th>State</th>
                                                         <th>Lga</th>
+                                                        <th>State</th>
+
                                                     }
                                                     else
                                                     {
-                                                        <th>Region</th>
                                                         <th>District</th>
+                                                        <th>Region</th>
+
                                                     }
 
-                                                    <th>Modified By</th>
-                                                    <th>Modified Date</th>
-                                                   
+
+
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -206,12 +350,12 @@
                                                             </td>
                                                             <td>@item.AddressType.Name</td>
                                                             <td>@item.Street</td>
-                                                            <td>@item.LGA.State.Name</td>
                                                             <td>@item.LGA.Name</td>
+                                                            <td>@item.LGA.State.Name</td>
 
-                                                            <td>@item.ModifiedBy</td>
-                                                            <td>@item.ModifiedDate</td>
-                                                           
+
+
+
                                                         </tr>
                                                     }
                                                 }
@@ -225,12 +369,12 @@
                                         </table>
 
                                     </div>
-                                   
+
                                     <div class="widget">
                                         <div class="widget-title">
                                             <h3 class="title"><i class="icon-mobile9"></i>Contact Person</h3>
                                         </div>
-                                       
+
                                         <table class="table table-striped table-bordered table-hover">
                                             <thead>
                                                 <tr style="font-size: 12px;">
@@ -288,7 +432,7 @@
                                                     </div>
                                                     <div id="@item.Id" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                                                         <div class="panel-body">
-                                                          
+
                                                             @{
                                                                 var GetSubCategory = Model.store.ProductSubCategory.Where(x => x.ProductCategoryId == item.Id).ToList();
                                                             }
@@ -301,7 +445,7 @@
                                                                             Added Sub Category
                                                                         </th>
 
-                                                                       
+
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -320,7 +464,7 @@
                                                                                 <td>
                                                                                     @itemsub.Name
                                                                                 </td>
-                                                                              
+
 
                                                                             </tr>
 
@@ -337,8 +481,8 @@
 
 
                                                 </div>
-                                                                }
-                                            
+                                            }
+
                                         </div>
 
 
@@ -391,7 +535,7 @@
                                         </table>
                                     </div>
 
-                                   
+
 
                                     <div class="alert alert-warning">By submitting this application, i confirm that the information given in this form is true, complete and accurate. Submit your registration by clicking on the button below.</div>
 
@@ -400,17 +544,17 @@
 
                             <div class="panel-footer">
                                 <div class="row">
-                                    <div style="text-align: left;" class="col-md-6">
-                                        <a href="@Url.Action("UserAccount", "StoreRegistration", new { Id = Model.store.ProcessInstaceId, @area = "" })" class="btn btn-sm btn-default" style="color:white">Back</a>
+                                    <div class="col-md-6">
+                                        <a href="@Url.Action("UserAccount", "StoreRegistration", new { Id = Model.store.ProcessInstaceId, @area = "" })" class="btn btn-sm btn-default" style="color:white;float:left">Back</a>
                                     </div>
-                                    <div style="text-align: right;" class="col-md-6">
+                                    <div class="col-md-6">
                                        @if (Model.store.Status == "Registration Rejected")
                                        {
-                                        @Html.ActionLink("Submit Registration", "SubmitedRejected", "StoreRegistration", new { Id = Model.store.ProcessInstaceId }, new { @class = "btn btn-sm btn-default", style = "color:white" })
+                                        @Html.ActionLink("Submit Registration", "SubmitedRejected", "StoreRegistration", new { Id = Model.store.ProcessInstaceId }, new { @class = "btn btn-sm btn-default", style = "color:white; float:right" })
                                        }
                                        else
                                        {
-                                        @Html.ActionLink("Submit Registration", "SubmitRegistration", "StoreRegistration", new { Id = Model.store.ProcessInstaceId }, new { @class = "btn btn-sm btn-default", style = "color:white" })
+                                        @Html.ActionLink("Submit Registration", "SubmitRegistration", "StoreRegistration", new { Id = Model.store.ProcessInstaceId }, new { @class = "btn btn-sm btn-default", style = "color:white;float:right" })
                                        }
                                     </div>
                                 </div>

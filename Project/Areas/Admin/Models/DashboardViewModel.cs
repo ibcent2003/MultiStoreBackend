@@ -36,6 +36,7 @@ namespace Project.Areas.Admin.Models
         public int TotalConfirmPayment { get; set; }
         public int TotalCancelledOrder { get; set; }
         public int TotalCancelledPayment { get; set; }
+        public int TotalDelivered { get; set; }
         public string orderType { get; set; }
         public int OverallOrder { get; set; }
         public List<Guid> TotalCustomers { get; set; }
@@ -103,6 +104,8 @@ namespace Project.Areas.Admin.Models
         public bool HasAllChildCategory { get; set; }
 
         public CustomerAddressBook DeliveryAddress { get; set; }
+
+        public List<Store> PendingRegistration { get; set; }
 
     }
     public class ApprovalForm

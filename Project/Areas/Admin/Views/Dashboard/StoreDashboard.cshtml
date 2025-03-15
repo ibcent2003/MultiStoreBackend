@@ -18,7 +18,8 @@
     <a href="@Url.Action("EditStore", "Store", new { area="Setup", Id=Model.store.Id})" class="btn btn-danger btn-xs">Store Profile</a> <a href="@Url.Action("SliderList", "Store", new { area="Setup", Id=Model.store.ProcessInstaceId})" class="btn btn-success btn-xs">Store Slider</a>
     <a href="@Url.Action("CollectionList", "Store", new { area="Setup", Id=Model.store.ProcessInstaceId})" class="btn btn-warning btn-xs">Store Images Collections</a> <a href="@Url.Action("TestimonialList", "Store", new { area="Setup", Id=Model.store.ProcessInstaceId})" class="btn btn-warning btn-xs">Testimonials</a>
     <a href="@Url.Action("MenuList", "Store", new { area="Setup", Id=Model.store.ProcessInstaceId})" class="btn btn-primary btn-xs">Menu Items</a>
-    <a href="@Url.Action("StorePaymentMethod", "Store", new { area="Setup", Id=Model.store.ProcessInstaceId})" class="btn btn-primary btn-xs">Payment Method</a>
+    <a href="@Url.Action("StorePaymentMethod", "Store", new { area="Setup", Id=Model.store.ProcessInstaceId})" class="btn btn-success btn-xs">Payment Method</a>
+    <a href="http://@Model.store.URL" target="_blank" class="btn btn-inverse btn-xs">Preview Store</a>
 </div>
 <br />
 
@@ -54,9 +55,6 @@
             </div>
         </div>
     </div>
-
-
-
 
 
     <div class="col-sm-6 col-md-3 hidden-xs">
@@ -116,9 +114,6 @@
     </div>
 
 
-
-
-
     <div class="col-sm-6 col-md-3 hidden-xs">
         <div class="statbox widget box box-shadow">
             <div class="widget-content">
@@ -152,7 +147,7 @@
     <div class="col-md-12">
         <div class="widget box">
             <div class="widget-header">
-                <h4><i class="icon-reorder"></i>Reorder Product(s) </h4>
+                <h4><i class="icon-reorder"></i>Re-Order Product(s) </h4>
                 <div class="toolbar no-padding">
                     <div class="btn-group"><span class="btn btn-xs widget-collapse"><i class="icon-angle-down"></i></span></div>
                 </div>
@@ -162,7 +157,6 @@
                     <table class="table table-striped table-bordered table-hover table-checkable datatable dataTable">
                         <thead>
                             <tr>
-
                                 <th>SN</th>
                                 <th>
                                     Name

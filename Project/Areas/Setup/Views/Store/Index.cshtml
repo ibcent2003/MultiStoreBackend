@@ -9,14 +9,13 @@
     <div class="crumbs">
 
         <ul class="breadcrumb" id="breadcrumbs">
-            <li> <i class="icon-home"></i> <a href="@Url.Action("Index", "Dashboard", new { area="Admin"})">Dashboard</a> </li>    
+            <li> <i class="icon-home"></i> <a href="@Url.Action("Index", "Dashboard", new { area="Admin"})">Dashboard</a> </li>
             <li class="current"> <a title="" href="javascript: return void(0)"></a>Store List </li>
         </ul>
     </div>
 }
 
-<link href="~/Content/Backend/DataTable/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="~/Content/Backend/DataTable/css/buttons.dataTables.min.css" rel="stylesheet" />
+
 <div class="row">
     <div class="col-md-12">
         <div class="widget-header">
@@ -24,77 +23,84 @@
         </div>
         <div class="widget-content">
             <div class="row" style="margin-bottom: 10px;">
-                    <div class="col-md-12">
-                     @Html.ActionLink("<< Back", "Index",null, new { @class = "btn btn-xs btn-warning" })   @Html.ActionLink("New Store", "NewStore", null, new { @class = "btn btn-xs btn-success" })
-                    </div>
-                
+                <div class="col-md-12">
+                    @Html.ActionLink("<< Back", "Index", null, new { @class = "btn btn-xs btn-warning" })   @*@Html.ActionLink("New Store", "NewStore", null, new { @class = "btn btn-xs btn-success" })*@
+                </div>
+
             </div>
-   
-           <table class="table table-striped table-bordered table-hover" id="coverNone">
+
+
+            <table class="table table-striped table-bordered table-hover table-checkable datatable dataTable" id="coverNone">
                 <thead>
                     <tr>
-                        <th>S/N
+                        <th>
+                            S/N
                         </th>
-                         <th>Name
+                        <th>
+                            Name
                         </th>
-                        <th>Logo
+                        <th>
+                            Logo
                         </th>
-                         <th>Modified By
+                        <th>
+                            Modified By
                         </th>
-                        <th>Modified Date
+                        <th>
+                            Modified Date
                         </th>
-                        <th>Is Deleted
+                        <th>
+                            Is Deleted
                         </th>
-                          
-                                           
+
+
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                  @if (Model.storelist.Count != 0)
+                    @if (Model.storelist.Count != 0)
                     {
-                        
-                        int i = 0;
-                        foreach (var item in Model.storelist)
-                        {
-                            ++i;                                                        
-                        <tr>
-                            <td>
-                                @i
-                               
-                            </td>
-                            <td>
-                                @item.Name                               
-                            </td>
-                             <td>                               
-                                 <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + item.Logo })" height="60" width="190" />
-                            </td>
-                                                        
-                            <td>
-                                @item.ModifiedBy                               
-                            </td>
-                            <td>
-                                @item.ModifiedDate                               
-                            </td>
-                           
-                           
-                              <td>
-                                  @if(item.IsDeleted==true)
-                                  {
-                                      <span class="label label-info">Yes</span>
-                                  }
-                                  else
-                                  {
-                                       <span class="label label-warning">No</span>
-                                  }
-                                
-                            </td>
 
-                              <td>         
-                                  <a class="btn btn-xs btn-success" href="@Url.Action("StoreDashboard", "Dashboard", new { area="Admin", Id = item.ProcessInstaceId})">View Dashboard</a>
-                              </td>
-                        </tr>
-    
+                        int i = 0;
+                        foreach (var item in Model.storelist.OrderByDescending(x=>x.Id))
+                        {
+                            ++i;
+                            <tr>
+                                <td>
+                                    @i
+
+                                </td>
+                                <td>
+                                    @item.Name
+                                </td>
+                                <td>
+                                    <img src="@Url.Action("DocumentsUploadedPath", new { Path = (Model.documentPath) + item.Logo })" style="height:60px;width:190px"  />
+                                </td>
+
+                                <td>
+                                    @item.ModifiedBy
+                                </td>
+                                <td>
+                                    @item.ModifiedDate
+                                </td>
+
+
+                                <td>
+                                    @if (item.IsDeleted == true)
+                                    {
+                                        <span class="label label-info">Yes</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="label label-warning">No</span>
+                                    }
+
+                                </td>
+
+                                <td>
+                                    <a class="btn btn-xs btn-success" href="@Url.Action("StoreDashboard", "Dashboard", new { area="Admin", Id = item.ProcessInstaceId})">View Dashboard</a>
+                                </td>
+                            </tr>
+
                         }
 
                     }
@@ -106,36 +112,19 @@
                     }
                 </tbody>
             </table>
-     
+
         </div>
     </div>
 </div>
 
-<script src="~/Content/Backend/DataTable/js/jquery.dataTables.min.js"></script>
-<script src="~/Content/Backend/DataTable/js/dataTables.buttons.min.js"></script>
-<script src="~/Content/Backend/DataTable/js/buttons.flash.min.js"></script>
-<script src="~/Content/Backend/DataTable/js/buttons.html5.min.js"></script>
-<script src="~/Content/Backend/DataTable/js/buttons.print.min.js"></script>
 
-<script type="text/javascript">
-
-    $(document).ready(function () {
-
-        $('#coverNone').DataTable({
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'excel', 'pdf'
-            ]
-        });
-
-    });
-
-    function DeleteConfirm() {
-        if (confirm("Are you sure want to remove this member?"))
-            return true;
-        else
-            return false;
-    }
-
+@section Scripts{
+    @Scripts.Render("~/Content/Backend/plugins/datatables/jquery.dataTables.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/datatables/tabletools/TableTools.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/datatables/colvis/ColVis.min.js")
+    @Scripts.Render("~/Content/Backend/plugins/datatables/DT_bootstrap.js")
+    <script>
+        "use strict";
 
     </script>
+}

@@ -35,6 +35,8 @@ namespace Project.Models
 
         public List<SelectListItem> CountryList { get; set; }
         public List<SelectListItem> ThemesList { get; set; }
+        public List<SelectListItem> BankList { get; set; }
+
 
 
         //list items

@@ -28,6 +28,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("PROModel", "MembershipApplication", "Applications", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.Applications), "Memberships", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Memberships), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "RoleApplication", "Applications", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.Applications), "Roles", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Roles), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "UserApplication", "Applications", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.Applications), "Users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Users), true)]
+[assembly: EdmRelationshipAttribute("PROModel", "FK_Store_Bank", "Bank", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.Bank), "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Store), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "FK_Cart_PaymentMethod", "PaymentMethod", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Project.DAL.PaymentMethod), "Cart", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.Cart), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "FK_CartItem_Cart", "Cart", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.Cart), "CartItem", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.CartItem), true)]
 [assembly: EdmRelationshipAttribute("PROModel", "FK_ProductOrder_Cart", "Cart", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Project.DAL.Cart), "ProductOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Project.DAL.ProductOrder), true)]
@@ -234,6 +235,22 @@ namespace Project.DAL
             }
         }
         private ObjectSet<Applications> _Applications;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Bank> Bank
+        {
+            get
+            {
+                if ((_Bank == null))
+                {
+                    _Bank = base.CreateObjectSet<Bank>("Bank");
+                }
+                return _Bank;
+            }
+        }
+        private ObjectSet<Bank> _Bank;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1117,6 +1134,14 @@ namespace Project.DAL
         public void AddToApplications(Applications applications)
         {
             base.AddObject("Applications", applications);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Bank EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToBank(Bank bank)
+        {
+            base.AddObject("Bank", bank);
         }
     
         /// <summary>
@@ -3152,6 +3177,218 @@ namespace Project.DAL
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="PROModel", Name="Bank")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Bank : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Bank object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="shortName">Initial value of the ShortName property.</param>
+        /// <param name="modifiedBy">Initial value of the ModifiedBy property.</param>
+        /// <param name="modifiedDate">Initial value of the ModifiedDate property.</param>
+        /// <param name="isDeleted">Initial value of the IsDeleted property.</param>
+        public static Bank CreateBank(global::System.Int32 id, global::System.String name, global::System.String shortName, global::System.String modifiedBy, global::System.DateTime modifiedDate, global::System.Boolean isDeleted)
+        {
+            Bank bank = new Bank();
+            bank.Id = id;
+            bank.Name = name;
+            bank.ShortName = shortName;
+            bank.ModifiedBy = modifiedBy;
+            bank.ModifiedDate = modifiedDate;
+            bank.IsDeleted = isDeleted;
+            return bank;
+        }
+
+        #endregion
+
+        #region Simple Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value, "Id");
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false, "Name");
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ShortName
+        {
+            get
+            {
+                return _ShortName;
+            }
+            set
+            {
+                OnShortNameChanging(value);
+                ReportPropertyChanging("ShortName");
+                _ShortName = StructuralObject.SetValidValue(value, false, "ShortName");
+                ReportPropertyChanged("ShortName");
+                OnShortNameChanged();
+            }
+        }
+        private global::System.String _ShortName;
+        partial void OnShortNameChanging(global::System.String value);
+        partial void OnShortNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ModifiedBy
+        {
+            get
+            {
+                return _ModifiedBy;
+            }
+            set
+            {
+                OnModifiedByChanging(value);
+                ReportPropertyChanging("ModifiedBy");
+                _ModifiedBy = StructuralObject.SetValidValue(value, false, "ModifiedBy");
+                ReportPropertyChanged("ModifiedBy");
+                OnModifiedByChanged();
+            }
+        }
+        private global::System.String _ModifiedBy;
+        partial void OnModifiedByChanging(global::System.String value);
+        partial void OnModifiedByChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime ModifiedDate
+        {
+            get
+            {
+                return _ModifiedDate;
+            }
+            set
+            {
+                OnModifiedDateChanging(value);
+                ReportPropertyChanging("ModifiedDate");
+                _ModifiedDate = StructuralObject.SetValidValue(value, "ModifiedDate");
+                ReportPropertyChanged("ModifiedDate");
+                OnModifiedDateChanged();
+            }
+        }
+        private global::System.DateTime _ModifiedDate;
+        partial void OnModifiedDateChanging(global::System.DateTime value);
+        partial void OnModifiedDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsDeleted
+        {
+            get
+            {
+                return _IsDeleted;
+            }
+            set
+            {
+                OnIsDeletedChanging(value);
+                ReportPropertyChanging("IsDeleted");
+                _IsDeleted = StructuralObject.SetValidValue(value, "IsDeleted");
+                ReportPropertyChanged("IsDeleted");
+                OnIsDeletedChanged();
+            }
+        }
+        private global::System.Boolean _IsDeleted;
+        partial void OnIsDeletedChanging(global::System.Boolean value);
+        partial void OnIsDeletedChanged();
+
+        #endregion
+
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "FK_Store_Bank", "Store")]
+        public EntityCollection<Store> Store
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Store>("PROModel.FK_Store_Bank", "Store");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Store>("PROModel.FK_Store_Bank", "Store", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="PROModel", Name="Cart")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -3796,6 +4033,54 @@ namespace Project.DAL
         private global::System.Boolean _IsSaved;
         partial void OnIsSavedChanging(global::System.Boolean value);
         partial void OnIsSavedChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> ColorId
+        {
+            get
+            {
+                return _ColorId;
+            }
+            set
+            {
+                OnColorIdChanging(value);
+                ReportPropertyChanging("ColorId");
+                _ColorId = StructuralObject.SetValidValue(value, "ColorId");
+                ReportPropertyChanged("ColorId");
+                OnColorIdChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _ColorId;
+        partial void OnColorIdChanging(Nullable<global::System.Int32> value);
+        partial void OnColorIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> SizeId
+        {
+            get
+            {
+                return _SizeId;
+            }
+            set
+            {
+                OnSizeIdChanging(value);
+                ReportPropertyChanging("SizeId");
+                _SizeId = StructuralObject.SetValidValue(value, "SizeId");
+                ReportPropertyChanged("SizeId");
+                OnSizeIdChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _SizeId;
+        partial void OnSizeIdChanging(Nullable<global::System.Int32> value);
+        partial void OnSizeIdChanged();
 
         #endregion
 
@@ -6158,6 +6443,30 @@ namespace Project.DAL
         private global::System.Boolean _IsDeleted;
         partial void OnIsDeletedChanging(global::System.Boolean value);
         partial void OnIsDeletedChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ImageSize
+        {
+            get
+            {
+                return _ImageSize;
+            }
+            set
+            {
+                OnImageSizeChanging(value);
+                ReportPropertyChanging("ImageSize");
+                _ImageSize = StructuralObject.SetValidValue(value, true, "ImageSize");
+                ReportPropertyChanged("ImageSize");
+                OnImageSizeChanged();
+            }
+        }
+        private global::System.String _ImageSize;
+        partial void OnImageSizeChanging(global::System.String value);
+        partial void OnImageSizeChanged();
 
         #endregion
 
@@ -12096,6 +12405,30 @@ namespace Project.DAL
         private global::System.Boolean _IsDeleted;
         partial void OnIsDeletedChanging(global::System.Boolean value);
         partial void OnIsDeletedChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String SliderSize
+        {
+            get
+            {
+                return _SliderSize;
+            }
+            set
+            {
+                OnSliderSizeChanging(value);
+                ReportPropertyChanging("SliderSize");
+                _SliderSize = StructuralObject.SetValidValue(value, true, "SliderSize");
+                ReportPropertyChanged("SliderSize");
+                OnSliderSizeChanged();
+            }
+        }
+        private global::System.String _SliderSize;
+        partial void OnSliderSizeChanging(global::System.String value);
+        partial void OnSliderSizeChanged();
 
         #endregion
 
@@ -12393,6 +12726,9 @@ namespace Project.DAL
         /// <param name="description">Initial value of the Description property.</param>
         /// <param name="processInstaceId">Initial value of the ProcessInstaceId property.</param>
         /// <param name="uRL">Initial value of the URL property.</param>
+        /// <param name="bankId">Initial value of the BankId property.</param>
+        /// <param name="accountName">Initial value of the AccountName property.</param>
+        /// <param name="accountNumber">Initial value of the AccountNumber property.</param>
         /// <param name="ownProcurement">Initial value of the OwnProcurement property.</param>
         /// <param name="workFlowId">Initial value of the WorkFlowId property.</param>
         /// <param name="status">Initial value of the Status property.</param>
@@ -12400,7 +12736,7 @@ namespace Project.DAL
         /// <param name="modifiedBy">Initial value of the ModifiedBy property.</param>
         /// <param name="modifiedDate">Initial value of the ModifiedDate property.</param>
         /// <param name="isDeleted">Initial value of the IsDeleted property.</param>
-        public static Store CreateStore(global::System.Int32 id, global::System.String name, global::System.String description, global::System.Guid processInstaceId, global::System.String uRL, global::System.Boolean ownProcurement, global::System.Int32 workFlowId, global::System.String status, global::System.Int32 countryId, global::System.String modifiedBy, global::System.DateTime modifiedDate, global::System.Boolean isDeleted)
+        public static Store CreateStore(global::System.Int32 id, global::System.String name, global::System.String description, global::System.Guid processInstaceId, global::System.String uRL, global::System.Int32 bankId, global::System.String accountName, global::System.String accountNumber, global::System.Boolean ownProcurement, global::System.Int32 workFlowId, global::System.String status, global::System.Int32 countryId, global::System.String modifiedBy, global::System.DateTime modifiedDate, global::System.Boolean isDeleted)
         {
             Store store = new Store();
             store.Id = id;
@@ -12408,6 +12744,9 @@ namespace Project.DAL
             store.Description = description;
             store.ProcessInstaceId = processInstaceId;
             store.URL = uRL;
+            store.BankId = bankId;
+            store.AccountName = accountName;
+            store.AccountNumber = accountNumber;
             store.OwnProcurement = ownProcurement;
             store.WorkFlowId = workFlowId;
             store.Status = status;
@@ -12592,6 +12931,126 @@ namespace Project.DAL
         private global::System.String _URL;
         partial void OnURLChanging(global::System.String value);
         partial void OnURLChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String URL2
+        {
+            get
+            {
+                return _URL2;
+            }
+            set
+            {
+                OnURL2Changing(value);
+                ReportPropertyChanging("URL2");
+                _URL2 = StructuralObject.SetValidValue(value, true, "URL2");
+                ReportPropertyChanged("URL2");
+                OnURL2Changed();
+            }
+        }
+        private global::System.String _URL2;
+        partial void OnURL2Changing(global::System.String value);
+        partial void OnURL2Changed();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String URL3
+        {
+            get
+            {
+                return _URL3;
+            }
+            set
+            {
+                OnURL3Changing(value);
+                ReportPropertyChanging("URL3");
+                _URL3 = StructuralObject.SetValidValue(value, true, "URL3");
+                ReportPropertyChanged("URL3");
+                OnURL3Changed();
+            }
+        }
+        private global::System.String _URL3;
+        partial void OnURL3Changing(global::System.String value);
+        partial void OnURL3Changed();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 BankId
+        {
+            get
+            {
+                return _BankId;
+            }
+            set
+            {
+                OnBankIdChanging(value);
+                ReportPropertyChanging("BankId");
+                _BankId = StructuralObject.SetValidValue(value, "BankId");
+                ReportPropertyChanged("BankId");
+                OnBankIdChanged();
+            }
+        }
+        private global::System.Int32 _BankId;
+        partial void OnBankIdChanging(global::System.Int32 value);
+        partial void OnBankIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String AccountName
+        {
+            get
+            {
+                return _AccountName;
+            }
+            set
+            {
+                OnAccountNameChanging(value);
+                ReportPropertyChanging("AccountName");
+                _AccountName = StructuralObject.SetValidValue(value, false, "AccountName");
+                ReportPropertyChanged("AccountName");
+                OnAccountNameChanged();
+            }
+        }
+        private global::System.String _AccountName;
+        partial void OnAccountNameChanging(global::System.String value);
+        partial void OnAccountNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String AccountNumber
+        {
+            get
+            {
+                return _AccountNumber;
+            }
+            set
+            {
+                OnAccountNumberChanging(value);
+                ReportPropertyChanging("AccountNumber");
+                _AccountNumber = StructuralObject.SetValidValue(value, false, "AccountNumber");
+                ReportPropertyChanged("AccountNumber");
+                OnAccountNumberChanged();
+            }
+        }
+        private global::System.String _AccountNumber;
+        partial void OnAccountNumberChanging(global::System.String value);
+        partial void OnAccountNumberChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -12836,6 +13295,44 @@ namespace Project.DAL
         #endregion
 
         #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("PROModel", "FK_Store_Bank", "Bank")]
+        public Bank Bank
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Bank>("PROModel.FK_Store_Bank", "Bank").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Bank>("PROModel.FK_Store_Bank", "Bank").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Bank> BankReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Bank>("PROModel.FK_Store_Bank", "Bank");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Bank>("PROModel.FK_Store_Bank", "Bank", value);
+                }
+            }
+        }
     
         /// <summary>
         /// No Metadata Documentation available.

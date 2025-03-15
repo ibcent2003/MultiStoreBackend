@@ -189,6 +189,8 @@
                                             else
                                             {
                                                 <a class="btn btn-danger btn-sm" href="@Url.Action("CancelPayment", "Dashboard", new {Id=Model.store.ProcessInstaceId,OrderNo=Model.Order.OrderNo,cId=Model.Order.CartId,type="cancelledPayment",area = "Admin" })" onclick="return CancelPayment()">Cancel Payment <i class="icon-angle-right"></i></a>
+                                                <a class="btn btn-success btn-sm" href="@Url.Action("Delivered", "Dashboard", new {Id=Model.store.ProcessInstaceId,OrderNo=Model.Order.OrderNo,cId=Model.Order.CartId,type="Delivered",area = "Admin" })" onclick="return DeliveredProduct()">Is Delivered? <i class="icon-angle-right"></i></a>
+
                                                 <a class="btn btn-default btn-sm" href="javascript:void(0);" onclick="javascript:window.print();"><i class="icon-print"></i> Print Order</a>
                                             }
 
@@ -352,6 +354,10 @@
         if (confirm("Are you sure want to Cancel this payment?"))
             return true;
         else
+            function DeliveredProduct() {
+                if (confirm("Are you sure want to mark this order as Delivered?"))
+                    return true;
+                else
             return false;
     }
 </script>

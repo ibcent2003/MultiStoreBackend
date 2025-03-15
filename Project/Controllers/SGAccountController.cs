@@ -6,12 +6,17 @@ using System.Linq;
 using System.Net.Configuration;
 using System.Web.Mvc;
 using System.Web.Security;
+using EASendMail;
+using Project.DAL;
 using Project.Mailers;
 using Project.Mailers.Models;
+using Project.Models;
+using Project.Properties;
 using SecurityGuard.Core;
 using SecurityGuard.Interfaces;
 using SecurityGuard.Services;
 using SecurityGuard.ViewModels;
+using WebMatrix.WebData;
 using viewModels = Project.Areas.SecurityGuard.ViewModels;
 
 namespace Project.Controllers
@@ -30,12 +35,15 @@ namespace Project.Controllers
         private IAuthenticationService authenticationService;
         private IFormsAuthenticationService formsAuthenticationService;
         private IPasswordResetMailer _mailer = new PasswordResetMailer();
+        public PROEntities db = new PROEntities();
+        private Backbone services;
 
         public SGAccountController()
         {
             this.membershipService = new MembershipService(Membership.Provider);
             this.authenticationService = new AuthenticationService(membershipService, new FormsAuthenticationService());
             this.formsAuthenticationService = new FormsAuthenticationService();
+            services = new Backbone();
         }
 
         #endregion
@@ -323,21 +331,102 @@ namespace Project.Controllers
             // Email the new pasword to the user
             try
             {
-                SmtpSection smtp = (SmtpSection)ConfigurationManager.GetSection("system.net/mailSettings/smtp");
+                
 
-                // Set the MailerModel properties that will be passed to the MvcMailer object.
-                // Feel free to modify the properties as you need.
-                MailerModel m = new MailerModel();
-                m.UserName = user.UserName;
-                m.Password = newPassword;
-                m.FromEmail = smtp.From;
-                m.Subject = ConfigSettings.SecurityGuardEmailSubject;
-                m.ToEmail = model.Email;
+                //check user existance
+                var Getuser = Membership.GetUser(userName);
+                if (Getuser == null)
+                {
+                    TempData["Message"] = "User Not exist.";
+                }
+                else
+                {
+                    var getId = db.Users.Where(x => x.UserName == userName).FirstOrDefault();
+                    var getamil = db.Memberships.Where(x => x.UserId == getId.UserId).FirstOrDefault();
+                    //generate password token
+                    var token = WebSecurity.GeneratePasswordResetToken(userName);
+                    //create url with above token
+                    var resetLink = "<a href='" + Url.Action("ChangePassword", "SGAccount", new { un = userName, rt = token }, "http") + "'>Reset Password</a>";
 
-                Mailer.PasswordReset(m).Send();                
+                   // var link= "<a href='" + Url.Action("ForgotPassword", "Account", new { email = userName, code = token }, "http") + "'>Reset Password</a>";
+                    //get user emailid
+
+                    //send mail
+                    
+                    string body = "Please find the Password Reset Token<br />" + resetLink; //edit it
+                    try
+                    {
+                        SmtpMail oMail = new SmtpMail("TryIt");
+                        oMail.From = Properties.Settings.Default.FromEmail;
+                        oMail.To = getamil.Email;
+                        // Set email subject
+                        oMail.Subject = "Password Reset Token";
+                        //  Attachment oAttachment = oMail.AddAttachment(@"h:\root\home\rocktea-001\www\documents\rockteadocuments\logo.png");
+                        Attachment oAttachment = oMail.AddAttachment(@"C:\Users\USER\source\repos\MultiStoreBackend\Project\Content\Frontend\light\img\logo.png");
+
+                        string contentID = "test001@host";
+                        oAttachment.ContentID = contentID;
+                        //  oMail.HtmlBody = body.Replace("%Image%", "<html><body><img src=\"cid:" + contentID + "\"> </body></html>").Replace("yourlink", resetLink);
+                        oMail.HtmlBody = body;
+                        SmtpServer oServer = new SmtpServer(Properties.Settings.Default.Host);
+                        oServer.User = Properties.Settings.Default.Username;
+                        oServer.Password = Properties.Settings.Default.Password;
+                        oServer.ConnectType = SmtpConnectType.ConnectTryTLS;
+                        oServer.Port = Properties.Settings.Default.Port;
+                        SmtpClient oSmtp = new SmtpClient();
+                        oSmtp.SendMail(oServer, oMail);
+                        TempData["Message"] = "Message sent to "+ getamil.Email+ " .";
+                    }
+                    catch (Exception ex)
+                    {
+                        TempData["Message"] = "Error occured while sending email." + ex.Message;
+                    }
+                    //only for testing
+                    TempData["Message"] = resetLink;
+                }
+                //if (WebSecurity.UserExists(userName))
+                //{
+                //   string To = userName, UserID, Password, SMTPPort, Host;
+                //   // int port = SMTPPort;
+                //    string token = WebSecurity.GeneratePasswordResetToken(userName);
+                //    if (token == null)
+                //    {
+                //        // If user does not exist or is not confirmed.
+                //        return View("Index");
+                //    }
+                //    else
+                //    {
+                //        //Create URL with above token
+                //        var lnkHref = "<a href='" + Url.Action("ForgotPassword", "Account", new { email = userName, code = token }, "http") + "'>Reset Password</a>";
+                //        //HTML Template for Send email
+                //        string subject = "Your changed password";
+                //        string body = "<b>Please find the Password Reset Link. </b><br/>" + lnkHref;
+                //        //Get and set the AppSettings using configuration manager.
+                //        EmailManager.AppSettings(out UserID, out Password, SMTPPort, out Host);
+                //        //Call send email methods.
+
+                //        EmailManager.SendEmail(, subject, body, To, UserID, Password, SMTPPort, Host);
+                //    }
+                //}
+
+                //SmtpSection smtp = (SmtpSection)ConfigurationManager.GetSection("system.net/mailSettings/smtp");
+
+                //// Set the MailerModel properties that will be passed to the MvcMailer object.
+                //// Feel free to modify the properties as you need.
+                //MailerModel m = new MailerModel();
+                //m.UserName = user.UserName;
+                //m.Password = newPassword;
+                //m.FromEmail = smtp.From;
+                //m.Subject = ConfigSettings.SecurityGuardEmailSubject;
+                //m.ToEmail = model.Email;
+
+                // Mailer.PasswordReset(m).Send();                
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
             }
 
             return RedirectToAction("ForgotPasswordSuccess");
@@ -346,9 +435,54 @@ namespace Project.Controllers
 
         public ActionResult ForgotPasswordSuccess()
         {
+            TempData["Message"] = "A reset password link has been sent to your email address.";
             return View();
         }
 
+
+        public class EmailManager
+        {
+            public static void AppSettings(out string UserID, out string Password, int SMTPPort, out string Host)
+            {
+                UserID = Properties.Settings.Default.Username;//ConfigurationManager.AppSettings.Get("UserID");
+                Password = Properties.Settings.Default.Password;//ConfigurationManager.AppSettings.Get("Password");
+                SMTPPort = Properties.Settings.Default.Port;
+                Host = Properties.Settings.Default.Host; ;
+            }
+            public static void SendEmail(string From, string Subject, string Body, string To, string UserID, string Password, int SMTPPort, string Host)
+            {
+                //System.Net.Mail.MailMessage mail = new System.Net.Mail.MailMessage();
+                //mail.To.Add(To);
+                //mail.From = new MailAddress(From);
+                //mail.Subject = Subject;
+                //mail.Body = Body;
+                //SmtpClient smtp = new SmtpClient();
+                //smtp.Host = Host;
+                //smtp.Port = Convert.ToInt16(SMTPPort);
+                //smtp.Credentials = new NetworkCredential(UserID, Password);
+                //smtp.EnableSsl = true;
+                //smtp.Send(mail);
+
+                SmtpMail oMail = new SmtpMail("TryIt");
+                oMail.From = Properties.Settings.Default.FromEmail;
+                oMail.To = To;
+                // Set email subject
+                oMail.Subject = Subject;
+                //  Attachment oAttachment = oMail.AddAttachment(@"h:\root\home\rocktea-001\www\documents\rockteadocuments\logo.png");
+                Attachment oAttachment = oMail.AddAttachment(@"C:\Users\USER\source\repos\MultiStoreBackend\Project\Content\Frontend\light\img\logo.png");
+
+                string contentID = "test001@host";
+                oAttachment.ContentID = contentID;
+                oMail.HtmlBody = Body.Replace("%Image%", "<html><body><img src=\"cid:" + contentID + "\"> </body></html>");
+                SmtpServer oServer = new SmtpServer(Properties.Settings.Default.Host);
+                oServer.User = Properties.Settings.Default.Username;
+                oServer.Password = Properties.Settings.Default.Password;
+                oServer.ConnectType = SmtpConnectType.ConnectTryTLS;
+                oServer.Port = Properties.Settings.Default.Port;
+                SmtpClient oSmtp = new SmtpClient();
+                oSmtp.SendMail(oServer, oMail);
+            }
+        }
 
         #endregion
 

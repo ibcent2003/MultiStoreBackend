@@ -1,0 +1,54 @@
+﻿
+@model Project.Models.HomeViewModel
+@{
+    ViewBag.Title = "Send Email";
+
+}
+<div class="page-header page-title-left mini">
+    <div class="image-bg content-in" data-background="@Url.Content("~/Content/Frontend/light/img/sections/slider/inner.jpg")" data-stellar-background-ratio="0.5" style="background-image: @Url.Content("~/Content/Frontend/light/img/sections/slider/backmenu.jpg"); background-position: 50% 0%;"></div>
+    <div class="container">
+        <div class="col-md-12">
+            <h1 class="title" style="color:white">Error 404</h1>
+            <ul class="breadcrumb" style="color:white">
+                <li style="color:white">
+                    <a href="@Url.Action("Index", "Home", new {area = "" })" style="color:white">Home</a>
+                </li>
+
+                <li class="active" style="color:white">Send Email</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+<section class="page-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 text-center section-404">
+                @if (TempData["Message"] != null)
+                {
+                    var alertType = (TempData["MessageType"] != null) ? TempData["MessageType"] : "alert-info";
+                    <div class="alert @alertType fade in">
+                        <button type="button" class="close" data-dismiss="alert">
+                            <i class="fa fa-times"></i>
+                        </button>
+                        @Html.Raw(TempData["Message"])
+                    </div>
+                }
+                <a href="@Url.Action("SendEmail", "Home", new {area = "" })" class="btn btn-danger" style="color:white">Refresh Page</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript" >
+
+
+    setTimeout(() => {
+        document.location.reload();
+    }, 60000);
+
+    
+</script>
+

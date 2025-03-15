@@ -70,6 +70,9 @@ namespace Project.Areas.Admin.Controllers
 
                     var getOwnedBy = db.Store.Where(x => x.OwnedBy == User.Identity.Name).ToList().Count();
                     model.OwnedBy = getOwnedBy;
+                    var getpendingRegistration = db.Store.Where(x => x.Status == "draft").OrderByDescending(x=>x.ModifiedDate).ToList();
+                    model.PendingRegistration = getpendingRegistration;
+                    model.documentPath = Properties.Settings.Default.DocumentPath;
 
                     return View(model);
                 }
@@ -270,6 +273,11 @@ namespace Project.Areas.Admin.Controllers
                     model.OrderList = Backbone.GetStoreCancelledPayment(db, model.store.Id);
                     model.orderType = "Payment Cancelled";
                 }
+                else if (type == "Delivered")
+                {
+                    model.OrderList = Backbone.GetDeliveredProduct(db, model.store.Id);
+                    model.orderType = "Delivered";
+                }
                 return View(model);
             }
             catch(Exception ex)
@@ -280,6 +288,7 @@ namespace Project.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Store", new { area = "Setup" });
             }
         }
+
 
         public ActionResult ViewOrder(Guid Id, string OrderNo, int cId, string type)
         {
@@ -389,6 +398,8 @@ namespace Project.Areas.Admin.Controllers
                 model.TotalConfirmPayment = paid.ToList().Count();
                 var cancelledpayment = Backbone.GetStoreCancelledPayment(db, model.store.Id);
                 model.TotalCancelledPayment = cancelledpayment.ToList().Count();
+                var deliveredcount = Backbone.GetDeliveredProduct(db, model.store.Id);
+                model.TotalDelivered = deliveredcount.ToList().Count();
                 return View(model);
             }
             catch(Exception ex)
@@ -439,8 +450,9 @@ namespace Project.Areas.Admin.Controllers
 
                 #region send notification to customer
                 Alert alert = (from x in this.db.Alert where x.Id == 1006 select x).FirstOrDefault<Alert>();
-                Backbone.SendEmailNotificationToUser(db, alert.SubjectEmail, alert.Email.Replace("%UserName%", getOrder.CustomerAddressBook.FullName).Replace("%OrderNo%", getOrder.OrderNo).Replace("%fromDate%", getOrder.DeliveryDate.ToShortDateString()).Replace("%toDate%", getOrder.DeliveryDate.ToShortDateString()), getOrder.CustomerAddressBook.EmailAddress, Settings.Default.EmailReplyTo, alert.Id);
+                Backbone.SendEmailNotificationToUser(db, alert.SubjectEmail, alert.Email.Replace("%UserName%", getOrder.CustomerAddressBook.FullName).Replace("%OrderNo%", getOrder.OrderNo).Replace("%fromDate%", getOrder.DeliveryDate.ToShortDateString()).Replace("%toDate%", getOrder.DeliveryDate.ToShortDateString()).Replace("%year%", DateTime.Now.Year.ToString()), getOrder.CustomerAddressBook.EmailAddress, Settings.Default.EmailReplyTo, alert.Id);
                 Backbone.SendSMSNotificationToUser(db, alert.SubjectSms, alert.Sms.Replace("%UserName%", getOrder.CustomerAddressBook.FullName).Replace("%OrderNo%", getOrder.OrderNo).Replace("%fromDate%", getOrder.DeliveryDate.ToShortDateString()).Replace("%toDate%", getOrder.DeliveryDate.AddDays(12).ToString()), getOrder.CustomerAddressBook.MobileNo, alert.SubjectSms, alert.Id);
+                //services.SendEmail(db, getOrder.CustomerAddressBook.EmailAddress);
                 #endregion
 
                 if (type == "newOrder")
@@ -613,6 +625,7 @@ namespace Project.Areas.Admin.Controllers
                 Alert alert = (from x in this.db.Alert where x.Id == 1007 select x).FirstOrDefault<Alert>();
                 Backbone.SendEmailNotificationToUser(db, alert.SubjectEmail, alert.Email.Replace("%UserName%", getOrder.CustomerAddressBook.FullName), getOrder.CustomerAddressBook.EmailAddress, Settings.Default.EmailReplyTo, alert.Id);
                 Backbone.SendSMSNotificationToUser(db, alert.SubjectSms, alert.Sms.Replace("%UserName%", getOrder.CustomerAddressBook.FullName).Replace("%OrderNo%", getOrder.OrderNo), getOrder.CustomerAddressBook.MobileNo, alert.SubjectSms, alert.Id);
+                //services.SendEmail(db, getOrder.CustomerAddressBook.EmailAddress);
                 #endregion
                 if (type == "newOrder")
                 {
@@ -636,6 +649,93 @@ namespace Project.Areas.Admin.Controllers
                 }
 
                 TempData["message"] = "Payment for " + OrderNo + " has been confirm successfully.";
+                return RedirectToAction("StoreOrder", "Dashboard", new { area = "Admin", Id = Id, type = type });
+            }
+            catch (Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Store", new { area = "Setup" });
+            }
+        }
+
+        public ActionResult Delivered(Guid Id, string OrderNo, int cId, string type)
+        {
+            try
+            {
+                DashboardViewModel model = new DashboardViewModel();
+                var storeDetail = storeDetails();
+                if (!System.Web.Security.Roles.IsUserInRole("Administrator"))
+                {
+                    if (storeDetail == null)
+                    {
+                        Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Unauthorised Access"));
+                        TempData["message"] = "Unauthorised Access";
+                        return RedirectToAction("StoreDashboard", "Dashboard", new { Id = Id, area = "Admin" });
+                    }
+                }
+                model.store = Backbone.GetStore(db, Id);
+                if (model.store == null)
+                {
+
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Store", new { area = "Setup" });
+                }
+                var getOrder = db.ProductOrder.Where(x => x.OrderNo == OrderNo).FirstOrDefault();
+                if (getOrder == null)
+                {
+                    Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("cant find order no in Product Order table"));
+                    TempData["message"] = "Order No cannot be found";
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index", "Dashboard", new { area = "Setup" });
+                }
+
+                var getUser = getOrder.Users.CustomerAddressBook.Where(x => x.IsDefault == true).FirstOrDefault();
+                getOrder.ConfirmOrder = true;
+                getOrder.ConfirmBy = User.Identity.Name;
+                getOrder.HasPaid = true;
+                getOrder.OrderStatus = "Delivered";
+                getOrder.ConfirmBy = User.Identity.Name;
+                getOrder.ConfirmDate = DateTime.Now;
+                getOrder.IsDelivered = true;
+
+                var getCartitem = db.CartItem.Where(x => x.CartId == getOrder.CartId).ToList();
+               
+                #region send notification to customer
+                Alert alert = (from x in this.db.Alert where x.Id == 1007 select x).FirstOrDefault<Alert>();
+                Backbone.SendEmailNotificationToUser(db, alert.SubjectEmail, alert.Email.Replace("%UserName%", getOrder.CustomerAddressBook.FullName), getOrder.CustomerAddressBook.EmailAddress, Settings.Default.EmailReplyTo, alert.Id);
+                Backbone.SendSMSNotificationToUser(db, alert.SubjectSms, alert.Sms.Replace("%UserName%", getOrder.CustomerAddressBook.FullName).Replace("%OrderNo%", getOrder.OrderNo), getOrder.CustomerAddressBook.MobileNo, alert.SubjectSms, alert.Id);
+               // services.SendEmail(db, getOrder.CustomerAddressBook.EmailAddress);
+                #endregion
+                if (type == "newOrder")
+                {
+                    model.OrderList = Backbone.GetStoreNewOrder(db, model.store.Id);
+                    model.orderType = "New Order";
+                }
+                else if (type == "confirmOrder")
+                {
+                    model.OrderList = Backbone.GetStoreConfirmOrder(db, model.store.Id);
+                    model.orderType = "Confirmed Order";
+                }
+                else if (type == "cancelledOrder")
+                {
+                    model.OrderList = Backbone.GetStoreCancelledOrder(db, model.store.Id);
+                    model.orderType = "Cancelled Order";
+                }
+                else if (type == "confirmPayment")
+                {
+                    model.OrderList = Backbone.GetStoreConfirmPayment(db, model.store.Id);
+                    model.orderType = "Confirmed Payment";
+                }
+                else if(type=="Delivered")
+                {
+                    model.OrderList = Backbone.GetDeliveredProduct(db, model.store.Id);
+                    model.orderType = "Delivered";
+                }
+
+                TempData["message"] = "The Order No " + OrderNo + " has been delivered successfully.";
                 return RedirectToAction("StoreOrder", "Dashboard", new { area = "Admin", Id = Id, type = type });
             }
             catch (Exception ex)
@@ -705,6 +805,7 @@ namespace Project.Areas.Admin.Controllers
                 Alert alert = (from x in this.db.Alert where x.Id == 2006 select x).FirstOrDefault<Alert>();
                 Backbone.SendEmailNotificationToUser(db, alert.SubjectEmail, alert.Email.Replace("%UserName%", getOrder.CustomerAddressBook.FullName), getOrder.CustomerAddressBook.EmailAddress, Settings.Default.EmailReplyTo, alert.Id);
                 Backbone.SendSMSNotificationToUser(db, alert.SubjectSms, alert.Sms.Replace("%UserName%", getOrder.CustomerAddressBook.FullName).Replace("%OrderNo%", getOrder.OrderNo), getOrder.CustomerAddressBook.MobileNo, alert.SubjectSms, alert.Id);
+               // services.SendEmail(db, getOrder.CustomerAddressBook.EmailAddress);
                 #endregion
 
                 if (type == "newOrder")
@@ -1375,8 +1476,9 @@ namespace Project.Areas.Admin.Controllers
                             from x in this.db.Alert
                             where x.Id == Properties.Settings.Default.NewAccount
                             select x).FirstOrDefault<Alert>();
-                        Backbone.SendEmailNotificationToUser(db,alert.SubjectEmail, alert.Email.Replace("%Email%", model.userAccount.EmailAddress).Replace("%uname%", model.userAccount.Username).Replace("%pwd%", model.userAccount.Password).Replace("%First_Name%",model.userAccount.FirstName), model.userAccount.EmailAddress, Settings.Default.EmailReplyTo, alert.Id);
+                        Backbone.SendEmailNotificationToUser(db,alert.SubjectEmail, alert.Email.Replace("%Mail%", model.userAccount.EmailAddress).Replace("%uname%", model.userAccount.Username).Replace("%pwd%", model.userAccount.Password).Replace("%First_Name%",model.userAccount.FirstName), model.userAccount.EmailAddress, Settings.Default.EmailReplyTo, alert.Id);
                         Backbone.SendSMSNotificationToUser(db,alert.SubjectSms, alert.Sms.Replace("%First_Name%", model.userAccount.FirstName), model.userAccount.MobileNumber, "FORTRESS", alert.Id);
+                      //  services.SendEmail(db, model.userAccount.EmailAddress);
                         base.TempData["message"] = string.Concat(new string[] { "<b>", model.userAccount.FirstName, "</b> <b>", model.userAccount.LastName, "</b> has been added Successfully. Please assign role to user" });
                         return base.RedirectToAction("GrantStoreUserRole", new {Id=model.store.ProcessInstaceId, UserId = user.UserId });
                     }
@@ -2249,6 +2351,7 @@ namespace Project.Areas.Admin.Controllers
                 var rowsToShow = Backbone.GetPendingRegistration(db, System.Web.Security.Roles.GetRolesForUser(User.Identity.Name), Properties.Settings.Default.StoreRegistrationWorkFlowId);
                 model.StoreApproval = rowsToShow.OrderByDescending(x => x.ModifiedDate).ToList();
                 model.documentPath = Properties.Settings.Default.DocumentPath;
+               
                 return View(model);
             }
             catch (Exception ex)
@@ -2352,7 +2455,7 @@ namespace Project.Areas.Admin.Controllers
                     if (GetUserDetails != null)
                     {
                         KeyValuePair<bool, string> result = Backbone.ApplyActionStoreApplication(db, model.approvalForm);
-
+                        services.SendEmail(db, GetUserDetails.EmailAddres);
                         TempData["message"] = result.Value;
                         if (!result.Key)
                             TempData["messageType"] = "alert-danger";

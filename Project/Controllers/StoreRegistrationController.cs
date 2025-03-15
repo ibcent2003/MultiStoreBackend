@@ -63,6 +63,7 @@ namespace Project.Controllers
 
                 model.CountryList = db.Country.Where(x => x.IsDeleted == false && x.Id == 1).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                 model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                model.BankList = db.Bank.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                 return View(model);
             }
             catch(Exception ex)
@@ -94,6 +95,7 @@ namespace Project.Controllers
                         {
                             model.CountryList = db.Country.Where(x => x.IsDeleted == false && x.Id==1).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                             model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                            model.BankList = db.Bank.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                             TempData["MessageType"] = "danger";
                             TempData["Message"] = "You have already submitted your registration. Please login to proceed or contact the systm administrator";
                             return View(model);
@@ -120,6 +122,7 @@ namespace Project.Controllers
                                 {
                                 model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                                 model.CountryList = db.Country.Where(x => x.IsDeleted == false && x.Id == 1).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                                model.BankList = db.Bank.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                                 TempData["messageType"] = "danger";
                                     TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPassport) + " are supported for logo";
                                     model.documentPath = Properties.Settings.Default.DocumentPath;
@@ -129,6 +132,7 @@ namespace Project.Controllers
                                 {
                                 model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                                 model.CountryList = db.Country.Where(x => x.IsDeleted == false && x.Id == 1).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                                model.BankList = db.Bank.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                                 TempData["messageType"] = "danger";
                                     TempData["message"] = "The logo uploaded is larger than the 5MB upload limit";
                                     model.documentPath = Properties.Settings.Default.DocumentPath;
@@ -158,7 +162,12 @@ namespace Project.Controllers
                             checkStore.OwnProcurement = model.storeform.OwnProcurement;
                             checkStore.CountryId = model.storeform.CountryId;
                             checkStore.ThemesId = model.storeform.ThemesId;
-                            checkStore.URL = model.storeform.Name.Replace(" ", string.Empty);
+                            checkStore.BankId = model.storeform.BankId;
+                            checkStore.AccountName = model.storeform.AccountName;
+                            checkStore.AccountNumber = model.storeform.AccountNumber;
+                            checkStore.URL = model.storeform.URL;
+                            checkStore.URL2 = model.storeform.URL2;
+                            checkStore.URL3 = model.storeform.URL3;
                             checkStore.ModifiedBy =model.storeform.Name;
                             checkStore.ModifiedDate = DateTime.Now;
                             checkStore.Description = model.storeform.Description;                       
@@ -168,7 +177,7 @@ namespace Project.Controllers
                          }
                         else
                         {
-                         #region If Store information is new entry
+                        #region If Store information is new entry
 
                             if (model.storeform.Logo != null && model.storeform.Logo.ContentLength > 0)
                             {
@@ -191,6 +200,7 @@ namespace Project.Controllers
                                 {
                                 model.CountryList = db.Country.Where(x => x.IsDeleted == false && x.Id == 1).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                                 model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                                model.BankList = db.Bank.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                                 TempData["messageType"] = "danger";
                                     TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPassport) + " are supported for logo";
                                     model.documentPath = Properties.Settings.Default.DocumentPath;
@@ -200,6 +210,7 @@ namespace Project.Controllers
                                 {
                                 model.CountryList = db.Country.Where(x => x.IsDeleted == false && x.Id == 1).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                                 model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                                model.BankList = db.Bank.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                                 TempData["messageType"] = "danger";
                                 TempData["message"] = "The logo uploaded is larger than the 5MB upload limit";
                                 model.documentPath = Properties.Settings.Default.DocumentPath;
@@ -225,6 +236,9 @@ namespace Project.Controllers
                                 Logo = model.logos,
                                 CountryId = model.storeform.CountryId,   
                                 ThemesId = model.storeform.ThemesId,
+                                BankId = model.storeform.BankId,
+                                AccountName = model.storeform.AccountName,
+                                AccountNumber = model.storeform.AccountNumber,
                                 OwnProcurement = model.storeform.OwnProcurement,
                                 ModifiedBy = model.storeform.Name,
                                 ModifiedDate = DateTime.Now,
@@ -233,7 +247,9 @@ namespace Project.Controllers
                                 OwnedBy = "Administrator",
                                 IsDeleted = false,
                                 ProcessInstaceId = Guid.NewGuid(),
-                                URL = model.storeform.Name.Replace(" ", string.Empty),
+                                URL = model.storeform.URL,
+                                URL2 = model.storeform.URL2,
+                                URL3 = model.storeform.URL3,
                                 Description = model.storeform.Description
                             };
                             db.Store.AddObject(addnew);
@@ -241,7 +257,7 @@ namespace Project.Controllers
 
                         #endregion
 
-                         #region populate image collection table                        
+                        #region populate image collection table                        
                         var GetImageCollection = db.ImageCollection.Where(x=>x.IsDeleted==false).ToList();
                          foreach(var img in GetImageCollection)
                         {
@@ -254,6 +270,7 @@ namespace Project.Controllers
                                 ModifiedDate = DateTime.Now,
                                 IsDeleted = false,
                                 IsUpdated = false
+                               
 
                             };
                             db.StoreImageCollection.AddObject(newImage);
@@ -261,7 +278,7 @@ namespace Project.Controllers
                         }
                         #endregion
 
-                         #region populate menu items table
+                        #region populate menu items table
 
                         var getMenu = db.MenuType.Where(x => x.IsDeleted == false).ToList();
                         foreach(var menu in getMenu)
@@ -271,7 +288,7 @@ namespace Project.Controllers
                                 StoreId = addnew.Id,
                                 MenuTypeId = menu.Id,
                                 HeaderType = menu.Name,
-                                Content = menu.Name + " Information goes here.",
+                                Content = menu.Name,
                                 ModifiedBy = model.storeform.Name,
                                 ModifiedDate = DateTime.Now,
                                 IsDeleted = false,
@@ -300,6 +317,9 @@ namespace Project.Controllers
                    }
                 model.CountryList = db.Country.Where(x => x.IsDeleted == false && x.Id == 1).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                 model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                model.BankList = db.Bank.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                TempData["message"] = "Error: All fields marked with red * are mandatory";
+                TempData["messageType"] = "danger";
                 return View(model);
             }
             catch (Exception ex)
@@ -343,6 +363,7 @@ namespace Project.Controllers
                 var GetStore = db.Store.Where(x => x.ProcessInstaceId == Id).FirstOrDefault();
                 model.CountryList = db.Country.Where(x => x.IsDeleted == false && x.Id == 1).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                 model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                model.BankList = db.Bank.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                 if (GetStore == null)
                 {
                     TempData["message"] = Settings.Default.GenericExceptionMessage;
@@ -355,6 +376,12 @@ namespace Project.Controllers
                 model.storeform.Id = GetStore.Id;
                 model.storeform.CountryId = GetStore.CountryId;
                 model.storeform.ThemesId = int.Parse(GetStore.ThemesId.ToString());
+                model.storeform.BankId = GetStore.BankId;
+                model.storeform.AccountName = GetStore.AccountName;
+                model.storeform.AccountNumber = GetStore.AccountNumber;
+                model.storeform.URL = GetStore.URL;
+                model.storeform.URL2 = GetStore.URL3;
+                model.storeform.URL3 = GetStore.URL3;
                 model.logos = GetStore.Logo;
                 model.storeform.OwnProcurement = GetStore.OwnProcurement;
                 model.documentPath = Properties.Settings.Default.DocumentPath;
@@ -411,6 +438,7 @@ namespace Project.Controllers
                         model.logos = GetStore.Logo;
                         model.CountryList = db.Country.Where(x => x.IsDeleted == false && x.Id == 1).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                         model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                        model.BankList = db.Bank.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                         TempData["messageType"] = "danger";
                         TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPassport) + " are supported for logo";
                         model.documentPath = Properties.Settings.Default.DocumentPath;
@@ -422,6 +450,7 @@ namespace Project.Controllers
                         model.logos = GetStore.Logo;
                         model.CountryList = db.Country.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                         model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                        model.BankList = db.Bank.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                         TempData["messageType"] = "danger";
                         TempData["message"] = "The logo uploaded is larger than the 5MB upload limit";
                         model.documentPath = Properties.Settings.Default.DocumentPath;
@@ -449,11 +478,16 @@ namespace Project.Controllers
                     GetStore.Logo = pName;
                 }
                 GetStore.Name = model.storeform.Name;
-                GetStore.URL = model.storeform.Name.Replace(" ", string.Empty);
+                GetStore.URL = model.storeform.URL;
+                GetStore.URL2 = model.storeform.URL2;
+                GetStore.URL3 = model.storeform.URL3;
                 GetStore.ModifiedBy = model.storeform.Name;
                 GetStore.OwnProcurement = model.storeform.OwnProcurement;
                 GetStore.CountryId = model.storeform.CountryId;
                 GetStore.ThemesId = model.storeform.ThemesId;
+                GetStore.BankId = model.storeform.BankId;
+                GetStore.AccountName = model.storeform.AccountName;
+                GetStore.AccountNumber = model.storeform.AccountNumber;
                 GetStore.ModifiedDate = DateTime.Now;
                 GetStore.IsDeleted = model.storeform.IsDeleted;
                 GetStore.Description = model.storeform.Description;
@@ -629,7 +663,7 @@ namespace Project.Controllers
                         MobileNumber = model.addressform.MobileNumber,
                         EmailAddress = model.addressform.EmailAddress,
                         GoogleMapURL = model.addressform.GoogleMap,
-                        ModifiedBy = base.User.Identity.Name,
+                        ModifiedBy =store.Name,
                         ModifiedDate = DateTime.Now,
                         IsDeleted = false,
                     };
@@ -741,7 +775,7 @@ namespace Project.Controllers
                         LastName = model.contactform.LastName,
                         EmailAddress = model.contactform.EmailAddress,
                         MobileNo = model.contactform.MobileNumber,
-                        ModifiedBy = base.User.Identity.Name,
+                        ModifiedBy = model.store.Name,
                         ModifiedDate = DateTime.Now
                     };
                     this.db.ContactInfo.AddObject(contactInfo);
@@ -1552,9 +1586,9 @@ namespace Project.Controllers
                     #endregion
                
                 Alert alert = (from x in this.db.Alert where x.Id == 4 select x).FirstOrDefault<Alert>();
-                Backbone.SendEmailNotificationToUser(db,alert.SubjectEmail, alert.Email.Replace("%Store_Name%", model.store.Name).Replace("%Year%", DateTime.Now.Year.ToString()), model.store.ContactInfo.FirstOrDefault<ContactInfo>().EmailAddress, Settings.Default.EmailReplyTo, alert.Id);
+                Backbone.SendEmailNotificationToUser(db,alert.SubjectEmail, alert.Email.Replace("%Store_Name%", model.store.Name).Replace("%year%", DateTime.Now.Year.ToString()), model.store.ContactInfo.FirstOrDefault<ContactInfo>().EmailAddress, Settings.Default.EmailReplyTo, alert.Id);
                 Backbone.SendSMSNotificationToUser(db,alert.SubjectSms, alert.Sms.Replace("%Store_Name%", model.store.Name), model.store.ContactInfo.FirstOrDefault().MobileNo, alert.SubjectSms, alert.Id);
-
+               // services.SendEmail(db, model.store.ContactInfo.FirstOrDefault<ContactInfo>().EmailAddress);
                 #region send message to approval admin
                 var poolUser = new List<Users>();
                 var rl = db.Roles.SingleOrDefault(x => x.RoleName == str1);
@@ -1668,8 +1702,11 @@ namespace Project.Controllers
                 this.db.SaveChanges();
 
                 Alert alert = (from x in this.db.Alert where x.Id == 4 select x).FirstOrDefault<Alert>();
-                Backbone.SendEmailNotificationToUser(db, alert.SubjectEmail, alert.Email.Replace("%Store_Name%", model.store.Name).Replace("%Year%", DateTime.Now.Year.ToString()), model.store.ContactInfo.FirstOrDefault<ContactInfo>().EmailAddress, Settings.Default.EmailReplyTo, alert.Id);
+                Backbone.SendEmailNotificationToUser(db, alert.SubjectEmail, alert.Email.Replace("%Store_Name%", model.store.Name).Replace("%year%", DateTime.Now.Year.ToString()), model.store.ContactInfo.FirstOrDefault<ContactInfo>().EmailAddress, Settings.Default.FromEmail, alert.Id);
                 Backbone.SendSMSNotificationToUser(db, alert.SubjectSms, alert.Sms.Replace("%Store_Name%", model.store.Name), model.store.ContactInfo.FirstOrDefault().MobileNo, alert.SubjectSms, alert.Id);
+                //Send Message
+               // services.SendEmail(db, model.store.ContactInfo.FirstOrDefault<ContactInfo>().EmailAddress);
+
 
                 #region send message to approval admin
                 var poolUser = new List<Users>();
@@ -1687,7 +1724,8 @@ namespace Project.Controllers
                             services.SendSMSNotificationToAdmin(db, GetDirectorMsg.SubjectSms, GetDirectorMsg.Sms.Replace("%First_Name%", GetUserInformation.FirstName), GetUserInformation.MobileNumber, GetDirectorMsg.SubjectSms, GetDirectorMsg.Id);
                         }
                     }
-                    services.SendEmailNotificationToAdmin(db, GetDirectorMsg.Title, GetDirectorMsg.Email.Replace("%First_Name%", u.UserName).Replace("%Store_Name%", model.store.Name).Replace("%Country%", model.store.Country.Name), GetUserInformation.EmailAddres, Settings.Default.EmailReplyTo, GetDirectorMsg.Id);
+                    services.SendEmailNotificationToAdmin(db, GetDirectorMsg.Title, GetDirectorMsg.Email.Replace("%First_Name%", u.UserName).Replace("%Store_Name%", model.store.Name).Replace("%Country%", model.store.Country.Name), GetUserInformation.EmailAddres, Settings.Default.FromEmail, GetDirectorMsg.Id);
+                   // services.SendEmail(db, GetUserInformation.EmailAddres);
                 }
                 #endregion                
                 return RedirectToAction("Feedback", "StoreRegistration", new { Id = model.store.ProcessInstaceId, area = "" });

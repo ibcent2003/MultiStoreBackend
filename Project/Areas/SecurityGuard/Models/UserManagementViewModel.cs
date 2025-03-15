@@ -108,11 +108,13 @@ namespace Project.Areas.SecurityGuard.Models
 
         [Required(ErrorMessage = "Email Address is required")]
         [Display(Name = "Email Address")]
-        [DataType(DataType.EmailAddress)]
+        [DataType(DataType.EmailAddress)]        
         [EmailAddress(ErrorMessage = "Invalid Email Address.")]
         public string EmailAddress { get; set; }
 
         [Required(ErrorMessage = "Mobile Number is required")]
+        [StringLength(20, MinimumLength = 11, ErrorMessage = "Mobile number should have minimum 11 digits")]
+        [Range(0, Int64.MaxValue, ErrorMessage = "Mobile number should not contain characters")]
         [Display(Name = "Mobile Number")]
         public string MobileNumber { get; set; }
     }
@@ -129,6 +131,7 @@ namespace Project.Areas.SecurityGuard.Models
 
         [Display(Name = "Email Address")]
         [EmailAddress(ErrorMessage = "Invalid Email Address.")]
+        [DataType(DataType.EmailAddress)]
         [Required(ErrorMessage = "Please enter Email Address")]
        // [RegularExpression("^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$", ErrorMessage ="The Email address is invalid")]
         public string EmailAddress{get;set;}
@@ -140,7 +143,8 @@ namespace Project.Areas.SecurityGuard.Models
         public int LgaId { get; set; }     
 
         [Display(Name = "Mobile Numbe")]
-       // [RegularExpression("^([0-9]{10})$", ErrorMessage = "Invalid Mobile Number.")]
+        [StringLength(20, MinimumLength = 11, ErrorMessage = "Mobile number should have minimum 11 digits")]
+        [Range(0, Int64.MaxValue, ErrorMessage = "Mobile number should not contain characters")]
         [Required(ErrorMessage = "Please enter Mobile Number")]
         public string MobileNumber { get; set; }
 

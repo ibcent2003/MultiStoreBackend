@@ -42,6 +42,8 @@ namespace Project.Areas.Setup.Controllers
             try
             {
                 StoreManagementViewModel model = new StoreManagementViewModel();
+                model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                model.CountryList = db.Country.Where(x => x.IsDeleted == false && x.Id == 1).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                 return View(model);
             }
             catch (Exception ex)
@@ -61,10 +63,12 @@ namespace Project.Areas.Setup.Controllers
                 if (ModelState.IsValid)
                 {
                     //check duplicate store name
-                    var validate = db.Store.Where(x => x.Name == model.storeform.Name).ToList();
+                    var validate = db.Store.Where(x => x.Name == model.storeform.URL).ToList();
                     if (validate.Any())
                     {
-                        TempData["message"] = "The Store Name "+model.storeform.Name+" already exist. Please enter another name";
+                        model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                        model.CountryList = db.Country.Where(x => x.IsDeleted == false && x.Id == 1).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                        TempData["message"] = "The Store Name "+model.storeform.URL+" already exist. Please enter another name";
                         TempData["messageType"] = "danger";
                         return View(model);
                     }
@@ -91,6 +95,8 @@ namespace Project.Areas.Setup.Controllers
                     var filePassport = System.IO.Path.GetExtension(model.storeform.Logo.FileName);
                     if (!supportedPassport.Contains(filePassport))
                     {
+                        model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                        model.CountryList = db.Country.Where(x => x.IsDeleted == false && x.Id == 1).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                         TempData["messageType"] = "alert-danger";
                         TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPassport) + " are supported for logo";                                              
                         model.documentPath = Properties.Settings.Default.DocumentPath;
@@ -99,6 +105,8 @@ namespace Project.Areas.Setup.Controllers
                     }
                     else if (model.storeform.Logo.ContentLength > max_upload)
                     {
+                        model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                        model.CountryList = db.Country.Where(x => x.IsDeleted == false && x.Id == 1).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                         TempData["messageType"] = "alert-danger";
                         TempData["message"] = "The logo uploaded is larger than the 5MB upload limit";
                         model.documentPath = Properties.Settings.Default.DocumentPath;
@@ -120,8 +128,15 @@ namespace Project.Areas.Setup.Controllers
                         ModifiedBy = User.Identity.Name,
                         ModifiedDate = DateTime.Now,
                         IsDeleted = false,
+                        OwnProcurement = model.storeform.OwnProcurement,
                         ProcessInstaceId = Guid.NewGuid(),
-                        URL = model.storeform.Name.Replace(" ", string.Empty)
+                        URL = model.storeform.URL,
+                        WorkFlowId = Properties.Settings.Default.StoreRegistrationWorkFlowId,
+                        Status = "draft",
+                        OwnedBy = "Administrator",
+                        CountryId = model.storeform.CountryId,
+                        ThemesId = model.storeform.ThemesId,
+                        Description = model.storeform.Description
                     };
                     db.Store.AddObject(addnew);
                     db.SaveChanges();
@@ -155,11 +170,17 @@ namespace Project.Areas.Setup.Controllers
                 model.storeform = new StoreForm();
                 model.storeform.Name = GetStore.Name;
                 model.storeform.Id = GetStore.Id;
+                model.storeform.URL = GetStore.URL;
+                model.storeform.Description = GetStore.Description;
+                model.storeform.OwnProcurement = GetStore.OwnProcurement;
                 model.documentValue = GetStore.Logo;
                 model.documentPath = Properties.Settings.Default.DocumentPath;
                 model.storeform.ThemesId = int.Parse(GetStore.ThemesId.ToString());
+                model.storeform.IsDeleted = GetStore.IsDeleted;
                 model.store = GetStore;
-                model.ThemeList = (from s in db.Themes where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
+                
+                model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                model.CountryList = db.Country.Where(x => x.IsDeleted == false && x.Id == 1).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                 return View(model);
             }
             catch(Exception ex)
@@ -173,6 +194,8 @@ namespace Project.Areas.Setup.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public ActionResult EditStore(StoreManagementViewModel model)
         {
             try
@@ -211,7 +234,8 @@ namespace Project.Areas.Setup.Controllers
                         TempData["messageType"] = "danger";
                         TempData["message"] = "Invalid type. Only the following type " + String.Join(",", supportedPassport) + " are supported for logo";
                         model.documentPath = Properties.Settings.Default.DocumentPath;
-                        model.ThemeList = (from s in db.Themes where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
+                        model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                        model.CountryList = db.Country.Where(x => x.IsDeleted == false && x.Id == 1).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                         return View(model);
                     }
                     else if (model.storeform.Logo.ContentLength > max_upload)
@@ -219,7 +243,8 @@ namespace Project.Areas.Setup.Controllers
                         TempData["messageType"] = "danger";
                         TempData["message"] = "The logo uploaded is larger than the 5MB upload limit";
                         model.documentPath = Properties.Settings.Default.DocumentPath;
-                        model.ThemeList = (from s in db.Themes where s.IsDeleted == false select new IntegerSelectListItem() { Text = s.Name, Value = s.Id }).ToList<IntegerSelectListItem>();
+                        model.ThemesList = db.Themes.Where(x => x.IsDeleted == false).ToList().Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
+                        model.CountryList = db.Country.Where(x => x.IsDeleted == false && x.Id == 1).ToList().Select(x => new SelectListItem { Text = x.CurrencyName, Value = x.Id.ToString() }).OrderBy(x => x.Text).ToList();
                         return View(model);
                     }
                    
@@ -241,9 +266,11 @@ namespace Project.Areas.Setup.Controllers
                 GetStore.Logo = pName;
                 }
                 GetStore.Name = model.storeform.Name;
-                GetStore.URL = model.storeform.Name.Replace(" ", string.Empty);
+                GetStore.URL = model.storeform.URL;
                 GetStore.ModifiedBy = User.Identity.Name;
                 GetStore.ModifiedDate = DateTime.Now;
+                GetStore.OwnProcurement = model.storeform.OwnProcurement;
+                GetStore.Description = model.storeform.Description;
                 GetStore.ThemesId = model.storeform.ThemesId;
                 GetStore.IsDeleted = model.storeform.IsDeleted;
                 db.SaveChanges();
@@ -508,13 +535,17 @@ namespace Project.Areas.Setup.Controllers
                         return View(model);
                     }
 
-                    
-                    //delete passport
-                    if (getSlider.SliderPhoto != null)
+
+                    if (!new string[] { "slider1.jpg", "slider1.jpg", "slider1.jpg" }.Any(s => getSlider.SliderPhoto.Contains(s)))
                     {
-                        System.IO.FileInfo fi = new System.IO.FileInfo(url + getSlider.SliderPhoto);
-                        fi.Delete();
+                        //delete passport
+                        if (getSlider.SliderPhoto != null)
+                        {
+                            System.IO.FileInfo fi = new System.IO.FileInfo(url + getSlider.SliderPhoto);
+                            fi.Delete();
+                        }
                     }
+                      
                     //store logo
                     int pp = 0;
                     string pName;
@@ -579,7 +610,7 @@ namespace Project.Areas.Setup.Controllers
                     TempData["messageType"] = "danger";
                     return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
                 }
-                var getCollection = db.StoreImageCollection.Where(x => x.Id == CollectionId && x.StoreId == GetStore.Id).FirstOrDefault();
+                var getCollection = db.StoreImageCollection.Where(x => x.ImageCollectionId == CollectionId && x.StoreId == GetStore.Id).FirstOrDefault();
                 model.storeCollectionForm = new  StoreCollectionForm();
                 model.storeCollectionForm.CollectionName = getCollection.ImageCollection.Name;
                
@@ -588,7 +619,7 @@ namespace Project.Areas.Setup.Controllers
                 model.storeCollectionForm.StoreId = GetStore.Id;
                 model.documentPath = Properties.Settings.Default.CollectionPath;
                 model.store = GetStore;
-
+                model.ImageCollection = getCollection;
                 return View(model);
             }
             catch(Exception ex)

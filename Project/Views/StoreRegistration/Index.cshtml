@@ -9,7 +9,7 @@
     }
 </style>
 <div class="page-header page-title-left mini">
-    <div class="image-bg content-in" data-background="@Url.Content("~/Content/Frontend/light/img/sections/slider/backmenu.jpg")" data-stellar-background-ratio="0.5" style="background-image: @Url.Content("~/Content/Frontend/light/img/sections/slider/backmenu.jpg"); background-position: 50% 0%;"></div>
+    <div class="image-bg content-in" data-background="@Url.Content("~/Content/Frontend/light/img/sections/slider/inner.jpg")" data-stellar-background-ratio="0.5" style="background-image: @Url.Content("~/Content/Frontend/light/img/sections/slider/backmenu.jpg"); background-position: 50% 0%;"></div>
     <div class="container">
         <div class="col-md-12">
             <h1 class="title" style="color:white">Store Registration - Guidelines</h1>
@@ -58,8 +58,8 @@
                     </ul>
                 </div>
 
-                <div class="panel panel-primary" id="tabbed_widget_panel">
-                    <div class="panel-heading" style="background-color: #143856;border-color: #143856;">
+                <div class="panel panel-warning" id="tabbed_widget_panel">
+                    <div class="panel-heading" style="background-color: #FFA500;border-color: #FFA500;">
                         Guidelines
                     </div>
                     <div class="panel-body">
@@ -67,12 +67,12 @@
                             @Html.Raw(@TempData["GuideLines"])
                         </div>
                         <div class="col-lg-2">
-                            <a class="btn btn-danger" target="_blank" href="~/Content/Frontend/light/img/sections/Documents/guide.pdf" style="color:white"> DOWNLOAD <BR />STORE REGISTRATION GUIDE </a>
+                            @*<a class="btn btn-danger" target="_blank" href="~/Content/manual/StoreRegistratioManual.pdf" style="color:white"> DOWNLOAD <BR />STORE REGISTRATION GUIDE </a>*@
                         </div>
                     </div>
                     <div class="panel-footer">
-                        <div style="text-align: right;">
-                            <a href="@Url.Action("StoreInformation")" class="btn btn-sm btn-default" style="color:white">Next</a>
+                        <div>
+                            <a href="@Url.Action("StoreInformation")" class="btn btn-sm btn-default" style="color:white;float:right">Next</a>
                         </div>
                     </div>
                 </div>

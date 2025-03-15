@@ -9,7 +9,7 @@
     }
 </style>
 <div class="page-header page-title-left mini">
-    <div class="image-bg content-in" data-background="@Url.Content("~/Content/Frontend/light/img/sections/slider/backmenu.jpg")" data-stellar-background-ratio="0.5" style="background-image: @Url.Content("~/Content/Frontend/light/img/sections/slider/backmenu.jpg"); background-position: 50% 0%;"></div>
+    <div class="image-bg content-in" data-background="@Url.Content("~/Content/Frontend/light/img/sections/slider/inner.jpg")" data-stellar-background-ratio="0.5" style="background-image: @Url.Content("~/Content/Frontend/light/img/sections/slider/backmenu.jpg"); background-position: 50% 0%;"></div>
     <div class="container">
         <div class="col-md-12">
             <h1 class="title" style="color:white">Store Product Sub Categories</h1>
@@ -68,8 +68,8 @@
                     </ul>
                 </div>
 
-                <div class="panel panel-primary" id="tabbed_widget_panel">
-                    <div class="panel-heading" style="background-color: #143856;border-color: #143856;">
+                <div class="panel panel-warning" id="tabbed_widget_panel">
+                    <div class="panel-heading" style="background-color: #FFA500;border-color: #FFA500;">
                         Store Product Sub Category
                     </div>
 
@@ -84,49 +84,41 @@
                                     <div class="widget-title">
                                         <h6>Available Sub Categories</h6>
                                     </div>
-                                    @using (Html.BeginForm("SubCategory", "StoreRegistration", null, FormMethod.Post, new { @enctype = "multipart/form-data", area = "" }))
+                                    @*@using (Html.BeginForm("SubCategory", "StoreRegistration", null, FormMethod.Post, new { @enctype = "multipart/form-data", area = "" }))*@
+                                <div class="row">
+                                    @using (Html.BeginForm("SubCategory", "StoreRegistration", FormMethod.Post))
                                     {
+                                        @Html.AntiForgeryToken()
+
                                         @Html.HiddenFor(x => x.store.ProcessInstaceId)
                                         @Html.HiddenFor(m => Model.ProductCategoryId)
                                         <form class="form-vertical" action="#">
-                                            @*<div class="form-group">
+                                            <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-md-7">
-                                                       
+                                                        @Html.DropDownListFor(m => Model.ProductCategoryId, new SelectList(Model.Categorylist, "Value", "Text"), "Please Select a Category", new { @class = "form-control", onChange = "GetAllSub(this)" })
+                                                    </div>                                                    
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-7">
+                                                        @Html.DropDownListFor(m => Model.ProductSubCategoryId, new SelectList(Model.SubCategorylist, "Value", "Text"),"Please select a sub category", new { @class = "form-control" })
                                                     </div>
-                                                    <div class="col-md-5">                                                                                                              
+                                                    <div class="col-md-5">
+                                                       
+
                                                         <input type="submit" value="Add" class="btn btn-xs btn-success" />
 
                                                     </div>
                                                 </div>
-                                            </div>*@
-
-                                            <div class="editor-label">
-                                                @Html.Label("Product Category")
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="input-icon">
-                                                    @Html.DropDownListFor(m => Model.ProductCategoryId, new SelectList(Model.Categorylist, "Value", "Text"), "Please Select a Category", new { @class = "form-control", onChange = "GetAllSub(this)" })
-                                                </div>
-                                            </div>
-
-
-                                            <div class="editor-label">
-                                                @Html.Label("Sub Category")
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="input-icon">
-                                                    @Html.DropDownListFor(m => Model.ProductSubCategoryId, new SelectList(Model.SubCategorylist, "Value", "Text"),  new { @class = "form-control" })
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <div class="input-icon">
-                                                    <button type="submit" class="btn btn-default pull-right" style="color:white">Add</button>
-                                                </div>
                                             </div>
                                         </form>
                                     }
+
+
+
+                                </div>
+                                   
                                 </div>
                             </div>
                             <div class="col-sm-6 col-md-6">
@@ -192,7 +184,9 @@
 
                                                             </tbody>
                                                         </table>
-
+                                                        <div class="alert alert-warning">
+                                                            <strong>Please Note!</strong> You have to add atleast two  sub category to proceed.
+                                                        </div>
                                                     </div>
                                                 </div>
 
@@ -279,11 +273,11 @@
                     {
                         <div class="panel-footer">
                             <div class="row">
-                                <div style="text-align: left;" class="col-md-6">
-                                    <a href="@Url.Action("ProductCategory", "StoreRegistration", new {Id = Model.store.ProcessInstaceId, @rea = "" })" class="btn btn-sm btn-default" style="color:white">Back</a>
+                                <div class="col-md-6">
+                                    <a href="@Url.Action("ProductCategory", "StoreRegistration", new {Id = Model.store.ProcessInstaceId, @rea = "" })" class="btn btn-sm btn-default" style="color:white;float:left">Back</a>
                                 </div>
-                                <div style="text-align: right;" class="col-md-6">
-                                    <a href="@Url.Action("UserAccount", "StoreRegistration", new {Id = Model.store.ProcessInstaceId, @rea = "" })" class="btn btn-sm btn-default" style="color:white">Next</a>
+                                <div class="col-md-6">
+                                    <a href="@Url.Action("UserAccount", "StoreRegistration", new {Id = Model.store.ProcessInstaceId, @rea = "" })" class="btn btn-sm btn-default" style="color:white;float:right">Next</a>
                                 </div>
                             </div>
                         </div>
@@ -292,8 +286,8 @@
                     {
                         <div class="panel-footer">
                             <div class="row">
-                                <div style="text-align: left;" class="col-md-6">
-                                    <a href="@Url.Action("ProductCategory", "StoreRegistration", new {Id = Model.store.ProcessInstaceId, @rea = "" })" class="btn btn-sm btn-default" style="color:white">Back</a>
+                                <div  class="col-md-6">
+                                    <a href="@Url.Action("ProductCategory", "StoreRegistration", new {Id = Model.store.ProcessInstaceId, @rea = "" })" class="btn btn-sm btn-default" style="color:white;float:left">Back</a>
                                 </div>
                                 <div style="text-align: right;" class="col-md-6">
 

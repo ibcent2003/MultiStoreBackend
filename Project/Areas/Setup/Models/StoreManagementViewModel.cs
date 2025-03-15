@@ -15,10 +15,16 @@ namespace Project.Areas.Setup.Models
         public string documentValue { get; set; }
         public List<Store> storelist { get; set; }
         public StoreForm storeform { get; set; }
+
+        public StoreImageCollection ImageCollection { get; set; }
         public List<Testimonial> TestimonialList { get; set; }
         public List<IntegerSelectListItem> ThemeList { get; set; }
 
         public TestimonialForm Testimonialform { get; set; }
+
+        public List<SelectListItem> CountryList { get; set; }
+        public List<SelectListItem> ThemesList { get; set; }
+        public List<SelectListItem> BankList { get; set; }
 
         public Store store { get; set; }
         public List<StoreSlider> StoreSliderList { get; set; }
@@ -43,9 +49,17 @@ namespace Project.Areas.Setup.Models
         [Display(Name = "Store Name")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Enter preferable Domain Name")]
-        [Display(Name = "Preferable Domain")]
+        [Required(ErrorMessage = "Enter preferable Domain Name(First Choice)")]
+        [Display(Name = "Preferable Domain (First Choice)")]
         public string URL { get; set; }
+
+        [Required(ErrorMessage = "Enter preferable Domain Name(Second Choice)")]
+        [Display(Name = "Preferable Domain (Second Choice)")]
+        public string URL2 { get; set; }
+
+        [Required(ErrorMessage = "Enter preferable Domain Name(Thrid Choice)")]
+        [Display(Name = "Preferable Domain(Thrid Choice)")]
+        public string URL3 { get; set; }
 
         [Required(ErrorMessage = "Please enter your Store Profile")]
         [Display(Name = "Store Profile")]
@@ -68,6 +82,20 @@ namespace Project.Areas.Setup.Models
         [Required(ErrorMessage = "Please select a theme for your store")]
         [Display(Name = "Store Theme")]
         public int ThemesId { get; set; }
+
+        [Required(ErrorMessage = "Please select you bank ")]
+        [Display(Name = "Store Theme")]
+        public int BankId { get; set; }
+
+        [Required(ErrorMessage = "Please enter your Account Name")]
+        [Display(Name = "Account Name")]
+        public string AccountName { get; set; }
+
+        [Required(ErrorMessage = "Please enter your Account Number")]
+        [StringLength(20, MinimumLength = 10, ErrorMessage = "Account number should have minimum 11 digits")]
+        [Range(0, Int64.MaxValue, ErrorMessage = "Account number should not contain characters")]
+        [Display(Name = "Account Number")]
+        public string AccountNumber { get; set; }
 
     }
 

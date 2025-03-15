@@ -191,5 +191,82 @@ namespace Project.Areas.Setup.Controllers
             }
         }
 
+        public ActionResult EditLga(int Id, int lgaId)
+        {
+            try
+            {
+                StateViewModel model = new StateViewModel();
+
+                var Getstate = db.State.Where(x => x.Id == Id).FirstOrDefault();
+                if (Getstate == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index");
+                }
+                model.state = Getstate;
+                var lgs = db.LGA.Where(x => x.Id == lgaId && x.StateId == Id).FirstOrDefault();
+                if(lgs ==null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index");
+                }
+                model.lgaForm = new LgaForm();
+                model.lgaForm.Name = lgs.Name;
+                model.lgaForm.Id = lgs.Id;
+                model.lgaForm.StateId = lgs.StateId;               
+                return View(model);
+            }
+            catch(Exception ex)
+            {
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditLga(StateViewModel model)
+        {
+            try
+            {
+                var Getstate = db.State.Where(x => x.Id == model.lgaForm.StateId).FirstOrDefault();
+                if (Getstate == null)
+                {
+                    TempData["message"] = Settings.Default.GenericExceptionMessage;
+                    TempData["messageType"] = "danger";
+                    return RedirectToAction("Index");
+                }
+                model.state = Getstate;
+                if (ModelState.IsValid)
+                {
+                    var lgs = db.LGA.Where(x => x.Id == model.lgaForm.Id && x.StateId == model.lgaForm.StateId).FirstOrDefault();
+                    if (lgs == null)
+                    {
+                        TempData["message"] = Settings.Default.GenericExceptionMessage;
+                        TempData["messageType"] = "danger";
+                        return RedirectToAction("Index");
+                    }
+                    lgs.Name = model.lgaForm.Name;
+                    db.SaveChanges();
+                    TempData["message"] = "The Lga " + model.lgaForm.Name.ToUpper() + " has been saved successful for " + model.state.Name + "";
+                    return RedirectToAction("LGAList", "StateList", new { Id = model.lgaForm.StateId, area = "Setup" });
+                }
+                return View(model);
+
+            }
+            catch(Exception ex)
+            {
+
+                Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+                TempData["message"] = Settings.Default.GenericExceptionMessage;
+                TempData["messageType"] = "danger";
+                return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+
+            }
+        }
+
     }
 }

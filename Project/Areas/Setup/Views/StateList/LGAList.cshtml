@@ -50,7 +50,7 @@
                                 <td>@item.ModifiedBy</td>
                                 <td>@item.ModifiedDate.ToShortDateString()</td>
                                 <td>
-                                    <a class="btn btn-xs btn-danger" href="@Url.Action("Edit", "StateList", new { area="Setup", Id = item.Id})">Edit</a>
+                                    <a class="btn btn-xs btn-danger" href="@Url.Action("Editlga", "StateList", new { area="Setup", Id = item.StateId, lgaId=item.Id })">Edit</a>
                                 </td>
 
                             </tr>

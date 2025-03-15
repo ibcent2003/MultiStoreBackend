@@ -80,7 +80,7 @@ namespace Project.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("no-reply@fortressenterprise.com.ng")]
+        [global::System.Configuration.DefaultSettingValueAttribute("noreply@rockteamall.com")]
         public string EmailReplyTo {
             get {
                 return ((string)(this["EmailReplyTo"]));
@@ -143,11 +143,100 @@ namespace Project.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("G:\\HostingSpaces\\raukzdup\\backend.fortressenterprise.com.ng\\wwwroot\\Content\\Backe" +
-            "nd\\FortressDocuments\\ImageCollections\\")]
+        [global::System.Configuration.DefaultSettingValueAttribute("h:\\root\\home\\rocktea-001\\www\\documents\\rockteadocuments\\PaymentLogo\\")]
         public string Keephere {
             get {
                 return ((string)(this["Keephere"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\FortressDocuments\\")]
+        public string local {
+            get {
+                return ((string)(this["local"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public string SMSNotification {
+            get {
+                return ((string)(this["SMSNotification"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public string EmailNotification {
+            get {
+                return ((string)(this["EmailNotification"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public string SentNotification {
+            get {
+                return ((string)(this["SentNotification"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("mail5017.site4now.net")]
+        public string Host {
+            get {
+                return ((string)(this["Host"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("8889")]
+        public int Port {
+            get {
+                return ((int)(this["Port"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("noreply@rockteamall.com")]
+        public string FromEmail {
+            get {
+                return ((string)(this["FromEmail"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("noreply@rockteamall.com")]
+        public string Username {
+            get {
+                return ((string)(this["Username"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("P@$$w0rd2")]
+        public string Password {
+            get {
+                return ((string)(this["Password"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("~/Content/Frontend/light/img/logo.png")]
+        public string LogoPath {
+            get {
+                return ((string)(this["LogoPath"]));
             }
         }
     }
